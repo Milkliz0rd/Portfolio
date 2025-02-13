@@ -1,12 +1,29 @@
+@use '../Colors/Colors.scss';
+
 .start-page {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  align-items: center;
   &__title {
     font-size: 6em;
+    line-height: 0.5em;
   }
   &__subtitle {
-    text-align: center;
     font-size: 2.5em;
     line-height: 0em;
     font-weight: 300;
+  }
+  &__bulle {
+    padding: 1em;
+    background: Colors.$white;
+    border: solid 2px Colors.$black;
+    width: 50em;
+    border-radius: 1em;
+    margin: 4em;
+    &--p {
+      color: Colors.$black;
+      font-size: 1.5em;
+    }
   }
 }
