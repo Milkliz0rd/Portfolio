@@ -1,0 +1,19 @@
+@mixin logo {
+  margin: 0.5em;
+  cursor: pointer;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 13em;
+  &__git {
+    @include logo;
+  }
+  &__x {
+    @include logo;
+  }
+  &__linkedin {
+    @include logo;
+  }
+}

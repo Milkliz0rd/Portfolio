@@ -4,10 +4,8 @@ import Banner from '../Banner/Banner.jsx'
 const Layout = ({ children }) => {
   return (
     <div className="page-structure">
-      <div className="page-content">
-        <Banner />
-        {children}
-      </div>
+      <Banner />
+      <div className="page-content">{children}</div>
     </div>
   )
 }
