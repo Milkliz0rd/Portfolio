@@ -8,11 +8,13 @@
 }
 
 body {
-  margin: 2em 5em;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+.start-structure {
   margin: 2em 5em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }

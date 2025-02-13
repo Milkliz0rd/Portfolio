@@ -6,14 +6,29 @@ import StartPage from './Pages/StartPage'
 import ArcadeRoom from './Pages/ArcadeRoom'
 import About from './Pages/About'
 import Skills from './Pages/Skills'
+import Layout from './Components/Layout/Layout'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<StartPage />} />
-        <Route path="/arcade" element={<ArcadeRoom />} />
-        <Route path="/about" element={<About />} />
+        <Route
+          path="/arcade"
+          element={
+            <Layout>
+              <ArcadeRoom />
+            </Layout>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Layout>
+              <About />
+            </Layout>
+          }
+        />
         <Route path="/competence" element={<Skills />} />
       </Routes>
     </BrowserRouter>

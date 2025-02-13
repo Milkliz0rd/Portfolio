@@ -1,0 +1,9 @@
+@use '../../Colors/Colors.scss';
+@use '../Welcome/Welcome.scss';
+
+.banner {
+  background-color: Colors.$toxic-green;
+  width: 100%;
+  height: 3em;
+  @include Welcome.border;
+}

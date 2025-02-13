@@ -14,17 +14,15 @@ const Welcome = () => {
           developpeurs juniors. Au cours de mon parcours, j’ai pu développer
           plusieurs compétences que je vous présente ici au travers de ce site
           interractif. Parcourez les différentes Bornes d’arcades pour en savoir
-          plus sur mon parcours.Enfin une fois que vous les aurez toutes visités
-          mon CV pourra être débloqués.
+          plus sur mon parcours. Enfin une fois que vous les aurez toutes
+          visités mon CV pourra être débloqués.
           <br />
           Bonne Visite !
         </p>
       </div>
-      <div className="start-page__btn">
-        <NavLink to={'/arcade'}>
-          <button className="start-page__btn--start">Start</button>
-        </NavLink>
-      </div>
+      <NavLink className="start-page__btn" to={'/arcade'}>
+        <div className="start-page__btn--start">START</div>
+      </NavLink>
       <div className="start-page__footer">
         <img
           className="start-page__footer--git"

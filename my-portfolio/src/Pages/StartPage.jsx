@@ -1,9 +1,9 @@
 import React from 'react'
-import Welcome from '../Components/Welcome'
+import Welcome from '../Components/Welcome/Welcome.jsx'
 
 const StartPage = () => {
   return (
-    <div>
+    <div className="start-structure">
       <Welcome />
     </div>
   )
