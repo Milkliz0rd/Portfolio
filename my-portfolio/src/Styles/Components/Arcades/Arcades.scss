@@ -1,0 +1,51 @@
+@use '../../Colors/Colors.scss';
+@use '../Welcome/Welcome.scss';
+
+.arcade-page {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  &__title {
+    margin-top: 2em;
+    font-size: 2em;
+  }
+}
+.arcade-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  &__navlink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &--article {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 25em;
+      width: 25em;
+      .article__arcade {
+        object-fit: cover;
+        height: 100%;
+        z-index: 2;
+      }
+      .article__title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        background-color: Colors.$closed-green;
+        height: 6em;
+        width: 8.5em;
+        top: 5em;
+        left: 9.2em;
+        border-radius: 20px;
+        color: Colors.$black;
+        z-index: 1;
+      }
+    }
+  }
+}
+.article__arcade:hover + .article__title {
+  @include Welcome.lights-open;
+}

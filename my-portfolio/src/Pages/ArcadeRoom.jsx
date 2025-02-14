@@ -1,9 +1,10 @@
 import React from 'react'
+import Arcades from '../Components/Arcades/Arcades'
 
 const ArcadeRoom = () => {
   return (
     <div>
-      <h1>Arcade Room</h1>
+      <Arcades />
     </div>
   )
 }

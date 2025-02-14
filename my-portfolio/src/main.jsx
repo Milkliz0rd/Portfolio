@@ -29,7 +29,14 @@ createRoot(document.getElementById('root')).render(
             </Layout>
           }
         />
-        <Route path="/competence" element={<Skills />} />
+        <Route
+          path="/competence/:projetId"
+          element={
+            <Layout>
+              <Skills />
+            </Layout>
+          }
+        />
       </Routes>
     </BrowserRouter>
   </StrictMode>
