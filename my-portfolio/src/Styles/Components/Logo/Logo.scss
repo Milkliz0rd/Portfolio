@@ -12,8 +12,10 @@
   }
   &__x {
     @include logo;
+    filter: brightness(0);
   }
   &__linkedin {
     @include logo;
+    filter: brightness(0);
   }
 }

@@ -1,0 +1,75 @@
+@use '../../Colors/Colors.scss';
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  &__arcade {
+    height: 80em;
+    width: 100%;
+    z-index: 1;
+    &--title {
+      top: 1em;
+      left: 0.4em;
+      z-index: 3;
+      position: absolute;
+      font-size: 5em;
+      margin-bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin: auto;
+      width: 13em;
+    }
+  }
+  &__carrousel {
+    position: absolute;
+    top: 21em;
+    left: 9.5em;
+    height: 50em;
+    display: flex;
+    overflow: hidden;
+    padding: 0;
+    width: 50em;
+    color: Colors.$white;
+    user-select: none;
+    flex-direction: column;
+    background-color: Colors.$closed-green;
+    &--img {
+      object-fit: scale-down;
+      height: 35em;
+      margin: auto;
+      width: 33em;
+    }
+    &--index {
+      color: Colors.$black;
+      background: Colors.$white;
+      border-radius: 0.5em;
+      border: solid 1px black;
+      width: 2.5em;
+      text-align: center;
+      font-size: 1.5em;
+      position: absolute;
+      top: 26em;
+      left: 16em;
+    }
+    &--arrow-left {
+      position: absolute;
+      transform: scaleX(-1);
+      height: 2em;
+      width: 2em;
+      top: 25em;
+      left: 3em;
+      z-index: 2;
+    }
+    &--arrow-right {
+      position: absolute;
+      height: 2em;
+      width: 2em;
+      top: 25em;
+      right: 3em;
+      z-index: 2;
+    }
+  }
+}
