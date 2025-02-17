@@ -1,5 +1,5 @@
 @use '../../Colors/Colors.scss';
-@use '../../Components/Welcome/Welcome.scss';
+@use '../../Main.scss';
 
 .nav-banner {
   display: flex;
@@ -23,6 +23,6 @@
     border-left: 0;
   }
   .active {
-    @include Welcome.lights-open;
+    @include Main.lights-open;
   }
 }

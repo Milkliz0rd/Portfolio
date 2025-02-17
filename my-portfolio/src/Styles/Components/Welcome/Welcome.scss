@@ -1,16 +1,6 @@
 @use '../../Colors/Colors.scss';
+@use '../../Main.scss';
 
-@mixin lights-open {
-  background: Colors.$toxic-green;
-  box-shadow: 0px 4px 15px 10px rgba(Colors.$white, 0.2);
-}
-@mixin logo {
-  margin: 0.5em;
-  cursor: pointer;
-}
-@mixin border {
-  border: solid 2px Colors.$black;
-}
 @keyframes zoomEffect {
   0% {
     transform: scale(1);
@@ -41,7 +31,7 @@
   &__bulle {
     padding: 1em;
     background: Colors.$white;
-    @include border;
+    @include Main.border;
     width: 50em;
     border-radius: 1em;
     margin: 4em;
@@ -58,12 +48,12 @@
       padding: 1em;
       width: 10em;
       background: Colors.$closed-green;
-      @include border;
+      @include Main.border;
       border-radius: 3em;
       font-size: 1.5em;
       animation: zoomEffect 1.5s infinite ease-in-out;
       &:hover {
-        @include lights-open;
+        @include Main.lights-open;
       }
     }
   }
@@ -73,13 +63,13 @@
     justify-content: flex-end;
     &--git {
       height: 4em;
-      @include logo;
+      @include Main.logo;
     }
     &--x {
-      @include logo;
+      @include Main.logo;
     }
     &--linkedin {
-      @include logo;
+      @include Main.logo;
     }
   }
 }

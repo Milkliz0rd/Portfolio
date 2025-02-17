@@ -1,6 +1,21 @@
 @use './Fonts/Fonts.scss';
 @use './Colors/Colors.scss';
 
+@mixin lights-open {
+  background: Colors.$toxic-green;
+  box-shadow: 0px 4px 15px 10px rgba(Colors.$white, 0.2);
+}
+@mixin logo {
+  margin: 0.5em;
+  cursor: pointer;
+}
+@mixin border {
+  border: solid 2px Colors.$black;
+}
+@mixin text-box-shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, $alpha: 0.1);
+}
+
 :root {
   font-family: Fonts.$font-1;
   color: Colors.$white;

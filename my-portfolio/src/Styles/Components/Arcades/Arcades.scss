@@ -1,5 +1,5 @@
 @use '../../Colors/Colors.scss';
-@use '../Welcome/Welcome.scss';
+@use '../../Main.scss';
 
 .arcade-page {
   display: flex;
@@ -47,5 +47,5 @@
   }
 }
 .article__arcade:hover + .article__title {
-  @include Welcome.lights-open;
+  @include Main.lights-open;
 }

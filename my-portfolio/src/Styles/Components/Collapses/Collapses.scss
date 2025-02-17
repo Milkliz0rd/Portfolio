@@ -1,25 +1,26 @@
+@use '../../Colors/Colors.scss';
+@use '../../Main.scss';
+
 .collapse {
   position: relative;
   width: 100%;
-  // max-width: 500px;
   margin: 5em auto;
-  border: 2px solid #ccc;
-  border-radius: 10px;
+  border: 2px solid Colors.$border-box;
+  border-radius: 1em;
   overflow: hidden;
-  background: #fff;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-
+  background: Colors.$background-box;
+  @include Main.text-box-shadow;
   &__header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 15px;
-    background: #f7f7f7;
+    padding: 1em;
+    background: Colors.$background-box;
     cursor: pointer;
     &--title {
       font-size: 1.5em;
       font-weight: bold;
-      color: #333;
+      color: Colors.$black-grey;
     }
     &--btn {
       width: 4em;
@@ -30,36 +31,33 @@
       cursor: pointer;
       transition: transform 0.3s ease-in-out;
       &.open {
-        transform: rotate(90deg); // Effet de rotation quand c'est ouvert
+        transform: rotate(90deg);
       }
     }
   }
-
   &__content {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
     opacity: 0;
     background: #fff;
-    padding: 0 15px;
-
+    padding: 0 1em;
     &.open {
       max-height: 500px;
       opacity: 1;
-      padding: 15px;
+      padding: 1em;
     }
-
     ul {
-      list-style: none;
       padding: 0;
       margin: 0;
-
       li {
-        font-size: 1rem;
+        font-size: 1em;
         padding: 8px 0;
-        color: #555;
-        border-bottom: 1px solid #ddd;
-
+        color: Colors.$grey;
+        border-bottom: 1px solid Colors.$border-box;
+        a {
+          color: Colors.$grey;
+        }
         &:last-child {
           border-bottom: none;
         }

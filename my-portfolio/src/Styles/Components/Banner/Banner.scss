@@ -1,5 +1,5 @@
 @use '../../Colors/Colors.scss';
-@use '../Welcome/Welcome.scss';
+@use '../../Main.scss';
 
 .banner {
   background-color: Colors.$toxic-green;
@@ -7,7 +7,7 @@
   height: 3em;
   display: flex;
   justify-content: space-between;
-  @include Welcome.border;
+  @include Main.border;
   &__title {
     display: flex;
     align-items: center;
