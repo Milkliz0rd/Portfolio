@@ -1,0 +1,23 @@
+@use '../../Colors/Colors.scss';
+@use '../../Main.scss';
+@use '../../Fonts/Fonts.scss';
+
+.contact-box {
+  @include Main.bulle;
+  margin-top: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &__title {
+    color: Colors.$black-grey;
+    font-size: 2.5em;
+    margin: 0;
+    text-decoration: underline;
+  }
+  &__p {
+    color: Colors.$grey;
+    font-size: 1.5em;
+    font-family: Fonts.$font-2;
+  }
+}
