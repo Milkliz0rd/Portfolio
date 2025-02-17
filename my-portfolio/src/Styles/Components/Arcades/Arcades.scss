@@ -8,6 +8,7 @@
   &__title {
     margin-top: 2em;
     font-size: 2em;
+    @include Main.text-shadow;
   }
 }
 .arcade-container {

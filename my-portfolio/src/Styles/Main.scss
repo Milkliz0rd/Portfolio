@@ -1,6 +1,9 @@
 @use './Fonts/Fonts.scss';
 @use './Colors/Colors.scss';
 
+@mixin text-shadow {
+  text-shadow: 1px 1px 4px Colors.$black;
+}
 @mixin bulle {
   padding: 1em;
   background: Colors.$background-box;

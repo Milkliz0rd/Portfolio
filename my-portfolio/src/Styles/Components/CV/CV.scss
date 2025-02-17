@@ -1,0 +1,13 @@
+.cv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &__title {
+    margin: 0;
+  }
+  &__gif {
+    margin: 0;
+    height: 10em;
+  }
+}

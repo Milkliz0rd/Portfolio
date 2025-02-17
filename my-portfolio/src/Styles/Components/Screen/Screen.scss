@@ -1,4 +1,6 @@
 @use '../../Colors/Colors.scss';
+@use '../../Fonts/Fonts.scss';
+@use '../../Main.scss';
 
 .screen {
   display: flex;
@@ -22,6 +24,7 @@
       text-align: center;
       margin: auto;
       width: 13em;
+      @include Main.text-shadow;
     }
   }
   &__carrousel {
