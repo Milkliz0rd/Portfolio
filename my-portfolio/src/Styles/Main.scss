@@ -1,6 +1,20 @@
 @use './Fonts/Fonts.scss';
 @use './Colors/Colors.scss';
 
+@mixin bulle {
+  padding: 1em;
+  background: Colors.$background-box;
+  @include border;
+  @include text-box-shadow;
+  width: 50em;
+  border-radius: 1em;
+  margin: 4em;
+  &--p {
+    color: Colors.$black-grey;
+    font-size: 1.5em;
+  }
+}
+
 @mixin lights-open {
   background: Colors.$toxic-green;
   box-shadow: 0px 4px 15px 10px rgba(Colors.$white, 0.2);
@@ -10,7 +24,7 @@
   cursor: pointer;
 }
 @mixin border {
-  border: solid 2px Colors.$black;
+  border: solid 2px Colors.$border-box;
 }
 @mixin text-box-shadow {
   box-shadow: 0 4px 6px rgba(0, 0, 0, $alpha: 0.1);

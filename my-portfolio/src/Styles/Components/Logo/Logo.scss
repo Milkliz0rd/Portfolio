@@ -12,6 +12,7 @@
   }
   &__x {
     @include logo;
+    margin-top: 0.7em;
     filter: brightness(0);
   }
   &__linkedin {

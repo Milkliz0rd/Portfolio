@@ -29,16 +29,7 @@
     font-weight: 300;
   }
   &__bulle {
-    padding: 1em;
-    background: Colors.$white;
-    @include Main.border;
-    width: 50em;
-    border-radius: 1em;
-    margin: 4em;
-    &--p {
-      color: Colors.$black;
-      font-size: 1.5em;
-    }
+    @include Main.bulle;
   }
   &__btn {
     margin: 2em;
