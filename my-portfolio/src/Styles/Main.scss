@@ -33,18 +33,18 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, $alpha: 0.1);
 }
 
-:root {
+html,
+body {
   font-family: Fonts.$font-1;
   color: Colors.$white;
-  background: linear-gradient(180deg, Colors.$violet, Colors.$gradient);
-}
-
-body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(180deg, Colors.$violet, Colors.$gradient);
+  background-attachment: fixed;
 }
 .start-structure {
+  height: 100vh;
   margin: 2em 5em;
   display: flex;
   flex-direction: column;
