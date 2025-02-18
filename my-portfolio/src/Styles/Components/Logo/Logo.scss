@@ -1,21 +1,22 @@
 @mixin logo {
   margin: 0.5em;
   cursor: pointer;
+  height: 2em;
 }
 
 .logo {
   display: flex;
   justify-content: flex-end;
   margin-left: 13em;
-  &__git {
+  &__link--git {
     @include logo;
   }
-  &__x {
+  &__link--x {
     @include logo;
-    margin-top: 0.7em;
+    margin-top: 0.6em;
     filter: brightness(0);
   }
-  &__linkedin {
+  &__link--linkedin {
     @include logo;
     filter: brightness(0);
   }
