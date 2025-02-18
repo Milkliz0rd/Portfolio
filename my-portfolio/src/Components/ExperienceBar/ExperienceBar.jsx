@@ -30,7 +30,6 @@ export default function ExperienceBar({ activeCompetence, onFullProgress }) {
   }, [activeCompetence, onFullProgress])
   return (
     <div>
-      <p>Barre d'xp</p>
       <div className="xp-container">
         <div className="xp-bar" style={{ width: `${progress}%` }}></div>
         <span className="xp-label">
