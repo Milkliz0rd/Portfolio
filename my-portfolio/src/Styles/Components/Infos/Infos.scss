@@ -3,12 +3,12 @@
 @use '../../Fonts/Fonts.scss';
 
 .contact-box {
-  @include Main.bulle;
   margin-top: 45%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @include Main.bulle;
   &__title {
     color: Colors.$black-grey;
     font-size: 2.5em;
