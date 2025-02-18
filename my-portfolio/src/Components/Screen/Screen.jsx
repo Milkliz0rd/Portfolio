@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import React from 'react'
 import arrow from '../../Assets/icon/arrow.webp'
 const Screen = ({ screen, title, pictures }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
