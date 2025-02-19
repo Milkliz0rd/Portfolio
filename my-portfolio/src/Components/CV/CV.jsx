@@ -1,5 +1,4 @@
-import React from 'react'
-import money from '../../Assets/icon/money-cv.gif'
+import money from '/Assets/Images/logo/money-cv.gif'
 
 const CV = () => {
   return (

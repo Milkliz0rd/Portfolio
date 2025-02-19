@@ -8,16 +8,16 @@ const Welcome = () => {
       <h2 className="start-page__subtitle">Développeur Front-end junior</h2>
       <div className="start-page__bulle">
         <p className="start-page__bulle--p">
-          Je me présente, je suis Alexandre Morozoff et bienvenue sur mon
-          portfolio en ligne.Tout juste finissant du parcours Developpeur Web de
-          la plateforme OpenClassroom, me voilà dans la grande jungle des
-          developpeurs juniors. Au cours de mon parcours, j’ai pu développer
-          plusieurs compétences que je vous présente ici au travers de ce site
-          interractif. Parcourez les différentes Bornes d’arcades pour en savoir
-          plus sur mon parcours. Enfin une fois que vous les aurez toutes
-          visités mon CV pourra être débloqués.
+          Je me présente, je suis Alexandre Morozoff, et bienvenue sur mon
+          portfolio en ligne. Tout juste diplômé du parcours Développeur Web sur
+          la plateforme OpenClassrooms, me voilà prêt à affronter la grande
+          jungle des développeurs juniors. Au cours de mon apprentissage, j’ai
+          acquis plusieurs compétences que je vous invite à découvrir à travers
+          ce site interactif. Parcourez les différentes bornes d’arcade pour en
+          savoir plus sur mon parcours. Une fois toutes explorées, vous pourrez
+          débloquer mon CV.
           <br />
-          Bonne Visite !
+          Bonne visite !
         </p>
       </div>
       <NavLink className="start-page__btn" to={'/arcade'}>
