@@ -3,12 +3,18 @@ import Screen from '../Components/Screen/Screen'
 import { useLocation, useParams } from 'react-router-dom'
 import Collapse from '../Components/Collapse/Collapse.jsx'
 import ExperienceBar from '../Components/ExperienceBar/ExperienceBar.jsx'
+import Error404 from './Error404.jsx'
 
 const Skills = () => {
   const [isFullXP, setIsFullXP] = useState(false)
   const { projetId } = useParams()
-  const { state } = useLocation()
-  const projet = state.projet
+  const location = useLocation()
+  const projet = location?.state?.projet
+  console.log(projet)
+
+  if (!projet) {
+    return <Error404 />
+  }
   return (
     <div>
       <div>

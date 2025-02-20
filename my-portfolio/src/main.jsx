@@ -7,6 +7,7 @@ import ArcadeRoom from './Pages/ArcadeRoom'
 import About from './Pages/About'
 import Skills from './Pages/Skills'
 import Layout from './Components/Layout/Layout'
+import Error404 from './Pages/Error404'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -34,6 +35,14 @@ createRoot(document.getElementById('root')).render(
           element={
             <Layout>
               <Skills />
+            </Layout>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Layout>
+              <Error404 />
             </Layout>
           }
         />
