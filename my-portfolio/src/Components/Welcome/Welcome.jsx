@@ -24,21 +24,30 @@ const Welcome = () => {
         <div className="start-page__btn--start">START</div>
       </NavLink>
       <div className="start-page__footer">
-        <img
-          className="start-page__footer--git"
-          src="/Assets/Images/logo/github.png"
-          alt="Logo github"
-        />
-        <img
-          className="start-page__footer--x"
-          src="/Assets/Images/logo/x.png"
-          alt="Logo x"
-        />
-        <img
-          className="start-page__footer--linkedin"
-          src="/Assets/Images/logo/linkedin.png"
-          alt="Logo linkedin"
-        />
+        <a href="https://github.com/Milkliz0rd" target="_blank">
+          <img
+            className="start-page__footer--git"
+            src="/Assets/Images/logo/github.png"
+            alt="Logo github"
+          />
+        </a>
+        <a href="https://x.com/Milkliz0rd" target="_blank">
+          <img
+            className="start-page__footer--x"
+            src="/Assets/Images/logo/x.png"
+            alt="Logo x"
+          />
+        </a>
+        <a
+          href="https://linkedin.com/in/alexandre-morozoff-4b1386337"
+          target="_blank"
+        >
+          <img
+            className="start-page__footer--linkedin"
+            src="/Assets/Images/logo/linkedin.png"
+            alt="Logo linkedin"
+          />
+        </a>
       </div>
     </div>
   )
