@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import hand from '/Assets/Images/logo/hand.png'
+import hand from '/Assets/Images/logo/hand.webp'
 
 const Collapse = ({ descriptions, link }) => {
   const [isOpen, setIsOpen] = useState(false)

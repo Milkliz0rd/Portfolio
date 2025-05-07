@@ -27,14 +27,14 @@ const Welcome = () => {
         <a href="https://github.com/Milkliz0rd" target="_blank">
           <img
             className="start-page__footer--git"
-            src="/Assets/Images/logo/github.png"
+            src="/Assets/Images/logo/github.webp"
             alt="Logo github"
           />
         </a>
         <a href="https://x.com/Milkliz0rd" target="_blank">
           <img
             className="start-page__footer--x"
-            src="/Assets/Images/logo/x.png"
+            src="/Assets/Images/logo/x.webp"
             alt="Logo x"
           />
         </a>
@@ -44,7 +44,7 @@ const Welcome = () => {
         >
           <img
             className="start-page__footer--linkedin"
-            src="/Assets/Images/logo/linkedin.png"
+            src="/Assets/Images/logo/linkedin.webp"
             alt="Logo linkedin"
           />
         </a>

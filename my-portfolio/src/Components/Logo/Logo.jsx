@@ -8,14 +8,14 @@ const Logo = () => {
       >
         <img
           className="logo__link--git"
-          src="/Assets/Images/logo/github.png"
+          src="/Assets/Images/logo/github.webp"
           alt="Logo github"
         />
       </a>
       <a href="https://x.com/Milkliz0rd" className="logo__link" target="_blank">
         <img
           className="logo__link--x"
-          src="/Assets/Images/logo/x.png"
+          src="/Assets/Images/logo/x.webp"
           alt="Logo x"
         />
       </a>
@@ -25,7 +25,7 @@ const Logo = () => {
       >
         <img
           className="logo__link--linkedin"
-          src="/Assets/Images/logo/linkedin.png"
+          src="/Assets/Images/logo/linkedin.webp"
           alt="Logo linkedin"
         />
       </a>
