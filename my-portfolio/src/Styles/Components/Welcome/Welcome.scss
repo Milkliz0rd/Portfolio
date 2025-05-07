@@ -1,5 +1,6 @@
 @use '../../Colors/Colors.scss';
 @use '../../Main.scss';
+@use '../../Fonts/Fonts.scss';
 
 @keyframes zoomEffect {
   0% {
@@ -30,6 +31,10 @@
   }
   &__bulle {
     @include Main.bulle;
+    &--p {
+      font-family: Fonts.$font-2;
+      font-weight: 500;
+    }
   }
   &__btn {
     margin: 2em;

@@ -7,7 +7,7 @@ const Collapse = ({ descriptions, link }) => {
   return (
     <div className="collapse">
       <div className="collapse__header">
-        <h3 className="collapse__header--title">Ce projet m'a appris:</h3>
+        <h3 className="collapse__header--title">Ce projet m’a appris:</h3>
         <img
           src={hand}
           alt="Main pour ouvrir la collapse"
