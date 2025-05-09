@@ -8,8 +8,6 @@
   position: relative;
   margin-top: 2em;
   &__arcade {
-    height: 80em;
-    width: 100%;
     z-index: 1;
     &--title {
       top: 1em;
@@ -42,9 +40,7 @@
     background-color: Colors.$carrousel-green;
     &--img {
       object-fit: scale-down;
-      height: 35em;
       margin: auto;
-      width: 33em;
     }
     &--index {
       color: Colors.$black;
@@ -61,8 +57,6 @@
     &--arrow-left {
       position: absolute;
       transform: scaleX(-1);
-      height: 2em;
-      width: 2em;
       top: 25em;
       left: 3em;
       z-index: 2;

@@ -45,6 +45,8 @@ const Welcome = () => {
             className="start-page__footer--git"
             src="/Assets/Images/logo/github.webp"
             alt="Logo github"
+            height={64}
+            width={64}
           />
         </a>
         <a href="https://x.com/Milkliz0rd" target="_blank">
@@ -52,6 +54,8 @@ const Welcome = () => {
             className="start-page__footer--x"
             src="/Assets/Images/logo/x.webp"
             alt="Logo x"
+            height={64}
+            width={64}
           />
         </a>
         <a
@@ -62,6 +66,8 @@ const Welcome = () => {
             className="start-page__footer--linkedin"
             src="/Assets/Images/logo/linkedin.webp"
             alt="Logo linkedin"
+            height={64}
+            width={64}
           />
         </a>
       </div>

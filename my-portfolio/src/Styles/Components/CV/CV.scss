@@ -1,3 +1,15 @@
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 .cv {
   display: flex;
   flex-direction: column;
@@ -7,7 +19,7 @@
     margin: 0;
   }
   &__gif {
-    margin: 0;
-    height: 10em;
+    margin: 1em;
+    animation: float 3s ease-in-out infinite;
   }
 }
