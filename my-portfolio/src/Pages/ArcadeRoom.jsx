@@ -7,7 +7,7 @@ import projet from '../Data/Projets.json'
 const ArcadeRoom = () => {
   const [isFullXP, setIsFullXP] = useState(false)
   return (
-    <div>
+    <div className="fade-in">
       <Arcades />
       <ExperienceBar
         onFullProgress={setIsFullXP}

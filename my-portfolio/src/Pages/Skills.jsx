@@ -16,7 +16,7 @@ const Skills = () => {
     return <Error404 />
   }
   return (
-    <div>
+    <div className="fade-in">
       <div>
         <ExperienceBar
           onFullProgress={setIsFullXP}
