@@ -34,43 +34,42 @@ const Welcome = () => {
           <br />
           <br />
           Merci de votre visite et bonne exploration !
+          <br />
+          <a href="https://github.com/Milkliz0rd" target="_blank">
+            <img
+              className="start-page__footer--git"
+              src="/Assets/Images/logo/github.webp"
+              alt="Logo github"
+              height={64}
+              width={64}
+            />
+          </a>
+          <a href="https://x.com/Milkliz0rd" target="_blank">
+            <img
+              className="start-page__footer--x"
+              src="/Assets/Images/logo/x.webp"
+              alt="Logo x"
+              height={64}
+              width={64}
+            />
+          </a>
+          <a
+            href="https://linkedin.com/in/alexandre-morozoff-4b1386337"
+            target="_blank"
+          >
+            <img
+              className="start-page__footer--linkedin"
+              src="/Assets/Images/logo/linkedin.webp"
+              alt="Logo linkedin"
+              height={64}
+              width={64}
+            />
+          </a>
         </p>
       </div>
       <NavLink className="start-page__btn" to={'/arcade'}>
         <div className="start-page__btn--start">START</div>
       </NavLink>
-      <div className="start-page__footer">
-        <a href="https://github.com/Milkliz0rd" target="_blank">
-          <img
-            className="start-page__footer--git"
-            src="/Assets/Images/logo/github.webp"
-            alt="Logo github"
-            height={64}
-            width={64}
-          />
-        </a>
-        <a href="https://x.com/Milkliz0rd" target="_blank">
-          <img
-            className="start-page__footer--x"
-            src="/Assets/Images/logo/x.webp"
-            alt="Logo x"
-            height={64}
-            width={64}
-          />
-        </a>
-        <a
-          href="https://linkedin.com/in/alexandre-morozoff-4b1386337"
-          target="_blank"
-        >
-          <img
-            className="start-page__footer--linkedin"
-            src="/Assets/Images/logo/linkedin.webp"
-            alt="Logo linkedin"
-            height={64}
-            width={64}
-          />
-        </a>
-      </div>
     </div>
   )
 }
