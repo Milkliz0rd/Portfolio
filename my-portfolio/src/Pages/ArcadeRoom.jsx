@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Arcades from '../Components/Arcades/Arcades'
 import CV from '../Components/CV/cv'
 import ExperienceBar from '../Components/ExperienceBar/ExperienceBar'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Screen from '../Components/Screen/Screen'
 import { useLocation, useParams } from 'react-router-dom'
 import Collapse from '../Components/Collapse/Collapse.jsx'

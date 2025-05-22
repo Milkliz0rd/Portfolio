@@ -1,4 +1,3 @@
-import React from 'react'
 import Welcome from '../Components/Welcome/Welcome.jsx'
 
 const StartPage = () => {

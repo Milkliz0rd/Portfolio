@@ -1,14 +1,20 @@
 @use '../../Colors/Colors.scss';
 @use '../../Main.scss';
 
+@mixin logo {
+  margin: 0.5em;
+  cursor: pointer;
+}
+
 .nav-banner {
   display: flex;
+  justify-content: center;
   flex-direction: row;
   list-style: none;
   padding: 0;
   margin: 0;
   text-align: center;
-  width: 10em;
+  width: 100%;
   &__link {
     display: flex;
     height: 3em;
@@ -22,7 +28,41 @@
     border-top: 0;
     border-left: 0;
   }
-  .active {
-    @include Main.lights-open;
+  &__title {
+    display: flex;
+    height: 2em;
+    width: 35em;
+    align-items: center;
+    justify-content: center;
+    color: Colors.$black;
+    font-size: 1.5em;
+    border-bottom: solid Colors.$black;
+    background-color: Colors.$toxic-green;
+    @include Main.text-shadow;
   }
+  &__logo {
+    display: flex;
+    height: 3em;
+    align-items: center;
+    justify-content: center;
+    background-color: Colors.$toxic-green;
+    border: solid Colors.$black;
+    border-right: 0;
+    border-top: 0;
+    &--link-git {
+      @include logo;
+    }
+    &--link-x {
+      @include logo;
+      margin-top: 0.6em;
+      filter: brightness(0);
+    }
+    &--link-linkedin {
+      @include logo;
+      filter: brightness(0);
+    }
+  }
+}
+.active {
+  @include Main.lights-open;
 }
