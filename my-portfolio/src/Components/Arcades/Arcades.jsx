@@ -9,7 +9,7 @@ const Arcades = () => {
         <br /> déverouiller les compétences
       </div>
       <div className="arcade-container">
-        {projets.map((projet, index) => (
+        {projets.map((projet) => (
           <NavLink
             key={projet.id}
             to={`/competence/${projet.id}`}
@@ -21,10 +21,9 @@ const Arcades = () => {
                 height={400}
                 width={400}
                 className="article__arcade"
-                src={projet.arcade}
+                src={projet.arcade.close}
                 alt={`arcade pour la compétence ${projet.title}`}
               />
-              <p className="article__title">{projet.title}</p>
             </article>
           </NavLink>
         ))}

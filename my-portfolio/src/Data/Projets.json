@@ -2,7 +2,10 @@
   {
     "id": "P1",
     "title": "HTML & CSS",
-    "arcade": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746535839/projet_html_css_arcade_jwb6j7.webp",
+    "arcade": {
+      "close": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374085/HTML_CSS_close_mcg1wz.webp",
+      "open": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374085/HTML_CSS_open_htewvq.webp"
+    },
     "screen": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746535838/projet_html_css_arcade_screen_cjlbhk.webp",
     "pictures": [
       "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746535843/projet_html_css_landing_destok_bzrlug.webp",
@@ -22,7 +25,10 @@
   {
     "id": "P2",
     "title": "Javascript",
-    "arcade": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746617325/projet_js_arcade_d7m7yu.webp",
+    "arcade": {
+      "close": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374117/Javascript_close_jqr9ug.webp",
+      "open": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374118/Javascript_Open_dvjqho.webp"
+    },
     "screen": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746617325/projet_js_arcade_screen_gbz6nk.webp",
     "pictures": [
       "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746617326/projet_js_landing_wohzqf.webp",
@@ -41,7 +47,10 @@
   {
     "id": "P3",
     "title": "React & Sass",
-    "arcade": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746534855/projet_react_arcade_s8rlmp.webp",
+    "arcade": {
+      "close": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374301/React_close_kcwbz8.webp",
+      "open": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374302/React_open_lsmwa4.webp"
+    },
     "screen": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746535130/projet_react_arcade_screen_gmlmxo.webp",
     "pictures": [
       "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746535103/projet_react_logement_desktop_n9wdk4.webp",
@@ -62,7 +71,10 @@
   {
     "id": "P4",
     "title": "Node.js",
-    "arcade": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746617561/projet_node_arcade_ecmrwc.webp",
+    "arcade": {
+      "close": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374184/Node_close_v82kyc.webp",
+      "open": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374184/Node_Open_jmnsmj.webp"
+    },
     "screen": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746617562/projet_node_arcade_screen_f9tf1r.webp",
     "pictures": [
       "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746617560/projet_node_front_livres_vubcep.webp",
@@ -82,7 +94,10 @@
   {
     "id": "P5",
     "title": "Opti & debugg",
-    "arcade": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746618036/projet_opti_debug_arcade_qxrdbz.webp",
+    "arcade": {
+      "close": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374241/Debug_close_o5awpb.webp",
+      "open": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374242/Debug_open_kxl75e.webp"
+    },
     "screen": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746618034/projet_opti_debug_arcade_screen_l0mmis.webp",
     "pictures": [
       "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746618035/projet_opti_debug_lighthouse_before_uzvyew.webp",
@@ -101,7 +116,10 @@
   {
     "id": "P6",
     "title": "Gestion de projet",
-    "arcade": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746618277/projet_gestion_veille_arcade_wbdag5.webp",
+    "arcade": {
+      "close": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374031/Gestion_close_lbwnl1.webp",
+      "open": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1748374031/Gestion_open_gf0acy.webp"
+    },
     "screen": "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746618278/projet_gestion_veille_arcade_screen_wzr6id.webp",
     "pictures": [
       "https://res.cloudinary.com/dq7dgqfdp/image/upload/v1746618280/projet_gestion_tableau_kanban_zrmq2b.webp",

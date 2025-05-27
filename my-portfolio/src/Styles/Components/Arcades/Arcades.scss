@@ -23,28 +23,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      .article__arcade {
-        object-fit: cover;
-        height: 100%;
-        z-index: 2;
-      }
-      .article__title {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        background-color: Colors.$closed-green;
-        height: 6em;
-        width: 8.5em;
-        top: 5em;
-        left: 9.2em;
-        border-radius: 20px;
-        color: Colors.$black;
-        z-index: 1;
-      }
     }
   }
 }
-.article__arcade:hover + .article__title {
-  @include Main.lights-open;
+.article__arcade:hover {
+  background-image: url();
 }
