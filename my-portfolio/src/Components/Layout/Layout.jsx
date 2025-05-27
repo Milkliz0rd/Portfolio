@@ -1,9 +1,9 @@
-import Banner from '../Banner/Banner.jsx'
+import Navigation from '../Navigation/Navigation.jsx'
 
 const Layout = ({ children }) => {
   return (
     <div className="page-structure">
-      <Banner />
+      <Navigation />
       <div className="page-content">{children}</div>
     </div>
   )

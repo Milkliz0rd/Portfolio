@@ -19,7 +19,7 @@
   flex-direction: column;
   text-align: center;
   align-items: center;
-  padding: 50px;
+  padding: 0 10%;
   @include Main.responsive-phone {
   }
   &__title {
@@ -51,10 +51,13 @@
     width: 100%;
     border-radius: 1em;
     margin: 4em;
-    overflow: scroll;
-    @include Main.responsive-phone {
-      height: 440px;
+    @include Main.responsive-laptop {
+      overflow: scroll;
+      @include Main.responsive-phone {
+        height: 440px;
+      }
     }
+
     &--p {
       color: Colors.$black-grey;
       font-size: 1.5em;

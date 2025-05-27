@@ -1,8 +1,0 @@
-@use '../../Colors/Colors.scss';
-@use '../../Main.scss';
-
-.banner {
-  display: flex;
-  justify-content: center;
-  @include Main.border;
-}

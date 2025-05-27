@@ -4,7 +4,7 @@ const Navigation = () => {
     <ul className="nav-banner">
       <li>
         <NavLink to={'/arcade'} className={'nav-banner__link'}>
-          Salle <br /> d'arcade
+          Salle <br /> d`arcade
         </NavLink>
       </li>
       <li>
