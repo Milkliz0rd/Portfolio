@@ -1,5 +1,5 @@
 import projets from '../../Data/Projets.json'
-import { NavLink } from 'react-router-dom'
+import ArcadeItem from '../ArcadeItem/ArcadeItem'
 
 const Arcades = () => {
   return (
@@ -10,22 +10,7 @@ const Arcades = () => {
       </div>
       <div className="arcade-container">
         {projets.map((projet) => (
-          <NavLink
-            key={projet.id}
-            to={`/competence/${projet.id}`}
-            className={'arcade-container__navlink'}
-            state={{ projet }}
-          >
-            <article className="arcade-container__navlink--article">
-              <img
-                height={400}
-                width={400}
-                className="article__arcade"
-                src={projet.arcade.close}
-                alt={`arcade pour la compétence ${projet.title}`}
-              />
-            </article>
-          </NavLink>
+          <ArcadeItem key={projet.id} projet={projet} />
         ))}
       </div>
     </div>
