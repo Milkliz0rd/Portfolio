@@ -38,13 +38,13 @@
   padding: 0 10%;
 
   &__title {
-    font-size: 6em;
+    font-size: 4.5em;
     line-height: 0em;
     @include Main.responsive-laptop {
-      font-size: 4.5em;
+      font-size: 2.5em;
     }
     @include Main.responsive-phone {
-      font-size: 2em;
+      font-size: 1.5em;
     }
   }
   &__subtitle {
@@ -52,7 +52,7 @@
     line-height: 0em;
     font-weight: 300;
     @include Main.responsive-laptop {
-      font-size: 2.5em;
+      font-size: 1.5em;
     }
     @include Main.responsive-phone {
       font-size: 1em;
@@ -65,7 +65,7 @@
     @include Main.text-box-shadow;
     width: 100%;
     border-radius: 1em;
-    margin: 3em;
+    margin-top: 1.5em;
     @include Main.responsive-laptop {
       overflow: scroll;
       overflow-x: hidden;
@@ -85,7 +85,7 @@
     }
   }
   &__btn {
-    margin: 0;
+    margin-top: 1.5em;
     text-decoration: none;
     color: black;
     @include Main.responsive-phone {
