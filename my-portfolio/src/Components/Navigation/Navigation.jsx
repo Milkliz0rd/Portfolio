@@ -1,17 +1,24 @@
 import { NavLink } from 'react-router-dom'
+import Menu from '../../Assets/icon/menu.svg'
 const Navigation = () => {
   return (
-    <ul className="nav-banner">
-      <li>
+    <div className="nav-banner">
+      <section className="nav-banner__menu-section">
+        <div className="nav-banner__burger">
+          <img
+            className="nav-banner__burger--logo"
+            src={Menu}
+            alt="logo menu"
+          />
+        </div>
         <NavLink to={'/arcade'} className={'nav-banner__link'}>
           Salle <br /> d`arcade
         </NavLink>
-      </li>
-      <li>
         <NavLink to={'/About'} className={'nav-banner__link'}>
           Contact
         </NavLink>
-      </li>
+      </section>
+
       <li>
         <div className="nav-banner__title">ALEXANDRE MOROZOFF</div>
       </li>
@@ -59,7 +66,7 @@ const Navigation = () => {
           />
         </a>
       </li>
-    </ul>
+    </div>
   )
 }
 

@@ -12,8 +12,10 @@
   }
 }
 .arcade-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   &__navlink {
     display: flex;
     align-items: center;

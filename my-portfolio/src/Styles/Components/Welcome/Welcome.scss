@@ -36,8 +36,7 @@
   text-align: center;
   align-items: center;
   padding: 0 10%;
-  @include Main.responsive-phone {
-  }
+
   &__title {
     font-size: 6em;
     line-height: 0em;
