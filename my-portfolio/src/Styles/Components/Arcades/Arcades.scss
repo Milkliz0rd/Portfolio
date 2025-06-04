@@ -12,9 +12,7 @@
   }
 }
 .arcade-container {
-  display: none;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: block;
   justify-content: center;
   &__navlink {
     display: flex;
