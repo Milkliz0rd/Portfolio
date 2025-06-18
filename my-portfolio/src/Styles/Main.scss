@@ -9,7 +9,7 @@
   background: Colors.$background-box;
   @include border;
   @include text-box-shadow;
-  width: 100%;
+  max-width: 100vw;
   border-radius: 1em;
   margin: 4em;
   &--p {
