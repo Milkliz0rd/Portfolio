@@ -1,29 +1,43 @@
+import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useState } from 'react'
+import Checked from '../../Assets/icon/checked.png'
 
 const ArcadeItem = ({ projet }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [isVisited, setIsVisited] = useState(false)
+
+  useEffect(() => {
+    const compVisited = JSON.parse(localStorage.getItem('xpProgress')) || {}
+
+    if (compVisited[projet.title]) {
+      setIsVisited(true)
+    }
+  }, [projet.title])
   return (
-    <NavLink
-      key={projet.id}
-      to={`/competence/${projet.id}`}
-      className={'arcade-container__navlink'}
-      state={{ projet }}
-    >
-      <article
-        className="arcade-container__navlink--article"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+    <div className="carousel__slide">
+      <NavLink
+        className={'carousel__slide--link'}
+        to={`/competence/${projet.id}`}
+        state={{ projet }}
       >
         <img
-          height={400}
-          width={400}
-          className="article__arcade"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className={`carousel__slide--img ${isVisited ? 'visited' : ''}`}
           src={isHovered ? projet.arcade.open : projet.arcade.close}
-          alt={`arcade pour la compétence ${projet.title}`}
+          alt={`Arcade du projet ${projet.title}`}
+          width={300}
+          height={300}
         />
-      </article>
-    </NavLink>
+        {isVisited && (
+          <img
+            src={Checked}
+            alt="Compétence terminée"
+            className="badge-check"
+          />
+        )}
+      </NavLink>
+    </div>
   )
 }
 

@@ -4,16 +4,17 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import projets from '../../Data/Projets.json'
+import ArcadeItem from '../ArcadeItem/ArcadeItem'
 
 const Carousel = () => {
   return (
-    <div className="carousel-element">
+    <div className="carousel">
       <Swiper
         modules={[Navigation, Pagination]}
         navigation
         pagination={{ clickable: true }}
-        spaceBetween={0}
-        slidesPerView={3}
+        spaceBetween={20}
+        slidesPerView={1}
         breakpoints={{
           500: { slidesPerView: 1 },
           930: { slidesPerView: 2 },
@@ -22,9 +23,7 @@ const Carousel = () => {
       >
         {projets.map((projet) => (
           <SwiperSlide key={projet.id}>
-            <div className="carousel__slide">
-              <img src={projet.arcade.close} alt="" width={400} height={400} />
-            </div>
+            <ArcadeItem projet={projet} />
           </SwiperSlide>
         ))}
       </Swiper>

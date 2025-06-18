@@ -1,4 +1,3 @@
-import ArcadeItem from '../ArcadeItem/ArcadeItem'
 import Carousel from '../Carousel/Carousel'
 
 const Arcades = () => {
@@ -8,9 +7,8 @@ const Arcades = () => {
         Cliquez sur chaques bornes pour
         <br /> déverouiller les compétences
       </div>
-      <div className="arcade-container" style={{ display: 'none' }}>
+      <div className="arcade-container">
         <Carousel />
-        {/* // <ArcadeItem key={projet.id} projet={projet} /> */}
       </div>
     </div>
   )
