@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-import Checked from '../../Assets/icon/checked.png'
+import Checked from '/Assets/Images/logo/checked.webp'
 
 const ArcadeItem = ({ projet }) => {
   const [isHovered, setIsHovered] = useState(false)
