@@ -12,10 +12,6 @@
   max-width: 100vw;
   border-radius: 1em;
   margin: 4em;
-  &--p {
-    color: Colors.$black-grey;
-    font-size: 1.5em;
-  }
 }
 @mixin lights-open {
   background: Colors.$toxic-green;

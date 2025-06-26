@@ -5,7 +5,7 @@ const CV = () => {
     <div className="cv">
       <h2 className="cv__title">Mon cv:</h2>
       <a
-        href="https://drive.google.com/uc?export=download&id=1ngtPEaUWjD0raJZFQlneLKWsI0mwrenj"
+        href="/Files/CV_Alternance Alexandre_Morozoff_dev_FullStack.pdf"
         download={'Alexandre_Morozoff_CV'}
       >
         <img
