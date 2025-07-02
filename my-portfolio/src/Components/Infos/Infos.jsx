@@ -10,6 +10,7 @@ const Infos = () => {
   })
 
   const [sendingMessage, setSendingMessage] = useState(false)
+  const [error, setError] = useState(false)
 
   const handleChange = (e) => {
     // On récupère l'événement déclenché par la saisie dans un champ du formulaire
@@ -25,25 +26,46 @@ const Infos = () => {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(formData)
-    setFormData({
-      nom: '',
-      prenom: '',
-      email: '',
-      sujet: '',
-      text: '',
-    })
-    setSendingMessage(true)
-    setTimeout(() => {
-      setSendingMessage(false)
-    }, 5000)
+    try {
+      const response = await fetch('http://localhost:5000/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'envoi")
+      }
+
+      const data = await response.json()
+      console.log('✅ Réponse du serveur :', data.message)
+      setFormData({
+        nom: '',
+        prenom: '',
+        email: '',
+        sujet: '',
+        text: '',
+      })
+      setSendingMessage(true)
+      setTimeout(() => {
+        setSendingMessage(false)
+      }, 5000)
+    } catch (error) {
+      console.error('❌ Erreur:', error.message)
+      setError(true)
+      setTimeout(() => {
+        setError(false)
+      }, 5000)
+    }
   }
 
   return (
     <div className="contact-box">
-      <h2 className="contact-box__title">Envie d'un projet ?</h2>
+      <h2 className="contact-box__title">Vous voulez me contacter ?</h2>
       <form onSubmit={handleSubmit} className="contact-box__form">
         <label htmlFor="nom" className="contact-box__form--label">
           Nom:
@@ -117,6 +139,11 @@ const Infos = () => {
         >
           <p className="contact-box__message--success">
             Merci pour votre message, j'y répondrais dans les plus bref délais.
+          </p>
+        </div>
+        <div className={`contact-box__error ${error ? 'visible' : ''}`}>
+          <p className="contact-box__error--message">
+            ⚠️ Une erreur est survenue. Veuillez réessayer. ⚠️
           </p>
         </div>
       </form>

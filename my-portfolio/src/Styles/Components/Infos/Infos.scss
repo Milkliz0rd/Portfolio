@@ -106,6 +106,29 @@
       pointer-events: auto;
     }
   }
+  &__error {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.3s ease-in-out;
+    background-color: red;
+    box-shadow: 6px 4px 6px Colors.$black;
+    border: Colors.$black 2px solid;
+    border-radius: 15px;
+    padding: 10px;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &--message {
+      font-weight: 700;
+      font-size: large;
+    }
+    &.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
   &__p {
     color: Colors.$grey;
     font-size: 1.5em;
