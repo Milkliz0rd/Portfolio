@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Infos = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +11,10 @@ const Infos = () => {
 
   const [sendingMessage, setSendingMessage] = useState(false)
   const [error, setError] = useState(false)
+
+  useEffect(() => {
+    console.log('URL API :', import.meta.env.VITE_API_URL)
+  }, [])
 
   const handleChange = (e) => {
     // On récupère l'événement déclenché par la saisie dans un champ du formulaire
@@ -29,7 +33,8 @@ const Infos = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('http://localhost:5000/contact', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const response = await fetch(`${API_URL}/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
