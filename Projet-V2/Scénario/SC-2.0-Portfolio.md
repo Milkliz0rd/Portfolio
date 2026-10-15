@@ -4,7 +4,7 @@
 Micro-fonction : MF-01
 - Étant donné un recruteur qui arrive sur le site pour la première fois
 - Quand la page d'accueil s'affiche
-- Alors il voit le nom Alexandre Morozoff et l'intitulé de son profil
+- Alors il voit le nom Alexandre Morozoff et l'intitulé de son profil, « Développeur fullstack, orienté architecture logicielle »
 - Et il voit une courte présentation d'Alexandre
 - Et il voit comment accéder aux autres sections du site
 - Et aucun âge n'est affiché
@@ -28,6 +28,7 @@ Micro-fonction : MF-03
 - Quand il ouvre la navigation
 - Alors il voit une entrée pour chaque section du site
 - Et en choisissant une entrée, il arrive sur la section correspondante
+- Et la navigation est la même sur toutes les pages
 
 ## SC-2.0-05 — Scénario : lien direct vers une section
 Micro-fonction : MF-04
@@ -71,6 +72,8 @@ Micro-fonction : MF-07
 - Étant donné un recruteur sur la section du parcours
 - Quand elle s'affiche
 - Alors il voit les étapes du parcours dans l'ordre : reconversion depuis la restauration, bac+3, master en architecture durable du logiciel
+- Et chaque étape porte sa période, avec un début et une fin
+- Et le bac+3 est affiché avec son intitulé et son établissement
 - Et aucune date relative ni aucune durée relative n'est affichée
 
 ## SC-2.0-11 — Scénario : orientation vers l'architecture logicielle
@@ -84,7 +87,7 @@ Micro-fonction : MF-08
 Micro-fonction : MF-09
 - Étant donné un responsable technique sur la section des compétences
 - Quand elle s'affiche
-- Alors il voit les compétences techniques d'Alexandre, regroupées de façon lisible
+- Alors il voit les compétences techniques d'Alexandre, regroupées selon les catégories fournies par Alexandre (C-02)
 - Et chaque compétence affichée figure dans la liste fournie par Alexandre
 
 ## SC-2.0-13 — Scénario : compétences humaines et reconversion
@@ -99,15 +102,19 @@ Micro-fonction : MF-11
 - Étant donné un recruteur sur la section consacrée à OSOL
 - Quand elle s'affiche
 - Alors il voit le rôle d'Alexandre chez OSOL décrit en trois volets : application, backend, appui DevOps sur certaines tâches
-- Et aucun nom de client, de projet, d'outil ou de collègue n'est mentionné
+- Et l'alternance est présentée comme une période datée
+- Et aucun nom de client, de projet, d'outil interne, de dépôt ou de collègue n'est mentionné
 - Et aucun projet OSOL n'est présenté
+- Et il voit qu'Alexandre travaille en entreprise et que ses projets d'entreprise ne sont pas partageables
 
 ## SC-2.0-15 — Scénario : liste des projets
 Micro-fonction : MF-12
 - Étant donné un recruteur sur la section des projets
 - Quand elle s'affiche
-- Alors il voit la liste des projets, chacun avec son titre
-- Et en choisissant un projet, il arrive sur la fiche de ce projet
+- Alors il voit la liste des projets, qui ne contient au lancement que le portfolio, avec son titre
+- Et il voit que les projets d'entreprise ne sont pas partageables
+- Et aucun projet d'école ni d'entreprise n'est présenté
+- Et en choisissant le portfolio, il arrive sur la fiche de ce projet
 
 ## SC-2.0-16 — Scénario : fiche d'un projet complet
 Micro-fonction : MF-13
@@ -115,7 +122,7 @@ Micro-fonction : MF-13
 - Quand un responsable technique ouvre sa fiche
 - Alors il voit le titre et la description du projet
 - Et il voit les captures du projet
-- Et il voit un lien vers le code source, qui mène à la page du projet
+- Et il voit un lien vers le code source, qui mène au code source du projet
 
 ## SC-2.0-17 — Scénario : fiche d'un projet sans lien vers son code source
 Micro-fonction : MF-13
@@ -195,24 +202,27 @@ Micro-fonction : MF-16
 ## SC-2.0-27 — Scénario : liens vers les profils externes
 Micro-fonction : MF-17
 - Étant donné un visiteur sur n'importe quelle page du site
-- Quand il choisit le lien vers GitHub, vers X ou vers LinkedIn
+- Quand il choisit le lien vers GitHub ou vers LinkedIn
 - Alors il arrive sur le profil d'Alexandre du réseau choisi
 - Et le site reste ouvert dans la fenêtre d'origine
+- Et le lien vers X de l'ancien site n'est pas repris sur le site
 
 ## SC-2.0-28 — Scénario : aucune information qui se périme
 Micro-fonction : MF-18
-- Étant donné un relecteur qui parcourt toutes les pages du site
+- Étant donné un visiteur qui parcourt toutes les pages du site
 - Quand il lit l'ensemble des textes affichés
 - Alors il ne trouve aucun âge
 - Et il ne trouve aucune durée relative ni formulation liée au moment de la lecture
 - Et chaque date affichée est une date précise fournie par Alexandre
+- Et aucune situation n'est formulée au présent
 
 ## SC-2.0-29 — Scénario : accès aux mentions légales
 Micro-fonction : MF-19
 - Étant donné un visiteur sur n'importe quelle page du site
 - Quand il cherche les mentions légales
 - Alors il y accède depuis un lien présent sur la page
-- Et la page affiche le contenu validé par Alexandre
+- Et la page affiche le nom d'Alexandre, le contact par le formulaire et l'identité de l'hébergeur
+- Et aucune adresse ni aucun téléphone personnels n'y figure
 
 ## SC-2.0-30 — Scénario : information sur l'usage des données du formulaire
 Micro-fonction : MF-20
@@ -220,3 +230,19 @@ Micro-fonction : MF-20
 - Quand il lit le formulaire avant de l'envoyer
 - Alors il voit, avant le bouton d'envoi, une information sur l'usage de ses données
 - Et cette information indique qui reçoit ses données et pourquoi
+
+## SC-2.0-31 — Scénario : méthodologie de travail
+Micro-fonction : MF-21
+- Étant donné un responsable technique sur la section de la méthode de travail
+- Quand elle s'affiche
+- Alors il lit le texte fourni par Alexandre, qui explique comment il mène un projet de l'idée à la livraison et les principes d'architecture qu'il applique
+- Et aucun document interne, client, projet, outil interne ni dépôt d'entreprise n'y est nommé
+- Et il voit un renvoi vers la fiche du portfolio, qui illustre cette méthode
+
+## SC-2.0-32 — Scénario : le portfolio présenté comme projet
+Micro-fonction : MF-22
+- Étant donné un responsable technique sur la section des projets au lancement
+- Quand il ouvre le projet portfolio
+- Alors il voit sa fiche, qui présente la démarche et l'architecture du site selon le contenu fourni par Alexandre
+- Et il voit un lien vers le code source public du portfolio
+- Et ce lien mène au code source du portfolio
