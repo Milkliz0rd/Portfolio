@@ -36,7 +36,7 @@ Source : Contexte « recruteurs et responsables techniques » ; Contexte « qui 
 En tant que responsable technique, je veux parcourir les sections du site depuis une navigation disponible sur chaque page, afin de me faire un avis sur le profil en quelques minutes.
 
 Règles métier :
-- La navigation donne accès à chaque section du site : parcours, compétences, rôle chez OSOL, projets, CV, contact.
+- La navigation donne accès à chaque section du site : parcours, compétences, rôle chez OSOL, méthode de travail, projets, CV, contact.
 - La navigation est la même sur toutes les pages.
 
 Scénarios liés : SC-2.0-04
@@ -135,7 +135,7 @@ Source : Pitch « met skills hard comme soft » ; Décision d'Alexandre du 14/10
 En tant que recruteur, je veux voir les compétences humaines d'Alexandre et comprendre en quoi sa reconversion depuis la restauration les illustre, afin de juger sa manière de travailler.
 
 Règles métier :
-- Seules les compétences humaines fournies par Alexandre sont affichées (liste : Q-06).
+- Seules les compétences humaines fournies par Alexandre sont affichées (liste : C-02 ; niveaux : Q-06).
 - Le récit de reconversion est rattaché aux compétences humaines, pas aux compétences techniques.
 
 Scénarios liés : SC-2.0-13
@@ -144,15 +144,15 @@ Scénarios liés : SC-2.0-13
 
 ### MF-11 — Micro-fonction : Rôle chez OSOL
 Priorité : high     Périmètre : MVP v2.0.0
-Source : Pitch « Parler comme quoi je suis alternant chez OSOL » ; Pitch « Tout en assistant le dev ops SUR CERTAINES de ses tâches » ; Décision d'Alexandre du 14/10/2026 : OSOL reste superficiel, le rôle est décrit et aucun projet OSOL n'est présenté ; Décision d'Alexandre du 15/10/2026 : les projets d'entreprise ne sont pas partageables, l'alternance est une période datée
+Source : Pitch « Parler comme quoi je suis alternant chez OSOL » ; Pitch « Tout en assistant le dev ops SUR CERTAINES de ses tâches » ; Décision d'Alexandre du 14/10/2026 : OSOL reste superficiel, le rôle est décrit et aucun projet OSOL n'est présenté ; Décision d'Alexandre du 15/10/2026 : les projets menés en entreprise ne sont pas partageables, l'alternance est la période 2025–2028
 En tant que recruteur, je veux lire le rôle d'Alexandre chez OSOL, afin de savoir ce qu'il fait en entreprise.
 
 Règles métier :
 - Le rôle est décrit en trois volets : application, backend, appui DevOps sur certaines tâches.
 - L'appui DevOps est présenté comme un appui sur certaines tâches, pas comme un poste.
 - Aucun projet, client, outil interne, dépôt ni collègue n'est nommé (Q-15).
-- L'alternance est présentée comme une période datée, fournie par Alexandre (C-01), jamais au présent (Q-02, MF-18).
-- Le site indique qu'Alexandre travaille en entreprise et que ses projets d'entreprise ne sont pas partageables (Q-05).
+- L'alternance chez OSOL est présentée comme la période 2025–2028, fournie par Alexandre (C-01), jamais au présent (Q-02, MF-18).
+- Le site indique que les projets menés en entreprise ne sont pas partageables (Q-05).
 
 Scénarios liés : SC-2.0-14
 
@@ -161,10 +161,10 @@ Scénarios liés : SC-2.0-14
 ### MF-21 — Micro-fonction : Méthodologie de travail
 Priorité : high     Périmètre : MVP v2.0.0
 Source : Décision d'Alexandre du 15/10/2026 : le portfolio n'expose pas de projet d'entreprise ; une section explique sa méthodologie de travail et son attachement aux architectures solides
-En tant que responsable technique, je veux lire comment Alexandre mène un projet et quels principes d'architecture il applique, afin d'évaluer sa manière de travailler sans projet d'entreprise à examiner.
+En tant que responsable technique, je veux comprendre la méthodologie de travail d'Alexandre et son attachement aux architectures solides, afin d'évaluer sa manière de travailler sans projet d'entreprise à examiner.
 
 Règles métier :
-- La section explique comment Alexandre mène un projet, de l'idée à la livraison, et les principes d'architecture qu'il applique.
+- La section explique la méthodologie de travail d'Alexandre et en quoi il respecte des architectures solides.
 - Son texte est fourni par Alexandre (C-04) : les US ne le décrivent pas.
 - Aucun document interne, client, projet, outil interne ni dépôt d'entreprise n'est nommé.
 - La section renvoie à la fiche du portfolio (MF-22), qui l'illustre.
@@ -181,7 +181,7 @@ En tant que recruteur, je veux voir la liste des projets d'Alexandre, afin de ch
 Règles métier :
 - Au lancement, la section présente un seul projet : le portfolio lui-même (MF-22).
 - Chaque projet mène à sa fiche.
-- La section indique que les projets d'entreprise ne sont pas partageables (Q-05).
+- La section indique que les projets menés en entreprise ne sont pas partageables (Q-05).
 - Aucun projet d'école n'est présenté (décision du 15/10/2026) et aucun projet OSOL (décision du 14/10/2026).
 - La section accueille les projets ajoutés plus tard (MF-14).
 
@@ -298,7 +298,7 @@ En tant que visiteur, je veux savoir, avant d'envoyer le formulaire de contact, 
 
 Règles métier :
 - L'information est visible avant le bouton d'envoi.
-- Elle indique qui reçoit les données et pourquoi ; son contenu exact est à valider (Q-12).
+- Elle indique qui reçoit les données et pourquoi ; son contenu exact est à valider par Alexandre.
 
 Scénarios liés : SC-2.0-30
 
@@ -308,8 +308,8 @@ Micro-fonction de périmètre v2.0.1 : MF-23 (version anglaise). Les besoins uti
 
 Exclusions décidées :
 - Aucun projet OSOL sur le portfolio : décision d'Alexandre du 14/10/2026.
-- Aucun projet d'école ni d'entreprise présenté au lancement : décision d'Alexandre du 15/10/2026 (D3).
-- Le lien vers X de l'ancien site n'est pas repris : décision d'Alexandre du 15/10/2026 (D8).
+- Aucun projet d'école ni d'entreprise présenté au lancement : décision d'Alexandre du 15/10/2026 (Q-05).
+- Le lien vers X de l'ancien site n'est pas repris : décision d'Alexandre du 15/10/2026 (Q-08).
 - Aucune reprise du code de l'ancien site, seulement sa matière (textes, captures, liens) : décision d'Alexandre du 13/10/2026.
 - Aucune direction artistique dans ces US : la charte graphique se définit à l'Étape 4 (décision d'Alexandre du 13/10/2026).
 - Aucun parcours ludique qui conditionne l'accès au CV ou au contact : Contexte « son concept ludique cache le CV et le contact au lieu de les mettre en avant ».
@@ -327,8 +327,8 @@ Exclusions décidées :
 - Existant v1 (v1.0.0:my-portfolio/src/Components/Infos/Infos.jsx) → comment les messages parviennent à Alexandre, comment le site se protège des messages indésirables, et combien de temps les données saisies sont conservées.
 - Existant v1 (v1.0.0:my-portfolio/src/Components/Navigation/Navigation.jsx) → les tailles d'écran et les navigateurs à couvrir.
 - Décision d'Alexandre du 13/10/2026 : la pile technique est choisie → la justification de ce choix et de ses écarts éventuels dans la conception technique.
-- Décision d'Alexandre du 15/10/2026 (D4) → la conception permet d'ajouter la version anglaise sans refaire le site.
-- Décision d'Alexandre du 15/10/2026 (D5) → le moyen de protection contre les messages indésirables et son test.
+- Décision d'Alexandre du 15/10/2026 (Q-09) → la conception permet d'ajouter la version anglaise sans refaire le site.
+- Décision d'Alexandre du 15/10/2026 (Q-11) → le moyen de protection contre les messages indésirables et son test.
 
 ## Questions ouvertes pour Alexandre
 
@@ -340,10 +340,10 @@ Exclusions décidées :
 ## Questions tranchées
 
 - Q-01 — Faut-il afficher un âge ? Décision d'Alexandre du 15/10/2026 : aucun âge n'est affiché. Appliquée dans : MF-01, MF-18.
-- Q-02 — Comment formuler le rôle chez OSOL, sachant que l'alternance a une fin ? Décision d'Alexandre du 15/10/2026 : l'alternance est présentée comme une période datée, jamais au présent ; les dates sont fournies par Alexandre (C-01). Appliquée dans : MF-11, MF-18.
+- Q-02 — Comment formuler le rôle chez OSOL, sachant que l'alternance a une fin ? Décision d'Alexandre du 15/10/2026 : l'alternance est présentée comme une période datée, jamais au présent ; les dates sont fournies par Alexandre (C-01). Période : 2025–2028, l'alternance se terminant avec le master en 2028 (réponse d'Alexandre du 15/10/2026). Appliquée dans : MF-11, MF-18.
 - Q-03 — Comment présenter le master, sachant que cette situation a une fin ? Décision d'Alexandre du 15/10/2026 : le master est une étape du parcours présentée comme une période datée, jamais au présent ; les dates sont fournies par Alexandre (C-01). Appliquée dans : MF-07, MF-08, MF-18.
 - Q-04 — Quelles dates, intitulés et établissements afficher pour le parcours ? Décision d'Alexandre du 15/10/2026 : les étapes (reconversion, bac+3 avec son intitulé et son établissement, master) sont des périodes datées, avec début et fin au mois ou à l'année ; elles sont fournies par Alexandre (C-01). Appliquée dans : MF-07, MF-18.
-- Q-05 — Quels projets présenter au lancement ? Décision d'Alexandre du 15/10/2026 : aucun projet d'école ni d'entreprise ; le portfolio lui-même est le projet présenté ; le site dit qu'Alexandre travaille en entreprise et que ses projets d'entreprise ne sont pas partageables ; une section explique sa méthodologie de travail et son attachement aux architectures solides ; l'ajout d'un projet plus tard reste possible. Appliquée dans : MF-11, MF-12, MF-14, MF-21, MF-22.
+- Q-05 — Quels projets présenter au lancement ? Décision d'Alexandre du 15/10/2026 : aucun projet d'école ni d'entreprise ; le portfolio lui-même est le projet présenté ; le site dit que les projets menés en entreprise ne sont pas partageables ; une section explique sa méthodologie de travail et son attachement aux architectures solides ; l'ajout d'un projet plus tard reste possible. Appliquée dans : MF-11, MF-12, MF-14, MF-21, MF-22.
 - Q-08 — Quels liens externes garder ? Décision d'Alexandre du 15/10/2026 : GitHub et LinkedIn ; le lien vers X n'est pas repris. Appliquée dans : MF-17.
 - Q-09 — Faut-il une version anglaise du site ? Décision d'Alexandre du 15/10/2026 : oui, en v2.0.1 ; le MVP est en français et la conception prévoit l'ajout. Appliquée dans : MF-23.
 - Q-11 — Faut-il se protéger des messages indésirables ? Décision d'Alexandre du 15/10/2026 : oui, le formulaire est protégé ; le moyen et son test se décident à l'Étape 4. Appliquée dans : MF-16.
@@ -353,7 +353,7 @@ Exclusions décidées :
 
 ## Contenus à fournir par Alexandre
 
-- C-01 — Les périodes datées du parcours : reconversion, bac+3 (avec son intitulé et son établissement), master, alternance chez OSOL. Alimente : MF-07, MF-08, MF-11, MF-18.
+- C-01 — Les périodes datées du parcours : reconversion, bac+3 (avec son intitulé et son établissement), master, alternance chez OSOL. Fourni : alternance chez OSOL 2025–2028 ; fin du master en 2028. Restent à fournir : reconversion, bac+3 (intitulé, établissement, période), début du master. Alimente : MF-07, MF-08, MF-11, MF-18.
 - C-02 — La liste des compétences techniques et humaines, avec leurs catégories. Alimente : MF-09, MF-10.
 - C-03 — Le CV, en fichier. Alimente : MF-15.
 - C-04 — Le texte de la méthodologie de travail et des principes d'architecture. Alimente : MF-21.
