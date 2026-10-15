@@ -245,4 +245,4 @@ Micro-fonction : MF-22
 - Étant donné un responsable technique sur la section des projets au lancement
 - Quand il ouvre le projet portfolio
 - Alors il voit sa fiche, qui présente la démarche et l'architecture du site selon le contenu fourni par Alexandre
-- Et il voit un lien vers le code source public du portfolio
+- Et il voit un lien vers le code source public du portfolio, qui mène à ce code source

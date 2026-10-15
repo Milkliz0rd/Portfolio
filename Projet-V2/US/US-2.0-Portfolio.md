@@ -145,7 +145,7 @@ Scénarios liés : SC-2.0-13
 ### MF-11 — Micro-fonction : Rôle chez OSOL
 Priorité : high     Périmètre : MVP v2.0.0
 Source : Pitch « Parler comme quoi je suis alternant chez OSOL » ; Pitch « Tout en assistant le dev ops SUR CERTAINES de ses tâches » ; Décision d'Alexandre du 14/10/2026 : OSOL reste superficiel, le rôle est décrit et aucun projet OSOL n'est présenté ; Décision d'Alexandre du 15/10/2026 : les projets menés en entreprise ne sont pas partageables, l'alternance est la période 2025–2028
-En tant que recruteur, je veux lire le rôle d'Alexandre chez OSOL, afin de savoir ce qu'il fait en entreprise.
+En tant que recruteur, je veux lire le rôle d'Alexandre chez OSOL, afin de connaître son rôle en entreprise.
 
 Règles métier :
 - Le rôle est décrit en trois volets : application, backend, appui DevOps sur certaines tâches.
@@ -175,7 +175,7 @@ Scénarios liés : SC-2.0-31
 
 ### MF-12 — Micro-fonction : Liste des projets
 Priorité : high     Périmètre : MVP v2.0.0
-Source : Existant v1 (v1.0.0:my-portfolio/src/Data/Projets.json) ; Contexte « ajouter un projet reste possible sans retoucher le reste du site » ; Décision d'Alexandre du 15/10/2026 : le portfolio est le seul projet présenté, les projets d'entreprise ne sont pas partageables
+Source : Existant v1 (v1.0.0:my-portfolio/src/Data/Projets.json) ; Contexte « ajouter un projet reste possible sans retoucher le reste du site » ; Décision d'Alexandre du 15/10/2026 : le portfolio est le seul projet présenté, les projets menés en entreprise ne sont pas partageables
 En tant que recruteur, je veux voir la liste des projets d'Alexandre, afin de choisir ceux que j'ouvre.
 
 Règles métier :
@@ -356,7 +356,7 @@ Exclusions décidées :
 - C-01 — Les périodes datées du parcours : reconversion, bac+3 (avec son intitulé et son établissement), master, alternance chez OSOL. Fourni : alternance chez OSOL 2025–2028 ; fin du master en 2028. Restent à fournir : reconversion, bac+3 (intitulé, établissement, période), début du master. Alimente : MF-07, MF-08, MF-11, MF-18.
 - C-02 — La liste des compétences techniques et humaines, avec leurs catégories. Alimente : MF-09, MF-10.
 - C-03 — Le CV, en fichier. Alimente : MF-15.
-- C-04 — Le texte de la méthodologie de travail et des principes d'architecture. Alimente : MF-21.
+- C-04 — Le texte de la méthodologie de travail et de l'attachement aux architectures solides. Alimente : MF-21.
 - C-05 — La présentation du portfolio comme projet (démarche, architecture, lien vers le code source). Alimente : MF-22.
 
 ## Matrice de couverture
