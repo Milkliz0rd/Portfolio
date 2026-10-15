@@ -105,14 +105,14 @@ Micro-fonction : MF-11
 - Et l'alternance est présentée comme une période datée
 - Et aucun nom de client, de projet, d'outil interne, de dépôt ou de collègue n'est mentionné
 - Et aucun projet OSOL n'est présenté
-- Et il voit qu'Alexandre travaille en entreprise et que ses projets d'entreprise ne sont pas partageables
+- Et il voit que la période affichée de l'alternance est 2025–2028 et il lit que les projets menés en entreprise ne sont pas partageables
 
 ## SC-2.0-15 — Scénario : liste des projets
 Micro-fonction : MF-12
 - Étant donné un recruteur sur la section des projets
 - Quand elle s'affiche
 - Alors il voit la liste des projets, qui ne contient au lancement que le portfolio, avec son titre
-- Et il voit que les projets d'entreprise ne sont pas partageables
+- Et il voit que les projets menés en entreprise ne sont pas partageables
 - Et aucun projet d'école ni d'entreprise n'est présenté
 - Et en choisissant le portfolio, il arrive sur la fiche de ce projet
 
@@ -205,7 +205,7 @@ Micro-fonction : MF-17
 - Quand il choisit le lien vers GitHub ou vers LinkedIn
 - Alors il arrive sur le profil d'Alexandre du réseau choisi
 - Et le site reste ouvert dans la fenêtre d'origine
-- Et le lien vers X de l'ancien site n'est pas repris sur le site
+- Et aucun lien vers X n'est affiché
 
 ## SC-2.0-28 — Scénario : aucune information qui se périme
 Micro-fonction : MF-18
@@ -214,7 +214,7 @@ Micro-fonction : MF-18
 - Alors il ne trouve aucun âge
 - Et il ne trouve aucune durée relative ni formulation liée au moment de la lecture
 - Et chaque date affichée est une date précise fournie par Alexandre
-- Et aucune situation n'est formulée au présent
+- Et aucune situation qui a une fin n'est formulée au présent
 
 ## SC-2.0-29 — Scénario : accès aux mentions légales
 Micro-fonction : MF-19
@@ -235,9 +235,10 @@ Micro-fonction : MF-20
 Micro-fonction : MF-21
 - Étant donné un responsable technique sur la section de la méthode de travail
 - Quand elle s'affiche
-- Alors il lit le texte fourni par Alexandre, qui explique comment il mène un projet de l'idée à la livraison et les principes d'architecture qu'il applique
+- Alors il lit le texte fourni par Alexandre, qui explique sa méthodologie de travail et en quoi il respecte des architectures solides
 - Et aucun document interne, client, projet, outil interne ni dépôt d'entreprise n'y est nommé
 - Et il voit un renvoi vers la fiche du portfolio, qui illustre cette méthode
+- Et en suivant ce renvoi, il arrive sur la fiche du portfolio
 
 ## SC-2.0-32 — Scénario : le portfolio présenté comme projet
 Micro-fonction : MF-22
@@ -245,4 +246,3 @@ Micro-fonction : MF-22
 - Quand il ouvre le projet portfolio
 - Alors il voit sa fiche, qui présente la démarche et l'architecture du site selon le contenu fourni par Alexandre
 - Et il voit un lien vers le code source public du portfolio
-- Et ce lien mène au code source du portfolio
