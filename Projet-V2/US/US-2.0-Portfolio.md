@@ -1,5 +1,5 @@
 # US-2.0 : MVP Portfolio
-Statut : [ ] à rédiger  [x] à approuver  [ ] approuvé par : ______  [ ] terminé
+Statut : [ ] à rédiger  [x] à approuver  [x] approuvé par : Alexandre Morozoff le 15/10/26  [ ] terminé
 Base : Projet-V2/Contexte-Pitch.md, signé par Alexandre Morozoff le 14/10/26.
 
 Les citations se retrouvent mot pour mot dans la fiche de base. Un seuil sans source est suivi de « (proposition, à valider) ». Les textes définitifs du site ne sont pas rédigés ici : ces US disent quel contenu est montré.
