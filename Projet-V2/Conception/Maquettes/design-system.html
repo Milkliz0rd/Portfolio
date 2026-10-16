@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="fr" data-palette="pa-02">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Catalogue du design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+/* Catalogue du design system : page autonome de démonstration.
+   Les valeurs reprennent la charte graphique (sections 2 à 6).
+   Ce n'est pas une implémentation : le format des jetons se décide au scaffold de chaque application. */
+
+/* ---------- 1. Jetons communs à toutes les palettes ---------- */
+:root {
+  color-scheme: dark;
+  --police-titre: "Bricolage Grotesque", "Hanken Grotesk", system-ui, sans-serif;
+  --police-texte: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --police-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --graisse-normale: 400;
+  --graisse-moyenne: 500;
+  --graisse-appuyee: 600;
+  --graisse-forte: 700;
+  --graisse-titre: 800;
+  --taille-affiche: clamp(2.625rem, 0.894rem + 8.81vw, 7.5rem);
+  --taille-titre-1: clamp(2.375rem, 1.464rem + 4.048vw, 4.5rem);
+  --taille-titre-2: clamp(1.875rem, 1.393rem + 2.143vw, 3rem);
+  --taille-titre-3: clamp(1.375rem, 1.214rem + 0.714vw, 1.75rem);
+  --taille-titre-4: clamp(1.125rem, 1.071rem + 0.238vw, 1.25rem);
+  --taille-chapo: clamp(1.125rem, 1.018rem + 0.476vw, 1.375rem);
+  --taille-texte: clamp(1rem, 0.973rem + 0.119vw, 1.0625rem);
+  --taille-texte-petit: clamp(0.875rem, 0.848rem + 0.119vw, 0.9375rem);
+  --taille-code: clamp(0.8125rem, 0.786rem + 0.119vw, 0.875rem);
+  --taille-etiquette: 0.75rem;
+  --interligne-affiche: 0.96;
+  --interligne-titre: 1.06;
+  --interligne-sous-titre: 1.2;
+  --interligne-chapo: 1.55;
+  --interligne-texte: 1.6;
+  --interligne-compact: 1.45;
+  --approche-affiche: -0.045em;
+  --approche-titre: -0.03em;
+  --approche-sous-titre: -0.015em;
+  --approche-etiquette: 0.16em;
+  --approche-pastille: 0.1em;
+  --espace-1: 0.25rem;
+  --espace-2: 0.5rem;
+  --espace-3: 0.75rem;
+  --espace-4: 1rem;
+  --espace-5: 1.25rem;
+  --espace-6: 1.5rem;
+  --espace-8: 2rem;
+  --espace-10: 2.5rem;
+  --espace-12: 3rem;
+  --espace-16: 4rem;
+  --espace-20: 5rem;
+  --espace-24: 6rem;
+  --espace-32: 8rem;
+  --arrondi-petit: 6px;
+  --arrondi-moyen: 10px;
+  --arrondi-grand: 14px;
+  --arrondi-pilule: 999px;
+  --arrondi-cercle: 50%;
+  --bordure-epaisseur: 1px;
+  --focus-epaisseur: 2px;
+  --focus-decalage: 2px;
+  --cible-tactile: 44px;
+  --opacite-verre-haut: 6%;
+  --opacite-verre-bas: 2%;
+  --opacite-verre-bordure: 10%;
+  --opacite-halo-accent: 20%;
+  --opacite-halo-secondaire: 15%;
+  --opacite-trame: 7%;
+  --opacite-teinte: 14%;
+  --opacite-teinte-message: 10%;
+  --flou-verre: 14px;
+  --pas-trame: 28px;
+  --duree-instant: 100ms;
+  --duree-courte: 180ms;
+  --duree-moyenne: 320ms;
+  --duree-longue: 600ms;
+  --duree-trace: 1200ms;
+  --duree-rotation: 900ms;
+  --delai-cascade: 70ms;
+  --distance-apparition: 12px;
+  --courbe-standard: cubic-bezier(0.2, 0, 0, 1);
+  --courbe-sortie: cubic-bezier(0.23, 1, 0.32, 1);
+  --courbe-entree-sortie: cubic-bezier(0.77, 0, 0.175, 1);
+  --conteneur-texte: 68ch;
+  --conteneur-standard: 75rem;
+  --conteneur-large: 90rem;
+  --marge-page: 16px;
+  --gouttiere: 16px;
+  --hauteur-entete: 4rem;
+  --plan-contenu: 1;
+  --plan-entete: 10;
+  --plan-menu: 20;
+  --plan-evitement: 30;
+}
+@media (min-width: 600px) { :root { --marge-page: 24px; --gouttiere: 20px; } }
+@media (min-width: 900px) { :root { --marge-page: 32px; --gouttiere: 24px; } }
+@media (min-width: 1200px) { :root { --marge-page: 48px; } }
+@media (min-width: 1600px) { :root { --marge-page: 64px; --gouttiere: 32px; } }
+
+/* ---------- 2. Palettes : une définition par palette, choisie par data-palette ---------- */
+[data-palette="pa-01"] {
+  --couleur-fond: #0C0B0A;
+  --couleur-surface: #161412;
+  --couleur-surface-relevee: #211E1B;
+  --couleur-bordure: #3A3530;
+  --couleur-texte: #F5F1EA;
+  --couleur-texte-secondaire: #C2B9AD;
+  --couleur-texte-discret: #A09689;
+  --couleur-accent: #E8B04E;
+  --couleur-accent-secondaire: #63C7B2;
+  --couleur-texte-sur-accent: #1B1307;
+  --couleur-succes: #7DD58F;
+  --couleur-erreur: #FF7B6E;
+  --couleur-attention: #F2D06B;
+  --couleur-focus: #8FE0D2;
+}
+[data-palette="pa-02"] {
+  --couleur-fond: #070C0C;
+  --couleur-surface: #0F1616;
+  --couleur-surface-relevee: #172121;
+  --couleur-bordure: #2A3939;
+  --couleur-texte: #EEF5F5;
+  --couleur-texte-secondaire: #A9BDBE;
+  --couleur-texte-discret: #97A9AB;
+  --couleur-accent: #3FD4C8;
+  --couleur-accent-secondaire: #FFB59E;
+  --couleur-texte-sur-accent: #04201E;
+  --couleur-succes: #7ADB9A;
+  --couleur-erreur: #FF7272;
+  --couleur-attention: #F2CF6B;
+  --couleur-focus: #FFE08A;
+}
+[data-palette="pa-03"] {
+  --couleur-fond: #0B090C;
+  --couleur-surface: #151217;
+  --couleur-surface-relevee: #1F1A22;
+  --couleur-bordure: #383040;
+  --couleur-texte: #F6F0F4;
+  --couleur-texte-secondaire: #C2B6BF;
+  --couleur-texte-discret: #A0929D;
+  --couleur-accent: #FF5C9A;
+  --couleur-accent-secondaire: #FFC46B;
+  --couleur-texte-sur-accent: #1F0612;
+  --couleur-succes: #72D99B;
+  --couleur-erreur: #FF7A5C;
+  --couleur-attention: #F2D06B;
+  --couleur-focus: #9EE7FF;
+}
+
+/* ---------- 3. Effets dérivés des couleurs : recalculés sur chaque élément porteur d'une palette ---------- */
+[data-palette] {
+  --verre-fond: linear-gradient(180deg, color-mix(in srgb, var(--couleur-texte) var(--opacite-verre-haut), transparent), color-mix(in srgb, var(--couleur-texte) var(--opacite-verre-bas), transparent));
+  --verre-bordure: color-mix(in srgb, var(--couleur-texte) var(--opacite-verre-bordure), transparent);
+  --halo-accent: radial-gradient(60% 55% at 84% 22%, color-mix(in srgb, var(--couleur-accent) var(--opacite-halo-accent), transparent), transparent 70%);
+  --halo-secondaire: radial-gradient(50% 50% at 6% 96%, color-mix(in srgb, var(--couleur-accent-secondaire) var(--opacite-halo-secondaire), transparent), transparent 70%);
+  --trame-points: radial-gradient(color-mix(in srgb, var(--couleur-texte) var(--opacite-trame), transparent) 1px, transparent 1.5px);
+  --voile-bas: linear-gradient(180deg, transparent 65%, color-mix(in srgb, var(--couleur-fond) 70%, transparent));
+  --lueur-point: 0 0 0 6px color-mix(in srgb, var(--couleur-accent) var(--opacite-teinte), transparent), 0 0 24px color-mix(in srgb, var(--couleur-accent) 50%, transparent);
+  --ombre-fenetre: 0 30px 60px -30px color-mix(in srgb, var(--couleur-fond) 90%, transparent), inset 0 1px 0 color-mix(in srgb, var(--couleur-texte) 6%, transparent);
+  --ombre-flottante: 0 18px 40px -16px color-mix(in srgb, var(--couleur-fond) 90%, transparent);
+  --anneau-focus: var(--focus-epaisseur) solid var(--couleur-focus);
+  background-color: var(--couleur-fond);
+  color: var(--couleur-texte);
+}
+
+/* ---------- 4. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 5.5rem; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--couleur-fond);
+  color: var(--couleur-texte);
+  font-family: var(--police-texte);
+  font-size: var(--taille-texte);
+  font-weight: var(--graisse-normale);
+  line-height: var(--interligne-texte);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: break-word;
+}
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, pre { margin: 0; }
+ul, ol { padding: 0; }
+a { color: inherit; }
+svg { display: block; }
+:focus-visible { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
+.icone { width: 1.25em; height: 1.25em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.masque-visuellement, .entete--compacte .entete__nom {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ---------- 5. Typographie ---------- */
+.texte-affiche, .titre-1, .titre-2, .titre-3, .titre-4 { font-family: var(--police-titre); color: var(--couleur-texte); text-wrap: balance; }
+.texte-affiche { font-weight: var(--graisse-titre); font-size: var(--taille-affiche); line-height: var(--interligne-affiche); letter-spacing: var(--approche-affiche); hyphens: auto; }
+.titre-1 { font-weight: var(--graisse-titre); font-size: var(--taille-titre-1); line-height: var(--interligne-titre); letter-spacing: var(--approche-titre); hyphens: auto; }
+.titre-2 { font-weight: var(--graisse-titre); font-size: var(--taille-titre-2); line-height: var(--interligne-titre); letter-spacing: var(--approche-titre); }
+.titre-3 { font-weight: var(--graisse-forte); font-size: var(--taille-titre-3); line-height: var(--interligne-sous-titre); letter-spacing: var(--approche-sous-titre); }
+.titre-4 { font-weight: var(--graisse-forte); font-size: var(--taille-titre-4); line-height: var(--interligne-sous-titre); letter-spacing: var(--approche-sous-titre); }
+.chapo { font-size: var(--taille-chapo); line-height: var(--interligne-chapo); color: var(--couleur-texte-secondaire); max-width: var(--conteneur-texte); }
+.texte { color: var(--couleur-texte-secondaire); max-width: var(--conteneur-texte); }
+.texte-petit { font-size: var(--taille-texte-petit); line-height: var(--interligne-compact); color: var(--couleur-texte-secondaire); }
+.texte-code { font-family: var(--police-mono); font-size: var(--taille-code); line-height: var(--interligne-compact); font-variant-ligatures: none; }
+.accent { color: var(--couleur-accent); }
+
+/* ---------- 6. Composants ---------- */
+
+/* CO-01 Bouton */
+.bouton {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--espace-2);
+  min-height: var(--cible-tactile); min-width: var(--cible-tactile);
+  padding: var(--espace-2) var(--espace-5);
+  border: var(--bordure-epaisseur) solid transparent; border-radius: var(--arrondi-petit);
+  font-family: var(--police-texte); font-weight: var(--graisse-appuyee); font-size: var(--taille-texte); line-height: 1.2;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  transition: background-color var(--duree-courte) var(--courbe-standard), border-color var(--duree-courte) var(--courbe-standard), color var(--duree-courte) var(--courbe-standard), transform var(--duree-instant) var(--courbe-standard);
+}
+.bouton--primaire { background: var(--couleur-accent); color: var(--couleur-texte-sur-accent); }
+.bouton--primaire:hover, .bouton--primaire.est-survol { background: color-mix(in srgb, var(--couleur-texte) 12%, var(--couleur-accent)); }
+.bouton--secondaire { background: var(--verre-fond); border-color: var(--verre-bordure); color: var(--couleur-texte); }
+.bouton--secondaire:hover, .bouton--secondaire.est-survol { background: color-mix(in srgb, var(--couleur-texte) 8%, transparent); border-color: var(--couleur-texte-discret); }
+.bouton--discret { background: transparent; color: var(--couleur-texte); padding-inline: var(--espace-3); }
+.bouton--discret:hover, .bouton--discret.est-survol { background: color-mix(in srgb, var(--couleur-texte) 8%, transparent); }
+.bouton--compact { padding-inline: var(--espace-3); }
+.bouton--icone { padding: 0; width: var(--cible-tactile); }
+.bouton:active, .bouton.est-appuye { transform: translateY(1px) scale(0.98); }
+.bouton.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
+.bouton:disabled, .bouton[aria-disabled="true"]:not([aria-busy="true"]) { background: var(--couleur-surface-relevee); border-color: transparent; color: var(--couleur-texte-discret); cursor: not-allowed; transform: none; }
+.bouton[aria-busy="true"] { cursor: progress; transform: none; }
+.bouton--primaire[aria-busy="true"]:hover { background: var(--couleur-accent); }
+
+/* CO-02 Lien */
+.lien {
+  color: var(--couleur-accent);
+  text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, var(--couleur-accent) 55%, transparent);
+  border-radius: 2px;
+  transition: text-decoration-color var(--duree-courte) var(--courbe-standard), color var(--duree-courte) var(--courbe-standard);
+}
+.lien:hover, .lien.est-survol { text-decoration-color: currentColor; text-decoration-thickness: 2px; }
+.lien.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
+.lien--discret { color: var(--couleur-texte-secondaire); text-decoration-color: color-mix(in srgb, var(--couleur-texte-secondaire) 45%, transparent); }
+.lien--discret:hover, .lien--discret.est-survol { color: var(--couleur-texte); }
+.lien--externe .icone { display: inline-block; width: 0.85em; height: 0.85em; margin-left: 0.2em; vertical-align: -0.05em; }
+.lien--action { display: inline-flex; align-items: center; gap: var(--espace-2); min-height: var(--cible-tactile); font-weight: var(--graisse-appuyee); text-decoration: none; }
+.lien--action .icone { transition: transform var(--duree-courte) var(--courbe-sortie); }
+.lien--action:hover .icone, .lien--action.est-survol .icone { transform: translateX(3px); }
+.lien--action:hover, .lien--action.est-survol { text-decoration: underline; text-underline-offset: 0.22em; }
+.lien-navigation {
+  position: relative; display: inline-flex; align-items: center;
+  min-height: var(--cible-tactile); padding-inline: var(--espace-3);
+  border-radius: var(--arrondi-petit);
+  color: var(--couleur-texte-secondaire); font-weight: var(--graisse-moyenne); text-decoration: none;
+  transition: color var(--duree-courte) var(--courbe-standard), background-color var(--duree-courte) var(--courbe-standard);
+}
+.lien-navigation:hover, .lien-navigation.est-survol { color: var(--couleur-texte); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); }
+.lien-navigation.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
+.lien-navigation[aria-current="page"] { color: var(--couleur-texte); }
+.lien-navigation[aria-current="page"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
+
+/* CO-03 Pastille */
+.pastille {
+  display: inline-flex; align-items: center; gap: var(--espace-2);
+  padding: 7px 12px; border-radius: var(--arrondi-pilule);
+  font-family: var(--police-mono); font-weight: var(--graisse-moyenne); font-size: var(--taille-etiquette);
+  letter-spacing: var(--approche-pastille); text-transform: uppercase; line-height: 1; white-space: nowrap;
+  color: var(--couleur-texte-secondaire);
+  background: color-mix(in srgb, var(--couleur-texte) 8%, transparent);
+}
+.pastille::before { content: ""; width: 6px; height: 6px; border-radius: var(--arrondi-cercle); background: currentColor; flex: none; }
+.pastille--accent { color: var(--couleur-accent); background: color-mix(in srgb, var(--couleur-accent) var(--opacite-teinte), transparent); }
+.pastille--secondaire { color: var(--couleur-accent-secondaire); background: color-mix(in srgb, var(--couleur-accent-secondaire) var(--opacite-teinte), transparent); }
+.pastille--succes { color: var(--couleur-succes); background: color-mix(in srgb, var(--couleur-succes) var(--opacite-teinte), transparent); }
+.pastille--attention { color: var(--couleur-attention); background: color-mix(in srgb, var(--couleur-attention) var(--opacite-teinte), transparent); }
+.pastille--erreur { color: var(--couleur-erreur); background: color-mix(in srgb, var(--couleur-erreur) var(--opacite-teinte), transparent); }
+.pastille--lumineuse::before { box-shadow: 0 0 8px currentColor; }
+.pastille--contour { background: transparent; box-shadow: inset 0 0 0 1px var(--verre-bordure); color: var(--couleur-texte); }
+
+/* CO-04 Étiquette */
+.etiquette {
+  display: inline-flex; align-items: center; gap: var(--espace-2);
+  font-family: var(--police-mono); font-weight: var(--graisse-moyenne); font-size: var(--taille-etiquette);
+  line-height: var(--interligne-sous-titre); letter-spacing: var(--approche-etiquette); text-transform: uppercase;
+  color: var(--couleur-texte-discret);
+}
+.etiquette--accent { color: var(--couleur-accent); }
+.etiquette__numero { color: var(--couleur-accent); display: inline-flex; align-items: center; gap: var(--espace-2); }
+.etiquette__numero::after { content: ""; width: 1.5rem; height: 1px; background: currentColor; }
+.etiquette--puce::before { content: ""; width: 7px; height: 7px; border-radius: var(--arrondi-cercle); background: var(--couleur-accent); box-shadow: 0 0 10px var(--couleur-accent); flex: none; }
+
+/* CO-05 Carte */
+.carte {
+  position: relative; display: flex; flex-direction: column; gap: var(--espace-3);
+  padding: var(--espace-6); border-radius: var(--arrondi-grand);
+  background: var(--verre-fond); border: var(--bordure-epaisseur) solid var(--verre-bordure);
+  min-width: 0;
+}
+.carte--pleine { background: var(--couleur-surface); border-color: var(--couleur-bordure); }
+.carte__texte { color: var(--couleur-texte-secondaire); }
+.carte__pied { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--espace-2); padding-top: var(--espace-2); }
+.carte--interactive { transition: transform var(--duree-moyenne) var(--courbe-sortie), border-color var(--duree-courte) var(--courbe-standard); }
+.carte--interactive:hover, .carte--interactive.est-survol { transform: translateY(-3px); border-color: color-mix(in srgb, var(--couleur-accent) 45%, transparent); }
+.carte--interactive.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
+.carte__lien { color: inherit; text-decoration: none; }
+.carte__lien::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+@supports selector(:has(*)) {
+  .carte--interactive:has(.carte__lien:focus-visible) { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
+  .carte__lien:focus-visible { outline: none; }
+}
+
+/* CO-06 En-tête et navigation */
+.entete {
+  position: sticky; top: 0; z-index: var(--plan-entete);
+  display: flex; align-items: center; gap: var(--espace-3);
+  min-height: var(--hauteur-entete); padding-inline: var(--marge-page);
+  background: color-mix(in srgb, var(--couleur-fond) 92%, transparent);
+  border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure);
+}
+.entete--demo { position: relative; top: auto; }
+.entete--compacte { --marge-page: 16px; }
+.entete__marque {
+  display: inline-flex; align-items: center; gap: var(--espace-3); min-height: var(--cible-tactile); margin-right: auto;
+  border-radius: var(--arrondi-petit);
+  font-family: var(--police-titre); font-weight: var(--graisse-titre); font-size: 1.125rem; letter-spacing: var(--approche-sous-titre);
+  color: var(--couleur-texte); text-decoration: none; white-space: nowrap;
+}
+.entete__monogramme {
+  display: grid; place-items: center; width: 2.25rem; height: 2.25rem; flex: none;
+  border-radius: var(--arrondi-moyen); background: var(--couleur-surface-relevee); border: var(--bordure-epaisseur) solid var(--verre-bordure);
+  font-size: 0.875rem; letter-spacing: 0;
+}
+.entete__navigation { display: none; }
+.entete__navigation ul { display: flex; gap: var(--espace-1); list-style: none; }
+.entete__actions { display: flex; align-items: center; gap: var(--espace-2); }
+@media (max-width: 479px) {
+  .entete__nom { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (min-width: 900px) {
+  .entete { background: color-mix(in srgb, var(--couleur-fond) 72%, transparent); -webkit-backdrop-filter: blur(var(--flou-verre)); backdrop-filter: blur(var(--flou-verre)); }
+}
+@media (min-width: 1200px) {
+  .entete:not(.entete--compacte) .entete__navigation { display: block; }
+  .entete:not(.entete--compacte) .menu-replie { display: none; }
+}
+
+/* CO-07 Menu replié */
+.menu-replie > summary { list-style: none; }
+.menu-replie > summary::-webkit-details-marker { display: none; }
+.menu-replie[open] .icone--menu, .menu-replie:not([open]) .icone--fermer { display: none; }
+.menu-replie__panneau {
+  position: absolute; top: calc(100% + var(--espace-2)); left: var(--marge-page); right: var(--marge-page); z-index: var(--plan-menu);
+  padding: var(--espace-2); border-radius: var(--arrondi-grand);
+  background: var(--couleur-surface-relevee); border: var(--bordure-epaisseur) solid var(--verre-bordure);
+  box-shadow: var(--ombre-flottante);
+}
+.menu-replie__panneau ul { display: grid; gap: 2px; list-style: none; }
+.menu-replie__panneau .lien-navigation { display: flex; width: 100%; padding-inline: var(--espace-4); }
+.menu-replie__panneau .lien-navigation[aria-current="page"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
+.menu-replie__panneau .lien-navigation[aria-current="page"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
+.menu-replie--en-place .menu-replie__panneau { position: static; margin-top: var(--espace-3); }
+@media (min-width: 600px) { .entete:not(.entete--compacte) .menu-replie__panneau { left: auto; width: 20rem; } }
+@media (min-width: 900px) {
+  .menu-replie__panneau { -webkit-backdrop-filter: blur(var(--flou-verre)); backdrop-filter: blur(var(--flou-verre)); background: color-mix(in srgb, var(--couleur-surface-relevee) 94%, transparent); }
+}
+
+/* CO-08 Pied de page */
+.pied { display: grid; gap: var(--espace-6); padding: var(--espace-10) var(--marge-page); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+.pied__haut, .pied__bas { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--espace-3) var(--espace-6); }
+.pied__marque { font-family: var(--police-titre); font-weight: var(--graisse-titre); font-size: var(--taille-titre-4); letter-spacing: var(--approche-sous-titre); }
+.pied__liens { display: flex; flex-wrap: wrap; gap: var(--espace-1) var(--espace-5); list-style: none; }
+.pied .lien { display: inline-flex; align-items: center; min-height: var(--cible-tactile); }
+
+/* CO-09 Frise chronologique (verticale par défaut, horizontale au large).
+   Le tracé coloré (::after) est un élément de la grille : il couvre les étapes qui précèdent l'étape mise en avant
+   (--etape-avant : son rang, à partir de 1), puis s'allonge par une marge négative jusqu'au centre de son point.
+   Il s'arrête donc sur ce point quelle que soit la hauteur des étapes, sans script. */
+.frise { --frise-ecart: var(--espace-8); position: relative; display: grid; grid-template-columns: 0 minmax(0, 1fr); gap: var(--frise-ecart) 0; list-style: none; }
+.frise > .frise__etape { grid-column: 2; }
+.frise::before { content: ""; position: absolute; top: 8px; bottom: 8px; left: 6px; width: 1px; background: var(--couleur-bordure); pointer-events: none; }
+.frise::after {
+  content: ""; position: relative; pointer-events: none;
+  grid-column: 1; grid-row: 1 / var(--etape-avant, 2);
+  width: 2px; margin: 10.5px 0 calc(-1 * (var(--frise-ecart) + 10.5px)) 5.5px;
+  border-radius: 2px; background: linear-gradient(180deg, var(--couleur-accent), var(--couleur-accent-secondaire)); transform-origin: top;
+}
+.frise__etape { position: relative; display: grid; gap: var(--espace-1); padding-left: var(--espace-8); }
+.frise__point { position: absolute; z-index: 1; left: 0; top: 4px; width: 13px; height: 13px; border-radius: var(--arrondi-cercle); border: var(--bordure-epaisseur) solid var(--couleur-texte-discret); background: var(--couleur-fond); }
+.frise__periode { font-family: var(--police-mono); font-size: var(--taille-code); color: var(--couleur-texte-discret); letter-spacing: 0.02em; }
+.frise__intitule { font-family: var(--police-titre); font-weight: var(--graisse-forte); font-size: var(--taille-titre-4); line-height: var(--interligne-sous-titre); }
+.frise__detail { font-size: var(--taille-texte-petit); color: var(--couleur-texte-secondaire); max-width: 34ch; }
+.frise__etape--accomplie .frise__point { background: var(--couleur-texte-secondaire); border-color: var(--couleur-texte-secondaire); }
+.frise__etape--avant .frise__point { background: var(--couleur-accent); border-color: var(--couleur-accent); box-shadow: var(--lueur-point); }
+.frise__etape--avant .frise__periode { color: var(--couleur-accent); }
+.frise__etape--prevue .frise__intitule { color: var(--couleur-texte-secondaire); }
+@media (min-width: 900px) {
+  .frise--adaptative { --frise-ecart: var(--espace-6); grid-template-columns: none; grid-template-rows: 0 auto; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0 var(--frise-ecart); }
+  .frise--adaptative > .frise__etape { grid-row: 2; grid-column: auto; }
+  .frise--adaptative::before { left: 0; right: 0; top: 6px; bottom: auto; width: auto; height: 1px; }
+  .frise--adaptative::after { grid-row: 1; grid-column: 1 / var(--etape-avant, 2); width: auto; height: 2px; margin: 5.5px calc(-1 * (var(--frise-ecart) + 6.5px)) 0 6.5px; background: linear-gradient(90deg, var(--couleur-accent), var(--couleur-accent-secondaire)); transform-origin: left; }
+  .frise--adaptative .frise__etape { padding-left: 0; padding-top: var(--espace-8); }
+  .frise--adaptative .frise__point { top: 0; }
+}
+
+/* CO-10 Champ de formulaire */
+.champ { display: grid; gap: var(--espace-2); align-content: start; min-width: 0; }
+.champ__libelle { font-weight: var(--graisse-appuyee); font-size: var(--taille-texte-petit); color: var(--couleur-texte); }
+.champ__obligatoire { font-weight: var(--graisse-normale); color: var(--couleur-texte-discret); }
+.champ__saisie {
+  width: 100%; min-height: 3rem; padding: var(--espace-3) var(--espace-4);
+  border: var(--bordure-epaisseur) solid var(--couleur-texte-discret); border-radius: var(--arrondi-petit);
+  background: var(--couleur-surface); color: var(--couleur-texte);
+  font-family: var(--police-texte); font-size: var(--taille-texte); line-height: 1.4;
+  transition: border-color var(--duree-courte) var(--courbe-standard);
+}
+textarea.champ__saisie { min-height: 9rem; resize: vertical; }
+.champ__saisie::placeholder { color: var(--couleur-texte-discret); opacity: 1; }
+.champ__saisie:hover, .champ__saisie.est-survol { border-color: var(--couleur-texte-secondaire); }
+.champ__saisie:focus-visible, .champ__saisie.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); border-color: var(--couleur-focus); }
+.champ__saisie[aria-invalid="true"] { border-color: var(--couleur-erreur); box-shadow: inset 3px 0 0 var(--couleur-erreur); }
+.champ__saisie:disabled { background: var(--couleur-fond); border-style: dashed; border-color: var(--couleur-bordure); color: var(--couleur-texte-secondaire); cursor: not-allowed; }
+.champ__aide { font-size: var(--taille-texte-petit); color: var(--couleur-texte-discret); }
+.champ__erreur { display: flex; align-items: flex-start; gap: var(--espace-2); font-size: var(--taille-texte-petit); font-weight: var(--graisse-moyenne); color: var(--couleur-erreur); }
+.champ__erreur .icone { width: 1.1em; height: 1.1em; margin-top: 0.15em; }
+.formulaire { display: grid; gap: var(--espace-5); }
+.formulaire__ligne { display: grid; gap: var(--espace-5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+.formulaire__info { padding: var(--espace-3) var(--espace-4); border-left: 2px solid var(--couleur-bordure); font-size: var(--taille-texte-petit); color: var(--couleur-texte-secondaire); }
+.formulaire__envoi { display: flex; flex-wrap: wrap; align-items: center; gap: var(--espace-4); }
+
+/* CO-11 Message d'état */
+.message {
+  display: grid; grid-template-columns: auto 1fr; align-items: start; gap: var(--espace-3);
+  padding: var(--espace-4) var(--espace-5); border-radius: var(--arrondi-moyen);
+  border: var(--bordure-epaisseur) solid var(--couleur-bordure); background: var(--couleur-surface); color: var(--couleur-texte);
+}
+.message > .icone, .message > .indicateur { width: 1.375rem; height: 1.375rem; margin-top: 0.1rem; color: var(--couleur-accent); }
+.message__corps { display: grid; gap: var(--espace-1); min-width: 0; }
+.message__titre { font-weight: var(--graisse-forte); }
+.message__texte { font-size: var(--taille-texte-petit); color: var(--couleur-texte-secondaire); }
+.message__action { grid-column: 2; justify-self: start; margin-top: var(--espace-1); }
+.message--succes { border-color: color-mix(in srgb, var(--couleur-succes) 40%, transparent); background: color-mix(in srgb, var(--couleur-succes) var(--opacite-teinte-message), var(--couleur-surface)); }
+.message--succes > .icone, .message--succes .message__titre { color: var(--couleur-succes); }
+.message--erreur { border-color: color-mix(in srgb, var(--couleur-erreur) 40%, transparent); background: color-mix(in srgb, var(--couleur-erreur) var(--opacite-teinte-message), var(--couleur-surface)); }
+.message--erreur > .icone, .message--erreur .message__titre { color: var(--couleur-erreur); }
+.message--attention { border-color: color-mix(in srgb, var(--couleur-attention) 40%, transparent); background: color-mix(in srgb, var(--couleur-attention) var(--opacite-teinte-message), var(--couleur-surface)); }
+.message--attention > .icone, .message--attention .message__titre { color: var(--couleur-attention); }
+
+/* CO-12 Fenêtre factice */
+.fenetre {
+  display: flex; flex-direction: column; min-width: 0; overflow: hidden;
+  border-radius: var(--arrondi-grand); border: var(--bordure-epaisseur) solid var(--verre-bordure);
+  background: color-mix(in srgb, var(--couleur-surface) 92%, transparent); box-shadow: var(--ombre-fenetre);
+  color: var(--couleur-texte-secondaire);
+}
+.fenetre__barre { display: flex; align-items: center; gap: var(--espace-3); min-height: 2.375rem; padding: 0 var(--espace-4); border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure); }
+.fenetre__boutons { display: flex; gap: 6px; flex: none; }
+.fenetre__boutons i { width: 9px; height: 9px; border-radius: var(--arrondi-cercle); background: color-mix(in srgb, var(--couleur-texte) 18%, transparent); }
+.fenetre__titre, .fenetre__adresse { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--police-mono); font-size: var(--taille-etiquette); color: var(--couleur-texte-discret); }
+.fenetre__adresse { flex: 1; max-width: 20rem; margin-inline: auto; padding: 3px 12px; border-radius: var(--arrondi-pilule); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); text-align: center; }
+.fenetre__contenu { padding: var(--espace-5); min-width: 0; }
+.fenetre__code { font-family: var(--police-mono); font-variant-ligatures: none; font-size: var(--taille-code); line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--couleur-texte-secondaire); }
+.code-mot { color: var(--couleur-accent); }
+.code-chaine { color: var(--couleur-accent-secondaire); }
+.code-note { color: var(--couleur-texte-discret); }
+.fenetre--interactive { transition: transform var(--duree-moyenne) var(--courbe-sortie), border-color var(--duree-courte) var(--courbe-standard); }
+.fenetre--interactive:hover, .fenetre--interactive.est-survol { transform: translateY(-3px); border-color: color-mix(in srgb, var(--couleur-accent) 40%, transparent); }
+.fenetre--interactive.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
+.maquette { display: grid; gap: var(--espace-3); aspect-ratio: 16 / 9; align-content: start; }
+.maquette span { display: block; height: 10px; border-radius: var(--arrondi-pilule); background: color-mix(in srgb, var(--couleur-texte) 10%, transparent); }
+.maquette .maquette__titre { width: 55%; height: 18px; background: color-mix(in srgb, var(--couleur-texte) 22%, transparent); }
+.maquette .maquette__court { width: 35%; }
+.maquette .maquette__accent { width: 28%; height: 28px; border-radius: var(--arrondi-petit); background: var(--couleur-accent); }
+.maquette__blocs { display: grid !important; grid-template-columns: repeat(3, 1fr); gap: var(--espace-2); height: auto !important; background: none !important; }
+.maquette__blocs span { height: 3.5rem; border-radius: var(--arrondi-petit); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); border: var(--bordure-epaisseur) solid var(--verre-bordure); }
+.capture { display: grid; place-items: center; aspect-ratio: 16 / 10; padding: var(--espace-4); text-align: center; background: var(--halo-accent), var(--halo-secondaire), var(--couleur-surface-relevee); font-family: var(--police-mono); font-size: var(--taille-etiquette); letter-spacing: var(--approche-etiquette); text-transform: uppercase; color: var(--couleur-texte-discret); }
+
+/* CO-13 Arrière-plan d'ambiance */
+.ambiance { position: relative; isolation: isolate; overflow: hidden; }
+.ambiance::before, .ambiance::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.ambiance::before { background: var(--trame-points); background-size: var(--pas-trame) var(--pas-trame); }
+.ambiance--section::before { background: var(--halo-accent), var(--trame-points); background-size: auto, var(--pas-trame) var(--pas-trame); }
+.ambiance--accueil::before { background: var(--halo-accent), var(--halo-secondaire), var(--trame-points); background-size: auto, auto, var(--pas-trame) var(--pas-trame); }
+.ambiance::after { background: var(--voile-bas); }
+
+/* CO-14 Lien d'évitement */
+.evitement {
+  position: absolute; left: var(--espace-4); top: var(--espace-4); z-index: var(--plan-evitement);
+  display: inline-flex; align-items: center; min-height: var(--cible-tactile); padding: 0 var(--espace-5);
+  border-radius: var(--arrondi-petit); background: var(--couleur-accent); color: var(--couleur-texte-sur-accent);
+  font-weight: var(--graisse-appuyee); text-decoration: none; transform: translateY(-200%);
+}
+.evitement:focus, .evitement--visible { transform: none; }
+.evitement--visible { position: static; }
+
+/* CO-15 Indicateur d'activité */
+.indicateur { display: inline-block; flex: none; width: 1.1em; height: 1.1em; border-radius: var(--arrondi-cercle); border: 2px solid color-mix(in srgb, currentColor 28%, transparent); border-top-color: currentColor; }
+
+/* CO-16 En-tête de section */
+.entete-section { display: grid; gap: var(--espace-4); justify-items: start; max-width: 56rem; }
+.entete-section--centre { justify-items: center; text-align: center; margin-inline: auto; }
+
+/* CO-17 Liste clé-valeur */
+.cles { display: grid; gap: var(--espace-4); }
+.cles__ligne { display: grid; gap: var(--espace-1); min-width: 0; }
+.cles dd { font-family: var(--police-titre); font-weight: var(--graisse-forte); font-size: var(--taille-titre-4); line-height: var(--interligne-sous-titre); color: var(--couleur-texte); }
+.cles--en-ligne { grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: var(--espace-6); }
+.cles--tableau { gap: 0; }
+.cles--tableau .cles__ligne { grid-template-columns: minmax(6rem, 10rem) minmax(0, 1fr); gap: var(--espace-4); padding-block: var(--espace-3); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+.cles--tableau dd { font-family: var(--police-texte); font-weight: var(--graisse-normale); font-size: var(--taille-texte); color: var(--couleur-texte-secondaire); }
+
+/* ---------- 7. Mise en page du catalogue ---------- */
+.conteneur { width: 100%; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
+.catalogue-barre { border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure); background: color-mix(in srgb, var(--couleur-fond) 94%, transparent); }
+.catalogue-barre__interieur { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--espace-2) var(--espace-4); min-height: var(--hauteur-entete); padding-block: var(--espace-2); }
+.catalogue-barre__titre { display: inline-flex; align-items: center; gap: var(--espace-3); font-family: var(--police-titre); font-weight: var(--graisse-titre); font-size: 1.0625rem; letter-spacing: var(--approche-sous-titre); }
+@media (min-width: 600px) {
+  .catalogue-barre { position: sticky; top: 0; z-index: var(--plan-entete); }
+}
+@media (min-width: 900px) {
+  .catalogue-barre { background: color-mix(in srgb, var(--couleur-fond) 72%, transparent); -webkit-backdrop-filter: blur(var(--flou-verre)); backdrop-filter: blur(var(--flou-verre)); }
+}
+.selecteur-palette { display: flex; flex-wrap: wrap; gap: var(--espace-1); padding: var(--espace-1); border-radius: var(--arrondi-moyen); border: var(--bordure-epaisseur) solid var(--verre-bordure); background: var(--verre-fond); }
+.selecteur-palette[hidden] { display: none; }
+.selecteur-palette button {
+  display: inline-flex; align-items: center; gap: var(--espace-2);
+  min-height: var(--cible-tactile); padding: 0 var(--espace-3);
+  border: 0; border-radius: var(--arrondi-petit); background: transparent; cursor: pointer;
+  font-family: var(--police-mono); font-size: var(--taille-etiquette); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--couleur-texte-secondaire);
+}
+.selecteur-palette button:hover { color: var(--couleur-texte); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); }
+.selecteur-palette button[aria-pressed="true"] { color: var(--couleur-texte); background: var(--couleur-surface-relevee); }
+.temoin[data-palette] { display: inline-block; width: 10px; height: 10px; border-radius: var(--arrondi-cercle); background: var(--couleur-accent); box-shadow: 0 0 0 2px var(--couleur-fond); }
+.intro { padding-block: var(--espace-16) var(--espace-12); }
+.intro__interieur { display: grid; gap: var(--espace-6); justify-items: start; }
+.sommaire { display: flex; flex-wrap: wrap; gap: var(--espace-2); list-style: none; }
+.sommaire a { display: inline-flex; align-items: center; gap: var(--espace-2); min-height: var(--cible-tactile); padding: 0 var(--espace-4); border-radius: var(--arrondi-pilule); border: var(--bordure-epaisseur) solid var(--verre-bordure); background: var(--verre-fond); color: var(--couleur-texte-secondaire); text-decoration: none; font-size: var(--taille-texte-petit); }
+.sommaire a:hover { color: var(--couleur-texte); border-color: var(--couleur-texte-discret); }
+.sommaire b { font-family: var(--police-mono); font-weight: var(--graisse-moyenne); font-size: var(--taille-etiquette); color: var(--couleur-accent); }
+.note-sans-script { color: var(--couleur-texte-discret); font-size: var(--taille-texte-petit); }
+.catalogue-section { padding-block: var(--espace-16); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+@media (min-width: 900px) { .catalogue-section { padding-block: var(--espace-24); } }
+.catalogue-section > .conteneur > .entete-section { margin-bottom: var(--espace-10); }
+.specimen { display: grid; gap: var(--espace-5); padding-block: var(--espace-10); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+.specimen:first-of-type { border-top: 0; padding-top: 0; }
+.specimen__entete { display: grid; gap: var(--espace-2); }
+.specimen__entete .texte-petit { max-width: var(--conteneur-texte); }
+.etats { display: grid; gap: var(--espace-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); }
+.etats--larges { grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
+.etat { display: grid; gap: var(--espace-3); align-content: start; min-width: 0; padding: var(--espace-5); border: var(--bordure-epaisseur) dashed var(--couleur-bordure); border-radius: var(--arrondi-moyen); }
+.etat__nom { font-family: var(--police-mono); font-size: var(--taille-etiquette); letter-spacing: var(--approche-etiquette); text-transform: uppercase; color: var(--couleur-texte-discret); }
+.matrice { display: grid; gap: var(--espace-6); }
+.matrice__ligne { display: grid; gap: var(--espace-3); padding: var(--espace-5); border: var(--bordure-epaisseur) dashed var(--couleur-bordure); border-radius: var(--arrondi-moyen); }
+.matrice__variante { font-weight: var(--graisse-appuyee); }
+.matrice__etats { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--espace-5) var(--espace-6); }
+.etat-mini { display: grid; gap: var(--espace-2); justify-items: start; min-width: 0; }
+.grille-2 { display: grid; gap: var(--espace-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); align-items: start; }
+.grille-3 { display: grid; gap: var(--espace-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); align-items: stretch; }
+
+/* Palettes */
+.grille-palettes { display: grid; gap: var(--espace-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); align-items: start; }
+.colonne-palette { display: grid; gap: var(--espace-5); align-content: start; min-width: 0; padding: var(--espace-6); border-radius: var(--arrondi-grand); border: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+.colonne-palette__entete { display: grid; gap: var(--espace-2); }
+.apercu-palette { display: grid; gap: var(--espace-4); padding: var(--espace-6) var(--espace-5); border-radius: var(--arrondi-moyen); border: var(--bordure-epaisseur) solid var(--verre-bordure); }
+.apercu-palette .carte { padding: var(--espace-5); }
+.nuancier, .contrastes { display: grid; gap: var(--espace-2); list-style: none; }
+.nuance { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr) auto; align-items: center; gap: var(--espace-3); }
+.nuance__couleur { width: 2.5rem; height: 1.75rem; border-radius: var(--arrondi-petit); box-shadow: inset 0 0 0 1px var(--verre-bordure); }
+.nuance__nom { font-family: var(--police-mono); font-size: var(--taille-etiquette); color: var(--couleur-texte-secondaire); overflow-wrap: anywhere; }
+.nuance__valeur { font-family: var(--police-mono); font-size: var(--taille-etiquette); color: var(--couleur-texte-discret); }
+.contraste { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr) auto; align-items: center; gap: var(--espace-3); font-size: var(--taille-texte-petit); }
+.contraste__apercu { display: grid; place-items: center; height: 1.75rem; border-radius: var(--arrondi-petit); box-shadow: inset 0 0 0 1px var(--verre-bordure); font-weight: var(--graisse-forte); font-size: 0.875rem; }
+.contraste__paire { color: var(--couleur-texte-secondaire); font-family: var(--police-mono); font-size: var(--taille-etiquette); overflow-wrap: anywhere; }
+.contraste__ratio { font-family: var(--police-mono); font-size: var(--taille-etiquette); color: var(--couleur-texte); white-space: nowrap; }
+.contraste__ratio span { color: var(--couleur-texte-discret); }
+
+/* Typographie */
+.familles { display: grid; gap: var(--espace-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.famille__echantillon { font-size: 2.5rem; line-height: 1.1; color: var(--couleur-texte); overflow-wrap: anywhere; }
+.echelle { display: grid; gap: 0; }
+.echelle__ligne { display: grid; gap: var(--espace-2); padding-block: var(--espace-5); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); min-width: 0; }
+.echelle__meta { display: flex; flex-wrap: wrap; gap: var(--espace-1) var(--espace-4); }
+@media (min-width: 900px) { .echelle__ligne { grid-template-columns: 15rem minmax(0, 1fr); align-items: baseline; gap: var(--espace-6); } .echelle__meta { flex-direction: column; } }
+
+/* Espacements, arrondis, effets */
+.espaces { display: grid; gap: var(--espace-2); }
+.espace-ligne { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); align-items: center; gap: var(--espace-3); }
+.espace-ligne__barre { height: 12px; border-radius: 2px; background: var(--couleur-accent); max-width: 100%; }
+.arrondis { display: flex; flex-wrap: wrap; gap: var(--espace-5); }
+.arrondi-exemple { display: grid; gap: var(--espace-2); justify-items: center; }
+.arrondi-exemple__forme { width: 5rem; height: 3.5rem; border: var(--bordure-epaisseur) solid var(--verre-bordure); background: var(--verre-fond); }
+.effet-boite { display: grid; place-items: center; min-height: 11rem; padding: var(--espace-5); border-radius: var(--arrondi-moyen); border: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+.effet-boite--halo { background: var(--halo-accent), var(--halo-secondaire), var(--couleur-fond); }
+.effet-boite--trame { background: var(--trame-points), var(--couleur-fond); background-size: var(--pas-trame) var(--pas-trame), auto; }
+.point-lumineux { width: 13px; height: 13px; border-radius: var(--arrondi-cercle); background: var(--couleur-accent); box-shadow: var(--lueur-point); }
+
+/* Mouvement */
+.pistes { display: grid; gap: var(--espace-3); }
+.piste { display: grid; gap: var(--espace-3); padding: var(--espace-4) var(--espace-5); border-radius: var(--arrondi-moyen); border: var(--bordure-epaisseur) solid var(--couleur-bordure); background: var(--couleur-surface); }
+.piste__rail { position: relative; height: 14px; border-radius: var(--arrondi-pilule); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); }
+.piste__course { position: absolute; top: 0; bottom: 0; left: 0; right: 14px; transition: transform var(--piste-duree) var(--piste-courbe); }
+.piste__bille { position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: var(--arrondi-cercle); background: var(--couleur-accent); }
+.piste:hover .piste__course, .piste:focus-visible .piste__course { transform: translateX(100%); }
+.demo-cascade > summary { list-style: none; width: max-content; max-width: 100%; }
+.demo-cascade > summary::-webkit-details-marker { display: none; }
+.demo-cascade__grille { margin-top: var(--espace-5); }
+
+/* Cadres de démonstration */
+.cadre-telephone { position: relative; width: 100%; max-width: 22.5rem; min-height: 31rem; margin-inline: auto; overflow: hidden; border-radius: 26px; border: var(--bordure-epaisseur) solid var(--couleur-bordure); background: var(--couleur-fond); }
+.cadre-telephone__contenu { display: grid; gap: var(--espace-4); padding: var(--espace-6) 16px; }
+.cadre-demo { overflow: hidden; border-radius: var(--arrondi-grand); border: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+.cadre-demo__corps { padding: var(--espace-8) var(--marge-page); }
+/* Sous 360 px, les cadres qui montrent un en-tête prennent toute la largeur de l'écran, comme un vrai téléphone :
+   sinon la marge du catalogue et le filet du cadre retireraient 34 px à l'en-tête, qui ne tiendrait plus à 320 px. */
+@media (max-width: 359px) {
+  .cadre-telephone, .cadre-demo--entete { width: auto; max-width: none; margin-inline: calc(-1 * var(--marge-page)); border-radius: 0; border-inline: 0; }
+}
+.vitrine { padding: var(--espace-16) var(--marge-page); }
+@media (min-width: 900px) { .vitrine { padding-block: var(--espace-24); } }
+.vitrine__grille { display: grid; gap: var(--espace-12); align-items: center; }
+@media (min-width: 1200px) { .vitrine__grille { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); } }
+.vitrine__texte { display: grid; gap: var(--espace-6); justify-items: start; min-width: 0; }
+.vitrine__texte .cles { width: 100%; }
+.groupe-actions { display: flex; flex-wrap: wrap; gap: var(--espace-3); }
+.pied-catalogue { padding-block: var(--espace-10); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+
+/* Repli sans flou d'arrière-plan (charte, section 6) : en-tête opaque à 92 %, menu entièrement opaque. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .entete { background: color-mix(in srgb, var(--couleur-fond) 92%, transparent); }
+  .catalogue-barre { background: color-mix(in srgb, var(--couleur-fond) 94%, transparent); }
+  .menu-replie__panneau { background: var(--couleur-surface-relevee); }
+}
+
+/* ---------- 8. Mouvement : seulement si le visiteur n'a pas demandé de le réduire ---------- */
+@keyframes apparition { from { opacity: 0; transform: translateY(var(--distance-apparition)); } }
+@keyframes trace-verticale { from { transform: scaleY(0); } }
+@keyframes trace-horizontale { from { transform: scaleX(0); } }
+@keyframes rotation { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  .apparition { animation: apparition var(--duree-longue) var(--courbe-sortie) both; animation-delay: calc(var(--rang, 0) * var(--delai-cascade) + 120ms); }
+  .frise--animee::after { animation: trace-verticale var(--duree-trace) var(--courbe-entree-sortie) 300ms both; }
+  .indicateur { animation: rotation var(--duree-rotation) linear infinite; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 900px) {
+  .frise--animee.frise--adaptative::after { animation-name: trace-horizontale; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .carte--interactive:hover, .fenetre--interactive:hover, .bouton:active { transform: none; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-valide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></symbol>
+  <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
+  <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
+</svg>
+
+<a class="evitement" href="#contenu">Aller au contenu</a>
+
+<header class="catalogue-barre">
+  <div class="conteneur catalogue-barre__interieur">
+    <p class="catalogue-barre__titre"><span class="entete__monogramme" aria-hidden="true">DS</span>Design system · catalogue</p>
+    <div class="selecteur-palette" role="group" aria-label="Palette appliquée à la page" hidden>
+      <button type="button" data-choix-palette="pa-01" aria-pressed="false"><span class="temoin" data-palette="pa-01" aria-hidden="true"></span>PA-01 · écartée</button>
+      <button type="button" data-choix-palette="pa-02" aria-pressed="true"><span class="temoin" data-palette="pa-02" aria-hidden="true"></span>PA-02 · retenue</button>
+      <button type="button" data-choix-palette="pa-03" aria-pressed="false"><span class="temoin" data-palette="pa-03" aria-hidden="true"></span>PA-03 · écartée</button>
+    </div>
+    <noscript><p class="note-sans-script">Sans script : palette retenue PA-02. Les trois palettes restent comparables dans la section Palettes.</p></noscript>
+  </div>
+</header>
+
+<main id="contenu">
+
+<section class="intro ambiance ambiance--accueil" aria-labelledby="titre-page">
+  <div class="conteneur intro__interieur">
+    <p class="etiquette etiquette--puce apparition" style="--rang:0">Version de travail · à approuver</p>
+    <h1 class="titre-1 apparition" style="--rang:1" id="titre-page">Catalogue du design system</h1>
+    <p class="chapo apparition" style="--rang:2">Les jetons et les composants de la charte graphique, dans tous leurs états, sur la palette retenue PA-02 Lagune ; les deux palettes écartées restent sélectionnables pour comparaison. Thème sombre uniquement. Les textes sont des exemples neutres ; ceux qui viendront d’Alexandre sont marqués « [texte fourni par Alexandre] ».</p>
+    <ul class="sommaire apparition" style="--rang:3">
+      <li><a href="#palettes"><b>01</b>Palettes</a></li>
+      <li><a href="#typographie"><b>02</b>Typographie</a></li>
+      <li><a href="#espacements"><b>03</b>Espacements et effets</a></li>
+      <li><a href="#mouvement"><b>04</b>Mouvement</a></li>
+      <li><a href="#composants"><b>05</b>Composants</a></li>
+      <li><a href="#mise-en-scene"><b>06</b>Mise en scène</a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 01 Palettes -->
+<section class="catalogue-section" id="palettes" aria-labelledby="titre-palettes">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette"><span class="etiquette__numero">01</span>Palettes</p>
+      <h2 class="titre-2" id="titre-palettes">Trois palettes, quatorze rôles</h2>
+      <p class="texte">Chaque palette remplit les mêmes quatorze rôles de couleur. Les ratios de contraste sont ceux de la WCAG 2.x, calculés par script et repris de la charte. Chaque colonne s’affiche dans sa propre palette, quelle que soit celle de la page. PA-02 Lagune est retenue (16/10/2026) ; PA-01 et PA-03 sont écartées et restent pour mémoire.</p>
+    </header>
+    <div class="grille-palettes">
+      <article class="colonne-palette" data-palette="pa-01" aria-labelledby="titre-pa-01">
+        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-01 · écartée le 16/10/2026</p><h3 class="titre-3" id="titre-pa-01">Laiton</h3><p class="texte-petit">Graphite chaud éclairé au laiton, turquoise pâle en contrepoint : soigné, singulier, loin des bleus habituels.</p></header>
+        <div class="apercu-palette ambiance ambiance--accueil">
+          <div class="carte"><p class="etiquette etiquette--puce">Aperçu</p><p class="titre-4">Un titre sur verre</p><p class="texte-petit">Texte secondaire, puis un <a class="lien" href="#palettes">lien souligné</a>.</p></div>
+          <div class="groupe-actions"><button class="bouton bouton--primaire" type="button">Action</button><button class="bouton bouton--secondaire" type="button">Autre</button></div>
+        </div>
+        <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
+        <h4 class="etiquette">Jetons de couleur</h4>
+        <ul class="nuancier">
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-fond)"></span><span class="nuance__nom">couleur-fond</span><span class="nuance__valeur">#0C0B0A</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-surface)"></span><span class="nuance__nom">couleur-surface</span><span class="nuance__valeur">#161412</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-surface-relevee)"></span><span class="nuance__nom">couleur-surface-relevee</span><span class="nuance__valeur">#211E1B</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-bordure)"></span><span class="nuance__nom">couleur-bordure</span><span class="nuance__valeur">#3A3530</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte)"></span><span class="nuance__nom">couleur-texte</span><span class="nuance__valeur">#F5F1EA</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-secondaire)"></span><span class="nuance__nom">couleur-texte-secondaire</span><span class="nuance__valeur">#C2B9AD</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-discret)"></span><span class="nuance__nom">couleur-texte-discret</span><span class="nuance__valeur">#A09689</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-accent)"></span><span class="nuance__nom">couleur-accent</span><span class="nuance__valeur">#E8B04E</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-accent-secondaire)"></span><span class="nuance__nom">couleur-accent-secondaire</span><span class="nuance__valeur">#63C7B2</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-sur-accent)"></span><span class="nuance__nom">couleur-texte-sur-accent</span><span class="nuance__valeur">#1B1307</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-succes)"></span><span class="nuance__nom">couleur-succes</span><span class="nuance__valeur">#7DD58F</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-erreur)"></span><span class="nuance__nom">couleur-erreur</span><span class="nuance__valeur">#FF7B6E</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-attention)"></span><span class="nuance__nom">couleur-attention</span><span class="nuance__valeur">#F2D06B</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-focus)"></span><span class="nuance__nom">couleur-focus</span><span class="nuance__valeur">#8FE0D2</span></li>
+        </ul>
+        <h4 class="etiquette">Contrastes WCAG 2.x</h4>
+        <ul class="contrastes">
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte sur fond</span><span class="contraste__ratio">17.47:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-secondaire);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte-secondaire sur fond</span><span class="contraste__ratio">10.15:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">texte sur surface</span><span class="contraste__ratio">16.32:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">accent sur fond</span><span class="contraste__ratio">10.07:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-sur-accent);background:var(--couleur-accent)">Aa</span><span class="contraste__paire">texte-sur-accent sur accent</span><span class="contraste__ratio">9.41:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-erreur);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">erreur sur fond</span><span class="contraste__ratio">7.78:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-succes);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">succes sur fond</span><span class="contraste__ratio">11.04:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-focus);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">focus sur fond</span><span class="contraste__ratio">12.89:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte-discret sur fond</span><span class="contraste__ratio">6.76:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-secondaire);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-secondaire sur surface-relevee</span><span class="contraste__ratio">8.56:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-discret sur surface-relevee</span><span class="contraste__ratio">5.70:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">accent sur surface-relevee</span><span class="contraste__ratio">8.49:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent-secondaire);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">accent-secondaire sur fond</span><span class="contraste__ratio">9.69:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-attention);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">attention sur fond</span><span class="contraste__ratio">13.12:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-erreur);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">erreur sur surface</span><span class="contraste__ratio">7.27:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-succes);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">succes sur surface</span><span class="contraste__ratio">10.31:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-focus);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">focus sur surface</span><span class="contraste__ratio">12.04:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-sur-accent);background:var(--couleur-accent-secondaire)">Aa</span><span class="contraste__paire">texte-sur-accent sur accent-secondaire</span><span class="contraste__ratio">9.05:1 <span>≥ 4.5</span></span></li>
+        </ul>
+      </article>
+      <article class="colonne-palette" data-palette="pa-02" aria-labelledby="titre-pa-02">
+        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-02 · retenue le 16/10/2026</p><h3 class="titre-3" id="titre-pa-02">Lagune</h3><p class="texte-petit">Encre vert-de-gris traversée d’un aqua lumineux, pêche douce en contrepoint : la plus calme et la plus « technique ».</p></header>
+        <div class="apercu-palette ambiance ambiance--accueil">
+          <div class="carte"><p class="etiquette etiquette--puce">Aperçu</p><p class="titre-4">Un titre sur verre</p><p class="texte-petit">Texte secondaire, puis un <a class="lien" href="#palettes">lien souligné</a>.</p></div>
+          <div class="groupe-actions"><button class="bouton bouton--primaire" type="button">Action</button><button class="bouton bouton--secondaire" type="button">Autre</button></div>
+        </div>
+        <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
+        <h4 class="etiquette">Jetons de couleur</h4>
+        <ul class="nuancier">
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-fond)"></span><span class="nuance__nom">couleur-fond</span><span class="nuance__valeur">#070C0C</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-surface)"></span><span class="nuance__nom">couleur-surface</span><span class="nuance__valeur">#0F1616</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-surface-relevee)"></span><span class="nuance__nom">couleur-surface-relevee</span><span class="nuance__valeur">#172121</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-bordure)"></span><span class="nuance__nom">couleur-bordure</span><span class="nuance__valeur">#2A3939</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte)"></span><span class="nuance__nom">couleur-texte</span><span class="nuance__valeur">#EEF5F5</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-secondaire)"></span><span class="nuance__nom">couleur-texte-secondaire</span><span class="nuance__valeur">#A9BDBE</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-discret)"></span><span class="nuance__nom">couleur-texte-discret</span><span class="nuance__valeur">#97A9AB</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-accent)"></span><span class="nuance__nom">couleur-accent</span><span class="nuance__valeur">#3FD4C8</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-accent-secondaire)"></span><span class="nuance__nom">couleur-accent-secondaire</span><span class="nuance__valeur">#FFB59E</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-sur-accent)"></span><span class="nuance__nom">couleur-texte-sur-accent</span><span class="nuance__valeur">#04201E</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-succes)"></span><span class="nuance__nom">couleur-succes</span><span class="nuance__valeur">#7ADB9A</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-erreur)"></span><span class="nuance__nom">couleur-erreur</span><span class="nuance__valeur">#FF7272</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-attention)"></span><span class="nuance__nom">couleur-attention</span><span class="nuance__valeur">#F2CF6B</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-focus)"></span><span class="nuance__nom">couleur-focus</span><span class="nuance__valeur">#FFE08A</span></li>
+        </ul>
+        <h4 class="etiquette">Contrastes WCAG 2.x</h4>
+        <ul class="contrastes">
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte sur fond</span><span class="contraste__ratio">17.82:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-secondaire);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte-secondaire sur fond</span><span class="contraste__ratio">10.04:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">texte sur surface</span><span class="contraste__ratio">16.58:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">accent sur fond</span><span class="contraste__ratio">10.74:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-sur-accent);background:var(--couleur-accent)">Aa</span><span class="contraste__paire">texte-sur-accent sur accent</span><span class="contraste__ratio">9.32:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-erreur);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">erreur sur fond</span><span class="contraste__ratio">7.41:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-succes);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">succes sur fond</span><span class="contraste__ratio">11.65:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-focus);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">focus sur fond</span><span class="contraste__ratio">15.26:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte-discret sur fond</span><span class="contraste__ratio">8.04:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-secondaire);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-secondaire sur surface-relevee</span><span class="contraste__ratio">8.39:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-discret sur surface-relevee</span><span class="contraste__ratio">6.72:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">accent sur surface-relevee</span><span class="contraste__ratio">8.98:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent-secondaire);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">accent-secondaire sur fond</span><span class="contraste__ratio">11.58:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-attention);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">attention sur fond</span><span class="contraste__ratio">13.04:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-erreur);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">erreur sur surface</span><span class="contraste__ratio">6.89:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-succes);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">succes sur surface</span><span class="contraste__ratio">10.84:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-focus);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">focus sur surface</span><span class="contraste__ratio">14.20:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-sur-accent);background:var(--couleur-accent-secondaire)">Aa</span><span class="contraste__paire">texte-sur-accent sur accent-secondaire</span><span class="contraste__ratio">10.04:1 <span>≥ 4.5</span></span></li>
+        </ul>
+      </article>
+      <article class="colonne-palette" data-palette="pa-03" aria-labelledby="titre-pa-03">
+        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-03 · écartée le 16/10/2026</p><h3 class="titre-3" id="titre-pa-03">Framboise</h3><p class="texte-petit">Noir prune relevé d’un framboise franc, miel en contrepoint : la plus audacieuse, la plus mémorable.</p></header>
+        <div class="apercu-palette ambiance ambiance--accueil">
+          <div class="carte"><p class="etiquette etiquette--puce">Aperçu</p><p class="titre-4">Un titre sur verre</p><p class="texte-petit">Texte secondaire, puis un <a class="lien" href="#palettes">lien souligné</a>.</p></div>
+          <div class="groupe-actions"><button class="bouton bouton--primaire" type="button">Action</button><button class="bouton bouton--secondaire" type="button">Autre</button></div>
+        </div>
+        <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
+        <h4 class="etiquette">Jetons de couleur</h4>
+        <ul class="nuancier">
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-fond)"></span><span class="nuance__nom">couleur-fond</span><span class="nuance__valeur">#0B090C</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-surface)"></span><span class="nuance__nom">couleur-surface</span><span class="nuance__valeur">#151217</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-surface-relevee)"></span><span class="nuance__nom">couleur-surface-relevee</span><span class="nuance__valeur">#1F1A22</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-bordure)"></span><span class="nuance__nom">couleur-bordure</span><span class="nuance__valeur">#383040</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte)"></span><span class="nuance__nom">couleur-texte</span><span class="nuance__valeur">#F6F0F4</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-secondaire)"></span><span class="nuance__nom">couleur-texte-secondaire</span><span class="nuance__valeur">#C2B6BF</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-discret)"></span><span class="nuance__nom">couleur-texte-discret</span><span class="nuance__valeur">#A0929D</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-accent)"></span><span class="nuance__nom">couleur-accent</span><span class="nuance__valeur">#FF5C9A</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-accent-secondaire)"></span><span class="nuance__nom">couleur-accent-secondaire</span><span class="nuance__valeur">#FFC46B</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-sur-accent)"></span><span class="nuance__nom">couleur-texte-sur-accent</span><span class="nuance__valeur">#1F0612</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-succes)"></span><span class="nuance__nom">couleur-succes</span><span class="nuance__valeur">#72D99B</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-erreur)"></span><span class="nuance__nom">couleur-erreur</span><span class="nuance__valeur">#FF7A5C</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-attention)"></span><span class="nuance__nom">couleur-attention</span><span class="nuance__valeur">#F2D06B</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-focus)"></span><span class="nuance__nom">couleur-focus</span><span class="nuance__valeur">#9EE7FF</span></li>
+        </ul>
+        <h4 class="etiquette">Contrastes WCAG 2.x</h4>
+        <ul class="contrastes">
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte sur fond</span><span class="contraste__ratio">17.65:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-secondaire);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte-secondaire sur fond</span><span class="contraste__ratio">10.14:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">texte sur surface</span><span class="contraste__ratio">16.53:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">accent sur fond</span><span class="contraste__ratio">6.85:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-sur-accent);background:var(--couleur-accent)">Aa</span><span class="contraste__paire">texte-sur-accent sur accent</span><span class="contraste__ratio">6.63:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-erreur);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">erreur sur fond</span><span class="contraste__ratio">7.74:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-succes);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">succes sur fond</span><span class="contraste__ratio">11.44:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-focus);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">focus sur fond</span><span class="contraste__ratio">14.48:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte-discret sur fond</span><span class="contraste__ratio">6.70:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-secondaire);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-secondaire sur surface-relevee</span><span class="contraste__ratio">8.74:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-discret sur surface-relevee</span><span class="contraste__ratio">5.77:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">accent sur surface-relevee</span><span class="contraste__ratio">5.90:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent-secondaire);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">accent-secondaire sur fond</span><span class="contraste__ratio">12.62:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-attention);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">attention sur fond</span><span class="contraste__ratio">13.23:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-erreur);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">erreur sur surface</span><span class="contraste__ratio">7.24:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-succes);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">succes sur surface</span><span class="contraste__ratio">10.71:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-focus);background:var(--couleur-surface)">Aa</span><span class="contraste__paire">focus sur surface</span><span class="contraste__ratio">13.56:1 <span>≥ 3</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-sur-accent);background:var(--couleur-accent-secondaire)">Aa</span><span class="contraste__paire">texte-sur-accent sur accent-secondaire</span><span class="contraste__ratio">12.22:1 <span>≥ 4.5</span></span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Typographie -->
+<section class="catalogue-section" id="typographie" aria-labelledby="titre-typo">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette"><span class="etiquette__numero">02</span>Typographie</p>
+      <h2 class="titre-2" id="titre-typo">Trois familles, une échelle fluide</h2>
+      <p class="texte">Les tailles croissent de façon continue entre un téléphone de 360 px et un écran de 1200 px. Familles retenues le 16/10/2026 (charte, point P-02). Le site les sert lui-même ; ce catalogue les charge depuis le service de polices de Google, pour l’aperçu seulement.</p>
+    </header>
+    <div class="familles">
+      <article class="carte carte--pleine">
+        <p class="etiquette">Titres · police-titre</p>
+        <p class="famille__echantillon" style="font-family:var(--police-titre);font-weight:var(--graisse-titre);letter-spacing:var(--approche-titre)">Bricolage Grotesque</p>
+        <p class="texte-petit">Graisses 700 et 800 · SIL Open Font License 1.1 · axe de taille optique : sobre en petit, expressive en très grand.</p>
+        <p style="font-family:var(--police-titre);font-weight:var(--graisse-forte);font-size:1.25rem">Aa Éé Çç Œœ 0123456789 « » — ’</p>
+      </article>
+      <article class="carte carte--pleine">
+        <p class="etiquette">Texte · police-texte</p>
+        <p class="famille__echantillon" style="font-family:var(--police-texte);font-weight:var(--graisse-appuyee)">Hanken Grotesk</p>
+        <p class="texte-petit">Graisses 400, 500, 600 et 700 · SIL Open Font License 1.1 · grotesque neutre, lisible en texte long.</p>
+        <p style="font-family:var(--police-texte);font-size:1.25rem">Aa Éé Çç Œœ 0123456789 « » — ’</p>
+      </article>
+      <article class="carte carte--pleine">
+        <p class="etiquette">Chasse fixe · police-mono</p>
+        <p class="famille__echantillon" style="font-family:var(--police-mono);font-size:2rem">JetBrains Mono</p>
+        <p class="texte-petit">Graisses 400 et 500 · SIL Open Font License 1.1 · étiquettes, dates, extraits de code.</p>
+        <p style="font-family:var(--police-mono);font-size:1.125rem">Aa Éé Çç 0123456789 {} =&gt; ’</p>
+      </article>
+    </div>
+    <div class="echelle" style="margin-top:var(--espace-12)">
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-affiche</span><span class="etiquette">120 px → 46 px · 800</span></div><p class="texte-affiche">Concevoir pour durer</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-titre-1</span><span class="etiquette">72 px → 38 px · 800</span></div><p class="titre-1">Un titre de section</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-titre-2</span><span class="etiquette">48 px → 30 px · 800</span></div><p class="titre-2">Un titre de bloc</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-titre-3</span><span class="etiquette">28 px → 22 px · 700</span></div><p class="titre-3">Un titre de carte</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-titre-4</span><span class="etiquette">20 px → 18 px · 700</span></div><p class="titre-4">Un intitulé d’étape</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-chapo</span><span class="etiquette">22 px → 18 px · 400</span></div><p class="chapo">Un texte d’introduction, plus grand que le texte courant, qui résume la section en une ou deux phrases.</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-texte</span><span class="etiquette">17 px → 16 px · 400</span></div><p class="texte">Le texte courant se lit sur 68 caractères au plus par ligne. Il garde un interligne généreux et une couleur légèrement adoucie, pour que les titres portent la hiérarchie.</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-texte-petit</span><span class="etiquette">15 px → 14 px · 400</span></div><p class="texte-petit">Une aide sous un champ, une légende, une mention secondaire.</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-code</span><span class="etiquette">14 px → 13 px · 400</span></div><p class="texte-code">const etapes = ["concevoir", "tester", "livrer"];</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-etiquette</span><span class="etiquette">12 px · 500 · capitales</span></div><p class="etiquette">Une étiquette en capitales espacées</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 Espacements, arrondis, bordures, effets -->
+<section class="catalogue-section" id="espacements" aria-labelledby="titre-espaces">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette"><span class="etiquette__numero">03</span>Espacements et effets</p>
+      <h2 class="titre-2" id="titre-espaces">Le rythme, les formes, la lumière</h2>
+      <p class="texte">Une grille de 4 px, cinq arrondis, une bordure fine, et des effets tous dérivés des couleurs de la palette par opacité.</p>
+    </header>
+    <div class="grille-2">
+      <div class="specimen" style="padding-top:0;border-top:0">
+        <h3 class="titre-4">Espacements</h3>
+        <div class="espaces">
+          <div class="espace-ligne"><span class="etiquette">espace-1 · 4</span><span class="espace-ligne__barre" style="width:var(--espace-1)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-2 · 8</span><span class="espace-ligne__barre" style="width:var(--espace-2)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-3 · 12</span><span class="espace-ligne__barre" style="width:var(--espace-3)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-4 · 16</span><span class="espace-ligne__barre" style="width:var(--espace-4)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-5 · 20</span><span class="espace-ligne__barre" style="width:var(--espace-5)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-6 · 24</span><span class="espace-ligne__barre" style="width:var(--espace-6)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-8 · 32</span><span class="espace-ligne__barre" style="width:var(--espace-8)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-10 · 40</span><span class="espace-ligne__barre" style="width:var(--espace-10)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-12 · 48</span><span class="espace-ligne__barre" style="width:var(--espace-12)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-16 · 64</span><span class="espace-ligne__barre" style="width:var(--espace-16)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-20 · 80</span><span class="espace-ligne__barre" style="width:var(--espace-20)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-24 · 96</span><span class="espace-ligne__barre" style="width:var(--espace-24)"></span></div>
+          <div class="espace-ligne"><span class="etiquette">espace-32 · 128</span><span class="espace-ligne__barre" style="width:var(--espace-32)"></span></div>
+        </div>
+      </div>
+      <div class="specimen" style="padding-top:0;border-top:0">
+        <h3 class="titre-4">Arrondis et bordures</h3>
+        <div class="arrondis">
+          <div class="arrondi-exemple"><span class="arrondi-exemple__forme" style="border-radius:var(--arrondi-petit)"></span><span class="etiquette">petit · 6</span></div>
+          <div class="arrondi-exemple"><span class="arrondi-exemple__forme" style="border-radius:var(--arrondi-moyen)"></span><span class="etiquette">moyen · 10</span></div>
+          <div class="arrondi-exemple"><span class="arrondi-exemple__forme" style="border-radius:var(--arrondi-grand)"></span><span class="etiquette">grand · 14</span></div>
+          <div class="arrondi-exemple"><span class="arrondi-exemple__forme" style="border-radius:var(--arrondi-pilule)"></span><span class="etiquette">pilule</span></div>
+          <div class="arrondi-exemple"><span class="arrondi-exemple__forme" style="border-radius:var(--arrondi-cercle);width:3.5rem"></span><span class="etiquette">cercle</span></div>
+        </div>
+        <div class="etats" style="margin-top:var(--espace-4)">
+          <div class="etat"><p class="etat__nom">Séparateur décoratif</p><span style="display:block;height:1px;background:var(--couleur-bordure)"></span><p class="texte-petit">couleur-bordure, 1 px</p></div>
+          <div class="etat"><p class="etat__nom">Bord de champ</p><span style="display:block;height:2.5rem;border:var(--bordure-epaisseur) solid var(--couleur-texte-discret);border-radius:var(--arrondi-petit)"></span><p class="texte-petit">couleur-texte-discret, 1 px</p></div>
+          <div class="etat"><p class="etat__nom">Anneau de focus</p><span style="display:block;height:2.5rem;border-radius:var(--arrondi-petit);background:var(--couleur-surface);outline:var(--anneau-focus);outline-offset:var(--focus-decalage)"></span><p class="texte-petit">couleur-focus, 2 px, décalé de 2 px</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="specimen">
+      <h3 class="titre-4">Effets : verre, halos, trame, lueur, ombre</h3>
+      <div class="grille-3">
+        <div class="etat"><p class="etat__nom">Verre sur halo</p><div class="effet-boite effet-boite--halo"><div class="carte" style="width:100%"><p class="etiquette">verre-fond · verre-bordure</p><p class="titre-4">Carte en verre</p></div></div></div>
+        <div class="etat"><p class="etat__nom">Trame de points</p><div class="effet-boite effet-boite--trame"><p class="texte-petit">trame-points · pas de 28 px</p></div></div>
+        <div class="etat"><p class="etat__nom">Halos</p><div class="effet-boite effet-boite--halo"><p class="texte-petit">halo-accent 20 % · halo-secondaire 15 %</p></div></div>
+        <div class="etat"><p class="etat__nom">Lueur de point</p><div class="effet-boite"><span class="point-lumineux"></span></div></div>
+        <div class="etat"><p class="etat__nom">Ombre de fenêtre</p><div class="effet-boite effet-boite--halo"><div class="fenetre" style="width:100%"><div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">ombre-fenetre</span></div><div class="fenetre__contenu"><p class="texte-petit">Liseré clair en haut, ombre portée vers le bas.</p></div></div></div></div>
+        <div class="etat"><p class="etat__nom">Voile bas</p><div class="effet-boite ambiance ambiance--section"><p class="texte-petit">voile-bas : fondu vers le fond</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 Mouvement -->
+<section class="catalogue-section" id="mouvement" aria-labelledby="titre-mouvement">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette"><span class="etiquette__numero">04</span>Mouvement</p>
+      <h2 class="titre-2" id="titre-mouvement">Entrer, pas danser</h2>
+      <p class="texte">Survolez ou focalisez une piste pour voir la durée et la courbe. Si votre système demande de réduire les animations, rien ne bouge : c’est le comportement attendu.</p>
+    </header>
+    <div class="grille-2">
+      <div class="pistes">
+        <div class="piste" tabindex="0" style="--piste-duree:var(--duree-instant);--piste-courbe:var(--courbe-standard)"><span class="etiquette">duree-instant · 100 ms · courbe-standard</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
+        <div class="piste" tabindex="0" style="--piste-duree:var(--duree-courte);--piste-courbe:var(--courbe-standard)"><span class="etiquette">duree-courte · 180 ms · courbe-standard</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
+        <div class="piste" tabindex="0" style="--piste-duree:var(--duree-moyenne);--piste-courbe:var(--courbe-sortie)"><span class="etiquette">duree-moyenne · 320 ms · courbe-sortie</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
+        <div class="piste" tabindex="0" style="--piste-duree:var(--duree-longue);--piste-courbe:var(--courbe-sortie)"><span class="etiquette">duree-longue · 600 ms · courbe-sortie</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
+        <div class="piste" tabindex="0" style="--piste-duree:var(--duree-trace);--piste-courbe:var(--courbe-entree-sortie)"><span class="etiquette">duree-trace · 1200 ms · courbe-entree-sortie</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
+      </div>
+      <div class="carte carte--pleine">
+        <p class="etiquette">Apparition en cascade</p>
+        <p class="texte-petit">Opacité et translation de 12 px, 600 ms, décalage de 70 ms entre éléments, six éléments au plus. Uniquement à la première apparition.</p>
+        <details class="demo-cascade">
+          <summary class="bouton bouton--secondaire">Voir la cascade</summary>
+          <div class="demo-cascade__grille grille-3">
+            <div class="carte apparition" style="--rang:0"><p class="etiquette">Élément 1</p></div>
+            <div class="carte apparition" style="--rang:1"><p class="etiquette">Élément 2</p></div>
+            <div class="carte apparition" style="--rang:2"><p class="etiquette">Élément 3</p></div>
+            <div class="carte apparition" style="--rang:3"><p class="etiquette">Élément 4</p></div>
+            <div class="carte apparition" style="--rang:4"><p class="etiquette">Élément 5</p></div>
+            <div class="carte apparition" style="--rang:5"><p class="etiquette">Élément 6</p></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Composants -->
+<section class="catalogue-section" id="composants" aria-labelledby="titre-composants">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette"><span class="etiquette__numero">05</span>Composants</p>
+      <h2 class="titre-2" id="titre-composants">Chaque composant, dans tous ses états</h2>
+      <p class="texte">Les états survol, focus et appuyé sont figés ici pour être comparés ; les vrais états réagissent aussi à la souris et au clavier.</p>
+    </header>
+
+    <!-- CO-01 -->
+    <article class="specimen" aria-labelledby="co-01">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-01">CO-01 — Bouton</h3><p class="texte-petit">Déclenche une action. Une seule action primaire par zone d’écran. Hauteur minimale de 44 px.</p></header>
+      <div class="matrice">
+        <div class="matrice__ligne"><p class="matrice__variante">Primaire</p><div class="matrice__etats">
+          <div class="etat-mini"><span class="etat__nom">Repos</span><button class="bouton bouton--primaire" type="button">Envoyer</button></div>
+          <div class="etat-mini"><span class="etat__nom">Survol</span><button class="bouton bouton--primaire est-survol" type="button">Envoyer</button></div>
+          <div class="etat-mini"><span class="etat__nom">Focus</span><button class="bouton bouton--primaire est-focus" type="button">Envoyer</button></div>
+          <div class="etat-mini"><span class="etat__nom">Appuyé</span><button class="bouton bouton--primaire est-appuye" type="button">Envoyer</button></div>
+          <div class="etat-mini"><span class="etat__nom">Désactivé</span><button class="bouton bouton--primaire" type="button" disabled>Envoyer</button></div>
+          <div class="etat-mini"><span class="etat__nom">En cours</span><button class="bouton bouton--primaire" type="button" aria-busy="true" aria-disabled="true"><span class="indicateur" aria-hidden="true"></span>Envoi en cours…</button></div>
+        </div></div>
+        <div class="matrice__ligne"><p class="matrice__variante">Secondaire (verre)</p><div class="matrice__etats">
+          <div class="etat-mini"><span class="etat__nom">Repos</span><button class="bouton bouton--secondaire" type="button"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>Télécharger</button></div>
+          <div class="etat-mini"><span class="etat__nom">Survol</span><button class="bouton bouton--secondaire est-survol" type="button"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>Télécharger</button></div>
+          <div class="etat-mini"><span class="etat__nom">Focus</span><button class="bouton bouton--secondaire est-focus" type="button"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>Télécharger</button></div>
+          <div class="etat-mini"><span class="etat__nom">Appuyé</span><button class="bouton bouton--secondaire est-appuye" type="button"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>Télécharger</button></div>
+          <div class="etat-mini"><span class="etat__nom">Désactivé</span><button class="bouton bouton--secondaire" type="button" disabled><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>Télécharger</button></div>
+        </div></div>
+        <div class="matrice__ligne"><p class="matrice__variante">Discret et icône seule</p><div class="matrice__etats">
+          <div class="etat-mini"><span class="etat__nom">Repos</span><button class="bouton bouton--discret" type="button">Annuler</button></div>
+          <div class="etat-mini"><span class="etat__nom">Survol</span><button class="bouton bouton--discret est-survol" type="button">Annuler</button></div>
+          <div class="etat-mini"><span class="etat__nom">Focus</span><button class="bouton bouton--discret est-focus" type="button">Annuler</button></div>
+          <div class="etat-mini"><span class="etat__nom">Icône · repos</span><button class="bouton bouton--discret bouton--icone" type="button"><svg class="icone" aria-hidden="true"><use href="#i-menu"/></svg><span class="masque-visuellement">Menu</span></button></div>
+          <div class="etat-mini"><span class="etat__nom">Icône · survol</span><button class="bouton bouton--discret bouton--icone est-survol" type="button"><svg class="icone" aria-hidden="true"><use href="#i-menu"/></svg><span class="masque-visuellement">Menu</span></button></div>
+          <div class="etat-mini"><span class="etat__nom">Icône · focus</span><button class="bouton bouton--discret bouton--icone est-focus" type="button"><svg class="icone" aria-hidden="true"><use href="#i-menu"/></svg><span class="masque-visuellement">Menu</span></button></div>
+        </div></div>
+      </div>
+    </article>
+
+    <!-- CO-02 -->
+    <article class="specimen" aria-labelledby="co-02">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-02">CO-02 — Lien</h3><p class="texte-petit">Mène quelque part. Toujours souligné dans un texte : la couleur ne suffit jamais à le reconnaître.</p></header>
+      <div class="matrice">
+        <div class="matrice__ligne"><p class="matrice__variante">Dans le texte</p><div class="matrice__etats">
+          <div class="etat-mini"><span class="etat__nom">Repos</span><p class="texte">Lire la <a class="lien" href="#co-02">page d’exemple</a>.</p></div>
+          <div class="etat-mini"><span class="etat__nom">Survol</span><p class="texte">Lire la <a class="lien est-survol" href="#co-02">page d’exemple</a>.</p></div>
+          <div class="etat-mini"><span class="etat__nom">Focus</span><p class="texte">Lire la <a class="lien est-focus" href="#co-02">page d’exemple</a>.</p></div>
+          <div class="etat-mini"><span class="etat__nom">Discret</span><p class="texte"><a class="lien lien--discret" href="#co-02">Mentions légales</a></p></div>
+          <div class="etat-mini"><span class="etat__nom">Externe</span><p class="texte"><a class="lien lien--externe" href="#co-02">Profil externe<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></p></div>
+        </div></div>
+        <div class="matrice__ligne"><p class="matrice__variante">Lien d’action</p><div class="matrice__etats">
+          <div class="etat-mini"><span class="etat__nom">Repos</span><a class="lien lien--action" href="#co-02">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a></div>
+          <div class="etat-mini"><span class="etat__nom">Survol</span><a class="lien lien--action est-survol" href="#co-02">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a></div>
+          <div class="etat-mini"><span class="etat__nom">Focus</span><a class="lien lien--action est-focus" href="#co-02">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a></div>
+        </div></div>
+        <div class="matrice__ligne"><p class="matrice__variante">Lien de navigation</p><div class="matrice__etats">
+          <div class="etat-mini"><span class="etat__nom">Repos</span><a class="lien-navigation" href="#co-02">Section</a></div>
+          <div class="etat-mini"><span class="etat__nom">Survol</span><a class="lien-navigation est-survol" href="#co-02">Section</a></div>
+          <div class="etat-mini"><span class="etat__nom">Focus</span><a class="lien-navigation est-focus" href="#co-02">Section</a></div>
+          <div class="etat-mini"><span class="etat__nom">Page courante</span><a class="lien-navigation" href="#co-02" aria-current="page">Section</a></div>
+        </div></div>
+      </div>
+    </article>
+
+    <!-- CO-03 -->
+    <article class="specimen" aria-labelledby="co-03">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-03">CO-03 — Pastille</h3><p class="texte-petit">Qualifie un élément par un état ou une catégorie. Le point coloré accompagne toujours un mot : jamais de pastille muette.</p></header>
+      <div class="matrice">
+        <div class="matrice__ligne"><p class="matrice__variante">Variantes de rôle</p><div class="matrice__etats">
+          <div class="etat-mini"><span class="etat__nom">Neutre</span><span class="pastille">Catégorie</span></div>
+          <div class="etat-mini"><span class="etat__nom">Accent</span><span class="pastille pastille--accent">Mise en avant</span></div>
+          <div class="etat-mini"><span class="etat__nom">Secondaire</span><span class="pastille pastille--secondaire">Thème</span></div>
+          <div class="etat-mini"><span class="etat__nom">Succès</span><span class="pastille pastille--succes">Validé</span></div>
+          <div class="etat-mini"><span class="etat__nom">Attention</span><span class="pastille pastille--attention">À vérifier</span></div>
+          <div class="etat-mini"><span class="etat__nom">Erreur</span><span class="pastille pastille--erreur">Bloqué</span></div>
+        </div></div>
+        <div class="matrice__ligne"><p class="matrice__variante">Options</p><div class="matrice__etats">
+          <div class="etat-mini"><span class="etat__nom">Point lumineux</span><span class="pastille pastille--accent pastille--lumineuse">Mise en avant</span></div>
+          <div class="etat-mini"><span class="etat__nom">Contour (sur verre)</span><span class="pastille pastille--contour">Technologie</span></div>
+        </div></div>
+      </div>
+    </article>
+
+    <!-- CO-04 -->
+    <article class="specimen" aria-labelledby="co-04">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-04">CO-04 — Étiquette</h3><p class="texte-petit">Annonce, date ou range un contenu. Chasse fixe, capitales espacées, 12 px au minimum.</p></header>
+      <div class="matrice"><div class="matrice__ligne"><p class="matrice__variante">Variantes</p><div class="matrice__etats">
+        <div class="etat-mini"><span class="etat__nom">Discrète</span><span class="etiquette">Métadonnée</span></div>
+        <div class="etat-mini"><span class="etat__nom">Accent (sur-titre)</span><span class="etiquette etiquette--accent">Sur-titre</span></div>
+        <div class="etat-mini"><span class="etat__nom">Numérotée</span><span class="etiquette"><span class="etiquette__numero">02</span>Section</span></div>
+        <div class="etat-mini"><span class="etat__nom">À puce lumineuse</span><span class="etiquette etiquette--puce">Signal</span></div>
+      </div></div></div>
+    </article>
+
+    <!-- CO-05 -->
+    <article class="specimen" aria-labelledby="co-05">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-05">CO-05 — Carte</h3><p class="texte-petit">Regroupe un contenu autonome. En verre sur un fond d’ambiance, pleine sur un fond uni. Une carte interactive est entièrement cliquable, par un seul lien.</p></header>
+      <div class="etats ambiance ambiance--section" style="padding:var(--espace-5);border-radius:var(--arrondi-grand)">
+        <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Verre · repos</span>
+          <article class="carte"><p class="etiquette">Catégorie</p><h4 class="titre-3">Titre de carte</h4><p class="carte__texte">Une description courte, en deux ou trois lignes.</p><div class="carte__pied"><span class="pastille pastille--contour">Étiquette</span></div></article></div>
+        <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Pleine · repos</span>
+          <article class="carte carte--pleine"><p class="etiquette">Catégorie</p><h4 class="titre-3">Titre de carte</h4><p class="carte__texte">Une description courte, en deux ou trois lignes.</p></article></div>
+        <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Interactive · repos</span>
+          <article class="carte carte--interactive"><p class="etiquette">Projet</p><h4 class="titre-3"><a class="carte__lien" href="#co-05">Titre du projet</a></h4><p class="carte__texte">[texte fourni par Alexandre]</p><div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone"><use href="#i-fleche"/></svg></span></div></article></div>
+        <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Interactive · survol</span>
+          <article class="carte carte--interactive est-survol"><p class="etiquette">Projet</p><h4 class="titre-3"><a class="carte__lien" href="#co-05">Titre du projet</a></h4><p class="carte__texte">[texte fourni par Alexandre]</p><div class="carte__pied"><span class="lien lien--action est-survol" aria-hidden="true">Voir la fiche<svg class="icone"><use href="#i-fleche"/></svg></span></div></article></div>
+        <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Interactive · focus</span>
+          <article class="carte carte--interactive est-focus"><p class="etiquette">Projet</p><h4 class="titre-3"><a class="carte__lien" href="#co-05">Titre du projet</a></h4><p class="carte__texte">[texte fourni par Alexandre]</p><div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone"><use href="#i-fleche"/></svg></span></div></article></div>
+      </div>
+    </article>
+
+    <!-- CO-06 -->
+    <article class="specimen" aria-labelledby="co-06">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-06">CO-06 — En-tête et navigation</h3><p class="texte-petit">Présent sur chaque page. Navigation complète à partir de 1200 px ; en dessous, menu replié (CO-07). Les deux actions permanentes restent toujours visibles, hors du menu. Démonstration adaptative : réduisez la fenêtre pour voir la version compacte.</p></header>
+      <div class="cadre-demo cadre-demo--entete">
+        <header class="entete entete--demo">
+          <a class="entete__marque" href="#co-06"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
+          <nav class="entete__navigation" aria-label="Sections (exemple)">
+            <ul>
+              <li><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></li>
+              <li><a class="lien-navigation" href="#co-06">Compétences</a></li>
+              <li><a class="lien-navigation" href="#co-06">Expérience</a></li>
+              <li><a class="lien-navigation" href="#co-06">Méthode</a></li>
+              <li><a class="lien-navigation" href="#co-06">Projets</a></li>
+            </ul>
+          </nav>
+          <div class="entete__actions">
+            <a class="bouton bouton--secondaire bouton--compact" href="#co-06"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+            <a class="bouton bouton--primaire bouton--compact" href="#co-06">Contact</a>
+            <details class="menu-replie">
+              <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+              <div class="menu-replie__panneau">
+                <ul>
+                  <li><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></li>
+                  <li><a class="lien-navigation" href="#co-06">Compétences</a></li>
+                  <li><a class="lien-navigation" href="#co-06">Expérience</a></li>
+                  <li><a class="lien-navigation" href="#co-06">Méthode</a></li>
+                  <li><a class="lien-navigation" href="#co-06">Projets</a></li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </header>
+        <div class="cadre-demo__corps ambiance ambiance--section" style="min-height:19rem"><p class="texte-petit">Contenu de la page sous l’en-tête. Sur grand écran, l’en-tête collant laisse deviner le contenu par transparence floutée ; sur téléphone, il est opaque.</p></div>
+      </div>
+      <div class="etats">
+        <div class="etat"><p class="etat__nom">Lien de section · repos</p><a class="lien-navigation" href="#co-06">Projets</a></div>
+        <div class="etat"><p class="etat__nom">Lien de section · survol</p><a class="lien-navigation est-survol" href="#co-06">Projets</a></div>
+        <div class="etat"><p class="etat__nom">Lien de section · focus</p><a class="lien-navigation est-focus" href="#co-06">Projets</a></div>
+        <div class="etat"><p class="etat__nom">Section courante</p><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></div>
+      </div>
+    </article>
+
+    <!-- CO-07 -->
+    <article class="specimen" aria-labelledby="co-07">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-07">CO-07 — Menu replié</h3><p class="texte-petit">Version téléphone de la navigation : un bouton ouvre la liste des sections. Le CV et le contact restent hors du menu. Le premier cadre est manipulable, même sans script.</p></header>
+      <div class="grille-2">
+        <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Téléphone 360 px · manipulable</span>
+          <div class="cadre-telephone">
+            <header class="entete entete--demo entete--compacte">
+              <a class="entete__marque" href="#co-07"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
+              <div class="entete__actions">
+                <a class="bouton bouton--secondaire bouton--compact" href="#co-07"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+                <a class="bouton bouton--primaire bouton--compact" href="#co-07">Contact</a>
+                <details class="menu-replie">
+                  <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+                  <div class="menu-replie__panneau">
+                    <ul>
+                      <li><a class="lien-navigation" href="#co-07" aria-current="page">Parcours</a></li>
+                      <li><a class="lien-navigation" href="#co-07">Compétences</a></li>
+                      <li><a class="lien-navigation" href="#co-07">Expérience</a></li>
+                      <li><a class="lien-navigation" href="#co-07">Méthode</a></li>
+                      <li><a class="lien-navigation" href="#co-07">Projets</a></li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </header>
+            <div class="cadre-telephone__contenu ambiance ambiance--accueil">
+              <p class="etiquette etiquette--puce">Exemple</p>
+              <p class="titre-2">Prénom Nom</p>
+              <p class="texte-petit">[texte fourni par Alexandre]</p>
+            </div>
+          </div>
+        </div>
+        <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Ouvert (figé)</span>
+          <div class="cadre-telephone">
+            <header class="entete entete--demo entete--compacte">
+              <a class="entete__marque" href="#co-07"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
+              <div class="entete__actions">
+                <a class="bouton bouton--secondaire bouton--compact" href="#co-07"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+                <a class="bouton bouton--primaire bouton--compact" href="#co-07">Contact</a>
+                <details class="menu-replie" open>
+                  <summary class="bouton bouton--discret bouton--icone est-focus"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+                  <div class="menu-replie__panneau">
+                    <ul>
+                      <li><a class="lien-navigation" href="#co-07" aria-current="page">Parcours</a></li>
+                      <li><a class="lien-navigation est-survol" href="#co-07">Compétences</a></li>
+                      <li><a class="lien-navigation" href="#co-07">Expérience</a></li>
+                      <li><a class="lien-navigation" href="#co-07">Méthode</a></li>
+                      <li><a class="lien-navigation" href="#co-07">Projets</a></li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </header>
+            <div class="cadre-telephone__contenu ambiance ambiance--accueil">
+              <p class="etiquette etiquette--puce">Exemple</p>
+              <p class="titre-2">Prénom Nom</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CO-08 -->
+    <article class="specimen" aria-labelledby="co-08">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-08">CO-08 — Pied de page</h3><p class="texte-petit">Présent sur chaque page : profils externes, mentions légales, signature. Les liens externes s’annoncent comme tels. La signature ne porte aucune année qui se périme.</p></header>
+      <div class="cadre-demo">
+        <footer class="pied">
+          <div class="pied__haut">
+            <p class="pied__marque">Prénom Nom</p>
+            <ul class="pied__liens">
+              <li><a class="lien lien--discret lien--externe" href="#co-08">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+              <li><a class="lien lien--discret lien--externe est-survol" href="#co-08">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+            </ul>
+          </div>
+          <div class="pied__bas">
+            <p class="etiquette">Prénom Nom · [texte fourni par Alexandre]</p>
+            <a class="lien lien--discret est-focus" href="#co-08">Mentions légales</a>
+          </div>
+        </footer>
+      </div>
+      <p class="texte-petit">États montrés : premier lien au repos, second au survol, lien des mentions au focus.</p>
+    </article>
+
+    <!-- CO-09 -->
+    <article class="specimen" aria-labelledby="co-09">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-09">CO-09 — Frise chronologique</h3><p class="texte-petit">Des périodes datées, dans l’ordre. Horizontale à partir de 900 px, verticale en dessous. Trois états d’étape : accomplie, mise en avant, prévue. Le tracé se dessine une fois, à l’apparition.</p></header>
+      <div class="grille-2">
+        <div class="etat"><p class="etat__nom">Adaptative (horizontale au large)</p>
+          <ol class="frise frise--adaptative frise--animee" style="--etape-avant:2">
+            <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape A</span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
+            <li class="frise__etape frise__etape--avant"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape B<span class="masque-visuellement"> (étape mise en avant)</span></span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
+            <li class="frise__etape frise__etape--prevue"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape C</span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
+          </ol>
+        </div>
+        <div class="etat"><p class="etat__nom">Verticale (toujours)</p>
+          <ol class="frise" style="--etape-avant:2">
+            <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">MM/AAAA – MM/AAAA</span><span class="frise__intitule">Étape accomplie</span></li>
+            <li class="frise__etape frise__etape--avant"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">MM/AAAA – MM/AAAA</span><span class="frise__intitule">Étape mise en avant<span class="masque-visuellement"> (étape mise en avant)</span></span></li>
+            <li class="frise__etape frise__etape--prevue"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">MM/AAAA – MM/AAAA</span><span class="frise__intitule">Étape prévue</span></li>
+          </ol>
+        </div>
+      </div>
+    </article>
+
+    <!-- CO-10 -->
+    <article class="specimen" aria-labelledby="co-10">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-10">CO-10 — Champ de formulaire</h3><p class="texte-petit">Libellé toujours visible au-dessus du champ, message d’erreur sous le champ, avec une icône et un texte. Le bord du champ atteint 3:1 au moins.</p></header>
+      <div class="etats">
+        <div class="etat"><p class="etat__nom">Repos</p><div class="champ"><label class="champ__libelle" for="ch-1">Nom</label><input class="champ__saisie" id="ch-1" type="text" autocomplete="off"></div></div>
+        <div class="etat"><p class="etat__nom">Survol</p><div class="champ"><label class="champ__libelle" for="ch-2">Nom</label><input class="champ__saisie est-survol" id="ch-2" type="text" autocomplete="off"></div></div>
+        <div class="etat"><p class="etat__nom">Focus</p><div class="champ"><label class="champ__libelle" for="ch-3">Nom</label><input class="champ__saisie est-focus" id="ch-3" type="text" autocomplete="off"></div></div>
+        <div class="etat"><p class="etat__nom">Rempli</p><div class="champ"><label class="champ__libelle" for="ch-4">Nom</label><input class="champ__saisie" id="ch-4" type="text" value="Exemple de saisie" autocomplete="off"></div></div>
+        <div class="etat"><p class="etat__nom">Champ manquant</p><div class="champ"><label class="champ__libelle" for="ch-5">Sujet</label><input class="champ__saisie" id="ch-5" type="text" aria-invalid="true" aria-describedby="ch-5-err" autocomplete="off"><p class="champ__erreur" id="ch-5-err"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg>Ce champ est obligatoire.</p></div></div>
+        <div class="etat"><p class="etat__nom">E-mail invalide</p><div class="champ"><label class="champ__libelle" for="ch-6">Adresse e-mail</label><input class="champ__saisie" id="ch-6" type="email" value="adresse-incomplete" aria-invalid="true" aria-describedby="ch-6-err" autocomplete="off"><p class="champ__erreur" id="ch-6-err"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg>L’adresse e-mail n’est pas valide.</p></div></div>
+        <div class="etat"><p class="etat__nom">E-mail · repos</p><div class="champ"><label class="champ__libelle" for="ch-7">Adresse e-mail</label><input class="champ__saisie" id="ch-7" type="email" placeholder="Votre adresse e-mail" autocomplete="off"><p class="champ__aide">Pour vous répondre.</p></div></div>
+        <div class="etat"><p class="etat__nom">Désactivé (envoi en cours)</p><div class="champ"><label class="champ__libelle" for="ch-8">Nom</label><input class="champ__saisie" id="ch-8" type="text" value="Exemple de saisie" disabled></div></div>
+        <div class="etat"><p class="etat__nom">Zone de texte</p><div class="champ"><label class="champ__libelle" for="ch-9">Message</label><textarea class="champ__saisie" id="ch-9" rows="4"></textarea></div></div>
+      </div>
+    </article>
+
+    <!-- CO-11 -->
+    <article class="specimen" aria-labelledby="co-11">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-11">CO-11 — Message d’état</h3><p class="texte-petit">Dit ce qui se passe et ce qu’on peut faire. Toujours une icône, un titre et un texte : la couleur seule ne porte jamais l’information.</p></header>
+      <div class="etats etats--larges">
+        <div class="etat"><p class="etat__nom">Information</p><div class="message" role="note"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Tous les champs sont obligatoires</p><p class="message__texte">Un message s’affiche sous chaque champ à corriger.</p></div></div></div>
+        <div class="etat"><p class="etat__nom">Envoi en cours</p><div class="message" role="status"><span class="indicateur" aria-hidden="true"></span><div class="message__corps"><p class="message__titre">Envoi en cours…</p><p class="message__texte">L’envoi peut prendre jusqu’à 90 secondes. Votre saisie est conservée.</p></div></div></div>
+        <div class="etat"><p class="etat__nom">Succès</p><div class="message message--succes" role="status"><svg class="icone" aria-hidden="true"><use href="#i-valide"/></svg><div class="message__corps"><p class="message__titre">Message envoyé</p><p class="message__texte">Merci. Les champs du formulaire ont été vidés.</p></div></div></div>
+        <div class="etat"><p class="etat__nom">Échec réessayable</p><div class="message message--erreur" role="alert"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg><div class="message__corps"><p class="message__titre">L’envoi a échoué</p><p class="message__texte">Votre saisie est conservée. Vous pouvez réessayer.</p></div><button class="bouton bouton--secondaire message__action" type="button"><svg class="icone" aria-hidden="true"><use href="#i-reessayer"/></svg>Réessayer</button></div></div>
+        <div class="etat"><p class="etat__nom">Attention</p><div class="message message--attention" role="status"><svg class="icone" aria-hidden="true"><use href="#i-attention"/></svg><div class="message__corps"><p class="message__titre">Ressource momentanément indisponible</p><p class="message__texte">Le fichier demandé ne peut pas être obtenu. <a class="lien" href="#co-11">Écrire un message</a></p></div></div></div>
+      </div>
+    </article>
+
+    <!-- Formulaire de contact : composition de CO-10 et CO-11 -->
+    <article class="specimen" aria-labelledby="co-form">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-form">Composition — le formulaire de contact, état par état</h3><p class="texte-petit">CO-10 et CO-11 assemblés : cinq champs obligatoires, l’information sur les données avant le bouton, puis les états de l’envoi.</p></header>
+      <div class="grille-2">
+        <div class="etat"><p class="etat__nom">Repos (formulaire complet)</p>
+          <form class="formulaire" action="#co-form" novalidate>
+            <div class="formulaire__ligne">
+              <div class="champ"><label class="champ__libelle" for="f-nom">Nom</label><input class="champ__saisie" id="f-nom" type="text" autocomplete="family-name"></div>
+              <div class="champ"><label class="champ__libelle" for="f-prenom">Prénom</label><input class="champ__saisie" id="f-prenom" type="text" autocomplete="given-name"></div>
+            </div>
+            <div class="champ"><label class="champ__libelle" for="f-courriel">Adresse e-mail</label><input class="champ__saisie" id="f-courriel" type="email" placeholder="Votre adresse e-mail" autocomplete="email"></div>
+            <div class="champ"><label class="champ__libelle" for="f-sujet">Sujet</label><input class="champ__saisie" id="f-sujet" type="text"></div>
+            <div class="champ"><label class="champ__libelle" for="f-message">Message</label><textarea class="champ__saisie" id="f-message" rows="5"></textarea></div>
+            <p class="formulaire__info">[texte fourni par Alexandre] : qui reçoit vos données et pourquoi.</p>
+            <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="button">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button><span class="texte-petit">Tous les champs sont obligatoires.</span></div>
+          </form>
+        </div>
+        <div class="matrice">
+          <div class="etat"><p class="etat__nom">Envoi refusé : champ manquant et e-mail invalide</p>
+            <div class="champ"><label class="champ__libelle" for="g-courriel">Adresse e-mail</label><input class="champ__saisie" id="g-courriel" type="email" value="adresse-incomplete" aria-invalid="true" aria-describedby="g-courriel-err"><p class="champ__erreur" id="g-courriel-err"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg>L’adresse e-mail n’est pas valide.</p></div>
+            <div class="champ"><label class="champ__libelle" for="g-sujet">Sujet</label><input class="champ__saisie" id="g-sujet" type="text" aria-invalid="true" aria-describedby="g-sujet-err"><p class="champ__erreur" id="g-sujet-err"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg>Ce champ est obligatoire.</p></div>
+            <p class="texte-petit">Les autres champs gardent leur saisie ; le focus va au premier champ à corriger.</p>
+          </div>
+          <div class="etat"><p class="etat__nom">Envoi en cours (jusqu’à 90 s)</p>
+            <div class="champ"><label class="champ__libelle" for="h-sujet">Sujet</label><input class="champ__saisie" id="h-sujet" type="text" value="Exemple de saisie" disabled></div>
+            <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="button" aria-busy="true" aria-disabled="true"><span class="indicateur" aria-hidden="true"></span>Envoi en cours…</button></div>
+            <div class="message" role="status"><span class="indicateur" aria-hidden="true"></span><div class="message__corps"><p class="message__titre">Envoi en cours…</p><p class="message__texte">L’envoi peut prendre jusqu’à 90 secondes. Votre saisie est conservée.</p></div></div>
+          </div>
+          <div class="etat"><p class="etat__nom">Envoi réussi</p>
+            <div class="message message--succes" role="status"><svg class="icone" aria-hidden="true"><use href="#i-valide"/></svg><div class="message__corps"><p class="message__titre">Message envoyé</p><p class="message__texte">Merci. Les champs du formulaire ont été vidés.</p></div></div>
+            <div class="champ"><label class="champ__libelle" for="i-sujet">Sujet</label><input class="champ__saisie" id="i-sujet" type="text"></div>
+          </div>
+          <div class="etat"><p class="etat__nom">Envoi échoué, réessayable</p>
+            <div class="champ"><label class="champ__libelle" for="j-sujet">Sujet</label><input class="champ__saisie" id="j-sujet" type="text" value="Exemple de saisie"></div>
+            <div class="message message--erreur" role="alert"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg><div class="message__corps"><p class="message__titre">L’envoi a échoué</p><p class="message__texte">Votre saisie est conservée. Vous pouvez réessayer.</p></div><button class="bouton bouton--secondaire message__action" type="button"><svg class="icone" aria-hidden="true"><use href="#i-reessayer"/></svg>Réessayer</button></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CO-12 -->
+    <article class="specimen" aria-labelledby="co-12">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-12">CO-12 — Fenêtre factice</h3><p class="texte-petit">Met en scène une capture, un extrait de code ou une interface abstraite dans un cadre d’application. Sans contenu à montrer, la fenêtre n’est pas affichée : jamais de cadre vide.</p></header>
+      <div class="grille-3">
+        <div class="etat"><p class="etat__nom">Code · repos</p>
+          <figure class="fenetre"><div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">exemple.ts</span></div>
+            <div class="fenetre__contenu"><pre class="fenetre__code"><span class="code-note">// trie des périodes par date de début</span>
+<span class="code-mot">type</span> Periode = { debut: <span class="code-mot">string</span>; fin: <span class="code-mot">string</span> };
+
+<span class="code-mot">export function</span> trier(p: Periode[]) {
+  <span class="code-mot">return</span> [...p].sort((a, b) =&gt;
+    a.debut.localeCompare(b.debut));
+}
+<span class="code-note">// </span><span class="code-chaine">"AAAA-MM"</span></pre></div>
+            <figcaption class="masque-visuellement">Extrait de code d’exemple</figcaption>
+          </figure>
+        </div>
+        <div class="etat"><p class="etat__nom">Navigateur · survol</p>
+          <figure class="fenetre fenetre--interactive est-survol"><div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__adresse">adresse-du-projet</span></div>
+            <div class="fenetre__contenu"><div class="maquette" role="img" aria-label="Interface abstraite d’exemple"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+          </figure>
+        </div>
+        <div class="etat"><p class="etat__nom">Capture · focus</p>
+          <figure class="fenetre fenetre--interactive est-focus"><div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">capture-01</span></div>
+            <div class="capture" role="img" aria-label="Emplacement d’une capture d’écran">[capture fournie par Alexandre]</div>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <!-- CO-13 -->
+    <article class="specimen" aria-labelledby="co-13">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-13">CO-13 — Arrière-plan d’ambiance</h3><p class="texte-petit">La lumière d’une section : halos, trame et voile, peints une fois, jamais animés. Deux halos se placent en coins opposés.</p></header>
+      <div class="grille-3">
+        <div class="etat"><p class="etat__nom">Accueil : deux halos et trame</p><div class="effet-boite ambiance ambiance--accueil"><p class="etiquette">ambiance--accueil</p></div></div>
+        <div class="etat"><p class="etat__nom">Section : un halo et trame</p><div class="effet-boite ambiance ambiance--section"><p class="etiquette">ambiance--section</p></div></div>
+        <div class="etat"><p class="etat__nom">Sobre : trame seule</p><div class="effet-boite ambiance"><p class="etiquette">ambiance</p></div></div>
+      </div>
+    </article>
+
+    <!-- CO-14 -->
+    <article class="specimen" aria-labelledby="co-14">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-14">CO-14 — Lien d’évitement</h3><p class="texte-petit">Premier élément focalisable de chaque page : il mène au contenu principal. Invisible jusqu’au focus (essayez la touche Tab en haut de cette page).</p></header>
+      <div class="etats">
+        <div class="etat"><p class="etat__nom">Masqué (repos)</p><p class="texte-petit">Aucun rendu visible.</p></div>
+        <div class="etat"><p class="etat__nom">Visible (focus)</p><a class="evitement evitement--visible est-focus bouton" href="#contenu" style="outline:var(--anneau-focus);outline-offset:var(--focus-decalage)">Aller au contenu</a></div>
+      </div>
+    </article>
+
+    <!-- CO-15 -->
+    <article class="specimen" aria-labelledby="co-15">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-15">CO-15 — Indicateur d’activité</h3><p class="texte-petit">Signale une attente. Toujours accompagné d’un texte. Animation coupée si le visiteur réduit les animations : l’anneau reste fixe, le texte suffit.</p></header>
+      <div class="matrice"><div class="matrice__ligne"><p class="matrice__variante">Variantes</p><div class="matrice__etats">
+        <div class="etat-mini"><span class="etat__nom">Dans un texte</span><span class="texte-petit" style="display:inline-flex;gap:var(--espace-2);align-items:center"><span class="indicateur accent" aria-hidden="true"></span>Chargement…</span></div>
+        <div class="etat-mini"><span class="etat__nom">Dans un bouton</span><button class="bouton bouton--primaire" type="button" aria-busy="true" aria-disabled="true"><span class="indicateur" aria-hidden="true"></span>Envoi en cours…</button></div>
+        <div class="etat-mini"><span class="etat__nom">Grand</span><span class="indicateur accent" style="width:2rem;height:2rem;border-width:3px" aria-hidden="true"></span></div>
+      </div></div></div>
+    </article>
+
+    <!-- CO-16 -->
+    <article class="specimen" aria-labelledby="co-16">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-16">CO-16 — En-tête de section</h3><p class="texte-petit">Ouvre une section : étiquette numérotée, titre, chapô.</p></header>
+      <div class="grille-2">
+        <div class="etat"><p class="etat__nom">Aligné à gauche</p><header class="entete-section"><p class="etiquette"><span class="etiquette__numero">03</span>Section</p><p class="titre-2">Titre de section</p><p class="chapo">Un chapô d’une ou deux phrases. [texte fourni par Alexandre]</p></header></div>
+        <div class="etat"><p class="etat__nom">Centré (fin de page)</p><header class="entete-section entete-section--centre"><p class="etiquette etiquette--accent">Sur-titre</p><p class="titre-2">Un dernier appel</p><a class="bouton bouton--primaire" href="#co-16">Action principale</a></header></div>
+      </div>
+    </article>
+
+    <!-- CO-17 -->
+    <article class="specimen" aria-labelledby="co-17">
+      <header class="specimen__entete"><h3 class="titre-3" id="co-17">CO-17 — Liste clé-valeur</h3><p class="texte-petit">Des faits courts, chacun annoncé par une étiquette.</p></header>
+      <div class="grille-2">
+        <div class="etat"><p class="etat__nom">En ligne</p><dl class="cles cles--en-ligne"><div class="cles__ligne"><dt class="etiquette">Clé</dt><dd>Valeur</dd></div><div class="cles__ligne"><dt class="etiquette">Clé</dt><dd>Valeur</dd></div><div class="cles__ligne"><dt class="etiquette">Clé</dt><dd>Valeur</dd></div></dl></div>
+        <div class="etat"><p class="etat__nom">En tableau</p><dl class="cles cles--tableau"><div class="cles__ligne"><dt class="etiquette">Clé</dt><dd>Une valeur sur une ou deux lignes.</dd></div><div class="cles__ligne"><dt class="etiquette">Autre clé</dt><dd>[texte fourni par Alexandre]</dd></div></dl></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 06 Mise en scène -->
+<section class="catalogue-section" id="mise-en-scene" aria-labelledby="titre-scene">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette"><span class="etiquette__numero">06</span>Mise en scène</p>
+      <h2 class="titre-2" id="titre-scene">Une section d’accueil et une frise</h2>
+      <p class="texte">Un exemple d’assemblage, pas une maquette d’écran : les maquettes viendront sur la palette retenue.</p>
+    </header>
+    <div class="cadre-demo">
+      <div class="vitrine ambiance ambiance--accueil">
+        <div class="vitrine__grille">
+          <div class="vitrine__texte">
+            <p class="etiquette etiquette--puce apparition" style="--rang:0">[texte fourni par Alexandre]</p>
+            <p class="texte-affiche apparition" style="--rang:1">Prénom Nom</p>
+            <p class="chapo apparition" style="--rang:2">Intitulé du profil, puis une présentation en deux phrases au plus. [texte fourni par Alexandre]</p>
+            <div class="groupe-actions apparition" style="--rang:3">
+              <a class="bouton bouton--primaire" href="#mise-en-scene"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>Télécharger le CV</a>
+              <a class="bouton bouton--secondaire" href="#mise-en-scene">Écrire un message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+            </div>
+            <dl class="cles cles--en-ligne apparition" style="--rang:4">
+              <div class="cles__ligne"><dt class="etiquette">Clé</dt><dd>[texte fourni par Alexandre]</dd></div>
+              <div class="cles__ligne"><dt class="etiquette">Clé</dt><dd>[texte fourni par Alexandre]</dd></div>
+            </dl>
+          </div>
+          <figure class="fenetre apparition" style="--rang:5"><div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">exemple.ts</span></div>
+            <div class="fenetre__contenu"><pre class="fenetre__code"><span class="code-mot">const</span> principes = [
+  <span class="code-chaine">"lisible"</span>,
+  <span class="code-chaine">"testé"</span>,
+  <span class="code-chaine">"durable"</span>,
+];</pre></div>
+            <figcaption class="masque-visuellement">Extrait de code d’exemple</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="vitrine ambiance ambiance--section" style="border-top:var(--bordure-epaisseur) solid var(--couleur-bordure)">
+        <div class="entete-section" style="margin-bottom:var(--espace-12)">
+          <p class="etiquette"><span class="etiquette__numero">02</span>Section</p>
+          <p class="titre-1">Titre de la frise</p>
+          <p class="chapo">[texte fourni par Alexandre]</p>
+        </div>
+        <ol class="frise frise--adaptative frise--animee" style="--etape-avant:3">
+          <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape A</span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
+          <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape B</span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
+          <li class="frise__etape frise__etape--avant"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape C<span class="masque-visuellement"> (étape mise en avant)</span></span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied-catalogue">
+  <div class="conteneur"><p class="texte-petit">Catalogue de la charte graphique, version à approuver. Thème sombre uniquement. Polices sous SIL Open Font License 1.1, chargées ici pour l’aperçu seulement.</p></div>
+</footer>
+
+<script>
+(function () {
+  var groupe = document.querySelector(".selecteur-palette");
+  if (!groupe) { return; }
+  var boutons = groupe.querySelectorAll("[data-choix-palette]");
+  function appliquer(id) {
+    document.documentElement.setAttribute("data-palette", id);
+    for (var i = 0; i < boutons.length; i++) {
+      boutons[i].setAttribute("aria-pressed", String(boutons[i].getAttribute("data-choix-palette") === id));
+    }
+  }
+  for (var i = 0; i < boutons.length; i++) {
+    boutons[i].addEventListener("click", function (e) { appliquer(e.currentTarget.getAttribute("data-choix-palette")); });
+  }
+  groupe.hidden = false;
+})();
+</script>
+</body>
+</html>
