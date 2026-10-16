@@ -2,12 +2,12 @@
 Statut : [x] à approuver  [ ] approuvé par : ______
 Base : US-2.0 et SC-2.0, approuvés par Alexandre Morozoff le 15/10/26.
 
-Ce document décrit la structure du site, l'ordre de lecture de chaque écran et ses états visibles, pour servir de point de départ aux maquettes. Il ne décide ni de l'aspect visuel (charte graphique, ticket T2.3) ni des moyens techniques (conception technique, ticket T2.1). Les textes définitifs ne sont pas rédigés ici : un contenu à fournir par Alexandre se désigne par son identifiant (C-01 à C-05). Tout choix structurant est une proposition, à valider en section 7.
+Ce document décrit la structure du site, l'ordre de lecture de chaque écran et ses états visibles, pour servir de point de départ aux maquettes. Il ne décide ni de l'aspect visuel (charte graphique, ticket T2.3) ni des moyens techniques (conception technique, ticket T2.1). Les textes définitifs ne sont pas rédigés ici : un contenu à fournir par Alexandre se désigne par son identifiant (C-01 à C-05) ou, à défaut, par son nom (voir V-05). Tout choix structurant est une proposition, à valider en section 7.
 
 ## 1. Principes de navigation
 
 ### PN-01 — Une page unique ou plusieurs pages
-Contexte : le site compte neuf espaces de lecture (accueil, parcours, compétences, expérience, avec le rôle chez OSOL, méthode de travail, projets, CV, contact, mentions légales) plus une fiche par projet. Chaque section et chaque fiche doit avoir un lien direct qui survit au rechargement (MF-04), et le site doit pouvoir accueillir une version anglaise en v2.0.1 sans être refait.
+Contexte : le site compte neuf espaces de lecture (accueil, parcours, compétences, expérience (rôle chez OSOL), méthode de travail, projets, CV, contact, mentions légales) plus une fiche par projet. Chaque section et chaque fiche doit avoir un lien direct qui survit au rechargement (MF-04), et le site doit pouvoir accueillir une version anglaise en v2.0.1 sans être refait.
 Options :
 
 | Option | Pour | Contre |
@@ -90,7 +90,7 @@ Arborescence :
   - CV
   - Contact
   - Mentions légales
-- Page introuvable (hors arborescence : atteinte par toute adresse inconnue, y compris l'adresse d'un projet inexistant)
+- Page introuvable (hors arborescence : atteinte par toute adresse inconnue)
 
 L'adresse d'un projet inexistant (/projets/ suivi d'un identifiant inconnu) mène à EC-11, seul écran qui décrit cet état ; EC-07 y renvoie.
 
@@ -136,7 +136,7 @@ Actions :
 - Choisir « Contact » : mène à EC-09
 - Choisir une entrée de section : mène à l'écran correspondant (EC-02 à EC-06)
 États : nominal
-- nominal : l'écran est composé de contenu fixe ; il n'a pas de cas d'échec propre. Si le contenu tarde, le nom et l'intitulé s'affichent en premier et les accès au CV et au contact restent utilisables
+- nominal : l'écran est composé de contenu fixe ; il n'a pas de cas d'échec propre
 Téléphone : une seule colonne ; l'ordre de lecture est conservé (identité, présentation, CV et contact, sections) ; les accès au CV et au contact restent visibles sans défilement long
 
 ### EC-02 — Écran : Parcours
@@ -144,7 +144,7 @@ Adresse : /parcours
 Micro-fonctions : MF-04, MF-07, MF-08, MF-18
 Scénarios : SC-2.0-05, SC-2.0-10, SC-2.0-11, SC-2.0-28
 Contenu, dans l'ordre de lecture :
-- Titre de la section et phrase d'introduction — MF-07
+- Titre de la section et phrase d'introduction — MF-07 (texte à fournir par Alexandre : voir V-05)
 - Texte d'orientation vers l'architecture logicielle, citant le master en architecture durable du logiciel comme étape — MF-08 (texte à fournir par Alexandre : voir V-05)
 - Étape 1, reconversion depuis la restauration, avec sa période datée — MF-07, C-01
 - Étape 2, bac+3, avec son intitulé, son établissement et sa période — MF-07, C-01
@@ -153,7 +153,7 @@ Actions :
 - Aucune action propre ; navigation et accès au CV et au contact par EC-00
 - Lien direct vers cet écran : /parcours, qui survit au rechargement
 États : nominal
-- nominal : trois étapes dans l'ordre reconversion, bac+3, master ; chaque période a un début et une fin ; aucune durée relative, aucun âge ; aucune date n'est inventée ni laissée vide à l'écran (la condition de mise en ligne liée à C-01 est une proposition, voir V-05)
+- nominal : trois étapes dans l'ordre reconversion, bac+3, master ; chaque période a un début et une fin ; aucune durée relative, aucun âge ; aucune date n'est inventée ni laissée vide à l'écran (la condition de mise en ligne liée à C-01 : voir V-05)
 Téléphone : les étapes se lisent l'une sous l'autre, période en tête de chaque étape ; aucun contenu coupé
 
 ### EC-03 — Écran : Compétences
@@ -164,7 +164,7 @@ Contenu, dans l'ordre de lecture :
 - Titre de la section — MF-09
 - Compétences techniques regroupées par catégorie, seulement celles de la liste fournie — MF-09, C-02
 - Compétences humaines — MF-10, C-02
-- Récit de la reconversion depuis la restauration, rattaché aux compétences humaines et montrant en quoi elle les illustre — MF-10
+- Récit de la reconversion depuis la restauration, rattaché aux compétences humaines et montrant en quoi elle les illustre — MF-10 (texte à fournir par Alexandre : voir V-05)
 Actions :
 - Aucune action propre ; navigation et accès au CV et au contact par EC-00
 - Lien direct vers cet écran : /competences
@@ -179,7 +179,7 @@ Micro-fonctions : MF-04, MF-11, MF-18
 Scénarios : SC-2.0-05, SC-2.0-14, SC-2.0-28
 Contenu, dans l'ordre de lecture :
 - Titre de la section (« Expérience ») et période de l'alternance, 2025–2028 ; l'écran présente le rôle chez OSOL — MF-11, C-01
-- Rôle en trois volets : application, backend, appui DevOps sur certaines tâches (présenté comme un appui, pas comme un poste) — MF-11
+- Rôle en trois volets : application, backend, appui DevOps sur certaines tâches (présenté comme un appui, pas comme un poste) — MF-11 (texte à fournir par Alexandre : voir V-05)
 - Mention que les projets menés en entreprise ne sont pas partageables — MF-11
 Actions :
 - Aucune action propre ; navigation et accès au CV et au contact par EC-00
@@ -278,7 +278,7 @@ Actions :
 - Demander le CV : un clic, via EC-00 (mène à EC-08)
 - Lien direct vers cet écran : /contact
 États : nominal, champ manquant, email invalide, envoi en cours, envoi réussi, envoi échoué
-- nominal : formulaire vide, information sur les données visible avant le bouton ; aucune vérification anti-spam n'est affichée au visiteur (V-06)
+- nominal : formulaire vide, information sur les données visible avant le bouton ; aucune protection contre les messages indésirables n'est affichée au visiteur (V-06)
 - champ manquant : un message près du champ concerné indique qu'il est obligatoire ; rien n'est envoyé ; les autres champs gardent leur saisie
 - email invalide : un message près du champ email indique que l'adresse n'est pas valide ; rien n'est envoyé ; la saisie est conservée
 - envoi en cours : le bouton est inactif et indique l'attente, pour éviter un double envoi ; la saisie reste affichée ; l'attente peut durer jusqu'à 90 secondes quand le service d'envoi se réveille
@@ -336,7 +336,7 @@ Arrivée, méthode de travail, fiche du portfolio, code source.
 
 ### PT-03 — L'arrivée par un lien direct
 Fiche ou section ouverte directement, puis adresse inconnue.
-- Suite d'écrans : EC-03 (section ouverte par lien direct, puis rechargée : SC-2.0-05) → EC-07 (fiche ouverte par lien direct : SC-2.0-06) → EC-08 (CV, ou EC-09 pour le contact, atteint depuis la fiche : SC-2.0-03) → EC-05 (autre section, via la navigation : SC-2.0-04) → adresse d'un projet inexistant → EC-11 (Page introuvable : SC-2.0-07) → adresse inconnue → EC-11 (SC-2.0-08) → EC-01 (retour à l'accueil)
+- Suite d'écrans : EC-03 (section ouverte par lien direct, puis rechargée : SC-2.0-05) → EC-07 (fiche ouverte par lien direct, puis rechargée : SC-2.0-06) → EC-08 (CV, un clic depuis la fiche) → retour à la fiche → EC-09 (contact, un clic depuis la fiche) : SC-2.0-03 → EC-05 (autre section, via la navigation : SC-2.0-04) → adresse d'un projet inexistant → EC-11 (Page introuvable : SC-2.0-07) → adresse inconnue → EC-11 (SC-2.0-08) → EC-01 (retour à l'accueil)
 - Scénarios joués : SC-2.0-05, SC-2.0-06, SC-2.0-03, SC-2.0-04, SC-2.0-07, SC-2.0-08
 - Variante : lien vers un projet ajouté plus tard, SC-2.0-20
 - Ce que le parcours vérifie : chaque lien mène au bon contenu sans passer par l'accueil, le rechargement garde la page, et une adresse fausse ne laisse jamais un écran vide.
@@ -421,11 +421,11 @@ Un projet ajouté apparaît dans la liste et a sa fiche, sans modifier le reste 
 ## 7. Points à valider par Alexandre
 
 - V-01 — Choix d'une adresse par section et par fiche (PN-01, option B) plutôt qu'une page unique. Recommandation : valider B ; elle satisfait MF-04 dans tous les cas, au prix de quelques écrans de plus à maquetter. Impact sur la version anglaise (MF-23) : aucun obstacle, l'anglais s'ajoutera sous un préfixe de langue ; seule contrainte, ne pas préfixer le français aujourd'hui, pour ne pas changer des adresses qui seront déjà transmises. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
-- V-02 — « Un clic » pour le CV et le contact (PN-02, PN-04). Recommandation : un clic jusqu'à l'écran CV, un second pour télécharger. Si un clic doit mener jusqu'au fichier, il faut passer à l'option B de PN-04 et accepter qu'un CV indisponible se signale autrement. Le CV s'ouvre dans un nouvel onglet, comme les liens externes : EC-00 et EC-08 restent ouverts dans l'onglet d'origine. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
+- V-02 — « Un clic » pour le CV et le contact (PN-02, PN-04). Recommandation : un clic jusqu'à l'écran CV, un second pour télécharger. Si un clic doit mener jusqu'au fichier, il faut passer à l'option B de PN-04 et accepter qu'un CV indisponible se signale autrement. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
 - V-03 — Navigation sur téléphone (PN-03). Recommandation : menu replié, CV et Contact toujours visibles hors du menu. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
 - V-04 — Largeurs d'écran et navigateurs à couvrir (MF-06 les renvoie à l'Étape 4). Recommandation : couvrir de la plus étroite des largeurs de téléphone courantes jusqu'au grand écran, et fixer les valeurs exactes avec la conception technique et la charte, pas ici. Réponse d'Alexandre du 15/10/2026 : largeurs d'écran fixées par la charte (T2.3), navigateurs à couvrir par la conception technique (CT-10).
 - V-05 — Contenus manquants qui conditionnent l'affichage : C-01 est incomplet (reconversion, bac+3, début du master) ; C-02 à C-05 ne sont pas fournis ; cinq textes à fournir ne sont couverts par aucun identifiant C-xx : la présentation courte de l'accueil (MF-01), le récit de reconversion (MF-10), la description des trois volets du rôle (MF-11), le texte d'orientation vers l'architecture (MF-08) et les phrases d'introduction des sections (accueil, parcours). Recommandation : les ajouter aux contenus des US par une mise à jour séparée de ces documents, et ne pas mettre en ligne tant que les périodes ne sont pas complètes. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
-- V-06 — Protection du formulaire contre les messages indésirables (MF-16). La protection est invisible pour le visiteur (conception technique, CT-08) : rien n'est ajouté à EC-09, et un envoi refusé par la protection affiche le même message d'échec réessayable que les autres cas. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
+- V-06 — Protection du formulaire contre les messages indésirables (MF-16). La protection est invisible pour le visiteur (conception technique, CT-08). Recommandation : ne rien ajouter à EC-09 ; un envoi refusé par la protection affiche le même message d'échec réessayable que les autres cas. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
 - V-07 — Liens GitHub et LinkedIn dans le pied de page seulement (MF-17 : « Les liens sont présents sur toutes les pages (proposition, à valider). »). Recommandation : pied de page, pour garder l'en-tête réservé aux sections, au CV et au contact. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
 - V-08 — Une fiche projet sans description ou sans titre n'est pas prévue par les scénarios. Recommandation : exiger un titre et une description pour tout projet ajouté, et ne gérer que l'absence de captures et de lien. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
-- V-09 — Le renvoi de la méthode vers la fiche du portfolio (MF-21) : il existe tant que la fiche existe et disparaît avec elle, pour qu'aucun lien cassé ne subsiste ; ce comportement relève du parcours d'écrans (EC-05) et n'est pas demandé par les scénarios. Recommandation : le garder. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
+- V-09 — Le renvoi de la méthode vers la fiche du portfolio (MF-21) : il existe tant que la fiche existe et disparaît avec elle, pour qu'aucun lien cassé ne subsiste ; ce comportement relève du parcours d'écrans (EC-05) et n'est pas demandé par les scénarios. Recommandation : garder ce comportement. Réponse d'Alexandre du 15/10/2026 : recommandation acceptée.
