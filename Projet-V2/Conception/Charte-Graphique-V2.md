@@ -442,9 +442,9 @@ Rien d'essentiel ne dépend d'une animation : aucune information n'apparaît seu
 
 La conception technique vise un score de performance mobile d'au moins 90. Le mouvement et les effets s'y plient :
 
-- On n'anime que l'opacité et la transformation (position, échelle), que le navigateur traite sans recalculer la page.
+- On n'anime que l'opacité et la transformation (position, échelle), que le navigateur traite sans recalculer la page : aucune animation ne décale la mise en page.
 - Aucun flou animé, aucune ombre animée sur une grande surface, aucun halo animé : halos, trame et voile sont des dégradés peints une fois.
-- Le flou d'arrière-plan (flou-verre) est réservé à deux éléments, l'en-tête collant et le menu ouvert, et seulement à partir de 900 px. En dessous, l'en-tête est opaque à 92 % et le menu entièrement opaque. Les cartes en verre n'ont pas de flou : posées sur des dégradés lisses, elles n'y gagneraient presque rien et le flou coûterait à chaque défilement.
+- Le flou d'arrière-plan (flou-verre) est réservé à deux éléments, l'en-tête collant et le menu ouvert, et seulement à partir de 900 px. En dessous, l'en-tête est opaque à 92 % et le menu entièrement opaque ; il en va de même sur un navigateur qui ne sait pas flouter l'arrière-plan. Les cartes en verre n'ont pas de flou : posées sur des dégradés lisses, elles n'y gagneraient presque rien et le flou coûterait à chaque défilement.
 - Les halos défilent avec leur section : jamais d'arrière-plan fixé à la fenêtre.
 - Pas d'effet piloté par le défilement (parallaxe), pas de vidéo, rien en boucle hors attente.
 - Au plus une cascade par écran et un tracé de frise par page.
@@ -683,8 +683,9 @@ Le système est en thème sombre uniquement (décision du 15/10/2026). Rien dans
 - P-04 — Flou de verre réservé à l'en-tête collant et au menu ouvert, à partir de 900 px, cartes en verre sans flou. Recommandation : valider ; c'est le compromis qui garde l'effet visible là où il sert, sans peser sur le score de performance mobile visé (au moins 90).
 - P-05 — Cibles tactiles de 44 × 44 px, au-delà du minimum AA de 24 × 24 px. Recommandation : valider ; la cible est le téléphone d'un recruteur, le coût en place est faible.
 - P-06 — Liens externes ouverts dans un nouvel onglet, annoncés par une flèche oblique et un texte masqué. Recommandation : valider ; c'est la manière accessible de tenir la règle « le site reste ouvert dans la fenêtre d'origine » (MF-17).
-- P-07 — Monogramme à la place du nom dans l'en-tête sous 480 px de large. Recommandation : valider ; sans lui, le CV, le contact et le menu ne tiennent pas ensemble sur un téléphone de 320 px.
+- P-07 — Monogramme à la place du nom dans l'en-tête sous 480 px de large. Le parcours d'écrans place le nom dans l'en-tête (EC-00) : sous 480 px, le monogramme le remplace à l'écran, le nom reste annoncé aux lecteurs d'écran et s'affiche en grand sur l'accueil. Recommandation : valider ; sans monogramme, le nom, le CV, le contact et le bouton de menu ne tiennent pas ensemble sur un téléphone de 320 px.
 - P-08 — Nom du design system pour ses réutilisations futures. Recommandation : ne pas le nommer maintenant ; le nommer à la première réutilisation dans une autre application, quand son périmètre réel sera connu.
+- P-09 — Image d'aperçu affichée quand un lien du site est partagé, que la conception technique attend de la charte. Recommandation : la produire avec les maquettes des écrans, sur la palette retenue au point P-01 ; elle reprend l'en-tête d'accueil (affiche, étiquette, halos), sans texte au-dessous de 24 px.
 
 ## 11. Sources
 
