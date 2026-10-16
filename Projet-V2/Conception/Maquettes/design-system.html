@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-palette="pa-01">
+<html lang="fr" data-palette="pa-02">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,8 +70,8 @@
   --opacite-verre-haut: 6%;
   --opacite-verre-bas: 2%;
   --opacite-verre-bordure: 10%;
-  --opacite-halo-accent: 12%;
-  --opacite-halo-secondaire: 10%;
+  --opacite-halo-accent: 20%;
+  --opacite-halo-secondaire: 15%;
   --opacite-trame: 7%;
   --opacite-teinte: 14%;
   --opacite-teinte-message: 10%;
@@ -128,7 +128,7 @@
   --couleur-bordure: #2A3939;
   --couleur-texte: #EEF5F5;
   --couleur-texte-secondaire: #A9BDBE;
-  --couleur-texte-discret: #8A9EA0;
+  --couleur-texte-discret: #97A9AB;
   --couleur-accent: #3FD4C8;
   --couleur-accent-secondaire: #FFB59E;
   --couleur-texte-sur-accent: #04201E;
@@ -377,11 +377,19 @@ svg { display: block; }
 .pied__liens { display: flex; flex-wrap: wrap; gap: var(--espace-1) var(--espace-5); list-style: none; }
 .pied .lien { display: inline-flex; align-items: center; min-height: var(--cible-tactile); }
 
-/* CO-09 Frise chronologique (verticale par défaut, horizontale au large) */
-.frise { position: relative; display: grid; gap: var(--espace-8); list-style: none; }
-.frise::before, .frise::after { content: ""; position: absolute; top: 8px; bottom: 8px; pointer-events: none; }
-.frise::before { left: 6px; width: 1px; background: var(--couleur-bordure); }
-.frise::after { left: 5.5px; width: 2px; border-radius: 2px; background: linear-gradient(180deg, var(--couleur-accent), var(--couleur-accent-secondaire)); transform-origin: top; transform: scaleY(var(--progression, 1)); }
+/* CO-09 Frise chronologique (verticale par défaut, horizontale au large).
+   Le tracé coloré (::after) est un élément de la grille : il couvre les étapes qui précèdent l'étape mise en avant
+   (--etape-avant : son rang, à partir de 1), puis s'allonge par une marge négative jusqu'au centre de son point.
+   Il s'arrête donc sur ce point quelle que soit la hauteur des étapes, sans script. */
+.frise { --frise-ecart: var(--espace-8); position: relative; display: grid; grid-template-columns: 0 minmax(0, 1fr); gap: var(--frise-ecart) 0; list-style: none; }
+.frise > .frise__etape { grid-column: 2; }
+.frise::before { content: ""; position: absolute; top: 8px; bottom: 8px; left: 6px; width: 1px; background: var(--couleur-bordure); pointer-events: none; }
+.frise::after {
+  content: ""; position: relative; pointer-events: none;
+  grid-column: 1; grid-row: 1 / var(--etape-avant, 2);
+  width: 2px; margin: 10.5px 0 calc(-1 * (var(--frise-ecart) + 10.5px)) 5.5px;
+  border-radius: 2px; background: linear-gradient(180deg, var(--couleur-accent), var(--couleur-accent-secondaire)); transform-origin: top;
+}
 .frise__etape { position: relative; display: grid; gap: var(--espace-1); padding-left: var(--espace-8); }
 .frise__point { position: absolute; z-index: 1; left: 0; top: 4px; width: 13px; height: 13px; border-radius: var(--arrondi-cercle); border: var(--bordure-epaisseur) solid var(--couleur-texte-discret); background: var(--couleur-fond); }
 .frise__periode { font-family: var(--police-mono); font-size: var(--taille-code); color: var(--couleur-texte-discret); letter-spacing: 0.02em; }
@@ -392,9 +400,10 @@ svg { display: block; }
 .frise__etape--avant .frise__periode { color: var(--couleur-accent); }
 .frise__etape--prevue .frise__intitule { color: var(--couleur-texte-secondaire); }
 @media (min-width: 900px) {
-  .frise--adaptative { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--espace-6); }
+  .frise--adaptative { --frise-ecart: var(--espace-6); grid-template-columns: none; grid-template-rows: 0 auto; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0 var(--frise-ecart); }
+  .frise--adaptative > .frise__etape { grid-row: 2; grid-column: auto; }
   .frise--adaptative::before { left: 0; right: 0; top: 6px; bottom: auto; width: auto; height: 1px; }
-  .frise--adaptative::after { left: 0; right: 0; top: 5.5px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, var(--couleur-accent), var(--couleur-accent-secondaire)); transform-origin: left; transform: scaleX(var(--progression, 1)); }
+  .frise--adaptative::after { grid-row: 1; grid-column: 1 / var(--etape-avant, 2); width: auto; height: 2px; margin: 5.5px calc(-1 * (var(--frise-ecart) + 6.5px)) 0 6.5px; background: linear-gradient(90deg, var(--couleur-accent), var(--couleur-accent-secondaire)); transform-origin: left; }
   .frise--adaptative .frise__etape { padding-left: 0; padding-top: var(--espace-8); }
   .frise--adaptative .frise__point { top: 0; }
 }
@@ -516,7 +525,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 @media (min-width: 900px) {
   .catalogue-barre { background: color-mix(in srgb, var(--couleur-fond) 72%, transparent); -webkit-backdrop-filter: blur(var(--flou-verre)); backdrop-filter: blur(var(--flou-verre)); }
 }
-.selecteur-palette { display: flex; gap: var(--espace-1); padding: var(--espace-1); border-radius: var(--arrondi-moyen); border: var(--bordure-epaisseur) solid var(--verre-bordure); background: var(--verre-fond); }
+.selecteur-palette { display: flex; flex-wrap: wrap; gap: var(--espace-1); padding: var(--espace-1); border-radius: var(--arrondi-moyen); border: var(--bordure-epaisseur) solid var(--verre-bordure); background: var(--verre-fond); }
 .selecteur-palette[hidden] { display: none; }
 .selecteur-palette button {
   display: inline-flex; align-items: center; gap: var(--espace-2);
@@ -607,6 +616,11 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .cadre-telephone__contenu { display: grid; gap: var(--espace-4); padding: var(--espace-6) 16px; }
 .cadre-demo { overflow: hidden; border-radius: var(--arrondi-grand); border: var(--bordure-epaisseur) solid var(--couleur-bordure); }
 .cadre-demo__corps { padding: var(--espace-8) var(--marge-page); }
+/* Sous 360 px, les cadres qui montrent un en-tête prennent toute la largeur de l'écran, comme un vrai téléphone :
+   sinon la marge du catalogue et le filet du cadre retireraient 34 px à l'en-tête, qui ne tiendrait plus à 320 px. */
+@media (max-width: 359px) {
+  .cadre-telephone, .cadre-demo--entete { width: auto; max-width: none; margin-inline: calc(-1 * var(--marge-page)); border-radius: 0; border-inline: 0; }
+}
 .vitrine { padding: var(--espace-16) var(--marge-page); }
 @media (min-width: 900px) { .vitrine { padding-block: var(--espace-24); } }
 .vitrine__grille { display: grid; gap: var(--espace-12); align-items: center; }
@@ -615,6 +629,13 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .vitrine__texte .cles { width: 100%; }
 .groupe-actions { display: flex; flex-wrap: wrap; gap: var(--espace-3); }
 .pied-catalogue { padding-block: var(--espace-10); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
+
+/* Repli sans flou d'arrière-plan (charte, section 6) : en-tête opaque à 92 %, menu entièrement opaque. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .entete { background: color-mix(in srgb, var(--couleur-fond) 92%, transparent); }
+  .catalogue-barre { background: color-mix(in srgb, var(--couleur-fond) 94%, transparent); }
+  .menu-replie__panneau { background: var(--couleur-surface-relevee); }
+}
 
 /* ---------- 8. Mouvement : seulement si le visiteur n'a pas demandé de le réduire ---------- */
 @keyframes apparition { from { opacity: 0; transform: translateY(var(--distance-apparition)); } }
@@ -656,11 +677,11 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
   <div class="conteneur catalogue-barre__interieur">
     <p class="catalogue-barre__titre"><span class="entete__monogramme" aria-hidden="true">DS</span>Design system · catalogue</p>
     <div class="selecteur-palette" role="group" aria-label="Palette appliquée à la page" hidden>
-      <button type="button" data-choix-palette="pa-01" aria-pressed="true"><span class="temoin" data-palette="pa-01" aria-hidden="true"></span>PA-01</button>
-      <button type="button" data-choix-palette="pa-02" aria-pressed="false"><span class="temoin" data-palette="pa-02" aria-hidden="true"></span>PA-02</button>
-      <button type="button" data-choix-palette="pa-03" aria-pressed="false"><span class="temoin" data-palette="pa-03" aria-hidden="true"></span>PA-03</button>
+      <button type="button" data-choix-palette="pa-01" aria-pressed="false"><span class="temoin" data-palette="pa-01" aria-hidden="true"></span>PA-01 · écartée</button>
+      <button type="button" data-choix-palette="pa-02" aria-pressed="true"><span class="temoin" data-palette="pa-02" aria-hidden="true"></span>PA-02 · retenue</button>
+      <button type="button" data-choix-palette="pa-03" aria-pressed="false"><span class="temoin" data-palette="pa-03" aria-hidden="true"></span>PA-03 · écartée</button>
     </div>
-    <noscript><p class="note-sans-script">Sans script : palette recommandée PA-01. Les trois palettes restent comparables dans la section Palettes.</p></noscript>
+    <noscript><p class="note-sans-script">Sans script : palette retenue PA-02. Les trois palettes restent comparables dans la section Palettes.</p></noscript>
   </div>
 </header>
 
@@ -670,7 +691,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
   <div class="conteneur intro__interieur">
     <p class="etiquette etiquette--puce apparition" style="--rang:0">Version de travail · à approuver</p>
     <h1 class="titre-1 apparition" style="--rang:1" id="titre-page">Catalogue du design system</h1>
-    <p class="chapo apparition" style="--rang:2">Les jetons et les composants de la charte graphique, dans leurs trois palettes et dans tous leurs états. Thème sombre uniquement. Les textes sont des exemples neutres ; ceux qui viendront d’Alexandre sont marqués « [texte fourni par Alexandre] ».</p>
+    <p class="chapo apparition" style="--rang:2">Les jetons et les composants de la charte graphique, dans tous leurs états, sur la palette retenue PA-02 Lagune ; les deux palettes écartées restent sélectionnables pour comparaison. Thème sombre uniquement. Les textes sont des exemples neutres ; ceux qui viendront d’Alexandre sont marqués « [texte fourni par Alexandre] ».</p>
     <ul class="sommaire apparition" style="--rang:3">
       <li><a href="#palettes"><b>01</b>Palettes</a></li>
       <li><a href="#typographie"><b>02</b>Typographie</a></li>
@@ -688,16 +709,16 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
     <header class="entete-section">
       <p class="etiquette"><span class="etiquette__numero">01</span>Palettes</p>
       <h2 class="titre-2" id="titre-palettes">Trois palettes, quatorze rôles</h2>
-      <p class="texte">Chaque palette remplit les mêmes quatorze rôles de couleur. Les ratios de contraste sont ceux de la WCAG 2.x, calculés par script et repris de la charte. Chaque colonne s’affiche dans sa propre palette, quelle que soit celle de la page.</p>
+      <p class="texte">Chaque palette remplit les mêmes quatorze rôles de couleur. Les ratios de contraste sont ceux de la WCAG 2.x, calculés par script et repris de la charte. Chaque colonne s’affiche dans sa propre palette, quelle que soit celle de la page. PA-02 Lagune est retenue (16/10/2026) ; PA-01 et PA-03 sont écartées et restent pour mémoire.</p>
     </header>
     <div class="grille-palettes">
       <article class="colonne-palette" data-palette="pa-01" aria-labelledby="titre-pa-01">
-        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-01 · recommandée</p><h3 class="titre-3" id="titre-pa-01">Laiton</h3><p class="texte-petit">Graphite chaud éclairé au laiton, turquoise pâle en contrepoint : soigné, singulier, loin des bleus habituels.</p></header>
+        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-01 · écartée le 16/10/2026</p><h3 class="titre-3" id="titre-pa-01">Laiton</h3><p class="texte-petit">Graphite chaud éclairé au laiton, turquoise pâle en contrepoint : soigné, singulier, loin des bleus habituels.</p></header>
         <div class="apercu-palette ambiance ambiance--accueil">
           <div class="carte"><p class="etiquette etiquette--puce">Aperçu</p><p class="titre-4">Un titre sur verre</p><p class="texte-petit">Texte secondaire, puis un <a class="lien" href="#palettes">lien souligné</a>.</p></div>
           <div class="groupe-actions"><button class="bouton bouton--primaire" type="button">Action</button><button class="bouton bouton--secondaire" type="button">Autre</button></div>
-          <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
         </div>
+        <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
         <h4 class="etiquette">Jetons de couleur</h4>
         <ul class="nuancier">
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-fond)"></span><span class="nuance__nom">couleur-fond</span><span class="nuance__valeur">#0C0B0A</span></li>
@@ -738,12 +759,12 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
         </ul>
       </article>
       <article class="colonne-palette" data-palette="pa-02" aria-labelledby="titre-pa-02">
-        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-02</p><h3 class="titre-3" id="titre-pa-02">Lagune</h3><p class="texte-petit">Encre vert-de-gris traversée d’un aqua lumineux, pêche douce en contrepoint : la plus calme et la plus « technique ».</p></header>
+        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-02 · retenue le 16/10/2026</p><h3 class="titre-3" id="titre-pa-02">Lagune</h3><p class="texte-petit">Encre vert-de-gris traversée d’un aqua lumineux, pêche douce en contrepoint : la plus calme et la plus « technique ».</p></header>
         <div class="apercu-palette ambiance ambiance--accueil">
           <div class="carte"><p class="etiquette etiquette--puce">Aperçu</p><p class="titre-4">Un titre sur verre</p><p class="texte-petit">Texte secondaire, puis un <a class="lien" href="#palettes">lien souligné</a>.</p></div>
           <div class="groupe-actions"><button class="bouton bouton--primaire" type="button">Action</button><button class="bouton bouton--secondaire" type="button">Autre</button></div>
-          <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
         </div>
+        <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
         <h4 class="etiquette">Jetons de couleur</h4>
         <ul class="nuancier">
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-fond)"></span><span class="nuance__nom">couleur-fond</span><span class="nuance__valeur">#070C0C</span></li>
@@ -752,7 +773,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-bordure)"></span><span class="nuance__nom">couleur-bordure</span><span class="nuance__valeur">#2A3939</span></li>
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte)"></span><span class="nuance__nom">couleur-texte</span><span class="nuance__valeur">#EEF5F5</span></li>
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-secondaire)"></span><span class="nuance__nom">couleur-texte-secondaire</span><span class="nuance__valeur">#A9BDBE</span></li>
-          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-discret)"></span><span class="nuance__nom">couleur-texte-discret</span><span class="nuance__valeur">#8A9EA0</span></li>
+          <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-discret)"></span><span class="nuance__nom">couleur-texte-discret</span><span class="nuance__valeur">#97A9AB</span></li>
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-accent)"></span><span class="nuance__nom">couleur-accent</span><span class="nuance__valeur">#3FD4C8</span></li>
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-accent-secondaire)"></span><span class="nuance__nom">couleur-accent-secondaire</span><span class="nuance__valeur">#FFB59E</span></li>
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-texte-sur-accent)"></span><span class="nuance__nom">couleur-texte-sur-accent</span><span class="nuance__valeur">#04201E</span></li>
@@ -771,9 +792,9 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
           <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-erreur);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">erreur sur fond</span><span class="contraste__ratio">7.41:1 <span>≥ 4.5</span></span></li>
           <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-succes);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">succes sur fond</span><span class="contraste__ratio">11.65:1 <span>≥ 4.5</span></span></li>
           <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-focus);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">focus sur fond</span><span class="contraste__ratio">15.26:1 <span>≥ 3</span></span></li>
-          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte-discret sur fond</span><span class="contraste__ratio">7.01:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">texte-discret sur fond</span><span class="contraste__ratio">8.04:1 <span>≥ 4.5</span></span></li>
           <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-secondaire);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-secondaire sur surface-relevee</span><span class="contraste__ratio">8.39:1 <span>≥ 4.5</span></span></li>
-          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-discret sur surface-relevee</span><span class="contraste__ratio">5.86:1 <span>≥ 4.5</span></span></li>
+          <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-texte-discret);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">texte-discret sur surface-relevee</span><span class="contraste__ratio">6.72:1 <span>≥ 4.5</span></span></li>
           <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent);background:var(--couleur-surface-relevee)">Aa</span><span class="contraste__paire">accent sur surface-relevee</span><span class="contraste__ratio">8.98:1 <span>≥ 4.5</span></span></li>
           <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-accent-secondaire);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">accent-secondaire sur fond</span><span class="contraste__ratio">11.58:1 <span>≥ 4.5</span></span></li>
           <li class="contraste"><span class="contraste__apercu" style="color:var(--couleur-attention);background:var(--couleur-fond)">Aa</span><span class="contraste__paire">attention sur fond</span><span class="contraste__ratio">13.04:1 <span>≥ 4.5</span></span></li>
@@ -784,12 +805,12 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
         </ul>
       </article>
       <article class="colonne-palette" data-palette="pa-03" aria-labelledby="titre-pa-03">
-        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-03</p><h3 class="titre-3" id="titre-pa-03">Framboise</h3><p class="texte-petit">Noir prune relevé d’un framboise franc, miel en contrepoint : la plus audacieuse, la plus mémorable.</p></header>
+        <header class="colonne-palette__entete"><p class="etiquette etiquette--accent">PA-03 · écartée le 16/10/2026</p><h3 class="titre-3" id="titre-pa-03">Framboise</h3><p class="texte-petit">Noir prune relevé d’un framboise franc, miel en contrepoint : la plus audacieuse, la plus mémorable.</p></header>
         <div class="apercu-palette ambiance ambiance--accueil">
           <div class="carte"><p class="etiquette etiquette--puce">Aperçu</p><p class="titre-4">Un titre sur verre</p><p class="texte-petit">Texte secondaire, puis un <a class="lien" href="#palettes">lien souligné</a>.</p></div>
           <div class="groupe-actions"><button class="bouton bouton--primaire" type="button">Action</button><button class="bouton bouton--secondaire" type="button">Autre</button></div>
-          <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
         </div>
+        <div class="groupe-actions"><span class="pastille pastille--accent">Accent</span><span class="pastille pastille--secondaire">Second</span><span class="pastille pastille--succes">Succès</span><span class="pastille pastille--erreur">Erreur</span></div>
         <h4 class="etiquette">Jetons de couleur</h4>
         <ul class="nuancier">
           <li class="nuance"><span class="nuance__couleur" style="background:var(--couleur-fond)"></span><span class="nuance__nom">couleur-fond</span><span class="nuance__valeur">#0B090C</span></li>
@@ -839,7 +860,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
     <header class="entete-section">
       <p class="etiquette"><span class="etiquette__numero">02</span>Typographie</p>
       <h2 class="titre-2" id="titre-typo">Trois familles, une échelle fluide</h2>
-      <p class="texte">Les tailles croissent de façon continue entre un téléphone de 360 px et un écran de 1200 px. Familles proposées, à valider (charte, point P-02).</p>
+      <p class="texte">Les tailles croissent de façon continue entre un téléphone de 360 px et un écran de 1200 px. Familles retenues le 16/10/2026 (charte, point P-02). Le site les sert lui-même ; ce catalogue les charge depuis le service de polices de Google, pour l’aperçu seulement.</p>
     </header>
     <div class="familles">
       <article class="carte carte--pleine">
@@ -924,7 +945,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
       <div class="grille-3">
         <div class="etat"><p class="etat__nom">Verre sur halo</p><div class="effet-boite effet-boite--halo"><div class="carte" style="width:100%"><p class="etiquette">verre-fond · verre-bordure</p><p class="titre-4">Carte en verre</p></div></div></div>
         <div class="etat"><p class="etat__nom">Trame de points</p><div class="effet-boite effet-boite--trame"><p class="texte-petit">trame-points · pas de 28 px</p></div></div>
-        <div class="etat"><p class="etat__nom">Halos</p><div class="effet-boite effet-boite--halo"><p class="texte-petit">halo-accent 12 % · halo-secondaire 10 %</p></div></div>
+        <div class="etat"><p class="etat__nom">Halos</p><div class="effet-boite effet-boite--halo"><p class="texte-petit">halo-accent 20 % · halo-secondaire 15 %</p></div></div>
         <div class="etat"><p class="etat__nom">Lueur de point</p><div class="effet-boite"><span class="point-lumineux"></span></div></div>
         <div class="etat"><p class="etat__nom">Ombre de fenêtre</p><div class="effet-boite effet-boite--halo"><div class="fenetre" style="width:100%"><div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">ombre-fenetre</span></div><div class="fenetre__contenu"><p class="texte-petit">Liseré clair en haut, ombre portée vers le bas.</p></div></div></div></div>
         <div class="etat"><p class="etat__nom">Voile bas</p><div class="effet-boite ambiance ambiance--section"><p class="texte-petit">voile-bas : fondu vers le fond</p></div></div>
@@ -1082,7 +1103,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
     <!-- CO-06 -->
     <article class="specimen" aria-labelledby="co-06">
       <header class="specimen__entete"><h3 class="titre-3" id="co-06">CO-06 — En-tête et navigation</h3><p class="texte-petit">Présent sur chaque page. Navigation complète à partir de 1200 px ; en dessous, menu replié (CO-07). Les deux actions permanentes restent toujours visibles, hors du menu. Démonstration adaptative : réduisez la fenêtre pour voir la version compacte.</p></header>
-      <div class="cadre-demo">
+      <div class="cadre-demo cadre-demo--entete">
         <header class="entete entete--demo">
           <a class="entete__marque" href="#co-06"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
           <nav class="entete__navigation" aria-label="Sections (exemple)">
@@ -1185,7 +1206,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 
     <!-- CO-08 -->
     <article class="specimen" aria-labelledby="co-08">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-08">CO-08 — Pied de page</h3><p class="texte-petit">Présent sur chaque page : profils externes, mentions légales, signature. Les liens externes s’annoncent comme tels.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-08">CO-08 — Pied de page</h3><p class="texte-petit">Présent sur chaque page : profils externes, mentions légales, signature. Les liens externes s’annoncent comme tels. La signature ne porte aucune année qui se périme.</p></header>
       <div class="cadre-demo">
         <footer class="pied">
           <div class="pied__haut">
@@ -1196,7 +1217,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             </ul>
           </div>
           <div class="pied__bas">
-            <p class="etiquette">© AAAA · [texte fourni par Alexandre]</p>
+            <p class="etiquette">Prénom Nom · [texte fourni par Alexandre]</p>
             <a class="lien lien--discret est-focus" href="#co-08">Mentions légales</a>
           </div>
         </footer>
@@ -1209,14 +1230,14 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
       <header class="specimen__entete"><h3 class="titre-3" id="co-09">CO-09 — Frise chronologique</h3><p class="texte-petit">Des périodes datées, dans l’ordre. Horizontale à partir de 900 px, verticale en dessous. Trois états d’étape : accomplie, mise en avant, prévue. Le tracé se dessine une fois, à l’apparition.</p></header>
       <div class="grille-2">
         <div class="etat"><p class="etat__nom">Adaptative (horizontale au large)</p>
-          <ol class="frise frise--adaptative frise--animee" style="--progression:0.36">
+          <ol class="frise frise--adaptative frise--animee" style="--etape-avant:2">
             <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape A</span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
             <li class="frise__etape frise__etape--avant"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape B<span class="masque-visuellement"> (étape mise en avant)</span></span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
             <li class="frise__etape frise__etape--prevue"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape C</span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
           </ol>
         </div>
         <div class="etat"><p class="etat__nom">Verticale (toujours)</p>
-          <ol class="frise" style="--progression:0.5">
+          <ol class="frise" style="--etape-avant:2">
             <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">MM/AAAA – MM/AAAA</span><span class="frise__intitule">Étape accomplie</span></li>
             <li class="frise__etape frise__etape--avant"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">MM/AAAA – MM/AAAA</span><span class="frise__intitule">Étape mise en avant<span class="masque-visuellement"> (étape mise en avant)</span></span></li>
             <li class="frise__etape frise__etape--prevue"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">MM/AAAA – MM/AAAA</span><span class="frise__intitule">Étape prévue</span></li>
@@ -1412,7 +1433,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
           <p class="titre-1">Titre de la frise</p>
           <p class="chapo">[texte fourni par Alexandre]</p>
         </div>
-        <ol class="frise frise--adaptative frise--animee" style="--progression:1">
+        <ol class="frise frise--adaptative frise--animee" style="--etape-avant:3">
           <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape A</span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
           <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape B</span><span class="frise__detail">[texte fourni par Alexandre]</span></li>
           <li class="frise__etape frise__etape--avant"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">AAAA – AAAA</span><span class="frise__intitule">Étape C<span class="masque-visuellement"> (étape mise en avant)</span></span><span class="frise__detail">[texte fourni par Alexandre]</span></li>

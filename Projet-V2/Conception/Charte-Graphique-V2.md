@@ -46,7 +46,11 @@ Une « nuit éclairée » : un fond très sombre, teinté par la palette, d'où 
 
 Trois palettes remplissent les mêmes quatorze rôles de couleur, définis en section 3.1. Les valeurs sont en hexadécimal opaque. Les ratios de contraste suivent la définition de la WCAG 2.x (luminance relative, seuil de linéarisation 0.04045) et ont été calculés par script, arrondis à deux décimales. Chaque tableau donne les huit paires imposées, puis dix paires qui couvrent les autres usages réels : texte discret, accent employé comme texte de lien, accent secondaire, texte sur l'accent secondaire, messages posés sur une surface. Les contrastes sur les fonds translucides (verre, halos, teintes de pastille) sont en section 8.
 
+Palette retenue : PA-02 Lagune — décision d'Alexandre du 16/10/2026 (point P-01). PA-01 Laiton et PA-03 Framboise, écartées le 16/10/2026, restent documentées ci-dessous avec leurs jetons et leurs tableaux, pour mémoire.
+
 ### PA-01 — Laiton
+Statut : écartée le 16/10/2026. Ses fonds composés n'ont pas été recalculés avec les halos moyens retenus (section 3.6) : son texte discret y descendrait sous 4.5:1 sur le verre posé au pic d'un halo, et une reprise de cette palette commencerait par corriger ce jeton (section 9).
+
 Un graphite chaud éclairé au laiton, avec un turquoise pâle en contrepoint : une palette soignée et singulière, loin des bleus et des violets habituels des sites de développeurs.
 
 Jetons :
@@ -92,7 +96,11 @@ Contrastes :
 Vigilance : couleur-accent et couleur-attention sont deux jaunes voisins. Un message d'attention se reconnaît à son icône, à son titre et à son cadre, jamais à sa seule couleur (section 8).
 
 ### PA-02 — Lagune
+Statut : retenue le 16/10/2026.
+
 Une encre vert-de-gris traversée d'un aqua lumineux, avec une pêche douce en contrepoint : la palette la plus calme et la plus « technique » des trois.
+
+Ajustement du 16/10/2026 : couleur-texte-discret passe de #8A9EA0 à #97A9AB, même teinte un peu plus claire. Avec les halos moyens, l'ancienne valeur tombait à 4.02:1 sur le verre posé au pic du halo d'accent ; la nouvelle y tient 4.61:1 (section 8). Les deux paires qui l'utilisent ci-dessous sont recalculées.
 
 Jetons :
 | Jeton | Valeur |
@@ -103,7 +111,7 @@ Jetons :
 | couleur-bordure | #2A3939 |
 | couleur-texte | #EEF5F5 |
 | couleur-texte-secondaire | #A9BDBE |
-| couleur-texte-discret | #8A9EA0 |
+| couleur-texte-discret | #97A9AB |
 | couleur-accent | #3FD4C8 |
 | couleur-accent-secondaire | #FFB59E |
 | couleur-texte-sur-accent | #04201E |
@@ -123,9 +131,9 @@ Contrastes :
 | couleur-erreur | couleur-fond | 7.41 | 4.5 |
 | couleur-succes | couleur-fond | 11.65 | 4.5 |
 | couleur-focus | couleur-fond | 15.26 | 3 |
-| couleur-texte-discret | couleur-fond | 7.01 | 4.5 |
+| couleur-texte-discret | couleur-fond | 8.04 | 4.5 |
 | couleur-texte-secondaire | couleur-surface-relevee | 8.39 | 4.5 |
-| couleur-texte-discret | couleur-surface-relevee | 5.86 | 4.5 |
+| couleur-texte-discret | couleur-surface-relevee | 6.72 | 4.5 |
 | couleur-accent | couleur-surface-relevee | 8.98 | 4.5 |
 | couleur-accent-secondaire | couleur-fond | 11.58 | 4.5 |
 | couleur-attention | couleur-fond | 13.04 | 4.5 |
@@ -137,6 +145,8 @@ Contrastes :
 Vigilance : l'aqua est une teinte fréquente sur les sites techniques, la palette distingue donc moins que les deux autres. couleur-focus et couleur-attention sont deux jaunes voisins, sans risque de confusion : l'un est un contour, l'autre un message avec icône.
 
 ### PA-03 — Framboise
+Statut : écartée le 16/10/2026. Ses fonds composés n'ont pas été recalculés avec les halos moyens retenus (section 3.6) : son texte discret y descendrait sous 4.5:1 sur le verre posé au pic d'un halo, et une reprise de cette palette commencerait par corriger ce jeton (section 9).
+
 Un noir prune relevé d'un framboise franc, avec un miel en contrepoint : la plus audacieuse des trois, celle qui marque le plus la mémoire.
 
 Jetons :
@@ -181,7 +191,7 @@ Contrastes :
 
 Vigilance : couleur-accent (framboise) et couleur-erreur (corail) sont proches. Un bouton principal et un message d'erreur se distinguent par leur forme et leur icône, mais c'est la palette la plus exposée à cette confusion. Le framboise peut aussi paraître moins sobre à un public de recrutement.
 
-Recommandation : PA-01 — Laiton. C'est la palette la plus éloignée de la page de référence (aucune teinte bleue, verte ou violette dominante) et la plus singulière face aux portfolios de développeurs, souvent bleus ou violets ; elle reste sobre, le laiton se lit « soigné » plutôt que « démonstratif », ce qui sert un public de recruteurs et de responsables techniques. Elle offre aussi les contrastes les plus confortables pour l'action principale (10.07:1 pour l'accent sur le fond, 9.41:1 pour le texte d'un bouton). Son seul point faible, la proximité de l'accent et de la couleur d'attention, est sans conséquence ici : le site n'affiche presque jamais de message d'attention, et aucun état ne repose sur la couleur seule. PA-02 est le meilleur second choix si Alexandre préfère une ambiance froide.
+Recommandation : PA-01 — Laiton, formulée avant la décision du 16/10/2026. C'est la palette la plus éloignée de la page de référence (aucune teinte bleue, verte ou violette dominante) et la plus singulière face aux portfolios de développeurs, souvent bleus ou violets ; elle reste sobre, le laiton se lit « soigné » plutôt que « démonstratif », ce qui sert un public de recruteurs et de responsables techniques. Sur l'action principale, elle ne se distingue pas de PA-02 : l'accent sur le fond est plus contrasté dans PA-02 (10.74:1 contre 10.07:1), et PA-01 n'est devant que pour le texte posé sur l'accent (9.41:1 contre 9.32:1). Son seul point faible, la proximité de l'accent et de la couleur d'attention, est sans conséquence ici : le site n'affiche presque jamais de message d'attention, et aucun état ne repose sur la couleur seule. PA-02 était le meilleur second choix pour une ambiance froide ; c'est elle qu'Alexandre a retenue.
 
 ## 3. Jetons
 
@@ -268,12 +278,15 @@ Une grille de 4 px. Les valeurs sont exprimées en unités relatives à la taill
 | Jeton | Valeur | Usage |
 | --- | --- | --- |
 | bordure-epaisseur | 1 px | toutes les bordures |
-| séparateur (règle) | bordure-epaisseur en couleur-bordure | séparateurs décoratifs |
-| bord de champ (règle) | bordure-epaisseur en couleur-texte-discret | contour des champs : au moins 3:1, il identifie le contrôle |
 | focus-epaisseur | 2 px | épaisseur de l'anneau de focus |
 | focus-decalage | 2 px | écart entre l'élément et l'anneau |
 | anneau-focus | focus-epaisseur, trait plein, couleur-focus | tout élément focalisable au clavier |
 | cible-tactile | 44 px | hauteur et largeur minimales de toute cible |
+
+Deux règles d'usage complètent ces jetons :
+
+- **Séparateur** : un trait de bordure-epaisseur en couleur-bordure. Il est décoratif et n'identifie jamais un contrôle.
+- **Bord de champ** : un trait de bordure-epaisseur en couleur-texte-discret. Il identifie le contrôle et atteint au moins 3:1 sur le fond du champ (section 8).
 
 ### 3.6 Effets : verre, halo, trame
 
@@ -287,9 +300,9 @@ Tous les effets sont dérivés des couleurs de la palette par opacité : aucune 
 | verre-fond | dégradé vertical de couleur-texte à opacite-verre-haut vers couleur-texte à opacite-verre-bas | fond des cartes et boutons secondaires en verre |
 | verre-bordure | couleur-texte à opacite-verre-bordure | filet d'un pixel autour du verre |
 | flou-verre | 14 px | flou d'arrière-plan, réservé à l'en-tête collant et au menu ouvert, à partir de 900 px |
-| opacite-halo-accent | 12 % | intensité maximale du halo principal |
+| opacite-halo-accent | 20 % | intensité maximale du halo principal (intensité moyenne, choix d'Alexandre du 16/10/2026) |
 | halo-accent | dégradé radial de couleur-accent à opacite-halo-accent vers transparent (à 70 % du rayon), ellipse de 60 % × 55 % de la section, centrée en haut à droite | lumière principale d'une section |
-| opacite-halo-secondaire | 10 % | intensité maximale du halo secondaire |
+| opacite-halo-secondaire | 15 % | intensité maximale du halo secondaire (intensité moyenne, choix d'Alexandre du 16/10/2026) |
 | halo-secondaire | dégradé radial de couleur-accent-secondaire à opacite-halo-secondaire vers transparent, ellipse de 50 % × 50 %, centrée en bas à gauche | contrepoint, en coin opposé |
 | opacite-trame | 7 % | intensité des points |
 | pas-trame | 28 px | écart entre deux points |
@@ -337,15 +350,17 @@ Sur un fond aussi sombre, l'élévation vient d'abord du ton des surfaces et du 
 
 ### Trois familles
 
+Trio retenu le 16/10/2026 (point P-02) : Bricolage Grotesque, Hanken Grotesk et JetBrains Mono.
+
 | Rôle | Famille | Licence | Graisses retenues | Pourquoi |
 | --- | --- | --- | --- | --- |
 | Titres (police-titre) | Bricolage Grotesque | SIL Open Font License 1.1 | 700 et 800 | grotesque à axe de taille optique : sobre en petite taille, expressive en très grande ; elle donne au titre d'affiche serré son caractère sans tomber dans la fantaisie |
 | Texte (police-texte) | Hanken Grotesk | SIL Open Font License 1.1 | 400, 500, 600 et 700 | grotesque neutre et ouverte, confortable en texte long, accents et ligatures du français complets |
 | Chasse fixe (police-mono) | JetBrains Mono | SIL Open Font License 1.1 | 400 et 500 | dessinée pour le code, très lisible en petite taille et en capitales espacées ; ligatures désactivées dans les extraits de code pour montrer les caractères tels qu'ils sont tapés |
 
-La licence SIL Open Font License 1.1 permet l'usage, l'intégration dans un site ou une application, la modification et la redistribution, gratuitement ; les trois familles couvrent le latin étendu. Le mode de chargement des polices (hébergées avec le site ou chez un service tiers) relève de la conception technique : la page catalogue les charge depuis le service de polices de Google pour l'aperçu seulement. Chaque famille a un repli système (section 3.2) : si la police manque, la page reste lisible.
+La licence SIL Open Font License 1.1 permet l'usage, l'intégration dans un site ou une application, la modification et la redistribution, gratuitement ; les trois familles couvrent le latin étendu. Comme le fixe la conception technique, les polices sont servies par le site lui-même : aucune police n'est chargée chez un tiers ; le format de chargement (fichiers, sous-ensembles de caractères, préchargement) se décide au scaffold. La page catalogue, simple démonstration hors du site, continue de les charger depuis le service de polices de Google pour l'aperçu. Chaque famille a un repli système (section 3.2) : si la police manque, la page reste lisible.
 
-Alternative plus classique, si Alexandre préfère moins de caractère dans les titres (point P-02) : Sora pour les titres, Source Sans 3 pour le texte, IBM Plex Mono pour la chasse fixe, toutes trois sous SIL Open Font License 1.1.
+Alternative plus classique, écartée le 16/10/2026 (point P-02) : Sora pour les titres, Source Sans 3 pour le texte, IBM Plex Mono pour la chasse fixe, toutes trois sous SIL Open Font License 1.1.
 
 ### Échelle typographique
 
@@ -472,9 +487,9 @@ Chaque composant n'utilise que des jetons. Les états survol, focus et appuyé s
 ### CO-03 — Pastille
 - **Rôle** : qualifier un élément par un état ou une catégorie, en un ou deux mots.
 - **Anatomie** : forme en pilule ; point de 6 px de la couleur du texte ; mot en police-mono, graisse-moyenne, taille-etiquette, capitales, approche-pastille.
-- **Variantes** : neutre (couleur-texte-secondaire sur couleur-texte à 8 %) ; accent, secondaire, succès, attention, erreur (couleur du rôle sur la même couleur à opacite-teinte) ; à point lumineux (le point rayonne) ; à contour (sans fond, filet verre-bordure, pour une catégorie posée sur du verre).
+- **Variantes** : neutre (couleur-texte-secondaire sur couleur-texte à 8 %) ; accent, secondaire, succès, attention, erreur (couleur du rôle sur la même couleur à opacite-teinte) ; à point lumineux (le point rayonne) ; à contour (sans fond, filet verre-bordure, texte couleur-texte). Une pastille posée sur du verre prend toujours la variante à contour, et de même sur le halo d'un arrière-plan d'ambiance (CO-13) ; les variantes teintées se posent sur un fond uni, couleur-fond ou couleur-surface.
 - **États** : statique, sans survol ni focus. Une pastille cliquable deviendrait un bouton ou un lien.
-- **Accessibilité** : le mot porte le sens, le point le souligne ; jamais de pastille muette. Contraste du texte sur sa teinte : 5.35:1 au moins (section 8).
+- **Accessibilité** : le mot porte le sens, le point le souligne ; jamais de pastille muette. Contraste du texte, calculé pour la palette retenue avec les halos moyens : 5.66:1 au moins dans les configurations permises (le minimum est la pastille erreur teintée sur couleur-surface ; la variante à contour tient 10.22:1 sur le verre au pic d'un halo). Une variante teintée posée sur du verre descendrait à 3.60:1, d'où la règle ci-dessus (section 8).
 - **Jetons** : couleur-texte, couleur-texte-secondaire, couleur-accent, couleur-accent-secondaire, couleur-succes, couleur-attention, couleur-erreur, opacite-teinte, verre-bordure, police-mono, graisse-moyenne, taille-etiquette, approche-pastille, arrondi-pilule, arrondi-cercle, espace-2.
 
 ### CO-04 — Étiquette
@@ -487,7 +502,7 @@ Chaque composant n'utilise que des jetons. Les états survol, focus et appuyé s
 
 ### CO-05 — Carte
 - **Rôle** : regrouper un contenu autonome (un projet, une compétence, un fait).
-- **Anatomie** : conteneur arrondi-grand ; étiquette facultative ; titre (taille-titre-3) ; texte (couleur-texte-secondaire) ; pied facultatif (pastilles, lien d'action).
+- **Anatomie** : conteneur arrondi-grand ; étiquette facultative ; titre (taille-titre-3) ; texte (couleur-texte-secondaire) ; pied facultatif (pastilles, lien d'action). Sur une carte en verre, les pastilles du pied prennent toujours la variante à contour (CO-03).
 - **Variantes** : verre (verre-fond, filet verre-bordure, sur un fond d'ambiance) ; pleine (couleur-surface, filet couleur-bordure, sur un fond uni) ; interactive (toute la carte est cliquable, par un seul lien porté par le titre).
 - **États** : repos ; survol (interactive : soulevée de 3 px, filet couleur-accent à 45 %) ; focus (interactive : anneau-focus autour de toute la carte) ; sans contenu facultatif (pied ou étiquette absents : la carte se resserre, aucune zone vide).
 - **Accessibilité** : un seul lien par carte interactive, dont le texte est le titre ; le lien d'action visible du pied est décoratif, pour ne pas annoncer deux fois la même destination ; l'ordre de lecture suit l'ordre visuel.
@@ -496,9 +511,9 @@ Chaque composant n'utilise que des jetons. Les états survol, focus et appuyé s
 ### CO-06 — En-tête et navigation
 - **Rôle** : identifier le site et donner accès, sur chaque page, aux sections et aux actions permanentes (dans le portfolio : le CV et le contact, MF-02).
 - **Anatomie** : marque (monogramme et nom, lien vers l'accueil) ; navigation (liste de liens de navigation, CO-02) ; actions permanentes (un bouton secondaire compact, un bouton primaire compact) ; bouton du menu replié (CO-07) en version compacte.
-- **Variantes** : complète (à partir de 1200 px : marque, navigation, actions) ; compacte (sous 1200 px : marque, actions, bouton de menu ; sous 480 px, la marque se réduit au monogramme).
+- **Variantes** : complète (à partir de 1200 px : marque, navigation, actions) ; compacte (sous 1200 px : marque, actions, bouton de menu ; sous 480 px, la marque se réduit au monogramme, retenu le 16/10/2026 au point P-07 : dans le portfolio, « AM »).
 - **États** : collé en haut de page pendant le défilement ; lien de section au repos, au survol, au focus, et section courante (trait d'accent) ; à partir de 900 px, fond couleur-fond à 72 % avec flou-verre ; en dessous, fond couleur-fond à 92 % sans flou.
-- **Accessibilité** : région de navigation nommée ; section courante signalée par un attribut ; les actions permanentes ne sont jamais dans le menu replié ; le lien d'évitement (CO-14) le précède ; hauteur constante (hauteur-entete) pour que les ancres ne passent pas dessous.
+- **Accessibilité** : région de navigation nommée ; section courante signalée par un attribut ; sous 480 px, le monogramme est décoratif et le nom complet reste annoncé aux lecteurs d'écran, comme nom du lien de la marque ; les actions permanentes ne sont jamais dans le menu replié ; le lien d'évitement (CO-14) le précède ; hauteur constante (hauteur-entete) pour que les ancres ne passent pas dessous.
 - **Jetons** : couleur-fond, couleur-texte, couleur-surface-relevee, verre-bordure, flou-verre, police-titre, graisse-titre, approche-sous-titre, hauteur-entete, marge-page, plan-entete, arrondi-petit, arrondi-moyen, espace-1, espace-2, espace-3.
 
 ### CO-07 — Menu replié
@@ -511,7 +526,7 @@ Chaque composant n'utilise que des jetons. Les états survol, focus et appuyé s
 
 ### CO-08 — Pied de page
 - **Rôle** : clore chaque page avec les liens permanents : profils externes (dans le portfolio : GitHub et LinkedIn, MF-17), mentions légales (MF-19), signature.
-- **Anatomie** : rangée haute (marque en police-titre, liens externes) ; rangée basse (étiquette de signature, lien des mentions légales) ; filet couleur-bordure au-dessus.
+- **Anatomie** : rangée haute (marque en police-titre, liens externes) ; rangée basse (étiquette de signature, lien des mentions légales) ; filet couleur-bordure au-dessus. La signature ne porte aucune année qui se périme (pas de « © » suivi de l'année en cours), conformément à l'exigence « aucune information qui se périme » (MF-18).
 - **Variantes** : une rangée par ligne sur téléphone, éléments répartis aux deux extrémités sur grand écran.
 - **États** : liens au repos, au survol, au focus (CO-02, variante discrète).
 - **Accessibilité** : liens externes annoncés (« nouvel onglet ») ; chaque lien atteint 44 px de haut ; le libellé texte du réseau est obligatoire, un logo n'est qu'un complément.
@@ -598,24 +613,30 @@ La cible est le niveau AA de la WCAG 2.2, avec quelques exigences au-delà quand
 ### Contrastes
 
 - **Texte et couleurs pleines** : les tableaux de la section 2 donnent, pour chaque palette, dix-huit paires calculées ; toutes atteignent leur minimum (4.5:1 pour le texte, 3:1 pour l'accent employé comme forme et pour le focus). L'accent sert aussi de couleur de lien : il atteint 4.5:1 même sur couleur-surface-relevee.
-- **Fonds composés** : les effets translucides modifient le fond réel. Les ratios ci-dessous sont calculés en composant les couleurs en sRGB (opacité appliquée, arrondi à 8 bits), sur le cas le plus défavorable.
+- **Fonds composés** : les effets translucides modifient le fond réel. Les ratios ci-dessous portent sur la palette retenue, PA-02, avec les halos moyens (opacite-halo-accent 20 %, opacite-halo-secondaire 15 %) ; une autre palette refait ce calcul avant usage (section 9).
+- **Méthode** : chaque fond est recomposé par script, couche par couche en sRGB (couleur-fond, puis le halo à son pic, puis le verre en haut de son dégradé ou la teinte, chaque couche mêlée à son opacité et arrondie à 8 bits), et le ratio WCAG 2.x du premier plan sur ce fond est retenu au cas le plus défavorable.
 
-| Premier plan | Fond composé | PA-01 | PA-02 | PA-03 | Minimum |
-| --- | --- | --- | --- | --- | --- |
-| couleur-accent | pastille accent : couleur-accent à 14 % sur couleur-surface | 7.23 | 7.57 | 5.35 | 4.5 |
-| couleur-accent-secondaire | pastille secondaire : couleur-accent-secondaire à 14 % sur couleur-surface | 7.03 | 8.11 | 8.75 | 4.5 |
-| couleur-succes | pastille succès : couleur-succes à 14 % sur couleur-surface | 7.82 | 8.06 | 8.13 | 4.5 |
-| couleur-erreur | pastille erreur : couleur-erreur à 14 % sur couleur-surface | 5.89 | 5.66 | 5.87 | 4.5 |
-| couleur-attention | pastille attention : couleur-attention à 14 % sur couleur-surface | 8.98 | 8.88 | 9.06 | 4.5 |
-| couleur-texte-secondaire | pastille neutre : couleur-texte à 8 % sur couleur-surface | 7.79 | 7.66 | 7.83 | 4.5 |
-| couleur-texte-discret | verre sur le pic du halo d'accent | 4.76 | 4.89 | 5.12 | 4.5 |
-| couleur-texte-discret | verre sur le pic du halo secondaire | 5.00 | 5.09 | 4.83 | 4.5 |
-| couleur-texte | lien courant du menu : couleur-accent à 16 % sur couleur-surface | 11.95 | 12.08 | 13.33 | 4.5 |
-| couleur-texte-sur-accent | bouton primaire au survol : couleur-texte à 12 % dans couleur-accent | 10.09 | 9.82 | 7.31 | 4.5 |
-| couleur-texte-discret | bord de champ sur couleur-surface | 6.32 | 6.52 | 6.27 | 3 |
-| couleur-bordure | séparateur sur couleur-fond (décoratif) | 1.62 | 1.63 | 1.57 | aucun |
+| Premier plan | Fond composé | PA-02 | Minimum |
+| --- | --- | --- | --- |
+| couleur-accent | pastille accent : couleur-accent à 14 % sur couleur-surface | 7.57 | 4.5 |
+| couleur-accent-secondaire | pastille secondaire : couleur-accent-secondaire à 14 % sur couleur-surface | 8.11 | 4.5 |
+| couleur-succes | pastille succès : couleur-succes à 14 % sur couleur-surface | 8.06 | 4.5 |
+| couleur-erreur | pastille erreur : couleur-erreur à 14 % sur couleur-surface | 5.66 | 4.5 |
+| couleur-attention | pastille attention : couleur-attention à 14 % sur couleur-surface | 8.88 | 4.5 |
+| couleur-texte-secondaire | pastille neutre : couleur-texte à 8 % sur couleur-surface | 7.66 | 4.5 |
+| couleur-texte | pastille à contour : verre sur le pic du halo d'accent | 10.22 | 4.5 |
+| couleur-texte-discret | verre sur le pic du halo d'accent | 4.61 | 4.5 |
+| couleur-texte-discret | verre sur le pic du halo secondaire | 5.20 | 4.5 |
+| couleur-texte-secondaire | texte de carte : verre sur le pic du halo d'accent | 5.75 | 4.5 |
+| couleur-accent | lien dans une carte : verre sur le pic du halo d'accent | 6.16 | 4.5 |
+| couleur-texte | lien courant du menu : couleur-accent à 16 % sur couleur-surface | 12.08 | 4.5 |
+| couleur-texte-sur-accent | bouton primaire au survol : couleur-texte à 12 % dans couleur-accent | 9.82 | 4.5 |
+| couleur-texte | bouton secondaire au survol : couleur-texte à 8 % sur le pic du halo d'accent | 9.72 | 4.5 |
+| couleur-focus | anneau de focus sur le pic du halo d'accent | 10.42 | 3 |
+| couleur-texte-discret | bord de champ sur couleur-surface | 7.48 | 3 |
+| couleur-bordure | séparateur sur couleur-fond (décoratif) | 1.63 | aucun |
 
-- **Configuration interdite** : du texte discret sur du verre posé sur les deux halos à leur pic tomberait à 3.89 (PA-01), 3.96 (PA-02) et 4.01 (PA-03). D'où la règle de CO-13 : les deux halos se placent en coins opposés et ne se croisent qu'en lisière, là où leur intensité est faible.
+- **Configurations interdites** : du texte discret sur du verre posé sur les deux halos à leur pic tomberait à 3.42 ; d'où la règle de CO-13 : les deux halos se placent en coins opposés et ne se croisent qu'en lisière, là où leur intensité est faible. Une pastille teintée posée sur du verre tomberait à 3.60 (pastille erreur, verre au pic du halo d'accent) et 3.87 (verre au pic du halo secondaire), et à 4.22 posée directement au pic du halo d'accent ; d'où la variante à contour sur le verre et sur les halos (CO-03).
 - **La couleur n'est jamais seule** : un lien dans un texte est souligné ; une erreur a une icône et un message ; une pastille a un mot ; l'étape mise en avant de la frise l'annonce par un texte masqué ; la page courante est signalée par un attribut.
 
 ### Focus toujours visible
@@ -677,15 +698,15 @@ Le système est en thème sombre uniquement (décision du 15/10/2026). Rien dans
 
 ## 10. Points à valider par Alexandre
 
-- P-01 — Choix de la palette parmi PA-01 Laiton, PA-02 Lagune et PA-03 Framboise. Recommandation : PA-01 Laiton, la plus éloignée de la référence et la plus singulière, sobre pour un public de recrutement, avec les meilleurs contrastes sur l'action principale ; PA-02 en second choix pour une ambiance froide (section 2). La page catalogue permet de comparer les trois sur tous les composants.
-- P-02 — Choix des trois familles de polices. Recommandation : Bricolage Grotesque pour les titres, Hanken Grotesk pour le texte, JetBrains Mono pour la chasse fixe, toutes sous SIL Open Font License 1.1 ; si les titres paraissent trop expressifs, l'alternative Sora, Source Sans 3 et IBM Plex Mono est plus classique (section 4).
-- P-03 — Largeurs d'écran couvertes : de 320 à 2560 px, points de rupture à 600, 900, 1200 et 1600 px. Recommandation : valider tel quel ; cela couvre les téléphones courants en portrait et les grands écrans de bureau, ainsi que le zoom à 200 %.
-- P-04 — Flou de verre réservé à l'en-tête collant et au menu ouvert, à partir de 900 px, cartes en verre sans flou. Recommandation : valider ; c'est le compromis qui garde l'effet visible là où il sert, sans peser sur le score de performance mobile visé (au moins 90).
-- P-05 — Cibles tactiles de 44 × 44 px, au-delà du minimum AA de 24 × 24 px. Recommandation : valider ; la cible est le téléphone d'un recruteur, le coût en place est faible.
-- P-06 — Liens externes ouverts dans un nouvel onglet, annoncés par une flèche oblique et un texte masqué. Recommandation : valider ; c'est la manière accessible de tenir la règle « le site reste ouvert dans la fenêtre d'origine » (MF-17).
-- P-07 — Monogramme à la place du nom dans l'en-tête sous 480 px de large. Le parcours d'écrans place le nom dans l'en-tête (EC-00) : sous 480 px, le monogramme le remplace à l'écran, le nom reste annoncé aux lecteurs d'écran et s'affiche en grand sur l'accueil. Recommandation : valider ; sans monogramme, le nom, le CV, le contact et le bouton de menu ne tiennent pas ensemble sur un téléphone de 320 px.
-- P-08 — Nom du design system pour ses réutilisations futures. Recommandation : ne pas le nommer maintenant ; le nommer à la première réutilisation dans une autre application, quand son périmètre réel sera connu.
-- P-09 — Image d'aperçu affichée quand un lien du site est partagé, que la conception technique attend de la charte. Recommandation : la produire avec les maquettes des écrans, sur la palette retenue au point P-01 ; elle reprend l'en-tête d'accueil (affiche, étiquette, halos), sans texte au-dessous de 24 px.
+- P-01 — Choix de la palette parmi PA-01 Laiton, PA-02 Lagune et PA-03 Framboise. Recommandation : PA-01 Laiton, la plus éloignée de la référence et la plus singulière, sobre pour un public de recrutement ; PA-02 en second choix pour une ambiance froide (section 2). Sur l'action principale, les deux se valent : l'accent sur le fond est plus contrasté dans PA-02 (10.74:1 contre 10.07:1), le texte posé sur l'accent l'est à peine plus dans PA-01 (9.41:1 contre 9.32:1). La page catalogue permet de comparer les trois sur tous les composants. Réponse d'Alexandre du 16/10/2026 : PA-02 Lagune est retenue ; PA-01 et PA-03 sont écartées et restent documentées en section 2.
+- P-02 — Choix des trois familles de polices. Recommandation : Bricolage Grotesque pour les titres, Hanken Grotesk pour le texte, JetBrains Mono pour la chasse fixe, toutes sous SIL Open Font License 1.1 ; si les titres paraissent trop expressifs, l'alternative Sora, Source Sans 3 et IBM Plex Mono est plus classique (section 4). Réponse d'Alexandre du 16/10/2026 : Bricolage Grotesque, Hanken Grotesk et JetBrains Mono sont retenues ; l'alternative est écartée.
+- P-03 — Largeurs d'écran couvertes : de 320 à 2560 px, points de rupture à 600, 900, 1200 et 1600 px. Recommandation : valider tel quel ; cela couvre les téléphones courants en portrait et les grands écrans de bureau, ainsi que le zoom à 200 %. Réponse d'Alexandre du 16/10/2026 : validé.
+- P-04 — Flou de verre réservé à l'en-tête collant et au menu ouvert, à partir de 900 px, cartes en verre sans flou. Recommandation : valider ; c'est le compromis qui garde l'effet visible là où il sert, sans peser sur le score de performance mobile visé (au moins 90). Réponse d'Alexandre du 16/10/2026 : validé.
+- P-05 — Cibles tactiles de 44 × 44 px, au-delà du minimum AA de 24 × 24 px. Recommandation : valider ; la cible est le téléphone d'un recruteur, le coût en place est faible. Réponse d'Alexandre du 16/10/2026 : validé.
+- P-06 — Liens externes ouverts dans un nouvel onglet, annoncés par une flèche oblique et un texte masqué. Recommandation : valider ; c'est la manière accessible de tenir la règle « le site reste ouvert dans la fenêtre d'origine » (MF-17). Réponse d'Alexandre du 16/10/2026 : validé.
+- P-07 — Monogramme à la place du nom dans l'en-tête sous 480 px de large. Le parcours d'écrans place le nom dans l'en-tête (EC-00) : sous 480 px, le monogramme le remplace à l'écran, le nom reste annoncé aux lecteurs d'écran et s'affiche en grand sur l'accueil. Recommandation : valider ; sans monogramme, le nom, le CV, le contact et le bouton de menu ne tiennent pas ensemble sur un téléphone de 320 px. Réponse d'Alexandre du 16/10/2026 : validé, avec le monogramme « AM » sous 480 px (CO-06).
+- P-08 — Nom du design system pour ses réutilisations futures. Recommandation : ne pas le nommer maintenant ; le nommer à la première réutilisation dans une autre application, quand son périmètre réel sera connu. Réponse d'Alexandre du 16/10/2026 : validé, le nom se décidera plus tard.
+- P-09 — Image d'aperçu affichée quand un lien du site est partagé, que la conception technique attend de la charte. Recommandation : la produire avec les maquettes des écrans, sur la palette retenue au point P-01 ; elle reprend l'en-tête d'accueil (affiche, étiquette, halos), sans texte au-dessous de 24 px. Réponse d'Alexandre du 16/10/2026 : validé, l'image se fera avec les maquettes des écrans, sur PA-02.
 
 ## 11. Sources
 
