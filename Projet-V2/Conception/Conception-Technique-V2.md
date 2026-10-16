@@ -1,5 +1,5 @@
 # Conception technique — Portfolio v2.0.0
-Statut : [x] à approuver  [ ] approuvé par : ______
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 16/10/26
 Base : US-2.0 et SC-2.0, approuvés par Alexandre Morozoff le 15/10/26 ; Contexte-Pitch signé le 14/10/26.
 
 Ce document cadre l'architecture, le modèle de contenu, l'hébergement, la sécurité, les tests et l'impact sur l'existant de la v2.0.0, avant le contrat d'API (Étape 6). Il ne fixe ni les écrans ni les adresses des pages (parcours d'écrans, T2.2), ni la direction artistique (charte et maquettes, T2.3), ni les routes, formats et codes d'erreur des échanges entre front et back (contrat d'API).
