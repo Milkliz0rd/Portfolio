@@ -4,9 +4,9 @@ Base : US-2.0 et SC-2.0, approuvés par Alexandre Morozoff le 15/10/26 ; décisi
 
 ## 1. Principes
 
-Ce document définit le design system né de la refonte du portfolio : ses jetons, ses composants et leurs règles. Il sert le portfolio et, au-delà, les futures applications personnelles d'Alexandre. Sa page catalogue, `Maquettes/design-system.html`, montre chaque jeton et chaque composant dans les trois palettes proposées ; elle s'ouvre dans un navigateur, sans installation, et permet de passer d'une palette à l'autre.
+Ce document définit le design system né de la refonte du portfolio : ses jetons, ses composants et leurs règles. Il sert le portfolio et, au-delà, les futures applications personnelles d'Alexandre. Sa page catalogue, `Maquettes/design-system.html`, montre chaque jeton et chaque composant dans la palette retenue, PA-02 Lagune ; elle s'ouvre dans un navigateur, sans installation, et permet encore d'afficher, pour comparaison, les deux palettes écartées.
 
-Les maquettes des écrans ne sont pas ici : elles viendront ensuite, sur la palette qu'Alexandre aura retenue.
+Les maquettes des écrans ne sont pas ici : elles viendront ensuite, sur la palette retenue, PA-02 Lagune.
 
 ### Le langage visuel retenu
 
@@ -614,7 +614,7 @@ La cible est le niveau AA de la WCAG 2.2, avec quelques exigences au-delà quand
 
 - **Texte et couleurs pleines** : les tableaux de la section 2 donnent, pour chaque palette, dix-huit paires calculées ; toutes atteignent leur minimum (4.5:1 pour le texte, 3:1 pour l'accent employé comme forme et pour le focus). L'accent sert aussi de couleur de lien : il atteint 4.5:1 même sur couleur-surface-relevee.
 - **Fonds composés** : les effets translucides modifient le fond réel. Les ratios ci-dessous portent sur la palette retenue, PA-02, avec les halos moyens (opacite-halo-accent 20 %, opacite-halo-secondaire 15 %) ; une autre palette refait ce calcul avant usage (section 9).
-- **Méthode** : chaque fond est recomposé par script, couche par couche en sRGB (couleur-fond, puis le halo à son pic, puis le verre en haut de son dégradé ou la teinte, chaque couche mêlée à son opacité et arrondie à 8 bits), et le ratio WCAG 2.x du premier plan sur ce fond est retenu au cas le plus défavorable.
+- **Méthode** : chaque fond est recomposé par script, couche par couche en sRGB (le fond de base indiqué dans la colonne « Fond composé » — couleur-fond, couleur-surface pour les pastilles, couleur-accent pour le survol du bouton primaire —, puis le halo à son pic, puis le verre en haut de son dégradé ou la teinte, chaque couche mêlée à son opacité et arrondie à 8 bits), et le ratio WCAG 2.x du premier plan sur ce fond est retenu au cas le plus défavorable.
 
 | Premier plan | Fond composé | PA-02 | Minimum |
 | --- | --- | --- | --- |
@@ -642,7 +642,7 @@ La cible est le niveau AA de la WCAG 2.2, avec quelques exigences au-delà quand
 ### Focus toujours visible
 
 - Tout élément focalisable au clavier affiche anneau-focus : 2 px de couleur-focus, décalé de 2 px. Le style de focus n'est jamais retiré sans être remplacé.
-- L'anneau se pose sur le fond, à 2 px de l'élément : il garde au moins 10.87:1 sur le fond et sur les deux surfaces (calcul complémentaire sur couleur-surface-relevee : 10.87, 12.76 et 12.47), même autour d'un bouton primaire dont l'accent est proche de couleur-focus (1.28:1 à 2.11:1 entre les deux).
+- L'anneau se pose sur le fond, à 2 px de l'élément : il garde au moins 12.76:1 sur le fond et sur les deux surfaces de PA-02 (15.26, 14.20 et 12.76), et 10.42:1 au pic d'un halo (tableau ci-dessus), même autour d'un bouton primaire dont l'accent est proche de couleur-focus (1.42:1 entre les deux).
 - L'anneau entoure tout le périmètre de l'élément, sur 2 px, avec un contraste d'au moins 3:1 entre l'état focalisé et l'état non focalisé : c'est l'exigence du critère 2.4.13 (niveau AAA), tenue sans effort.
 - Une carte interactive affiche l'anneau autour de la carte entière, pas seulement autour de son titre.
 
@@ -680,7 +680,7 @@ La préférence du visiteur est respectée telle que décrite en section 6 : auc
 
 ### Ce qui est propre au portfolio
 
-- Le choix d'une des trois palettes (point P-01).
+- La palette PA-02 Lagune (point P-01).
 - Les textes, les dates et les images, fournis par Alexandre.
 - Les usages : quelles actions sont permanentes dans l'en-tête (le CV et le contact), quelles sections figurent dans la navigation, ce que raconte la frise (le parcours), les cinq champs du formulaire de contact, la composition de la page d'accueil.
 - La marque : le nom, le monogramme.
