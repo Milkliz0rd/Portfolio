@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Portfolio, fiche projet — maquette EC-07 · Alexandre Morozoff</title>
+<meta name="description" content="Maquette de l’écran Fiche d’un projet, sur l’exemple du portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-valide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></symbol>
+  <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
+  <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
+</svg>
+<a class="evitement" href="#contenu">Aller au contenu</a>
+
+<div class="ecran" id="etat-nominal-complet" data-etat="nominal-complet">
+<header class="entete" data-commun="entete">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <nav class="entete__navigation" aria-label="Sections du site">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+    </ul>
+  </nav>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main id="contenu">
+<section class="section section--ouverture ambiance ambiance--section" aria-labelledby="titre-page">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette apparition" style="--rang:0"><span class="etiquette__numero">05</span>Projets</p>
+      <h1 class="titre-1 apparition" style="--rang:1" id="titre-page">Portfolio</h1>
+    </header>
+  </div>
+</section>
+
+<section class="section section--suite" aria-label="Le projet">
+  <div class="conteneur empile empile--large">
+    <div class="texte-long">
+      <p>[C-05 — description du projet : la démarche]</p>
+      <p>[C-05 — description du projet : l’architecture du site]</p>
+    </div>
+    <div class="empile empile--etire largeur-pleine">
+      <h2 class="titre-4">Captures</h2>
+      <ul class="grille-captures">
+        <li><figure class="fenetre">
+          <div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">capture-01</span></div>
+          <div class="capture" role="img" aria-label="[C-05 — texte alternatif de la capture 1]">[C-05 — capture 1]</div>
+        </figure></li>
+        <li><figure class="fenetre">
+          <div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">capture-02</span></div>
+          <div class="capture" role="img" aria-label="[C-05 — texte alternatif de la capture 2]">[C-05 — capture 2]</div>
+        </figure></li>
+      </ul>
+    </div>
+    <div class="groupe-actions">
+      <a class="bouton bouton--primaire" href="https://github.com/Milkliz0rd/Portfolio" target="_blank" rel="noopener noreferrer">Voir le code source<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a>
+    </div>
+    <a class="lien lien--action" href="ecran-06-projets.html">Retour à la liste des projets<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+  </div>
+</section>
+</main>
+
+<footer class="pied pied--page" data-commun="pied">
+  <div class="conteneur">
+    <div class="pied__haut">
+      <p class="pied__marque">Alexandre Morozoff</p>
+      <ul class="pied__liens">
+        <li><a class="lien lien--discret lien--externe" href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+        <li><a class="lien lien--discret lien--externe" href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+      </ul>
+    </div>
+    <div class="pied__bas">
+      <p class="etiquette">alexandre-morozoff-dev.fr</p>
+      <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<aside class="annotation" aria-labelledby="annotation-titre">
+  <div class="conteneur annotation__interieur">
+    <header class="annotation__entete">
+      <p class="annotation__marque">Annotation de maquette · hors design</p>
+      <h2 class="annotation__titre" id="annotation-titre">États de l'écran — annotation de maquette</h2>
+      <dl class="annotation__faits">
+        <div><dt>Écran</dt><dd>EC-07 · Fiche d’un projet</dd></div>
+        <div><dt>Adresse réelle</dt><dd><code>/projets/portfolio</code> (au lancement ; forme générale : <code>/projets/</code> suivi de l’identifiant du projet)</dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-04, MF-05, MF-06, MF-13, MF-14, MF-18, MF-22</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; description, pour le portfolio la démarche et l’architecture du site (C-05) ; captures, s’il y en a ; lien vers le code source, s’il existe ; retour vers la liste des projets</dd></div>
+        <div><dt>Liens</dt><dd>le code source s’ouvre dans un nouvel onglet, le site reste ouvert ; le CV et le contact restent à un clic par l’en-tête ; l’entrée « Projets » est la courante</dd></div>
+        <div><dt>Téléphone</dt><dd>titre, description, captures puis lien en une colonne ; les captures tiennent dans la largeur de l’écran</dd></div>
+        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal-complet">nominal-complet</a> : en haut de page ; titre, description, captures, lien</li><li><a class="lien" href="#etat-sans-capture">sans-capture</a> : aucune zone de capture</li><li><a class="lien" href="#etat-sans-lien-code">sans-lien-code</a> : aucun lien ni bouton de code source</li><li><a class="lien" href="#etat-projet-inexistant">projet-inexistant</a> : renvoi vers la page introuvable (EC-11)</li></ul></dd></div>
+      </dl>
+      <p class="annotation__note"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
+    </header>
+
+    <section class="annotation__etat" id="etat-sans-capture" data-etat="sans-capture" aria-labelledby="titre-etat-sans-capture">
+      <h3 class="annotation__nom" id="titre-etat-sans-capture">État : sans-capture</h3>
+      <p class="annotation__note">Projet sans capture : titre et description, puis directement le lien vers le code source. Aucune zone vide ni image absente à la place des captures.</p>
+      <div class="annotation__rendu">
+<section class="section section--ouverture ambiance ambiance--section">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette"><span class="etiquette__numero">05</span>Projets</p>
+      <p class="titre-1">Portfolio</p>
+    </header>
+  </div>
+</section>
+
+<section class="section section--suite">
+  <div class="conteneur empile empile--large">
+    <div class="texte-long">
+      <p>[C-05 — description du projet : la démarche]</p>
+      <p>[C-05 — description du projet : l’architecture du site]</p>
+    </div>
+    <div class="groupe-actions">
+      <a class="bouton bouton--primaire" href="https://github.com/Milkliz0rd/Portfolio" target="_blank" rel="noopener noreferrer">Voir le code source<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a>
+    </div>
+    <a class="lien lien--action" href="ecran-06-projets.html">Retour à la liste des projets<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+  </div>
+</section>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-sans-lien-code" data-etat="sans-lien-code" aria-labelledby="titre-etat-sans-lien-code">
+      <h3 class="annotation__nom" id="titre-etat-sans-lien-code">État : sans-lien-code</h3>
+      <p class="annotation__note">Projet sans lien vers son code source : titre, description et captures ; aucun lien ni bouton de code source.</p>
+      <div class="annotation__rendu">
+<section class="section section--ouverture ambiance ambiance--section">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette"><span class="etiquette__numero">05</span>Projets</p>
+      <p class="titre-1">Portfolio</p>
+    </header>
+  </div>
+</section>
+
+<section class="section section--suite">
+  <div class="conteneur empile empile--large">
+    <div class="texte-long">
+      <p>[C-05 — description du projet : la démarche]</p>
+      <p>[C-05 — description du projet : l’architecture du site]</p>
+    </div>
+    <div class="empile empile--etire largeur-pleine">
+      <p class="titre-4">Captures</p>
+      <ul class="grille-captures">
+        <li><figure class="fenetre">
+          <div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">capture-01</span></div>
+          <div class="capture" role="img" aria-label="[C-05 — texte alternatif de la capture 1]">[C-05 — capture 1]</div>
+        </figure></li>
+        <li><figure class="fenetre">
+          <div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">capture-02</span></div>
+          <div class="capture" role="img" aria-label="[C-05 — texte alternatif de la capture 2]">[C-05 — capture 2]</div>
+        </figure></li>
+      </ul>
+    </div>
+    <a class="lien lien--action" href="ecran-06-projets.html">Retour à la liste des projets<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+  </div>
+</section>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-projet-inexistant" data-etat="projet-inexistant" aria-labelledby="titre-etat-projet-inexistant">
+      <h3 class="annotation__nom" id="titre-etat-projet-inexistant">État : projet-inexistant</h3>
+      <p class="annotation__note">L’adresse d’un projet inexistant (<code>/projets/</code> suivi d’un identifiant inconnu) mène à la page introuvable. Cet état est décrit par EC-11 et nulle part ailleurs : cette fiche n’a pas de version « vide ».</p>
+      <div class="annotation__rendu">
+        <figure class="fenetre largeur-texte">
+          <div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__adresse">/projets/identifiant-inconnu</span></div>
+          <div class="fenetre__contenu empile">
+            <p class="etiquette etiquette--accent">Renvoi vers EC-11</p>
+            <p class="titre-3">Cette page n’existe pas</p>
+            <p class="texte-petit">La fiche demandée n’existe pas : l’adresse affiche la page introuvable, avec le retour à l’accueil et le retour vers la liste des projets.</p>
+            <a class="lien lien--action" href="ecran-11-introuvable.html#etat-projet-inexistant">Ouvrir l’écran EC-11<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+          </div>
+        </figure>
+      </div>
+    </section>
+  </div>
+</aside>
+
+<script>
+/* Menu replié : Échap le ferme et rend le focus à son bouton ; choisir une section ou cliquer ailleurs le ferme. */
+(function () {
+  var menus = document.querySelectorAll("details.menu-replie:not([data-fige])");
+  function fermer(menu, rendreFocus) {
+    menu.open = false;
+    if (rendreFocus) { menu.querySelector("summary").focus(); }
+  }
+  document.addEventListener("keydown", function (evenement) {
+    if (evenement.key !== "Escape") { return; }
+    for (var i = 0; i < menus.length; i++) {
+      if (menus[i].open) { fermer(menus[i], menus[i].contains(document.activeElement)); }
+    }
+  });
+  document.addEventListener("click", function (evenement) {
+    for (var i = 0; i < menus.length; i++) {
+      var menu = menus[i];
+      if (!menu.open) { continue; }
+      if (!menu.contains(evenement.target) || evenement.target.closest(".menu-replie__panneau a")) { fermer(menu, false); }
+    }
+  });
+})();
+</script>
+</body>
+</html>

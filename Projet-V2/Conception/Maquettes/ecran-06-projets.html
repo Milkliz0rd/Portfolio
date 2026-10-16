@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Projets — maquette EC-06 · Alexandre Morozoff</title>
+<meta name="description" content="Maquette de l’écran Projets : la liste des projets, le portfolio au lancement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-valide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></symbol>
+  <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
+  <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
+</svg>
+<a class="evitement" href="#contenu">Aller au contenu</a>
+
+<div class="ecran" id="etat-nominal" data-etat="nominal">
+<header class="entete" data-commun="entete">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <nav class="entete__navigation" aria-label="Sections du site">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+    </ul>
+  </nav>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main id="contenu">
+<section class="section section--ouverture ambiance ambiance--section" aria-labelledby="titre-page">
+  <div class="conteneur">
+    <header class="entete-section">
+      <p class="etiquette apparition" style="--rang:0"><span class="etiquette__numero">05</span>Projets</p>
+      <h1 class="titre-1 apparition" style="--rang:1" id="titre-page">Projets</h1>
+    </header>
+  </div>
+</section>
+
+<section class="section section--suite" aria-label="Liste des projets">
+  <div class="conteneur empile empile--large empile--etire">
+    <ul class="grille-cartes">
+      <li><article class="carte carte--pleine carte--interactive">
+        <p class="etiquette">Projet</p>
+        <h2 class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></h2>
+        <p class="carte__texte">[C-05 — description courte du projet]</p>
+        <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+      </article></li>
+    </ul>
+    <div class="message message--bloc" role="note"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>
+  </div>
+</section>
+</main>
+
+<footer class="pied pied--page" data-commun="pied">
+  <div class="conteneur">
+    <div class="pied__haut">
+      <p class="pied__marque">Alexandre Morozoff</p>
+      <ul class="pied__liens">
+        <li><a class="lien lien--discret lien--externe" href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+        <li><a class="lien lien--discret lien--externe" href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+      </ul>
+    </div>
+    <div class="pied__bas">
+      <p class="etiquette">alexandre-morozoff-dev.fr</p>
+      <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<aside class="annotation" aria-labelledby="annotation-titre">
+  <div class="conteneur annotation__interieur">
+    <header class="annotation__entete">
+      <p class="annotation__marque">Annotation de maquette · hors design</p>
+      <h2 class="annotation__titre" id="annotation-titre">États de l'écran — annotation de maquette</h2>
+      <dl class="annotation__faits">
+        <div><dt>Écran</dt><dd>EC-06 · Liste des projets</dd></div>
+        <div><dt>Adresse réelle</dt><dd><code>/projets</code></dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-04, MF-06, MF-12, MF-14, MF-18, MF-22</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; liste des projets, chacun avec son titre et un accès à sa fiche (au lancement, un seul : le portfolio ; description courte C-05) ; mention des projets d’entreprise non partageables</dd></div>
+        <div><dt>Règles</dt><dd>la liste existe même avec un seul projet ; aucun projet d’école ni d’entreprise ; aucun état de chargement : le contenu est intégré aux pages à la construction du site</dd></div>
+        <div><dt>Téléphone</dt><dd>un projet par ligne ; le titre n’est jamais coupé</dd></div>
+        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; un seul projet, le portfolio</li><li><a class="lien" href="#etat-plusieurs-projets">plusieurs-projets</a> : un projet ajouté apparaît sans changer les autres</li><li><a class="lien" href="#etat-liste-vide">liste-vide</a> : message, mention conservée</li></ul></dd></div>
+      </dl>
+      <p class="annotation__note"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
+    </header>
+
+    <section class="annotation__etat" id="etat-plusieurs-projets" data-etat="plusieurs-projets" aria-labelledby="titre-etat-plusieurs-projets">
+      <h3 class="annotation__nom" id="titre-etat-plusieurs-projets">État : plusieurs-projets</h3>
+      <p class="annotation__note">Exemple de démonstration : deux projets ajoutés plus tard apparaissent à la suite du portfolio, sans que le reste change. Une carte par ligne sur téléphone, deux de 600 à 1199 px, trois au-delà.</p>
+      <div class="annotation__rendu">
+<section class="section section--suite">
+  <div class="conteneur empile empile--large empile--etire">
+    <ul class="grille-cartes">
+      <li><article class="carte carte--pleine carte--interactive">
+        <p class="etiquette">Projet</p>
+        <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></p>
+        <p class="carte__texte">[C-05 — description courte du projet]</p>
+        <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+      </article></li>
+      <li><article class="carte carte--pleine carte--interactive">
+        <p class="etiquette">Projet · exemple de démonstration</p>
+        <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Projet ajouté 1</a></p>
+        <p class="carte__texte">Exemple de démonstration : un projet ajouté prend sa place à la suite, sans changer les autres.</p>
+        <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+      </article></li>
+      <li><article class="carte carte--pleine carte--interactive">
+        <p class="etiquette">Projet · exemple de démonstration</p>
+        <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Projet ajouté 2</a></p>
+        <p class="carte__texte">Exemple de démonstration : un projet ajouté prend sa place à la suite, sans changer les autres.</p>
+        <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+      </article></li>
+    </ul>
+    <div class="message message--bloc" role="note"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>
+  </div>
+</section>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-liste-vide" data-etat="liste-vide" aria-labelledby="titre-etat-liste-vide">
+      <h3 class="annotation__nom" id="titre-etat-liste-vide">État : liste-vide</h3>
+      <p class="annotation__note">Ne doit pas se produire au lancement : un message indique que la liste est vide ; la mention sur les projets d’entreprise reste affichée.</p>
+      <div class="annotation__rendu">
+<section class="section section--suite">
+  <div class="conteneur empile empile--etire">
+    <div class="message message--bloc" role="status"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Aucun projet à afficher</p><p class="message__texte">La liste des projets est vide.</p></div></div>
+    <div class="message message--bloc" role="note"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>
+  </div>
+</section>
+      </div>
+    </section>
+  </div>
+</aside>
+
+<script>
+/* Menu replié : Échap le ferme et rend le focus à son bouton ; choisir une section ou cliquer ailleurs le ferme. */
+(function () {
+  var menus = document.querySelectorAll("details.menu-replie:not([data-fige])");
+  function fermer(menu, rendreFocus) {
+    menu.open = false;
+    if (rendreFocus) { menu.querySelector("summary").focus(); }
+  }
+  document.addEventListener("keydown", function (evenement) {
+    if (evenement.key !== "Escape") { return; }
+    for (var i = 0; i < menus.length; i++) {
+      if (menus[i].open) { fermer(menus[i], menus[i].contains(document.activeElement)); }
+    }
+  });
+  document.addEventListener("click", function (evenement) {
+    for (var i = 0; i < menus.length; i++) {
+      var menu = menus[i];
+      if (!menu.open) { continue; }
+      if (!menu.contains(evenement.target) || evenement.target.closest(".menu-replie__panneau a")) { fermer(menu, false); }
+    }
+  });
+})();
+</script>
+</body>
+</html>
