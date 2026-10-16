@@ -1,5 +1,5 @@
 # Parcours d'écrans — Portfolio v2.0.0
-Statut : [x] à approuver  [ ] approuvé par : ______
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 16/10/26
 Base : US-2.0 et SC-2.0, approuvés par Alexandre Morozoff le 15/10/26.
 
 Ce document décrit la structure du site, l'ordre de lecture de chaque écran et ses états visibles, pour servir de point de départ aux maquettes. Il ne décide ni de l'aspect visuel (charte graphique, ticket T2.3) ni des moyens techniques (conception technique, ticket T2.1). Les textes définitifs ne sont pas rédigés ici : un contenu à fournir par Alexandre se désigne par son identifiant (C-01 à C-05) ou, à défaut, par son nom (voir V-05). Tout choix structurant est une proposition, à valider en section 7.
