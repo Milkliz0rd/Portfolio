@@ -14,7 +14,7 @@ En tant que recruteur, je veux voir dès mon arrivée qui est Alexandre Morozoff
 Règles métier :
 - L'accueil affiche le nom Alexandre Morozoff et l'intitulé de son profil.
 - L'intitulé du profil est « Développeur fullstack, orienté architecture logicielle » (Q-13).
-- L'accueil contient une courte présentation et montre comment atteindre les autres sections.
+- L'accueil contient une courte présentation (C-06) et montre comment atteindre les autres sections, chacune introduite par une phrase (C-10).
 - Aucun âge ni aucune formulation qui se périme n'y figure (Q-01, MF-18).
 
 Scénarios liés : SC-2.0-01
@@ -109,7 +109,7 @@ Source : Contexte « de l'orientation vers l'architecture logicielle » ; Contex
 En tant que responsable technique, je veux savoir qu'Alexandre s'oriente vers l'architecture logicielle, afin de situer son ambition professionnelle.
 
 Règles métier :
-- L'orientation est présentée avec le master en architecture durable du logiciel comme étape, qui est une période datée fournie par Alexandre (MF-07, C-01).
+- L'orientation est présentée avec le master en architecture durable du logiciel comme étape, qui est une période datée fournie par Alexandre (MF-07, C-01) ; son texte est fourni par Alexandre (C-09).
 - Aucune information sur le contenu du master n'est affichée sans que l'auteur l'ait fournie.
 
 Scénarios liés : SC-2.0-11
@@ -136,7 +136,7 @@ En tant que recruteur, je veux voir les compétences humaines d'Alexandre et com
 
 Règles métier :
 - Seules les compétences humaines fournies par Alexandre sont affichées (liste : C-02 ; niveaux : Q-06).
-- Le récit de reconversion est rattaché aux compétences humaines, pas aux compétences techniques.
+- Le récit de reconversion est rattaché aux compétences humaines, pas aux compétences techniques ; son texte est fourni par Alexandre (C-07).
 
 Scénarios liés : SC-2.0-13
 
@@ -148,7 +148,7 @@ Source : Pitch « Parler comme quoi je suis alternant chez OSOL » ; Pitch « To
 En tant que recruteur, je veux lire le rôle d'Alexandre chez OSOL, afin de connaître son rôle en entreprise.
 
 Règles métier :
-- Le rôle est décrit en trois volets : application, backend, appui DevOps sur certaines tâches.
+- Le rôle est décrit en trois volets : application, backend, appui DevOps sur certaines tâches ; leur description est fournie par Alexandre (C-08).
 - L'appui DevOps est présenté comme un appui sur certaines tâches, pas comme un poste.
 - Aucun projet, client, outil interne, dépôt ni collègue n'est nommé (Q-15).
 - L'alternance chez OSOL est présentée comme la période 2025–2028, fournie par Alexandre (C-01), jamais au présent (Q-02, MF-18).
@@ -358,6 +358,13 @@ Exclusions décidées :
 - C-03 — Le CV, en fichier. Alimente : MF-15.
 - C-04 — Le texte de la méthodologie de travail et de l'attachement aux architectures solides. Alimente : MF-21.
 - C-05 — La présentation du portfolio comme projet (démarche, architecture, lien vers le code source). Alimente : MF-22.
+- C-06 — La courte présentation de l'accueil, en deux phrases au plus. Alimente : MF-01.
+- C-07 — Le récit de reconversion depuis la restauration, tel qu'il illustre les compétences humaines. Alimente : MF-10.
+- C-08 — La description des trois volets du rôle chez OSOL (application, backend, appui DevOps sur certaines tâches). Alimente : MF-11.
+- C-09 — Le texte d'orientation vers l'architecture logicielle. Alimente : MF-08.
+- C-10 — Les phrases d'introduction des sections, au moins pour l'accueil et le parcours. Alimente : MF-01, MF-07.
+
+C-06 à C-10 ajoutés le 16/10/2026 : textes demandés par les micro-fonctions, relevés pendant l'Étape 4 (conception technique D-12, parcours d'écrans V-05).
 
 ## Matrice de couverture
 
