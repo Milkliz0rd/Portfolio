@@ -519,7 +519,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 /* Sur téléphone, les actions principales deviennent des commandes larges et espacées. */
 @media (max-width: 599px) {
   .groupe-actions--larges { flex-direction: column; align-items: stretch; }
-  .groupe-actions--larges .bouton { width: 100%; }
+  .groupe-actions--larges .bouton { width: 100%; white-space: normal; }
 }
 .message--bloc { max-width: var(--conteneur-texte); }
 .largeur-texte { width: 100%; max-width: var(--conteneur-texte); }
@@ -527,6 +527,21 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 /* Emplacement du message de résultat, juste sous le bouton d'envoi ; sans message, il ne prend pas de place. */
 .formulaire__resultat { display: grid; }
 .formulaire__resultat:empty { display: none; }
+
+/* Corrections de la revue des maquettes (K1 à K6). */
+/* K1 : sur téléphone, la liste clé-valeur en tableau se lit en une colonne, la clé au-dessus de la valeur. */
+@media (max-width: 599px) { .cles--tableau .cles__ligne { grid-template-columns: minmax(0, 1fr); gap: var(--espace-1); } }
+/* K2 : sous 480 px, la marque réduite au monogramme garde une cible de 44 × 44 px. */
+@media (max-width: 479px) { .entete__marque { min-width: var(--cible-tactile); justify-content: center; } }
+/* K3 : frise horizontale, chaque étape part du haut : les intitulés restent alignés, quel que soit le détail. */
+@media (min-width: 900px) { .frise--adaptative .frise__etape { align-content: start; } }
+/* K4 : un chapô placé directement dans une pile garde son plafond de 68 caractères. */
+.empile > .chapo { max-width: var(--conteneur-texte); }
+/* K5 : un lien seul sur sa ligne (titre de carte du sommaire, lien de référence, retour au sommaire) fait au moins 44 × 44 px. */
+.sommaire-ecrans .titre-3 .lien { min-width: var(--cible-tactile); }
+.parcours-types .titre-4 > .lien, .annotation__retour > .lien { display: inline-flex; align-items: center; min-height: var(--cible-tactile); }
+/* K6 : le bouton d'action d'un message passe à la ligne plutôt que de déborder sur un écran étroit. */
+.message__action { white-space: normal; max-width: 100%; }
 
 /* ---------- 6. Bande d'annotation (hors design, propre à la maquette) ---------- */
 .annotation { background: var(--couleur-surface); border-top: 2px dashed var(--couleur-accent-secondaire); color: var(--couleur-texte-secondaire); }
