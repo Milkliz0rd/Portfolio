@@ -188,14 +188,38 @@
     blocs.forEach(function (bloc) { observateur.observe(bloc); });
   }
 
-  /* ---------- MV-02 : la frise suit le défilement ; entière dans la fenêtre, elle se trace d'un coup (choix D2) ---------- */
+  /* ---------- MV-02 : la frise suit le défilement ; entière dans la fenêtre, elle se trace d'un coup (choix D2),
+     puis reste tracée pendant toute la visite de la page, retour arrière compris (choix R2) ---------- */
+
+  /* Les quatre valeurs d'une courbe cubic-bezier lue dans les jetons (repli : courbe linéaire). */
+  function lireCourbe(nom) {
+    var trouve = /cubic-bezier\(([^)]+)\)/.exec(styleRacine.getPropertyValue("--" + nom));
+    var valeurs = trouve ? trouve[1].split(",").map(function (v) { return parseFloat(v); }) : [];
+    return valeurs.length === 4 && valeurs.every(isFinite) ? valeurs : [0, 0, 1, 1];
+  }
+  /* Instant (part de la durée, de 0 à 1) où la courbe atteint la progression « cible » : la courbe est inversée par
+     dichotomie sur son paramètre s (y(s) = cible), puis on rend x(s). */
+  function instantDeCourbe(courbe, cible) {
+    function bezier(p1, p2, s) { var u = 1 - s; return 3 * u * u * s * p1 + 3 * u * s * s * p2 + s * s * s; }
+    var bas = 0;
+    var haut = 1;
+    for (var k = 0; k < 30; k++) {
+      var milieu = (bas + haut) / 2;
+      if (bezier(courbe[1], courbe[3], milieu) < cible) { bas = milieu; } else { haut = milieu; }
+    }
+    return bezier(courbe[0], courbe[2], (bas + haut) / 2);
+  }
+
   function initFrises() {
+    var courbe = lireCourbe("courbe-entree-sortie");
     tous('.frise[data-mv="MV-02"]').forEach(function (frise) {
       var points = tous('.frise__point[data-mv="MV-02"]', frise);
       var avant = frise.querySelector(".frise__etape--avant .frise__point") || points[points.length - 1];
       var fractions = [];
       var horizontale = false;
       var minuterie = 0;
+      var tracee = false; /* drapeau de la frise : une fois le trait tracé en entier, il reste à 1 jusqu'à la fin de la visite */
+      function position(i) { return borne(fractions[i] === undefined ? 1 : fractions[i], 0, 1); }
       function mesurer() {
         horizontale = window.getComputedStyle(frise).gridAutoFlow.indexOf("column") === 0;
         if (!points.length || !avant) { fractions = []; return; }
@@ -205,36 +229,52 @@
         var etendue = fin - debut;
         fractions = points.map(function (p) { return etendue > 0 ? (centre(p) - debut) / etendue : 0; });
       }
+      /* Toute la frise est visible : le trait se trace d'un coup jusqu'à l'étape mise en avant, en duree-trace et selon
+         courbe-entree-sortie (transition portée par « mv-frise-entiere ») ; chaque point s'allume quand le trait l'atteint
+         réellement : son délai est l'instant où la courbe, partie de la progression courante, passe la position du point. */
+      function tracer() {
+        var depart = borne(parseFloat(frise.style.getPropertyValue("--mv-progression")) || 0, 0, 1);
+        tracee = true;
+        frise.classList.add("mv-frise-entiere");
+        points.forEach(function (point, i) {
+          var part = depart < 1 ? (position(i) - depart) / (1 - depart) : 0;
+          point.style.transitionDelay = part > 0 ? Math.round(instantDeCourbe(courbe, part) * T.trace) + "ms" : "";
+          point.classList.add("mv-vu");
+        });
+        frise.style.setProperty("--mv-progression", "1.0000");
+        window.clearTimeout(minuterie);
+        minuterie = window.setTimeout(function () { points.forEach(function (point) { point.style.transitionDelay = ""; }); }, T.trace + 400);
+      }
+      /* Retour arrière (page rechargée ou restaurée depuis le cache) : le trait est posé à 1 d'emblée, sans transition
+         (« mv-frise-entiere », qui la porte, n'est pas posée) ni délais, comme les cascades qui ne rejouent jamais. */
+      function poser() {
+        tracee = true;
+        window.clearTimeout(minuterie);
+        frise.classList.remove("mv-frise-entiere");
+        frise.style.setProperty("--mv-progression", "1.0000");
+        points.forEach(function (point) { point.style.transitionDelay = ""; point.classList.add("mv-vu"); });
+      }
+      /* Avant le premier tracé complet, le trait suit le défilement, image par image, et recule quand on remonte. */
       function maj() {
+        if (tracee) { return; }
         var r = frise.getBoundingClientRect();
         var vh = window.innerHeight;
+        if (r.top >= 0 && r.bottom <= vh) { tracer(); return; }
         var progression = borne((vh * 0.9 - r.top) / (vh * 0.5 + (horizontale ? 0 : r.height)), 0, 1);
         var basDePage = window.scrollY + vh >= document.documentElement.scrollHeight - 2;
         if (basDePage && r.bottom < vh) { progression = 1; }
-        /* Toute la frise est visible : le trait se trace d'un coup jusqu'à l'étape mise en avant, en duree-trace,
-           et chaque point s'allume à son passage (décalage = sa position sur le trait × duree-trace). Sinon, il suit le défilement. */
-        var entiere = r.top >= 0 && r.bottom <= vh;
-        if (entiere && !frise.classList.contains("mv-frise-entiere")) {
-          frise.classList.add("mv-frise-entiere");
-          points.forEach(function (point, i) {
-            point.style.transitionDelay = Math.round(borne(fractions[i] === undefined ? 1 : fractions[i], 0, 1) * T.trace) + "ms";
-          });
-          window.clearTimeout(minuterie);
-          minuterie = window.setTimeout(function () { points.forEach(function (point) { point.style.transitionDelay = ""; }); }, T.trace + 400);
-        } else if (!entiere) {
-          frise.classList.remove("mv-frise-entiere");
-        }
-        if (entiere) { progression = 1; }
         frise.style.setProperty("--mv-progression", progression.toFixed(4));
-        points.forEach(function (point, i) {
-          var atteint = progression >= Math.min(fractions[i] === undefined ? 1 : fractions[i], 1) - 0.001;
-          point.classList.toggle("mv-vu", atteint);
-        });
+        points.forEach(function (point, i) { point.classList.toggle("mv-vu", progression >= position(i) - 0.001); });
       }
       mesurer();
-      /* Le tracé joue aussi à l'ouverture : la progression part de 0 et la première mise à jour attend deux images. */
-      frise.style.setProperty("--mv-progression", "0");
-      window.requestAnimationFrame(function () { window.requestAnimationFrame(maj); });
+      window.addEventListener("pageshow", function (evenement) { if (evenement.persisted) { poser(); } });
+      if (retourArriere) {
+        poser();
+      } else {
+        /* Le tracé joue aussi à l'ouverture : la progression part de 0 et la première mise à jour attend deux images. */
+        frise.style.setProperty("--mv-progression", "0");
+        window.requestAnimationFrame(function () { window.requestAnimationFrame(maj); });
+      }
       var largeur = window.innerWidth;
       surDefilement(function () {
         if (window.innerWidth !== largeur) { largeur = window.innerWidth; mesurer(); }

@@ -738,7 +738,8 @@ html:not(.mv-pause) .pause-animations:not(.pause-animations--demo) .icone--lectu
 
   /* MV-02 : le trait de la frise suit le défilement ; chaque point s'allume quand le trait l'atteint (le texte, jamais).
      Quand toute la frise est visible (mv-frise-entiere), le trait se trace d'un coup en duree-trace : sa transition n'existe
-     que dans ce cas, sinon il traînerait derrière le défilement. Le point de l'étape mise en avant n'est jamais atténué (choix D2). */
+     que dans ce cas, sinon il traînerait derrière le défilement. Une fois tracé, il reste à 1 pendant la visite (choix R2).
+     Le point de l'étape mise en avant n'est jamais atténué (choix D2). */
   .mv-actif .frise[data-mv="MV-02"]::after { transform: scaleY(var(--mv-progression, 0)); }
   .mv-actif .frise.mv-frise-entiere[data-mv="MV-02"]::after { transition: transform var(--duree-trace) var(--courbe-entree-sortie); }
   .mv-actif .frise__point[data-mv="MV-02"] { transition: opacity var(--duree-moyenne) var(--courbe-standard); }
@@ -775,7 +776,7 @@ html:not(.mv-pause) .pause-animations:not(.pause-animations--demo) .icone--lectu
   /* MV-08 : fenêtre collante à côté du texte, l'étape active est celle dont le haut a passé 40 % de la fenêtre. */
   .mv-actif .recit__fenetre { display: flex; position: sticky; top: calc(var(--hauteur-entete) + var(--espace-2)); z-index: 1; background: var(--couleur-surface); box-shadow: var(--ombre-fenetre), 0 calc(-1 * var(--espace-2)) 0 var(--couleur-fond); }
   .mv-actif .recit__etape > [data-mv-etape] { display: none; }
-  /* Choix D4 : chaque étape mesure au moins 30 % de la hauteur de la fenêtre sous 900 px, 55 % au-delà. */
+  /* Choix D4 : chaque étape mesure au moins 30 % de la hauteur de la fenêtre sous 900 px, 70 % au-delà (cahier, section I). */
   .mv-actif [data-mv-recit] .recit__etape { min-height: 30vh; align-content: start; }
   .mv-actif .recit__etape.est-active { border-left-color: var(--couleur-accent); }
   .mv-actif .recit__scene { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); height: 10rem; padding: var(--espace-4); overflow: hidden; }
@@ -800,7 +801,7 @@ html:not(.mv-pause) .pause-animations:not(.pause-animations--demo) .icone--lectu
   .mv-actif .recit { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); align-items: start; column-gap: var(--espace-16); }
   .mv-actif .recit__fenetre { grid-column: 2; grid-row: 1; top: calc(var(--hauteur-entete) + var(--espace-8)); }
   .mv-actif [data-mv-recit] .recit__etapes { grid-column: 1; grid-row: 1; }
-  .mv-actif [data-mv-recit] .recit__etape { min-height: 55vh; }
+  .mv-actif [data-mv-recit] .recit__etape { min-height: 70vh; }
   .mv-actif .recit__scene { height: 18rem; padding: var(--espace-6); }
 }
 /* MV-06 : seulement avec une souris. */
