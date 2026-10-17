@@ -41,7 +41,7 @@
   </nav>
   <div class="entete__actions">
     <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
-    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html" aria-current="page">Contact</a>
     <details class="menu-replie">
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
@@ -68,8 +68,9 @@
   </div>
 </section>
 
-<section class="section section--suite" aria-label="Formulaire de contact">
+<section class="section section--suite" aria-label="Formulaire de contact et autres accès">
   <div class="conteneur">
+    <div class="contact">
     <div class="contenu-formulaire">
     <form class="formulaire" action="#etat-envoi-en-cours" novalidate>
       <p class="champ__aide">Tous les champs sont obligatoires.</p>
@@ -84,6 +85,18 @@
       <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="submit">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button></div>
       <div class="formulaire__resultat" aria-live="polite"></div>
     </form>
+    </div>
+    <aside class="contact__info" aria-labelledby="titre-autres-acces">
+      <div class="carte carte--pleine">
+        <p class="etiquette">Information</p>
+        <h2 class="titre-4" id="titre-autres-acces">Autres accès</h2>
+        <ul class="contact__liens">
+          <li><a class="lien lien--action" href="ecran-08-cv.html">Voir le CV<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a></li>
+          <li><a class="lien lien--action" href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+          <li><a class="lien lien--action" href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+        </ul>
+      </div>
+    </aside>
     </div>
   </div>
 </section>
@@ -115,9 +128,11 @@
         <div><dt>Écran</dt><dd>EC-09 · Contact</dd></div>
         <div><dt>Adresse réelle</dt><dd><code>/contact</code></dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-04, MF-06, MF-16, MF-18, MF-20</dd></div>
-        <div><dt>Ordre de lecture</dt><dd>titre ; champs nom, prénom, adresse e-mail, sujet, message, tous obligatoires ; information sur l’usage des données, avant le bouton ; bouton d’envoi ; emplacement du message de résultat, juste sous le bouton</dd></div>
+        <div><dt>Navigation</dt><dd>le bouton « Contact » de l’en-tête porte l’attribut de page courante et un trait d’accent sous le bouton (choix C9 d’Alexandre) ; aucune entrée de la navigation n’est signalée</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; champs nom, prénom, adresse e-mail, sujet, message, tous obligatoires ; information sur l’usage des données, avant le bouton ; bouton d’envoi ; emplacement du message de résultat, juste sous le bouton ; puis la colonne d’information : autres accès au CV, à GitHub et à LinkedIn, faits déjà publiés</dd></div>
         <div><dt>Information sur les données</dt><dd>texte final à valider (D-10, conception technique CT-12) : qui reçoit, pourquoi, base légale, prestataires et transferts, durée de conservation, droits</dd></div>
         <div><dt>Protection</dt><dd>aucune protection contre les messages indésirables n’est visible (V-06)</dd></div>
+        <div><dt>Colonnes</dt><dd>formulaire et colonne d’information côte à côte à partir de 1200 px (choix C1 d’Alexandre) ; en dessous, la colonne d’information passe sous le formulaire. L’information sur les données reste dans le formulaire, avant le bouton (MF-20).</dd></div>
         <div><dt>Téléphone</dt><dd>une colonne, chaque champ sur toute la largeur ; nom et prénom côte à côte quand la place le permet ; le bouton et le message de résultat restent atteignables</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; formulaire vide</li><li><a class="lien" href="#etat-champ-manquant">champ-manquant</a> : message sous le champ, rien n’est envoyé</li><li><a class="lien" href="#etat-email-invalide">email-invalide</a> : message sous le champ e-mail</li><li><a class="lien" href="#etat-envoi-en-cours">envoi-en-cours</a> : bouton inactif, attente jusqu’à 90 secondes</li><li><a class="lien" href="#etat-envoi-reussi">envoi-reussi</a> : confirmation, champs vidés</li><li><a class="lien" href="#etat-envoi-echoue">envoi-echoue</a> : erreur réessayable, saisie conservée</li></ul></dd></div>
       </dl>

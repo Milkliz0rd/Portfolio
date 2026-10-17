@@ -70,7 +70,7 @@
 
 <section class="section section--suite" aria-label="Liste des projets">
   <div class="conteneur empile empile--large empile--etire">
-    <ul class="grille-cartes">
+    <ul class="liste-projets">
       <li><article class="carte carte--pleine carte--interactive">
         <p class="etiquette">Projet</p>
         <h2 class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></h2>
@@ -112,6 +112,7 @@
         <div><dt>Ordre de lecture</dt><dd>titre ; liste des projets, chacun avec son titre et un accès à sa fiche (au lancement, un seul : le portfolio ; description courte C-05) ; mention des projets d’entreprise non partageables</dd></div>
         <div><dt>Règles</dt><dd>la liste existe même avec un seul projet ; aucun projet d’école ni d’entreprise ; aucun état de chargement : le contenu est intégré aux pages à la construction du site</dd></div>
         <div><dt>Téléphone</dt><dd>un projet par ligne ; le titre n’est jamais coupé</dd></div>
+        <div><dt>Cartes</dt><dd>une carte large par projet, à toutes les largeurs (choix C2 d’Alexandre) : au lancement, la seule carte, celle du portfolio, occupe toute la largeur de la liste ; à partir de 900 px, son lien d’action passe à droite du texte</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; un seul projet, le portfolio</li><li><a class="lien" href="#etat-plusieurs-projets">plusieurs-projets</a> : un projet ajouté apparaît sans changer les autres</li><li><a class="lien" href="#etat-liste-vide">liste-vide</a> : message, mention conservée</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
@@ -119,11 +120,11 @@
 
     <section class="annotation__etat" id="etat-plusieurs-projets" data-etat="plusieurs-projets" aria-labelledby="titre-etat-plusieurs-projets">
       <h3 class="annotation__nom" id="titre-etat-plusieurs-projets">État : plusieurs-projets</h3>
-      <p class="annotation__note">Exemple de démonstration : deux projets ajoutés plus tard apparaissent à la suite du portfolio, sans que le reste change. Une carte par ligne sur téléphone, deux de 600 à 1199 px, trois au-delà.</p>
+      <p class="annotation__note">Exemple de démonstration : deux projets ajoutés plus tard apparaissent à la suite du portfolio, sans que le reste change. Chaque projet garde sa carte large, l’une sous l’autre, à toutes les largeurs.</p>
       <div class="annotation__rendu">
 <section class="section section--suite">
   <div class="conteneur empile empile--large empile--etire">
-    <ul class="grille-cartes">
+    <ul class="liste-projets">
       <li><article class="carte carte--pleine carte--interactive">
         <p class="etiquette">Projet</p>
         <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></p>
