@@ -1036,13 +1036,13 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
       <p class="texte-petit">Le détail de chaque motif, ses replis sans animation et sans script et son coût sont dans la charte (section 6) ; les maquettes des écrans les montrent en mouvement.</p>
       <ol class="motifs">
         <li><span class="etiquette etiquette--accent">MV-01</span><p class="texte-petit">Apparitions en cascade : chaque bloc entre une fois, ses éléments montent l’un après l’autre.</p></li>
-        <li><span class="etiquette etiquette--accent">MV-02</span><p class="texte-petit">Frise tracée au défilement : d’un coup en 1200&nbsp;ms quand toute la frise est visible, sinon au rythme de la lecture ; le trait s’arrête à l’étape mise en avant, dont le point est toujours allumé ; seuls les points s’allument.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-02</span><p class="texte-petit">Frise tracée au défilement : d’un coup en 1200&nbsp;ms quand toute la frise est visible, sinon au rythme de la lecture ; une fois tracé en entier, le trait reste tracé pendant toute la visite ; il s’arrête à l’étape mise en avant, dont le point est toujours allumé ; seuls les points s’allument.</p></li>
         <li><span class="etiquette etiquette--accent">MV-03</span><p class="texte-petit">Fenêtre de code qui s’écrit : caractère par caractère, une fois, en moins de 5&nbsp;s (environ 3&nbsp;s dans le portfolio) ; un extrait plus long s’affiche déjà écrit ; une fenêtre qui répète ce qui est déjà affiché est un décor, masqué aux lecteurs d’écran.</p></li>
         <li><span class="etiquette etiquette--accent">MV-04</span><p class="texte-petit">Halos qui respirent : cycle de 8&nbsp;s, jamais au-delà de leur intensité de charte.</p></li>
         <li><span class="etiquette etiquette--accent">MV-05</span><p class="texte-petit">Tracés qui se dessinent : filet, icônes en trait et flèche, à l’apparition du bloc.</p></li>
         <li><span class="etiquette etiquette--accent">MV-06</span><p class="texte-petit">Survols vivants : soulèvement de 4&nbsp;px, lueur sur le filet de la carte, flèche qui glisse.</p></li>
         <li><span class="etiquette etiquette--accent">MV-07</span><p class="texte-petit">Transitions entre pages : la page quittée s’efface, la nouvelle arrive en fondu, l’en-tête reste fixe.</p></li>
-        <li><span class="etiquette etiquette--accent">MV-08</span><p class="texte-petit">Récit au défilement : une fenêtre collante illustre l’étape en cours de lecture ; sous 900&nbsp;px, chaque étape mesure au moins 30&nbsp;% de la hauteur de la fenêtre (55&nbsp;% à partir de 900&nbsp;px) ; sans script ou si le mouvement est réduit, chaque illustration s’affiche sous son étape.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-08</span><p class="texte-petit">Récit au défilement : une fenêtre collante illustre l’étape en cours de lecture ; sous 900&nbsp;px, chaque étape mesure au moins 30&nbsp;% de la hauteur de la fenêtre (70&nbsp;% à partir de 900&nbsp;px) ; sans script ou si le mouvement est réduit, chaque illustration s’affiche sous son étape.</p></li>
         <li><span class="etiquette">MV-09</span><p class="texte-petit">Bandeau en boucle : écarté, rien ne défile en boucle.</p></li>
         <li><span class="etiquette etiquette--accent">MV-10</span><p class="texte-petit">Titre révélé mot par mot : à l’arrivée sur l’accueil, tout en place avant 2&nbsp;s.</p></li>
       </ol>
@@ -1295,7 +1295,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 
     <!-- CO-09 -->
     <article class="specimen" aria-labelledby="co-09">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-09">CO-09 — Frise chronologique</h3><p class="texte-petit">Des périodes datées, dans l’ordre. Horizontale à partir de 900 px, verticale en dessous. Trois états d’étape : accomplie, mise en avant, prévue. Sur un écran, le tracé avance avec le défilement (MV-02) ; ici, il se dessine une fois, au chargement.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-09">CO-09 — Frise chronologique</h3><p class="texte-petit">Des périodes datées, dans l’ordre. Horizontale à partir de 900 px, verticale en dessous. Trois états d’étape : accomplie, mise en avant, prévue. Sur un écran, le trait se trace d’un coup quand la frise est entière dans la fenêtre, puis il reste tracé pendant toute la visite ; tant qu’il n’a pas été tracé en entier, il suit le défilement (MV-02). Ici, il se dessine une fois, au chargement.</p></header>
       <div class="grille-2">
         <div class="etat"><p class="etat__nom">Adaptative (horizontale au large)</p>
           <ol class="frise frise--adaptative frise--animee" style="--etape-avant:2">
