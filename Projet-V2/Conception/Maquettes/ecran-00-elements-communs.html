@@ -6,6 +6,19 @@
 <meta name="color-scheme" content="dark">
 <title>Éléments communs — maquette EC-00 · Alexandre Morozoff</title>
 <meta name="description" content="Maquette de l’écran EC-00 : en-tête, navigation et pied de page communs à toutes les pages.">
+<script>
+/* Mouvement : le contenu reste visible par défaut. Les états cachés n’existent que sous « mv-actif », posé ici avant le premier affichage et seulement sans demande de réduction des animations ; sans « mv-pret » 3 s après, tout s’affiche. Le choix de pause mémorisé s’applique ici aussi. */
+(function () {
+  var h = document.documentElement;
+  try {
+    if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: no-preference)").matches) { return; }
+    h.classList.add("mv-actif");
+    try { if (window.localStorage.getItem("mv-pause") === "1") { h.classList.add("mv-pause"); } } catch (e) {}
+    window.setTimeout(function () { if (!h.classList.contains("mv-pret")) { h.classList.remove("mv-actif"); } }, 3000);
+  } catch (e) {}
+})();
+</script>
+<script src="mouvement.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
@@ -22,6 +35,8 @@
   <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
   <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-lecture" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
   <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
 </svg>
 <a class="evitement" href="#contenu">Aller au contenu</a>
@@ -59,7 +74,8 @@
 </header>
 
 <main id="contenu">
-<section class="section ambiance ambiance--section" aria-labelledby="titre-page">
+<section class="section ambiance ambiance--section ambiance--calques" aria-labelledby="titre-page">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
   <div class="conteneur empile empile--etire">
     <header class="entete-section">
       <p class="etiquette etiquette--accent">Présents sur chaque écran</p>
@@ -82,7 +98,10 @@
     </div>
     <div class="pied__bas">
       <p class="etiquette">alexandre-morozoff-dev.fr</p>
-      <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+      <div class="pied__actions">
+        <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+        <button class="lien lien--discret pause-animations" type="button" aria-pressed="false" data-mv-pause><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Mettre les animations en pause</span></button>
+      </div>
     </div>
   </div>
 </footer>
@@ -98,10 +117,11 @@
         <div><dt>Adresse réelle</dt><dd>toutes les pages, page introuvable comprise</dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-02, MF-03, MF-06, MF-17, MF-19</dd></div>
         <div><dt>En-tête</dt><dd>marque (monogramme « AM » sous 480 px, nom Alexandre Morozoff au-delà), lien vers l’accueil ; navigation complète à partir de 1200 px : Accueil, Parcours, Compétences, Expérience, Méthode, Projets ; « CV » (bouton secondaire) et « Contact » (bouton primaire), toujours visibles, jamais dans le menu</dd></div>
-        <div><dt>Pied de page</dt><dd>GitHub et LinkedIn, ouverts dans un nouvel onglet ; lien vers les mentions légales ; aucune année ni mention de droits datée</dd></div>
+        <div><dt>Pied de page</dt><dd>GitHub et LinkedIn, ouverts dans un nouvel onglet ; lien vers les mentions légales ; bouton « Mettre les animations en pause » (lien discret, icône pause en trait, cible de 44 px ; sa place reste à juger), absent sans script et quand le visiteur a demandé à réduire les animations ; aucune année ni mention de droits datée</dd></div>
         <div><dt>Téléphone</dt><dd>menu replié sous 1200 px ; pied de page lu en colonne ; aucune entrée coupée, aucun défilement horizontal</dd></div>
         <div><dt>Composants</dt><dd>CO-06 en-tête, CO-07 menu replié, CO-08 pied de page, CO-14 lien d’évitement (premier élément focalisable, visible à la touche Tab)</dd></div>
-        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’entrée courante dépend de l’écran</li><li><a class="lien" href="#etat-entree-courante">entree-courante</a> : entrée de l’écran affiché signalée</li><li><a class="lien" href="#etat-menu-replie">menu-replie</a> : téléphone, menu fermé</li><li><a class="lien" href="#etat-menu-deplie">menu-deplie</a> : téléphone, menu ouvert</li><li><a class="lien" href="#etat-sans-section-courante">sans-section-courante</a> : mentions légales, page introuvable</li></ul></dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-04, MV-07</span>. Le halo de la section respire (cycle de 8 s) et se fige avec le bouton de pause du pied de page. En changeant d’écran, la page s’efface en montant puis la suivante arrive en fondu ; l’en-tête reste fixe et son repère de page courante glisse vers la nouvelle entrée. L’en-tête et le pied de page n’entrent jamais en cascade.</dd></div>
+        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’entrée courante dépend de l’écran</li><li><a class="lien" href="#etat-entree-courante">entree-courante</a> : entrée de l’écran affiché signalée</li><li><a class="lien" href="#etat-menu-replie">menu-replie</a> : téléphone, menu fermé</li><li><a class="lien" href="#etat-menu-deplie">menu-deplie</a> : téléphone, menu ouvert</li><li><a class="lien" href="#etat-sans-section-courante">sans-section-courante</a> : mentions légales, page introuvable</li><li><a class="lien" href="#etat-animations-en-pause">animations-en-pause</a> : bouton de pause pressé, halos figés</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
     </header>
@@ -231,7 +251,9 @@
     </details>
   </div>
 </header>
-          <div class="cadre-telephone__contenu ambiance ambiance--accueil">
+          <div class="cadre-telephone__contenu ambiance ambiance--accueil ambiance--calques">
+  <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
             <p class="etiquette etiquette--puce">Écran courant</p>
             <p class="titre-2">Parcours</p>
             <p class="texte-petit">Contenu de l’écran affiché.</p>
@@ -264,7 +286,9 @@
     </details>
   </div>
 </header>
-          <div class="cadre-telephone__contenu ambiance ambiance--accueil">
+          <div class="cadre-telephone__contenu ambiance ambiance--accueil ambiance--calques">
+  <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
             <p class="etiquette etiquette--puce">Écran courant</p>
             <p class="titre-2">Parcours</p>
             <p class="texte-petit">Contenu de l’écran affiché.</p>
@@ -322,6 +346,30 @@
     </ul>
   </nav>
 </div>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-animations-en-pause" data-etat="animations-en-pause" aria-labelledby="titre-etat-animations-en-pause">
+      <h3 class="annotation__nom" id="titre-etat-animations-en-pause">État : animations-en-pause</h3>
+      <p class="annotation__note">Le bouton « Mettre les animations en pause » du pied de page a été pressé : il devient « Relancer les animations », son attribut aria-pressed passe à true et son icône pause devient une icône lecture. La respiration des halos est figée sur toutes les pages, et le choix est mémorisé d’une page à l’autre ; les mouvements joués une fois (cascades, tracés, transitions entre pages) ne changent pas. Le bouton n’existe pas quand le visiteur a demandé à réduire les animations, ni sans script : les halos sont alors fixes. Ce cadre reste pressé pour la démonstration.</p>
+      <div class="annotation__rendu annotation__rendu--nu">
+        <div class="cadre-demo">
+<div class="pied">
+    <div class="pied__haut">
+      <p class="pied__marque">Alexandre Morozoff</p>
+      <ul class="pied__liens">
+        <li><a class="lien lien--discret lien--externe" href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+        <li><a class="lien lien--discret lien--externe" href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+      </ul>
+    </div>
+    <div class="pied__bas">
+      <p class="etiquette">alexandre-morozoff-dev.fr</p>
+      <div class="pied__actions">
+        <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+        <button class="lien lien--discret pause-animations pause-animations--demo" type="button" aria-pressed="true"><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Relancer les animations</span></button>
+      </div>
+    </div>
+</div>
+        </div>
       </div>
     </section>
   </div>

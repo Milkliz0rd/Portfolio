@@ -6,6 +6,19 @@
 <meta name="color-scheme" content="dark">
 <title>Parcours — maquette EC-02 · Alexandre Morozoff</title>
 <meta name="description" content="Maquette de l’écran Parcours : reconversion, bac+3, master en architecture durable du logiciel.">
+<script>
+/* Mouvement : le contenu reste visible par défaut. Les états cachés n’existent que sous « mv-actif », posé ici avant le premier affichage et seulement sans demande de réduction des animations ; sans « mv-pret » 3 s après, tout s’affiche. Le choix de pause mémorisé s’applique ici aussi. */
+(function () {
+  var h = document.documentElement;
+  try {
+    if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: no-preference)").matches) { return; }
+    h.classList.add("mv-actif");
+    try { if (window.localStorage.getItem("mv-pause") === "1") { h.classList.add("mv-pause"); } } catch (e) {}
+    window.setTimeout(function () { if (!h.classList.contains("mv-pret")) { h.classList.remove("mv-actif"); } }, 3000);
+  } catch (e) {}
+})();
+</script>
+<script src="mouvement.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
@@ -22,6 +35,8 @@
   <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
   <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-lecture" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
   <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
 </svg>
 <a class="evitement" href="#contenu">Aller au contenu</a>
@@ -59,21 +74,22 @@
 </header>
 
 <main id="contenu">
-<section class="section ambiance ambiance--section" aria-labelledby="titre-page">
+<section class="section ambiance ambiance--section ambiance--calques" aria-labelledby="titre-page">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
   <div class="conteneur empile empile--large empile--etire">
-    <header class="entete-section">
-      <p class="etiquette apparition" style="--rang:0"><span class="etiquette__numero">01</span>Parcours</p>
-      <h1 class="titre-1 apparition" style="--rang:1" id="titre-page">Parcours</h1>
-      <p class="chapo apparition" style="--rang:2">[C-10 — phrase d’introduction du parcours]</p>
+    <header class="entete-section" data-mv-bloc>
+      <p class="etiquette" data-mv="MV-01"><span class="etiquette__numero" data-mv="MV-05">01</span>Parcours</p>
+      <h1 class="titre-1" id="titre-page" data-mv="MV-01">Parcours</h1>
+      <p class="chapo" data-mv="MV-01">[C-10 — phrase d’introduction du parcours]</p>
     </header>
-    <div class="bloc-titre">
-      <p class="etiquette etiquette--accent">Orientation</p>
-      <p class="texte">[C-09 — texte d’orientation vers l’architecture logicielle, qui cite le master en architecture durable du logiciel comme étape]</p>
+    <div class="bloc-titre" data-mv-bloc>
+      <p class="etiquette etiquette--accent" data-mv="MV-01">Orientation</p>
+      <p class="texte" data-mv="MV-01">[C-09 — texte d’orientation vers l’architecture logicielle, qui cite le master en architecture durable du logiciel comme étape]</p>
     </div>
-    <ol class="frise frise--adaptative frise--animee" style="--etape-avant:3" aria-label="Étapes du parcours">
-      <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">[C-01 — début] – [C-01 — fin]</span><span class="frise__intitule">Reconversion depuis la restauration</span></li>
-      <li class="frise__etape frise__etape--accomplie"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">[C-01 — début] – [C-01 — fin]</span><span class="frise__intitule">[C-01 — intitulé du bac+3]</span><span class="frise__detail">Bac+3 · [C-01 — établissement]</span></li>
-      <li class="frise__etape frise__etape--avant"><span class="frise__point" aria-hidden="true"></span><span class="frise__periode">[C-01 — début du master] – 2028</span><span class="frise__intitule">Master en architecture durable du logiciel<span class="masque-visuellement"> (étape mise en avant)</span></span></li>
+    <ol class="frise frise--adaptative" data-mv="MV-02" style="--etape-avant:3" aria-label="Étapes du parcours">
+      <li class="frise__etape frise__etape--accomplie"><span class="frise__point" data-mv="MV-02" aria-hidden="true"></span><span class="frise__periode">[C-01 — début] – [C-01 — fin]</span><span class="frise__intitule">Reconversion depuis la restauration</span></li>
+      <li class="frise__etape frise__etape--accomplie"><span class="frise__point" data-mv="MV-02" aria-hidden="true"></span><span class="frise__periode">[C-01 — début] – [C-01 — fin]</span><span class="frise__intitule">[C-01 — intitulé du bac+3]</span><span class="frise__detail">Bac+3 · [C-01 — établissement]</span></li>
+      <li class="frise__etape frise__etape--avant"><span class="frise__point" data-mv="MV-02" aria-hidden="true"></span><span class="frise__periode">[C-01 — début du master] – 2028</span><span class="frise__intitule">Master en architecture durable du logiciel<span class="masque-visuellement"> (étape mise en avant)</span></span></li>
     </ol>
   </div>
 </section>
@@ -90,7 +106,10 @@
     </div>
     <div class="pied__bas">
       <p class="etiquette">alexandre-morozoff-dev.fr</p>
-      <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+      <div class="pied__actions">
+        <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+        <button class="lien lien--discret pause-animations" type="button" aria-pressed="false" data-mv-pause><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Mettre les animations en pause</span></button>
+      </div>
     </div>
   </div>
 </footer>
@@ -106,8 +125,9 @@
         <div><dt>Adresse réelle</dt><dd><code>/parcours</code></dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-04, MF-07, MF-08, MF-18</dd></div>
         <div><dt>Ordre de lecture</dt><dd>titre et introduction (C-10) ; texte d’orientation (C-09) ; trois étapes dans l’ordre reconversion, bac+3, master, chacune avec sa période (C-01)</dd></div>
-        <div><dt>Frise</dt><dd>CO-09 adaptative : horizontale à partir de 900 px, verticale en dessous, période en tête de chaque étape. Le master est l’étape mise en avant ; le tracé se dessine une fois. Chaque période a un début et une fin ; seule la fin du master (2028) est connue.</dd></div>
+        <div><dt>Frise</dt><dd>CO-09 adaptative : horizontale à partir de 900 px, verticale en dessous, période en tête de chaque étape. Le master est l’étape mise en avant ; le trait suit le défilement et chaque point s’allume quand le trait l’atteint. Chaque période a un début et une fin ; seule la fin du master (2028) est connue.</dd></div>
         <div><dt>Condition de mise en ligne</dt><dd>aucune date inventée ni laissée vide à l’écran : l’écran ne part en ligne qu’avec toutes les périodes de C-01 (V-05)</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-02, MV-04, MV-05, MV-07</span>. L’en-tête de section et l’orientation apparaissent en cascade, le filet de l’étiquette s’étire. Le trait de la frise avance et recule avec le défilement ; chaque point s’allume quand le trait l’atteint ; le texte des étapes garde toujours son plein contraste. Le halo respire. La page entre et sort en fondu.</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; trois étapes datées</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>

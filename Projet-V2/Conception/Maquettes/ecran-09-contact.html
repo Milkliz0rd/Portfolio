@@ -6,6 +6,19 @@
 <meta name="color-scheme" content="dark">
 <title>Contact — maquette EC-09 · Alexandre Morozoff</title>
 <meta name="description" content="Maquette de l’écran Contact : le formulaire et ses états d’envoi.">
+<script>
+/* Mouvement : le contenu reste visible par défaut. Les états cachés n’existent que sous « mv-actif », posé ici avant le premier affichage et seulement sans demande de réduction des animations ; sans « mv-pret » 3 s après, tout s’affiche. Le choix de pause mémorisé s’applique ici aussi. */
+(function () {
+  var h = document.documentElement;
+  try {
+    if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: no-preference)").matches) { return; }
+    h.classList.add("mv-actif");
+    try { if (window.localStorage.getItem("mv-pause") === "1") { h.classList.add("mv-pause"); } } catch (e) {}
+    window.setTimeout(function () { if (!h.classList.contains("mv-pret")) { h.classList.remove("mv-actif"); } }, 3000);
+  } catch (e) {}
+})();
+</script>
+<script src="mouvement.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
@@ -22,6 +35,8 @@
   <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
   <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-lecture" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
   <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
 </svg>
 <a class="evitement" href="#contenu">Aller au contenu</a>
@@ -59,19 +74,20 @@
 </header>
 
 <main id="contenu">
-<section class="section section--ouverture ambiance ambiance--section" aria-labelledby="titre-page">
+<section class="section section--ouverture ambiance ambiance--section ambiance--calques" aria-labelledby="titre-page">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
   <div class="conteneur">
-    <header class="entete-section">
-      <p class="etiquette etiquette--accent apparition" style="--rang:0">Écrire à Alexandre Morozoff</p>
-      <h1 class="titre-1 apparition" style="--rang:1" id="titre-page">Contact</h1>
+    <header class="entete-section" data-mv-bloc>
+      <p class="etiquette etiquette--accent" data-mv="MV-01">Écrire à Alexandre Morozoff</p>
+      <h1 class="titre-1" id="titre-page" data-mv="MV-01">Contact</h1>
     </header>
   </div>
 </section>
 
 <section class="section section--suite" aria-label="Formulaire de contact et autres accès">
   <div class="conteneur">
-    <div class="contact">
-    <div class="contenu-formulaire">
+    <div class="contact" data-mv-bloc>
+    <div class="contenu-formulaire" data-mv="MV-01">
     <form class="formulaire" action="#etat-envoi-en-cours" novalidate>
       <p class="champ__aide">Tous les champs sont obligatoires.</p>
       <div class="formulaire__ligne">
@@ -86,14 +102,14 @@
       <div class="formulaire__resultat" aria-live="polite"></div>
     </form>
     </div>
-    <aside class="contact__info" aria-labelledby="titre-autres-acces">
+    <aside class="contact__info" aria-labelledby="titre-autres-acces" data-mv="MV-01">
       <div class="carte carte--pleine">
         <p class="etiquette">Information</p>
         <h2 class="titre-4" id="titre-autres-acces">Autres accès</h2>
         <ul class="contact__liens">
-          <li><a class="lien lien--action" href="ecran-08-cv.html">Voir le CV<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a></li>
-          <li><a class="lien lien--action" href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
-          <li><a class="lien lien--action" href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+          <li><a class="lien lien--action" data-mv-survol href="ecran-08-cv.html">Voir le CV<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></a></li>
+          <li><a class="lien lien--action" data-mv-survol href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+          <li><a class="lien lien--action" data-mv-survol href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
         </ul>
       </div>
     </aside>
@@ -113,7 +129,10 @@
     </div>
     <div class="pied__bas">
       <p class="etiquette">alexandre-morozoff-dev.fr</p>
-      <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+      <div class="pied__actions">
+        <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+        <button class="lien lien--discret pause-animations" type="button" aria-pressed="false" data-mv-pause><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Mettre les animations en pause</span></button>
+      </div>
     </div>
   </div>
 </footer>
@@ -134,6 +153,7 @@
         <div><dt>Protection</dt><dd>aucune protection contre les messages indésirables n’est visible (V-06)</dd></div>
         <div><dt>Colonnes</dt><dd>formulaire et colonne d’information côte à côte à partir de 1200 px (choix C1 d’Alexandre) ; en dessous, la colonne d’information passe sous le formulaire. L’information sur les données reste dans le formulaire, avant le bouton (MF-20).</dd></div>
         <div><dt>Téléphone</dt><dd>une colonne, chaque champ sur toute la largeur ; nom et prénom côte à côte quand la place le permet ; le bouton et le message de résultat restent atteignables</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-05, MV-06, MV-07</span>. Le titre, le formulaire et la colonne d’information apparaissent en cascade ; les flèches des autres accès se dessinent, glissent au survol et leur soulignement s’étire. Le halo respire. La page entre et sort en fondu ; le repère de page courante glisse jusqu’au bouton « Contact » de l’en-tête.</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; formulaire vide</li><li><a class="lien" href="#etat-champ-manquant">champ-manquant</a> : message sous le champ, rien n’est envoyé</li><li><a class="lien" href="#etat-email-invalide">email-invalide</a> : message sous le champ e-mail</li><li><a class="lien" href="#etat-envoi-en-cours">envoi-en-cours</a> : bouton inactif, attente jusqu’à 90 secondes</li><li><a class="lien" href="#etat-envoi-reussi">envoi-reussi</a> : confirmation, champs vidés</li><li><a class="lien" href="#etat-envoi-echoue">envoi-echoue</a> : erreur réessayable, saisie conservée</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>

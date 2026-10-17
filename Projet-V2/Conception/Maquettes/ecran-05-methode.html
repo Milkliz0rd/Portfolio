@@ -6,6 +6,19 @@
 <meta name="color-scheme" content="dark">
 <title>Méthode de travail — maquette EC-05 · Alexandre Morozoff</title>
 <meta name="description" content="Maquette de l’écran Méthode de travail, avec son renvoi vers la fiche du portfolio.">
+<script>
+/* Mouvement : le contenu reste visible par défaut. Les états cachés n’existent que sous « mv-actif », posé ici avant le premier affichage et seulement sans demande de réduction des animations ; sans « mv-pret » 3 s après, tout s’affiche. Le choix de pause mémorisé s’applique ici aussi. */
+(function () {
+  var h = document.documentElement;
+  try {
+    if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: no-preference)").matches) { return; }
+    h.classList.add("mv-actif");
+    try { if (window.localStorage.getItem("mv-pause") === "1") { h.classList.add("mv-pause"); } } catch (e) {}
+    window.setTimeout(function () { if (!h.classList.contains("mv-pret")) { h.classList.remove("mv-actif"); } }, 3000);
+  } catch (e) {}
+})();
+</script>
+<script src="mouvement.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
@@ -22,6 +35,8 @@
   <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
   <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-lecture" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
   <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
 </svg>
 <a class="evitement" href="#contenu">Aller au contenu</a>
@@ -59,27 +74,93 @@
 </header>
 
 <main id="contenu">
-<section class="section section--ouverture ambiance ambiance--section" aria-labelledby="titre-page">
+<section class="section section--ouverture ambiance ambiance--section ambiance--calques" aria-labelledby="titre-page">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
   <div class="conteneur">
-    <header class="entete-section">
-      <p class="etiquette apparition" style="--rang:0"><span class="etiquette__numero">04</span>Méthode</p>
-      <h1 class="titre-1 apparition" style="--rang:1" id="titre-page">Méthode de travail</h1>
+    <header class="entete-section" data-mv-bloc>
+      <p class="etiquette" data-mv="MV-01"><span class="etiquette__numero" data-mv="MV-05">04</span>Méthode</p>
+      <h1 class="titre-1" id="titre-page" data-mv="MV-01">Méthode de travail</h1>
     </header>
   </div>
 </section>
 
 <section class="section section--suite" aria-label="Méthode de travail">
   <div class="conteneur empile empile--large">
-    <div class="texte-long">
-      <p>[C-04 — texte de la méthodologie de travail et de l’attachement aux architectures solides]</p>
-      <p>[C-04 — suite du texte, en paragraphes]</p>
+    <div class="recit" data-mv-recit>
+      <div class="recit__fenetre fenetre" aria-hidden="true">
+        <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__titre">methode · illustration de démonstration</span></div>
+        <div class="recit__scene"></div>
+        <div class="recit__progression"><span class="recit__barre"></span></div>
+      </div>
+      <ol class="recit__etapes">
+        <li class="recit__etape" data-mv-bloc>
+          <p class="etiquette etiquette--accent" data-mv="MV-01">Étape 1 · exemple de démonstration</p>
+          <h2 class="titre-3" data-mv="MV-01">[C-04 — étape 1 de la méthode : son intitulé]</h2>
+          <p class="texte" data-mv="MV-01">[C-04 — étape 1 : le texte de la méthodologie de travail, découpé en étapes]</p>
+          <figure class="recit__illustration" data-mv-etape aria-hidden="true">
+            <svg viewBox="0 0 320 180" focusable="false">
+              <path class="recit__boite recit__piece" style="--i:0" d="M24 64h72v52H24z"/>
+              <path class="recit__boite recit__piece" style="--i:1" d="M124 24h72v52h-72z"/>
+              <path class="recit__boite recit__piece" style="--i:2" d="M124 104h72v52h-72z"/>
+              <path class="recit__boite recit__piece" style="--i:3" d="M224 64h72v52h-72z"/>
+              <path class="recit__trait recit__piece recit__piece--trace" pathLength="1" style="--i:4" d="M96 90h14V50h14M96 90h14v40h14M196 50h14v40h14M196 130h14V90h14"/>
+            </svg>
+            <figcaption class="recit__legende">Illustration de démonstration</figcaption>
+          </figure>
+        </li>
+        <li class="recit__etape" data-mv-bloc>
+          <p class="etiquette etiquette--accent" data-mv="MV-01">Étape 2 · exemple de démonstration</p>
+          <h2 class="titre-3" data-mv="MV-01">[C-04 — étape 2 de la méthode : son intitulé]</h2>
+          <p class="texte" data-mv="MV-01">[C-04 — étape 2 : le texte de la méthodologie de travail, découpé en étapes]</p>
+          <figure class="recit__illustration" data-mv-etape aria-hidden="true">
+            <svg viewBox="0 0 320 180" focusable="false">
+              <path class="recit__barre-dessin recit__piece recit__piece--barre" style="--i:0" d="M24 26h250v18H24z"/>
+              <path class="recit__barre-dessin--neutre recit__piece recit__piece--barre" style="--i:1" d="M24 62h160v18H24z"/>
+              <path class="recit__barre-dessin recit__piece recit__piece--barre" style="--i:2" d="M24 98h210v18H24z"/>
+              <path class="recit__barre-dessin--neutre recit__piece recit__piece--barre" style="--i:3" d="M24 134h120v18H24z"/>
+            </svg>
+            <figcaption class="recit__legende">Illustration de démonstration</figcaption>
+          </figure>
+        </li>
+        <li class="recit__etape" data-mv-bloc>
+          <p class="etiquette etiquette--accent" data-mv="MV-01">Étape 3 · exemple de démonstration</p>
+          <h2 class="titre-3" data-mv="MV-01">[C-04 — étape 3 de la méthode : son intitulé]</h2>
+          <p class="texte" data-mv="MV-01">[C-04 — étape 3 : le texte de la méthodologie de travail, découpé en étapes]</p>
+          <figure class="recit__illustration" data-mv-etape aria-hidden="true">
+            <svg viewBox="0 0 320 180" focusable="false">
+              <path class="recit__boite recit__piece" style="--i:0" d="M40 18h240v36H40z"/>
+              <path class="recit__boite recit__piece" style="--i:1" d="M40 72h240v36H40z"/>
+              <path class="recit__boite recit__piece" style="--i:2" d="M40 126h240v36H40z"/>
+              <path class="recit__trait recit__trait--secondaire recit__piece recit__piece--trace" pathLength="1" style="--i:3" d="M160 54v18M160 108v18"/>
+            </svg>
+            <figcaption class="recit__legende">Illustration de démonstration</figcaption>
+          </figure>
+        </li>
+        <li class="recit__etape" data-mv-bloc>
+          <p class="etiquette etiquette--accent" data-mv="MV-01">Étape 4 · exemple de démonstration</p>
+          <h2 class="titre-3" data-mv="MV-01">[C-04 — étape 4 de la méthode : son intitulé]</h2>
+          <p class="texte" data-mv="MV-01">[C-04 — étape 4 : le texte de la méthodologie de travail, découpé en étapes]</p>
+          <figure class="recit__illustration" data-mv-etape aria-hidden="true">
+            <svg viewBox="0 0 320 180" focusable="false">
+              <path class="recit__trait recit__piece recit__piece--trace" pathLength="1" style="--i:0" d="M40 90a50 50 0 1 0 100 0a50 50 0 1 0-100 0"/>
+              <path class="recit__trait recit__piece recit__piece--trace" pathLength="1" style="--i:1" d="M68 92l16 16 30-34"/>
+              <path class="recit__barre-dessin recit__piece recit__piece--barre" style="--i:2" d="M170 62h120v14H170z"/>
+              <path class="recit__barre-dessin--neutre recit__piece recit__piece--barre" style="--i:3" d="M170 88h96v14h-96z"/>
+              <path class="recit__barre-dessin--neutre recit__piece recit__piece--barre" style="--i:4" d="M170 114h108v14H170z"/>
+            </svg>
+            <figcaption class="recit__legende">Illustration de démonstration</figcaption>
+          </figure>
+        </li>
+      </ol>
     </div>
-    <article class="carte carte--pleine carte--interactive largeur-texte">
+    <div class="largeur-texte" data-mv-bloc data-mv="MV-01">
+    <article class="carte carte--pleine carte--interactive" data-mv-survol>
       <p class="etiquette etiquette--accent">La méthode appliquée</p>
       <h2 class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></h2>
       <p class="carte__texte">La fiche du projet portfolio illustre cette méthode : la démarche, l’architecture et le code source du site.</p>
-      <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+      <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
     </article>
+    </div>
   </div>
 </section>
 </main>
@@ -95,7 +176,10 @@
     </div>
     <div class="pied__bas">
       <p class="etiquette">alexandre-morozoff-dev.fr</p>
-      <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+      <div class="pied__actions">
+        <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+        <button class="lien lien--discret pause-animations" type="button" aria-pressed="false" data-mv-pause><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Mettre les animations en pause</span></button>
+      </div>
     </div>
   </div>
 </footer>
@@ -110,9 +194,11 @@
         <div><dt>Écran</dt><dd>EC-05 · Méthode de travail</dd></div>
         <div><dt>Adresse réelle</dt><dd><code>/methode</code></dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-04, MF-18, MF-21</dd></div>
-        <div><dt>Ordre de lecture</dt><dd>titre ; texte de la méthodologie et de l’attachement aux architectures solides (C-04) ; renvoi vers la fiche du portfolio, qui mène à <code>/projets/portfolio</code></dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; texte de la méthodologie et de l’attachement aux architectures solides (C-04), découpé en étapes, chacune suivie de son illustration ; renvoi vers la fiche du portfolio, qui mène à <code>/projets/portfolio</code></dd></div>
         <div><dt>Règles</dt><dd>aucun document interne, client, projet, outil interne ni dépôt d’entreprise nommé</dd></div>
-        <div><dt>Téléphone</dt><dd>le texte se lit en une colonne ; le renvoi reste visible à la fin du texte</dd></div>
+        <div><dt>Téléphone</dt><dd>le texte se lit en une colonne ; la fenêtre d’illustration se cale en haut, sous l’en-tête, et le texte passe dessous ; le renvoi reste visible à la fin du texte</dd></div>
+        <div><dt>Récit</dt><dd>quatre étapes de démonstration, étiquetées comme telles, tant que le texte C-04 n’est pas fourni ; à partir de 900 px, la fenêtre collante est à droite du texte ; sans script ou quand le visiteur a demandé à réduire les animations, pas de fenêtre collante : chaque illustration suit le texte de son étape</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-05, MV-06, MV-07, MV-08</span>. Le texte défile à côté d’une fenêtre collante qui montre l’illustration de l’étape active, celle dont le haut a passé 40 % de la hauteur de la fenêtre : changement en fondu et en position, schéma tracé, barres qui s’étirent, barre de progression. L’étape active se signale par un filet d’accent, jamais en grisant les autres. Sous 900 px, la fenêtre se cale en haut, sous l’en-tête. Les étapes et le renvoi apparaissent en cascade ; la flèche du renvoi se dessine et la carte se soulève au survol. Le halo respire. La page entre et sort en fondu.</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; texte et renvoi</li><li><a class="lien" href="#etat-renvoi-projet-absent">renvoi-projet-absent</a> : la fiche visée n’existe plus : le renvoi est retiré</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
@@ -120,14 +206,16 @@
 
     <section class="annotation__etat" id="etat-renvoi-projet-absent" data-etat="renvoi-projet-absent" aria-labelledby="titre-etat-renvoi-projet-absent">
       <h3 class="annotation__nom" id="titre-etat-renvoi-projet-absent">État : renvoi-projet-absent</h3>
-      <p class="annotation__note">Si la fiche du portfolio n’existait plus, le renvoi mènerait à la page introuvable : il est retiré de l’écran plutôt que laissé cassé. Le texte reste affiché seul.</p>
+      <p class="annotation__note">Si la fiche du portfolio n’existait plus, le renvoi mènerait à la page introuvable : il est retiré de l’écran plutôt que laissé cassé. Le récit reste affiché seul, avec ses illustrations comme dans l’état nominal (omises dans ce rendu).</p>
       <div class="annotation__rendu">
 <section class="section section--suite">
   <div class="conteneur empile empile--large">
-    <div class="texte-long">
-      <p>[C-04 — texte de la méthodologie de travail et de l’attachement aux architectures solides]</p>
-      <p>[C-04 — suite du texte, en paragraphes]</p>
-    </div>
+    <ol class="recit__etapes">
+      <li class="recit__etape"><p class="etiquette etiquette--accent">Étape 1 · exemple de démonstration</p><p class="titre-3">[C-04 — étape 1 de la méthode : son intitulé]</p><p class="texte">[C-04 — étape 1 : le texte de la méthodologie de travail, découpé en étapes]</p></li>
+      <li class="recit__etape"><p class="etiquette etiquette--accent">Étape 2 · exemple de démonstration</p><p class="titre-3">[C-04 — étape 2 de la méthode : son intitulé]</p><p class="texte">[C-04 — étape 2 : le texte de la méthodologie de travail, découpé en étapes]</p></li>
+      <li class="recit__etape"><p class="etiquette etiquette--accent">Étape 3 · exemple de démonstration</p><p class="titre-3">[C-04 — étape 3 de la méthode : son intitulé]</p><p class="texte">[C-04 — étape 3 : le texte de la méthodologie de travail, découpé en étapes]</p></li>
+      <li class="recit__etape"><p class="etiquette etiquette--accent">Étape 4 · exemple de démonstration</p><p class="titre-3">[C-04 — étape 4 de la méthode : son intitulé]</p><p class="texte">[C-04 — étape 4 : le texte de la méthodologie de travail, découpé en étapes]</p></li>
+    </ol>
   </div>
 </section>
       </div>
