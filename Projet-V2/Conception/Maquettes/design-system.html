@@ -81,10 +81,19 @@
   --duree-courte: 180ms;
   --duree-moyenne: 320ms;
   --duree-longue: 600ms;
+  --duree-apparition: 700ms;
   --duree-trace: 1200ms;
   --duree-rotation: 900ms;
+  --duree-etape: 450ms;
+  --duree-sortie-page: 240ms;
+  --duree-respiration: 8s;
+  --delai-depart: 200ms;
   --delai-cascade: 70ms;
-  --distance-apparition: 12px;
+  --delai-mot-titre: 110ms;
+  --delai-mot: 40ms;
+  --delai-caractere: 11ms;
+  --distance-apparition: 16px;
+  --distance-soulevement: 4px;
   --courbe-standard: cubic-bezier(0.2, 0, 0, 1);
   --courbe-sortie: cubic-bezier(0.23, 1, 0.32, 1);
   --courbe-entree-sortie: cubic-bezier(0.77, 0, 0.175, 1);
@@ -251,7 +260,7 @@ svg { display: block; }
 .lien--externe .icone { display: inline-block; width: 0.85em; height: 0.85em; margin-left: 0.2em; vertical-align: -0.05em; }
 .lien--action { display: inline-flex; align-items: center; gap: var(--espace-2); min-height: var(--cible-tactile); font-weight: var(--graisse-appuyee); text-decoration: none; }
 .lien--action .icone { transition: transform var(--duree-courte) var(--courbe-sortie); }
-.lien--action:hover .icone, .lien--action.est-survol .icone { transform: translateX(3px); }
+.lien--action:hover .icone, .lien--action.est-survol .icone { transform: translateX(var(--distance-soulevement)); }
 .lien--action:hover, .lien--action.est-survol { text-decoration: underline; text-underline-offset: 0.22em; }
 .lien-navigation {
   position: relative; display: inline-flex; align-items: center;
@@ -306,7 +315,7 @@ svg { display: block; }
 .carte__texte { color: var(--couleur-texte-secondaire); }
 .carte__pied { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--espace-2); padding-top: var(--espace-2); }
 .carte--interactive { transition: transform var(--duree-moyenne) var(--courbe-sortie), border-color var(--duree-courte) var(--courbe-standard); }
-.carte--interactive:hover, .carte--interactive.est-survol { transform: translateY(-3px); border-color: color-mix(in srgb, var(--couleur-accent) 45%, transparent); }
+.carte--interactive:hover, .carte--interactive.est-survol { transform: translateY(calc(-1 * var(--distance-soulevement))); border-color: color-mix(in srgb, var(--couleur-accent) 45%, transparent); }
 .carte--interactive.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
 .carte__lien { color: inherit; text-decoration: none; }
 .carte__lien::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
@@ -469,7 +478,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .code-chaine { color: var(--couleur-accent-secondaire); }
 .code-note { color: var(--couleur-texte-discret); }
 .fenetre--interactive { transition: transform var(--duree-moyenne) var(--courbe-sortie), border-color var(--duree-courte) var(--courbe-standard); }
-.fenetre--interactive:hover, .fenetre--interactive.est-survol { transform: translateY(-3px); border-color: color-mix(in srgb, var(--couleur-accent) 40%, transparent); }
+.fenetre--interactive:hover, .fenetre--interactive.est-survol { transform: translateY(calc(-1 * var(--distance-soulevement))); border-color: color-mix(in srgb, var(--couleur-accent) 40%, transparent); }
 .fenetre--interactive.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
 .maquette { display: grid; gap: var(--espace-3); aspect-ratio: 16 / 9; align-content: start; }
 .maquette span { display: block; height: 10px; border-radius: var(--arrondi-pilule); background: color-mix(in srgb, var(--couleur-texte) 10%, transparent); }
@@ -610,6 +619,8 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .demo-cascade > summary { list-style: none; width: max-content; max-width: 100%; }
 .demo-cascade > summary::-webkit-details-marker { display: none; }
 .demo-cascade__grille { margin-top: var(--espace-5); }
+.motifs { display: grid; gap: 0; list-style: none; }
+.motifs li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--espace-4); align-items: baseline; padding-block: var(--espace-3); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
 
 /* Cadres de démonstration */
 .cadre-telephone { position: relative; width: 100%; max-width: 22.5rem; min-height: 31rem; margin-inline: auto; overflow: hidden; border-radius: 26px; border: var(--bordure-epaisseur) solid var(--couleur-bordure); background: var(--couleur-fond); }
@@ -644,7 +655,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 @keyframes rotation { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
-  .apparition { animation: apparition var(--duree-longue) var(--courbe-sortie) both; animation-delay: calc(var(--rang, 0) * var(--delai-cascade) + 120ms); }
+  .apparition { animation: apparition var(--duree-apparition) var(--courbe-sortie) both; animation-delay: calc(var(--rang, 0) * var(--delai-cascade) + 120ms); }
   .frise--animee::after { animation: trace-verticale var(--duree-trace) var(--courbe-entree-sortie) 300ms both; }
   .indicateur { animation: rotation var(--duree-rotation) linear infinite; }
 }
@@ -960,19 +971,22 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
     <header class="entete-section">
       <p class="etiquette"><span class="etiquette__numero">04</span>Mouvement</p>
       <h2 class="titre-2" id="titre-mouvement">Entrer, pas danser</h2>
-      <p class="texte">Survolez ou focalisez une piste pour voir la durée et la courbe. Si votre système demande de réduire les animations, rien ne bouge : c’est le comportement attendu.</p>
+      <p class="texte">Intensité mesurée : des montées de 16 px, des entrées de 600 à 700 ms, jamais de changement d’échelle à l’apparition. Survolez ou focalisez une piste pour voir une durée et sa courbe. Si votre système demande de réduire les animations, rien ne bouge : c’est le comportement attendu.</p>
     </header>
     <div class="grille-2">
       <div class="pistes">
         <div class="piste" tabindex="0" style="--piste-duree:var(--duree-instant);--piste-courbe:var(--courbe-standard)"><span class="etiquette">duree-instant · 100 ms · courbe-standard</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
         <div class="piste" tabindex="0" style="--piste-duree:var(--duree-courte);--piste-courbe:var(--courbe-standard)"><span class="etiquette">duree-courte · 180 ms · courbe-standard</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
+        <div class="piste" tabindex="0" style="--piste-duree:var(--duree-sortie-page);--piste-courbe:var(--courbe-standard)"><span class="etiquette">duree-sortie-page · 240 ms · courbe-standard</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
         <div class="piste" tabindex="0" style="--piste-duree:var(--duree-moyenne);--piste-courbe:var(--courbe-sortie)"><span class="etiquette">duree-moyenne · 320 ms · courbe-sortie</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
+        <div class="piste" tabindex="0" style="--piste-duree:var(--duree-etape);--piste-courbe:var(--courbe-sortie)"><span class="etiquette">duree-etape · 450 ms · courbe-sortie</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
         <div class="piste" tabindex="0" style="--piste-duree:var(--duree-longue);--piste-courbe:var(--courbe-sortie)"><span class="etiquette">duree-longue · 600 ms · courbe-sortie</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
+        <div class="piste" tabindex="0" style="--piste-duree:var(--duree-apparition);--piste-courbe:var(--courbe-sortie)"><span class="etiquette">duree-apparition · 700 ms · courbe-sortie</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
         <div class="piste" tabindex="0" style="--piste-duree:var(--duree-trace);--piste-courbe:var(--courbe-entree-sortie)"><span class="etiquette">duree-trace · 1200 ms · courbe-entree-sortie</span><span class="piste__rail"><span class="piste__course"><span class="piste__bille"></span></span></span></div>
       </div>
       <div class="carte carte--pleine">
-        <p class="etiquette">Apparition en cascade</p>
-        <p class="texte-petit">Opacité et translation de 12 px, 600 ms, décalage de 70 ms entre éléments, six éléments au plus. Uniquement à la première apparition.</p>
+        <p class="etiquette">Apparition en cascade · MV-01</p>
+        <p class="texte-petit">Opacité et montée de 16 px (distance-apparition), 700 ms (duree-apparition), courbe-sortie ; le premier élément part à 120 ms, les suivants tous les 70 ms (delai-cascade), six éléments au plus. Une seule fois par bloc, quand il entre dans la fenêtre ; jamais au retour en arrière ni en remontant.</p>
         <details class="demo-cascade">
           <summary class="bouton bouton--secondaire">Voir la cascade</summary>
           <div class="demo-cascade__grille grille-3">
@@ -984,6 +998,60 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             <div class="carte apparition" style="--rang:5"><p class="etiquette">Élément 6</p></div>
           </div>
         </details>
+      </div>
+    </div>
+    <div class="specimen">
+      <h3 class="titre-4">Jetons de mouvement</h3>
+      <div class="grille-3">
+        <dl class="cles cles--tableau">
+          <div class="cles__ligne"><dt class="etiquette">duree-instant</dt><dd>100 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">duree-courte</dt><dd>180 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">duree-moyenne</dt><dd>320 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">duree-longue</dt><dd>600 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">duree-apparition</dt><dd>700 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">duree-trace</dt><dd>1200 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">duree-rotation</dt><dd>900 ms</dd></div>
+        </dl>
+        <dl class="cles cles--tableau">
+          <div class="cles__ligne"><dt class="etiquette">duree-etape</dt><dd>450 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">duree-sortie-page</dt><dd>240 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">duree-respiration</dt><dd>8 s</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">delai-depart</dt><dd>200 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">delai-cascade</dt><dd>70 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">delai-mot-titre</dt><dd>110 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">delai-mot</dt><dd>40 ms</dd></div>
+        </dl>
+        <dl class="cles cles--tableau">
+          <div class="cles__ligne"><dt class="etiquette">delai-caractere</dt><dd>11 ms</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">distance-apparition</dt><dd>16 px</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">distance-soulevement</dt><dd>4 px</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">courbe-standard</dt><dd>cubic-bezier(0.2, 0, 0, 1)</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">courbe-sortie</dt><dd>cubic-bezier(0.23, 1, 0.32, 1)</dd></div>
+          <div class="cles__ligne"><dt class="etiquette">courbe-entree-sortie</dt><dd>cubic-bezier(0.77, 0, 0.175, 1)</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="specimen">
+      <h3 class="titre-4">Dix motifs, un écarté</h3>
+      <p class="texte-petit">Le détail de chaque motif, ses replis sans animation et sans script et son coût sont dans la charte (section 6) ; les maquettes des écrans les montrent en mouvement.</p>
+      <ol class="motifs">
+        <li><span class="etiquette etiquette--accent">MV-01</span><p class="texte-petit">Apparitions en cascade : chaque bloc entre une fois, ses éléments montent l’un après l’autre.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-02</span><p class="texte-petit">Frise tracée au défilement : le trait suit la lecture, seuls les points s’allument.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-03</span><p class="texte-petit">Fenêtre de code qui s’écrit : caractère par caractère, une fois, environ 3 s.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-04</span><p class="texte-petit">Halos qui respirent : cycle de 8 s, jamais au-delà de leur intensité de charte.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-05</span><p class="texte-petit">Tracés qui se dessinent : filet, icônes en trait et flèche, à l’apparition du bloc.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-06</span><p class="texte-petit">Survols vivants : soulèvement de 4 px, lueur sur le filet de la carte, flèche qui glisse.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-07</span><p class="texte-petit">Transitions entre pages : la page quittée s’efface, la nouvelle arrive en fondu, l’en-tête reste fixe.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-08</span><p class="texte-petit">Récit au défilement : une fenêtre collante illustre l’étape en cours de lecture.</p></li>
+        <li><span class="etiquette">MV-09</span><p class="texte-petit">Bandeau en boucle : écarté, rien ne défile en boucle.</p></li>
+        <li><span class="etiquette etiquette--accent">MV-10</span><p class="texte-petit">Titre révélé mot par mot : à l’arrivée sur l’accueil, tout en place avant 2 s.</p></li>
+      </ol>
+    </div>
+    <div class="specimen">
+      <h3 class="titre-4">Réduire, mettre en pause</h3>
+      <div class="grille-2">
+        <div class="etat"><p class="etat__nom">Réduction des animations</p><p class="texte-petit">Si le système du visiteur demande de réduire les animations, tout s’affiche dans son état final : ni translation, ni cascade, ni tracé, ni soulèvement, ni respiration, ni transition entre pages ; les couleurs changent instantanément. Sans script, le contenu est là aussi.</p></div>
+        <div class="etat"><p class="etat__nom">Pause des animations</p><p class="texte-petit">Un bouton du pied de page, « Mettre les animations en pause », fige la respiration des halos (MV-04), comme le demande le critère WCAG 2.2.2 ; le choix est mémorisé d’une page à l’autre ; le bouton est masqué quand le visiteur réduit les animations.</p></div>
       </div>
     </div>
   </div>
@@ -1227,7 +1295,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 
     <!-- CO-09 -->
     <article class="specimen" aria-labelledby="co-09">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-09">CO-09 — Frise chronologique</h3><p class="texte-petit">Des périodes datées, dans l’ordre. Horizontale à partir de 900 px, verticale en dessous. Trois états d’étape : accomplie, mise en avant, prévue. Le tracé se dessine une fois, à l’apparition.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-09">CO-09 — Frise chronologique</h3><p class="texte-petit">Des périodes datées, dans l’ordre. Horizontale à partir de 900 px, verticale en dessous. Trois états d’étape : accomplie, mise en avant, prévue. Sur un écran, le tracé avance avec le défilement (MV-02) ; ici, il se dessine une fois, au chargement.</p></header>
       <div class="grille-2">
         <div class="etat"><p class="etat__nom">Adaptative (horizontale au large)</p>
           <ol class="frise frise--adaptative frise--animee" style="--etape-avant:2">
@@ -1346,7 +1414,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 
     <!-- CO-13 -->
     <article class="specimen" aria-labelledby="co-13">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-13">CO-13 — Arrière-plan d’ambiance</h3><p class="texte-petit">La lumière d’une section : halos, trame et voile, peints une fois, jamais animés. Deux halos se placent en coins opposés.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-13">CO-13 — Arrière-plan d’ambiance</h3><p class="texte-petit">La lumière d’une section : halos, trame et voile, peints une fois. Sur un écran, les halos respirent lentement (MV-04) ; ici, ils restent fixes. Deux halos se placent en coins opposés.</p></header>
       <div class="grille-3">
         <div class="etat"><p class="etat__nom">Accueil : deux halos et trame</p><div class="effet-boite ambiance ambiance--accueil"><p class="etiquette">ambiance--accueil</p></div></div>
         <div class="etat"><p class="etat__nom">Section : un halo et trame</p><div class="effet-boite ambiance ambiance--section"><p class="etiquette">ambiance--section</p></div></div>
