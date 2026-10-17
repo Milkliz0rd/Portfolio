@@ -213,7 +213,7 @@ svg { display: block; }
 .lien--externe .icone { display: inline-block; width: 0.85em; height: 0.85em; margin-left: 0.2em; vertical-align: -0.05em; }
 .lien--action { display: inline-flex; align-items: center; gap: var(--espace-2); min-height: var(--cible-tactile); font-weight: var(--graisse-appuyee); text-decoration: none; }
 .lien--action .icone { transition: transform var(--duree-courte) var(--courbe-sortie); }
-.lien--action:hover .icone, .lien--action.est-survol .icone { transform: translateX(3px); }
+.lien--action:hover .icone, .lien--action.est-survol .icone { transform: translateX(var(--distance-soulevement)); }
 .lien--action:hover, .lien--action.est-survol { text-decoration: underline; text-underline-offset: 0.22em; }
 .lien-navigation {
   position: relative; display: inline-flex; align-items: center;
@@ -268,7 +268,7 @@ svg { display: block; }
 .carte__texte { color: var(--couleur-texte-secondaire); }
 .carte__pied { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--espace-2); padding-top: var(--espace-2); }
 .carte--interactive { transition: transform var(--duree-moyenne) var(--courbe-sortie), border-color var(--duree-courte) var(--courbe-standard); }
-.carte--interactive:hover, .carte--interactive.est-survol { transform: translateY(-3px); border-color: color-mix(in srgb, var(--couleur-accent) 45%, transparent); }
+.carte--interactive:hover, .carte--interactive.est-survol { transform: translateY(calc(-1 * var(--distance-soulevement))); border-color: color-mix(in srgb, var(--couleur-accent) 45%, transparent); }
 .carte--interactive.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
 .carte__lien { color: inherit; text-decoration: none; }
 .carte__lien::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
@@ -428,7 +428,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .code-chaine { color: var(--couleur-accent-secondaire); }
 .code-note { color: var(--couleur-texte-discret); }
 .fenetre--interactive { transition: transform var(--duree-moyenne) var(--courbe-sortie), border-color var(--duree-courte) var(--courbe-standard); }
-.fenetre--interactive:hover, .fenetre--interactive.est-survol { transform: translateY(-3px); border-color: color-mix(in srgb, var(--couleur-accent) 40%, transparent); }
+.fenetre--interactive:hover, .fenetre--interactive.est-survol { transform: translateY(calc(-1 * var(--distance-soulevement))); border-color: color-mix(in srgb, var(--couleur-accent) 40%, transparent); }
 .fenetre--interactive.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
 .capture { display: grid; place-items: center; aspect-ratio: 16 / 10; padding: var(--espace-4); text-align: center; background: var(--halo-accent), var(--halo-secondaire), var(--couleur-surface-relevee); font-family: var(--police-mono); font-size: var(--taille-etiquette); letter-spacing: var(--approche-etiquette); text-transform: uppercase; color: var(--couleur-texte-discret); }
 
@@ -667,7 +667,8 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .pied__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--espace-1) var(--espace-5); }
 .pause-animations { gap: var(--espace-2); min-width: var(--cible-tactile); padding: 0; border: 0; background: none; font: inherit; text-align: start; cursor: pointer; }
 .pause-animations .icone { width: 1.1em; height: 1.1em; }
-.pause-animations[aria-pressed="true"] .icone--pause, .pause-animations:not([aria-pressed="true"]) .icone--lecture { display: none; }
+/* L'icône suit l'état de pause (classe « mv-pause » de l'élément html) ; le cadre de démonstration d'EC-00 reste en pause. */
+html:not(.mv-pause) .pause-animations:not(.pause-animations--demo) .icone--lecture, .mv-pause .pause-animations .icone--pause, .pause-animations--demo .icone--pause { display: none; }
 .pause-animations[data-mv-pause] { display: none; }
 
 /* MV-10 : chaque mot du titre d'accueil derrière son cache ; la mise en boîte est la même avec ou sans mouvement. */
@@ -735,10 +736,14 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
   .mv-actif svg[data-mv="MV-05"] { stroke-dasharray: var(--mv-longueur, 40); transition: stroke-dashoffset var(--duree-longue) var(--courbe-entree-sortie) var(--mv-delai, 0ms), transform var(--duree-moyenne) var(--courbe-sortie); }
   .mv-actif svg[data-mv="MV-05"]:not(.mv-vu) { stroke-dashoffset: var(--mv-longueur, 40); }
 
-  /* MV-02 : le trait de la frise suit le défilement ; chaque point s'allume quand le trait l'atteint (le texte, jamais). */
+  /* MV-02 : le trait de la frise suit le défilement ; chaque point s'allume quand le trait l'atteint (le texte, jamais).
+     Quand toute la frise est visible (mv-frise-entiere), le trait se trace d'un coup en duree-trace : sa transition n'existe
+     que dans ce cas, sinon il traînerait derrière le défilement. Le point de l'étape mise en avant n'est jamais atténué (choix D2). */
   .mv-actif .frise[data-mv="MV-02"]::after { transform: scaleY(var(--mv-progression, 0)); }
+  .mv-actif .frise.mv-frise-entiere[data-mv="MV-02"]::after { transition: transform var(--duree-trace) var(--courbe-entree-sortie); }
   .mv-actif .frise__point[data-mv="MV-02"] { transition: opacity var(--duree-moyenne) var(--courbe-standard); }
   .mv-actif .frise__point[data-mv="MV-02"]:not(.mv-vu) { opacity: 0.3; }
+  .mv-actif .frise__etape--avant .frise__point[data-mv="MV-02"]:not(.mv-vu) { opacity: 1; }
 
   /* MV-03 : « profil.ts » s'écrit ; chaque caractère est déjà en place, invisible ; le curseur est décoratif. */
   .mv-actif [data-mv="MV-03"] { position: relative; }
@@ -770,7 +775,8 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
   /* MV-08 : fenêtre collante à côté du texte, l'étape active est celle dont le haut a passé 40 % de la fenêtre. */
   .mv-actif .recit__fenetre { display: flex; position: sticky; top: calc(var(--hauteur-entete) + var(--espace-2)); z-index: 1; background: var(--couleur-surface); box-shadow: var(--ombre-fenetre), 0 calc(-1 * var(--espace-2)) 0 var(--couleur-fond); }
   .mv-actif .recit__etape > [data-mv-etape] { display: none; }
-  .mv-actif [data-mv-recit] .recit__etape { min-height: 55vh; align-content: start; }
+  /* Choix D4 : chaque étape mesure au moins 30 % de la hauteur de la fenêtre sous 900 px, 55 % au-delà. */
+  .mv-actif [data-mv-recit] .recit__etape { min-height: 30vh; align-content: start; }
   .mv-actif .recit__etape.est-active { border-left-color: var(--couleur-accent); }
   .mv-actif .recit__scene { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); height: 10rem; padding: var(--espace-4); overflow: hidden; }
   .mv-actif .recit__scene > [data-mv-etape] { grid-area: 1 / 1; display: block; min-height: 0; height: 100%; max-width: none; margin: 0; padding: 0; border: 0; background: none; opacity: 0; transform: translateY(14px); transition: opacity var(--duree-etape) var(--courbe-sortie), transform var(--duree-etape) var(--courbe-sortie); }
@@ -790,10 +796,11 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 }
 @media (prefers-reduced-motion: no-preference) and (min-width: 900px) {
   .mv-actif .frise--adaptative[data-mv="MV-02"]::after { transform: scaleX(var(--mv-progression, 0)); }
+  .mv-actif .frise--adaptative.mv-frise-entiere[data-mv="MV-02"]::after { transition: transform var(--duree-trace) var(--courbe-entree-sortie); }
   .mv-actif .recit { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); align-items: start; column-gap: var(--espace-16); }
   .mv-actif .recit__fenetre { grid-column: 2; grid-row: 1; top: calc(var(--hauteur-entete) + var(--espace-8)); }
   .mv-actif [data-mv-recit] .recit__etapes { grid-column: 1; grid-row: 1; }
-  .mv-actif [data-mv-recit] .recit__etape { min-height: 70vh; }
+  .mv-actif [data-mv-recit] .recit__etape { min-height: 55vh; }
   .mv-actif .recit__scene { height: 18rem; padding: var(--espace-6); }
 }
 /* MV-06 : seulement avec une souris. */

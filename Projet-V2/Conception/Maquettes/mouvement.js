@@ -27,6 +27,7 @@
     caractere: jeton("delai-caractere"),
     apparition: jeton("duree-apparition"),
     longue: jeton("duree-longue"),
+    trace: jeton("duree-trace"),
     sortie: jeton("duree-sortie-page")
   };
   var PREMIER = 120;      /* MV-01 : le premier élément d'une cascade part à 120 ms */
@@ -187,13 +188,14 @@
     blocs.forEach(function (bloc) { observateur.observe(bloc); });
   }
 
-  /* ---------- MV-02 : la frise suit le défilement ---------- */
+  /* ---------- MV-02 : la frise suit le défilement ; entière dans la fenêtre, elle se trace d'un coup (choix D2) ---------- */
   function initFrises() {
     tous('.frise[data-mv="MV-02"]').forEach(function (frise) {
       var points = tous('.frise__point[data-mv="MV-02"]', frise);
       var avant = frise.querySelector(".frise__etape--avant .frise__point") || points[points.length - 1];
       var fractions = [];
       var horizontale = false;
+      var minuterie = 0;
       function mesurer() {
         horizontale = window.getComputedStyle(frise).gridAutoFlow.indexOf("column") === 0;
         if (!points.length || !avant) { fractions = []; return; }
@@ -209,6 +211,20 @@
         var progression = borne((vh * 0.9 - r.top) / (vh * 0.5 + (horizontale ? 0 : r.height)), 0, 1);
         var basDePage = window.scrollY + vh >= document.documentElement.scrollHeight - 2;
         if (basDePage && r.bottom < vh) { progression = 1; }
+        /* Toute la frise est visible : le trait se trace d'un coup jusqu'à l'étape mise en avant, en duree-trace,
+           et chaque point s'allume à son passage (décalage = sa position sur le trait × duree-trace). Sinon, il suit le défilement. */
+        var entiere = r.top >= 0 && r.bottom <= vh;
+        if (entiere && !frise.classList.contains("mv-frise-entiere")) {
+          frise.classList.add("mv-frise-entiere");
+          points.forEach(function (point, i) {
+            point.style.transitionDelay = Math.round(borne(fractions[i] === undefined ? 1 : fractions[i], 0, 1) * T.trace) + "ms";
+          });
+          window.clearTimeout(minuterie);
+          minuterie = window.setTimeout(function () { points.forEach(function (point) { point.style.transitionDelay = ""; }); }, T.trace + 400);
+        } else if (!entiere) {
+          frise.classList.remove("mv-frise-entiere");
+        }
+        if (entiere) { progression = 1; }
         frise.style.setProperty("--mv-progression", progression.toFixed(4));
         points.forEach(function (point, i) {
           var atteint = progression >= Math.min(fractions[i] === undefined ? 1 : fractions[i], 1) - 0.001;
@@ -216,7 +232,9 @@
         });
       }
       mesurer();
-      maj();
+      /* Le tracé joue aussi à l'ouverture : la progression part de 0 et la première mise à jour attend deux images. */
+      frise.style.setProperty("--mv-progression", "0");
+      window.requestAnimationFrame(function () { window.requestAnimationFrame(maj); });
       var largeur = window.innerWidth;
       surDefilement(function () {
         if (window.innerWidth !== largeur) { largeur = window.innerWidth; mesurer(); }
@@ -414,8 +432,8 @@
     var boutons = tous("[data-mv-pause]");
     function appliquer(enPause) {
       racine.classList.toggle("mv-pause", enPause);
+      /* Seul le libellé change, sans état pressé annoncé (choix Q1) ; l'icône suit la classe « mv-pause ». */
       boutons.forEach(function (bouton) {
-        bouton.setAttribute("aria-pressed", enPause ? "true" : "false");
         var libelle = bouton.querySelector(".pause-animations__libelle");
         if (libelle) { libelle.textContent = enPause ? "Relancer les animations" : "Mettre les animations en pause"; }
       });

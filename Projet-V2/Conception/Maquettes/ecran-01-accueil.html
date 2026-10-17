@@ -99,10 +99,6 @@
     entreprise: <span class="code-chaine">"OSOL"</span>,
     periode: <span class="code-chaine">"2025–2028"</span>,
   },
-  liens: {
-    github: <span class="code-chaine">"github.com/Milkliz0rd"</span>,
-    linkedin: <span class="code-chaine">"linkedin.com/in/alexandre-morozoff-4b1386337"</span>,
-  },
 } <span class="code-mot">as const</span>;</pre></div>
     </div>
   </div>
@@ -163,7 +159,7 @@
       <p class="etiquette">alexandre-morozoff-dev.fr</p>
       <div class="pied__actions">
         <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
-        <button class="lien lien--discret pause-animations" type="button" aria-pressed="false" data-mv-pause><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Mettre les animations en pause</span></button>
+        <button class="lien lien--discret pause-animations" type="button" data-mv-pause><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Mettre les animations en pause</span></button>
       </div>
     </div>
   </div>
@@ -182,8 +178,8 @@
         <div><dt>Ordre de lecture</dt><dd>nom et intitulé ; présentation (C-06) ; accès au CV et au contact ; entrées vers les cinq sections, chacune avec sa phrase d’orientation (C-10)</dd></div>
         <div><dt>Moment fort</dt><dd>la vitrine d’accueil : affiche révélée mot par mot, deux halos qui respirent, trame, fenêtre factice qui s’écrit. Le reste de la page est plus calme, sur fond uni : ses entrées apparaissent en cascade.</dd></div>
         <div><dt>Téléphone</dt><dd>une seule colonne, l’ordre est conservé ; le CV et le contact sont visibles dès l’arrivée ; la fenêtre factice est masquée sous 600 px (choix C3 d’Alexandre) et passe sous les actions de 600 à 1199 px</dd></div>
-        <div><dt>Fenêtre factice</dt><dd>décorative (masquée aux lecteurs d’écran) : elle ne reprend que des faits déjà publiés ; masquée sous 600 px (choix C3), elle s’écrit caractère par caractère au-delà ; son code reste du texte sélectionnable</dd></div>
-        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-03, MV-04, MV-05, MV-06, MV-07, MV-10</span>. Le nom puis l’intitulé montent mot par mot derrière un cache ; la présentation et les boutons suivent en cascade et sont en place avant 2 s. À partir de 600 px, « profil.ts » s’écrit caractère par caractère, avec un curseur. Les deux halos respirent en opposition de phase. Les cinq entrées apparaissent en cascade à leur arrivée dans la fenêtre et leurs flèches se dessinent ; au survol, une carte se soulève et son filet s’éclaire sous le pointeur. La page entre et sort en fondu.</dd></div>
+        <div><dt>Fenêtre factice</dt><dd>décorative, masquée aux lecteurs d’écran : elle ne reprend que des faits déjà publiés (nom, intitulé, alternance) ; masquée sous 600 px (choix C3), elle s’écrit caractère par caractère au-delà, en 3 s environ (choix D5 : sans le bloc des liens) ; son code reste du texte sélectionnable</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-03, MV-04, MV-05, MV-06, MV-07, MV-10</span>. Le nom puis l’intitulé montent mot par mot derrière un cache ; la présentation et les boutons suivent en cascade et sont en place avant 2 s. À partir de 600 px, « profil.ts » s’écrit caractère par caractère en 3 s environ, avec un curseur. Les deux halos respirent en opposition de phase. Les cinq entrées apparaissent en cascade à leur arrivée dans la fenêtre et leurs flèches se dessinent ; au survol, une carte se soulève et son filet s’éclaire sous le pointeur. La page entre et sort en fondu.</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’écran est fait de contenu fixe, sans cas d’échec</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
