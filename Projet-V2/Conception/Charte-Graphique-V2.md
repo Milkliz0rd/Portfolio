@@ -1,6 +1,6 @@
 # Charte graphique — design system
-Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 16/10/26
-Base : US-2.0 et SC-2.0, approuvés par Alexandre Morozoff le 15/10/26 ; décisions d'Alexandre du 15/10/2026 sur la charte.
+Statut : [x] à approuver  [ ] approuvé par : ______  (version du 16/10/26 approuvée par Alexandre Morozoff ; révision du 17/10/26 sur le mouvement, à approuver)
+Base : US-2.0 et SC-2.0, approuvés par Alexandre Morozoff le 15/10/26 ; décisions d'Alexandre du 15/10/2026 sur la charte ; choix d'Alexandre du 17/10/2026 sur le mouvement.
 
 ## 1. Principes
 
@@ -28,8 +28,8 @@ Une « nuit éclairée » : un fond très sombre, teinté par la palette, d'où 
 1. **Le contenu d'abord, l'effet ensuite.** Chaque effet peut disparaître sans perte d'information : un recruteur qui juge un profil en quelques minutes lit d'abord, s'émerveille ensuite.
 2. **Une lumière dominante.** Un accent principal pour les actions et les repères, un accent secondaire en contrepoint, rien de plus. Les couleurs de succès, d'erreur et d'attention ne servent qu'à ces états.
 3. **Contraste calculé, jamais estimé.** Chaque couleur de texte est opaque et son ratio est calculé (section 2), y compris sur les fonds composés (section 8).
-4. **Entrer, pas danser.** Le mouvement accompagne une apparition ou un changement d'état, une fois ; rien ne bouge en boucle, sauf l'indicateur d'activité pendant une attente.
-5. **Rapide par construction.** Les effets sont des dégradés peints une fois ; on n'anime que l'opacité et la position ; le flou est réservé à deux éléments (section 6).
+4. **Entrer, pas danser.** Le mouvement accompagne une apparition, un changement d'état ou la lecture (section 6) ; seuls la respiration des halos, qu'on peut mettre en pause, et l'indicateur d'activité pendant une attente tournent en boucle. Le curseur d'une fenêtre de code qui s'écrit ne clignote que les quelques secondes de l'écriture.
+5. **Rapide par construction.** Les effets sont des dégradés peints une fois ; on n'anime que l'opacité et la transformation (position, échelle) ; hors transitions de couleur des changements d'état, une seule exception : le tracé des traits SVG, sur de petites surfaces ; le flou est réservé à deux éléments (section 6).
 6. **Nommé par rôle.** Jetons et composants portent le nom de leur rôle (accent, surface, carte), jamais celui d'un usage du portfolio : c'est ce qui les rend réutilisables (section 9).
 
 ### Ce qui n'est pas repris de la page de référence
@@ -311,6 +311,9 @@ Tous les effets sont dérivés des couleurs de la palette par opacité : aucune 
 | opacite-teinte | 14 % | fond des pastilles colorées (couleur du rôle à 14 %) |
 | opacite-teinte-message | 10 % | fond des messages d'état (couleur du rôle à 10 % mêlée à couleur-surface) |
 | lueur-point | anneau de 6 px de couleur-accent à opacite-teinte, puis halo de 24 px de couleur-accent à 50 % | point lumineux : étape de frise mise en avant |
+| opacite-lueur-survol | 20 % | intensité maximale de la lueur de survol, au centre du disque (MV-06) ; 20 % et non les 22 % de la démonstration : sur une carte en verre hors halo, le texte discret tient 4.69:1 sous la lueur à 20 % et tomberait à 4.44:1 à 22 % (section 8) |
+| taille-lueur-survol | 380 px | diamètre de la lueur de survol |
+| lueur-survol | disque radial de couleur-accent à opacite-lueur-survol vers transparent, de taille-lueur-survol de diamètre, à l'intérieur de la carte, sous son contenu (le texte reste au-dessus) | lumière qui suit le pointeur à l'intérieur d'une carte interactive (MV-06) ; une carte interactive ne se pose jamais sur un halo (section 8) |
 
 ### 3.7 Ombres
 
@@ -319,7 +322,7 @@ Sur un fond aussi sombre, l'élévation vient d'abord du ton des surfaces et du 
 | Jeton | Valeur | Usage |
 | --- | --- | --- |
 | ombre-fenetre | ombre portée de 30 px vers le bas, flou de 60 px, resserrée de 30 px, en couleur-fond à 90 % ; plus un liseré intérieur d'un pixel en haut, couleur-texte à 6 % | fenêtres factices |
-| ombre-flottante | ombre portée de 18 px vers le bas, flou de 40 px, resserrée de 16 px, en couleur-fond à 90 % | menu ouvert |
+| ombre-flottante | ombre portée de 18 px vers le bas, flou de 40 px, resserrée de 16 px, en couleur-fond à 90 % | menu ouvert ; carte interactive soulevée au survol, portée par un calque animé en opacité (MV-06) |
 
 ### 3.8 Durées et courbes
 
@@ -327,13 +330,22 @@ Sur un fond aussi sombre, l'élévation vient d'abord du ton des surfaces et du 
 | --- | --- | --- |
 | duree-instant | 100 ms | appui sur un bouton |
 | duree-courte | 180 ms | survol, changement de couleur, ouverture du menu |
-| duree-moyenne | 320 ms | soulèvement d'une carte ou d'une fenêtre au survol |
-| duree-longue | 600 ms | apparition d'un élément |
-| duree-trace | 1200 ms | tracé de la frise, une fois |
+| duree-moyenne | 320 ms | soulèvement au survol, soulignement qui s'étire (MV-06) ; point de frise qui s'allume (MV-02) |
+| duree-longue | 600 ms | filet et traits qui se dessinent (MV-05), arrivée d'une page (MV-07), mot d'un intitulé (MV-10) ; deux fois pour un cycle du curseur (MV-03) |
+| duree-apparition | 700 ms | apparition d'un élément dans une cascade (MV-01), mot d'un titre révélé (MV-10) |
+| duree-trace | 1200 ms | tracé d'un coup d'une frise entièrement visible (MV-02) |
 | duree-rotation | 900 ms | un tour de l'indicateur d'activité (courbe linéaire) |
-| delai-cascade | 70 ms | décalage entre deux éléments d'une cascade |
-| distance-apparition | 12 px | translation verticale d'une apparition |
-| courbe-standard | cubic-bezier(0.2, 0, 0, 1) | changements d'état : survol, appui |
+| duree-etape | 450 ms | changement d'illustration d'un récit au défilement (MV-08) |
+| duree-sortie-page | 240 ms | sortie de la page quittée (MV-07) |
+| duree-respiration | 8 s | un cycle de respiration d'un halo (MV-04) |
+| delai-depart | 200 ms | départ d'un titre révélé (MV-10) et des éléments d'une illustration (MV-08) |
+| delai-cascade | 70 ms | décalage entre deux éléments d'une cascade (MV-01) ou deux tracés (MV-05) |
+| delai-mot-titre | 110 ms | décalage entre deux mots d'un titre révélé (MV-10) ou deux éléments d'une illustration (MV-08) |
+| delai-mot | 40 ms | décalage entre deux mots d'un intitulé révélé (MV-10) |
+| delai-caractere | 11 ms | décalage entre deux caractères d'une fenêtre de code qui s'écrit (MV-03) |
+| distance-apparition | 16 px | montée d'une apparition (MV-01) ; la moitié pour la sortie d'une page (MV-07) |
+| distance-soulevement | 4 px | soulèvement d'une carte ou d'une fenêtre au survol, glissement d'une flèche (MV-06) |
+| courbe-standard | cubic-bezier(0.2, 0, 0, 1) | changements d'état : survol, appui ; sortie d'une page (MV-07) |
 | courbe-sortie | cubic-bezier(0.23, 1, 0.32, 1) | entrées : démarre vite, se pose doucement |
 | courbe-entree-sortie | cubic-bezier(0.77, 0, 0.175, 1) | tracés : accélère puis ralentit |
 
@@ -426,43 +438,151 @@ Le site couvre toutes les largeurs de **320 px** (plus petit téléphone courant
 
 ## 6. Mouvement
 
-Les durées et les courbes sont des jetons (section 3.8). Cette section fixe quand et comment on s'en sert.
+Intensité mesurée, choix d'Alexandre du 17/10/2026 : le mouvement donne au site l'allure d'un site vitrine, pas celle d'une application métier, sans jamais retenir la lecture. Les montées font distance-apparition (16 px), les entrées durent de duree-longue à duree-apparition (600 à 700 ms), et rien ne change d'échelle en apparaissant. Les durées, délais, distances et courbes sont des jetons (section 3.8), la lueur de survol aussi (section 3.6) ; cette section fixe quand et comment on s'en sert.
+
+Le mouvement se compose de dix motifs, MV-01 à MV-10, numérotés lors du choix d'Alexandre du 17/10/2026 ; MV-09 est écarté. Chaque motif dit son rôle, où il vit (par composant), son comportement, ses jetons, ce qu'il devient sans animation et sans script, et son coût pour la rapidité. Les écrans du portfolio n'y sont cités qu'en exemple : les motifs servent toute application qui reprend la charte (section 9).
 
 ### Durées et courbes, par usage
 
 - **Changement d'état** (survol, appui, focus) : duree-courte et courbe-standard pour les couleurs ; duree-instant pour l'enfoncement d'un bouton (1 px, échelle 0.98).
-- **Soulèvement** d'une carte ou d'une fenêtre interactive au survol : 3 px vers le haut, duree-moyenne, courbe-sortie.
-- **Apparition** : duree-longue, courbe-sortie, opacité de 0 à 1 et montée de distance-apparition.
-- **Tracé de la frise** : duree-trace, courbe-entree-sortie, après 300 ms, du premier point jusqu'à l'étape mise en avant.
+- **Soulèvement** d'une carte ou d'une fenêtre interactive au survol : distance-soulevement vers le haut, duree-moyenne, courbe-sortie (MV-06).
+- **Apparition** : duree-apparition, courbe-sortie, opacité de 0 à 1 et montée de distance-apparition, en cascade séparée de delai-cascade (MV-01).
+- **Tracé d'un filet ou d'un trait** : duree-longue ; courbe-sortie pour un filet qui s'étire, courbe-entree-sortie pour un trait qui se dessine (MV-05).
+- **Tracé d'une frise** : d'un coup en duree-trace, courbe-entree-sortie, quand toute la frise est visible, puis il reste tracé ; sinon il suit la progression de la lecture, sans durée propre ; ses points s'allument en duree-moyenne (MV-02).
+- **Changement d'illustration** d'un récit au défilement : duree-etape, courbe-sortie (MV-08).
+- **Changement de page** : sortie en duree-sortie-page, courbe-standard ; arrivée en duree-longue (MV-07).
+- **Révélation d'un titre** : départ à delai-depart, mots séparés de delai-mot-titre (titre) ou de delai-mot (intitulé) (MV-10) ; caractères d'une fenêtre de code séparés de delai-caractere (MV-03).
+- **Respiration d'un halo** : un cycle en duree-respiration, en boucle, qu'on peut mettre en pause (MV-04).
 - **Indicateur d'activité** : un tour en duree-rotation, courbe linéaire, en boucle tant que l'attente dure.
 
-### Apparitions en cascade
+### MV-01 — Apparitions en cascade
+- **Rôle** : faire entrer le contenu dans l'ordre de lecture, pour guider l'œil sans le retenir.
+- **Où** : chaque bloc de contenu de chaque écran (par exemple un en-tête de section CO-16, une grille de cartes CO-05, une liste) ; jamais l'en-tête (CO-06) ni le pied de page (CO-08).
+- **Comportement** : quand un bloc entre dans la fenêtre — une seule fois ; au chargement pour ce qui est déjà visible ; jamais au retour en arrière ni en remontant —, ses éléments passent de l'opacité 0 à 1 et montent de distance-apparition (16 px), en duree-apparition (700 ms), courbe-sortie, dans l'ordre de lecture, séparés de delai-cascade (70 ms) : le premier part à 120 ms, le sixième à 470 ms et il est en place vers 1.2 s. Six éléments au plus par cascade ; les suivants partent avec le sixième. Chaque bloc a sa propre cascade. Jamais de changement d'échelle.
+- **Jetons** : duree-apparition, distance-apparition, delai-cascade, courbe-sortie.
+- **Sans animation** : tout est en place dès l'affichage.
+- **Sans script** : tout est en place : les états cachés n'existent que sous la classe mv-actif (voir « Contenu visible sans script »).
+- **Coût** : opacité et transformation (translation verticale) ; IntersectionObserver et transitions CSS ; coût faible : chaque élément occupe sa place finale dès le départ, aucun décalage de mise en page.
 
-- Les éléments d'un groupe apparaissent dans l'ordre de lecture, séparés de delai-cascade : le premier part à 120 ms, le sixième à 470 ms, le dernier est en place vers 1.1 s.
-- Six éléments au plus par cascade ; au-delà, les suivants apparaissent avec le sixième.
-- Une seule fois : au chargement pour ce qui est visible d'emblée, à la première entrée dans la fenêtre pour le reste. Jamais au retour en arrière, jamais en boucle.
-- Le contenu est visible par défaut : l'animation n'existe que si elle peut jouer. Si elle ne joue pas (préférence du visiteur, script absent, navigateur ancien), le contenu est simplement là.
+### MV-02 — Frise tracée au défilement
+- **Rôle** : montrer l'avancée d'un parcours au rythme de la lecture.
+- **Où** : chaque frise chronologique (CO-09) ; dans le portfolio, par exemple, celle de l'écran Parcours (EC-02).
+- **Comportement** : quand toute la frise est visible dans la fenêtre (son haut et son bas à l'intérieur), le trait se trace d'un coup jusqu'à l'étape mise en avant, en duree-trace (1200 ms), courbe-entree-sortie, et chaque point s'allume (opacité, duree-moyenne) au moment où le trait l'atteint réellement : le décalage suit courbe-entree-sortie, pas une part linéaire de duree-trace. Pour un point placé à la position p du trait (de 0 au début à 1 à l'étape mise en avant), on inverse la courbe pour trouver l'instant t (de 0 à 1) où le trait passe p, et le décalage vaut t × duree-trace ; par exemple, un point au quart du trait s'allume vers 500 ms et non à 300 ms, un point aux trois quarts vers 660 ms et non à 900 ms. Une fois tracé en entier (frise entièrement visible), le trait reste tracé pendant toute la visite de la page : il ne recule plus quand on remonte. Au retour arrière sur la page, il est posé d'emblée, sans tracé, comme les cascades (MV-01), qui ne rejouent jamais au retour. Tant que le trait n'a pas été tracé en entier, il suit le défilement : il avance avec la progression de la frise dans la fenêtre (mise à l'échelle verticale ; horizontale quand la frise est horizontale) et recule quand on remonte, et chaque point s'allume quand le trait l'atteint. Dans tous les cas, le trait s'arrête toujours à l'étape mise en avant, dont le point est toujours allumé, avec sa lueur-point, même avant que le trait l'atteigne ; les étapes prévues gardent leur point creux. Seul le point s'allume : le texte des étapes (période, intitulé, détail) garde toujours son plein contraste, il n'est jamais grisé (section 8). Quand le trait suit le défilement, c'est la lecture qui le pilote : aucun plan ne défile à une autre vitesse que la page, ce n'est pas une parallaxe.
+- **Jetons** : duree-trace, courbe-entree-sortie, duree-moyenne, lueur-point.
+- **Sans animation** : trait entier jusqu'à l'étape mise en avant, tous les points allumés (les étapes prévues gardent leur point creux).
+- **Sans script** : trait entier jusqu'à l'étape mise en avant, tous les points allumés (les étapes prévues gardent leur point creux).
+- **Coût** : transformation (mise à l'échelle du trait) et opacité (points) ; écouteur de défilement passif et une mise à jour au plus par image (requestAnimationFrame), pas d'animation-timeline, pour un même rendu dans Chrome et Safari ; coût faible tant que chaque image n'écrit qu'une transformation et quelques opacités.
+
+### MV-03 — Fenêtre de code qui s'écrit
+- **Rôle** : donner vie à un extrait de code, comme s'il était tapé sous les yeux du visiteur.
+- **Où** : une fenêtre factice en variante code (CO-12) ; dans le portfolio, la fenêtre « profil.ts » de l'accueil (EC-01), qui reprend le nom, l'intitulé et l'alternance (sans bloc « liens », choix d'Alexandre du 17/10/2026), trois informations déjà affichées sur l'accueil : le nom et l'intitulé en tête de l'accueil (MV-10), l'alternance en tête du texte de la carte « Expérience » (choix d'Alexandre du 17/10/2026) ; elle s'affiche à partir de 600 px seulement : elle est masquée en dessous (choix C3 du 16/10/2026) et rien ne tourne alors.
+- **Comportement** : une fois, à l'apparition ; chaque caractère est déjà en place, invisible, et passe à l'opacité 1 selon ce minutage : delai-caractere par caractère, 10 × delai-caractere en fin de ligne, 3 × delai-caractere après une virgule, indentation instantanée ; un curseur (déplacé par translation) clignote pendant l'écriture (cycle de 2 × duree-longue) puis disparaît ; le cadre a sa taille finale dès le départ. L'écriture dure moins de 5 s : le curseur clignote pendant l'écriture, et le critère 2.2.2 ne demande pas de moyen de pause pour ce qui s'arrête seul avant 5 s ; un extrait plus long s'affiche déjà écrit ; dans le portfolio, environ 3 s. Le code reste du texte sélectionnable. Une fenêtre de code qui répète des informations déjà affichées est un décor, masqué aux lecteurs d'écran : dans le portfolio, « profil.ts » est un décor de ce type (choix d'Alexandre du 17/10/2026) : elle ne fait que répéter des informations affichées sur l'accueil (voir « Où »), la règle est donc tenue ; si elle portait une information propre, elle devrait être lisible par les lecteurs d'écran (technique tranchée au plan front). Le curseur est décoratif.
+- **Jetons** : delai-caractere, duree-longue.
+- **Sans animation** : le code est écrit, pas de curseur.
+- **Sans script** : le code est écrit, pas de curseur.
+- **Coût** : opacité des caractères, translation du curseur ; un script qui enveloppe chaque caractère une fois et règle son délai ; coût modéré, proportionnel à la longueur de l'extrait (un élément par caractère), sans aucun recalcul de mise en page pendant l'écriture puisque le cadre a sa taille finale.
+
+### MV-04 — Halos qui respirent
+- **Rôle** : faire vivre la lumière du fond, lentement, sans attirer l'œil.
+- **Où** : les halos de l'arrière-plan d'ambiance (CO-13, variantes accueil et section ; la variante sobre n'a pas de halo).
+- **Comportement** : animation CSS en boucle sur le calque de chaque halo, cycle de duree-respiration (8 s), opacité de 55 % à 100 % de la valeur de la charte (jamais au-delà : les contrastes calculés au pic restent vrais, section 8), échelle de 0,9 à 1,08 autour du centre du halo ; deux halos d'une même section en opposition de phase : quand l'un est à son pic, l'autre est à son creux. Pas de suivi du pointeur. Ne tourne que si le script de mouvement est actif (sans script, halos fixes : le bouton de pause n'existerait pas). Se fige avec le bouton de pause (voir « Pause des animations »).
+- **Jetons** : duree-respiration, halo-accent, halo-secondaire, opacite-halo-accent, opacite-halo-secondaire.
+- **Sans animation** : halos fixes à leur valeur de charte, échelle 1.
+- **Sans script** : halos fixes à leur valeur de charte, échelle 1.
+- **Coût** : opacité et transformation (échelle) du calque de chaque halo ; le dégradé lui-même n'est jamais repeint ; animation CSS, sans script à chaque image ; coût faible mais permanent : c'est la seule animation qui tourne tant que la page reste ouverte, d'où le bouton de pause.
+
+### MV-05 — Tracés qui se dessinent
+- **Rôle** : souligner l'arrivée d'un bloc par un trait qui se dessine.
+- **Où** : le filet sous l'étiquette d'un en-tête de section (CO-16 ; dans l'anatomie actuelle, le trait de son étiquette numérotée, CO-04), les icônes en trait des cartes (CO-05), la flèche des liens d'action (CO-02).
+- **Comportement** : à l'apparition du bloc, une fois ; le filet s'étire (mise à l'échelle horizontale depuis la gauche, duree-longue, courbe-sortie) ; les icônes puis la flèche se dessinent trait par trait (longueur mesurée une fois, transition de stroke-dashoffset en duree-longue, courbe-entree-sortie, décalées de delai-cascade).
+- **Jetons** : duree-longue, courbe-sortie, courbe-entree-sortie, delai-cascade.
+- **Sans animation** : tracés complets.
+- **Sans script** : tracés complets.
+- **Coût** : transformation pour le filet ; stroke-dashoffset pour les icônes et la flèche : c'est la seule propriété animée hors opacité et transformation, et seulement sur des traits SVG de petite surface, repeints pendant duree-longue puis plus jamais ; coût faible tant que ces traits restent petits.
+
+### MV-06 — Survols vivants
+- **Rôle** : répondre au pointeur, pour dire « ceci se clique ».
+- **Où** : les cartes interactives (CO-05) et les liens d'action (CO-02), seulement avec une souris (media « (hover: hover) and (pointer: fine) »).
+- **Comportement** : la carte se soulève de distance-soulevement (duree-moyenne, courbe-sortie) ; son ombre, le jeton ombre-flottante, apparaît par l'opacité d'un calque (l'ombre elle-même n'est jamais animée) ; la lueur-survol suit le pointeur à l'intérieur de la carte : un disque radial de taille-lueur-survol (380 px), de couleur-accent à opacite-lueur-survol (20 %) vers transparent, posé sous le contenu de la carte (le texte reste au-dessus), dans un calque déplacé par translation, position mise à jour au plus une fois par image ; 20 % et non les 22 % de la démonstration, pour que le texte discret d'une carte en verre garde 4.5:1, et une carte interactive ne se pose jamais sur un halo (section 8) ; la flèche du lien glisse de distance-soulevement vers la droite et son soulignement s'étire depuis la gauche (mise à l'échelle horizontale, duree-moyenne). Au clavier, :focus-visible donne le même soulèvement et le même soulignement, sans lueur.
+- **Jetons** : distance-soulevement, duree-moyenne, courbe-sortie, ombre-flottante, lueur-survol, opacite-lueur-survol, taille-lueur-survol.
+- **Sans animation** : seules les couleurs changent, instantanément.
+- **Sans script** : le soulèvement, l'ombre, la flèche et le soulignement, portés par la feuille de style, restent ; seule la lueur, qui suit le pointeur par script, est absente.
+- **Coût** : transformation (soulèvement, flèche, calque de lueur, soulignement) et opacité (calque d'ombre) ; transitions CSS et un écouteur de pointeur limité à une mise à jour par image ; coût faible : le disque de lueur est peint une fois, puis seulement déplacé par translation sous le contenu de la carte ; l'ombre n'est jamais animée.
+
+### MV-07 — Transitions entre pages
+- **Rôle** : lier les pages entre elles, pour que la navigation se lise comme un seul site.
+- **Où** : toute navigation interne.
+- **Comportement** : la page quittée s'efface (opacité vers 0) en montant de la moitié de distance-apparition, en duree-sortie-page, courbe-standard ; la nouvelle arrive en fondu en duree-longue, sans translation (ses blocs visibles font déjà leur cascade, MV-01) ; l'en-tête (CO-06) ne participe pas à la transition et reste fixe ; le repère de page courante glisse de l'ancien lien vers le nouveau. Sur le site, c'est le navigateur qui anime (transitions de vue) ; la technique se tranche au plan front ; sans prise en charge, navigation immédiate. Dans les maquettes, ouvertes comme fichiers locaux où les transitions natives entre documents ne jouent pas, un script simule la transition : sortie, puis navigation, puis entrée au chargement ; il n'intercepte jamais un clic avec Cmd, Ctrl, Maj ou Alt, un clic milieu, un lien externe, une ancre de la même page, un téléchargement ou un lien avec target ; au retour arrière (page restaurée depuis le cache du navigateur), la page revient visible.
+- **Jetons** : duree-sortie-page, duree-longue, distance-apparition, courbe-standard.
+- **Sans animation** : navigation immédiate.
+- **Sans script** : navigation immédiate.
+- **Coût** : opacité et transformation des images de page que compose le navigateur ; transitions de vue du navigateur, technique tranchée au plan front ; coût faible, et c'est une amélioration facultative : les transitions de vue entre documents ne sont pas encore disponibles dans tous les navigateurs courants, un navigateur qui ne les prend pas en charge navigue sans elles.
+
+### MV-08 — Récit au défilement
+- **Rôle** : raconter une démarche pas à pas, l'illustration suivant le texte.
+- **Où** : un récit en étapes à côté d'une fenêtre factice collante (CO-12) ; dans le portfolio, la page Méthode de travail (EC-05).
+- **Comportement** : le texte (dans le portfolio : C-04 découpé en étapes ; quatre étapes de démonstration étiquetées tant que C-04 manque) défile à côté d'une fenêtre collante (CO-12) ; l'étape active est celle dont le haut a passé 40 % de la hauteur de la fenêtre du navigateur ; la fenêtre factice montre son illustration (changement en opacité et position de 14 px, duree-etape, courbe-sortie ; éléments intérieurs décalés de delai-mot-titre après delai-depart ; schéma tracé par stroke-dashoffset ; barres par mise à l'échelle horizontale) et une barre de progression avance (mise à l'échelle horizontale). L'étape active se signale par un filet d'accent et la progression, jamais en grisant le texte des autres (section 8). Sous 900 px : la fenêtre se cale en haut, sous l'en-tête collant, et le texte passe dessous. Hauteur des étapes, mesurée sur la fenêtre du navigateur : sous 900 px, chaque étape mesure au moins 30 % de la hauteur de la fenêtre (70 % à partir de 900 px). Comme pour MV-02, c'est la lecture qui pilote : ce n'est pas une parallaxe.
+- **Jetons** : duree-etape, delai-depart, delai-mot-titre, courbe-sortie.
+- **Sans animation** : comme sans script : pas de fenêtre collante, chaque illustration s'affiche sous le texte de son étape.
+- **Sans script** : pas de fenêtre collante, chaque illustration s'affiche sous le texte de son étape.
+- **Coût** : opacité et transformation (position de l'illustration, mise à l'échelle des barres et de la progression), stroke-dashoffset pour le schéma, sur des traits de petite surface ; position: sticky, écouteur de défilement passif, une mise à jour par image ; coût faible : le navigateur tient seul la fenêtre collante, le script ne fait que choisir l'étape active.
+
+### MV-09 — Bandeau en boucle (écarté)
+- **Pourquoi écarté** : choix d'Alexandre du 17/10/2026 : un bandeau des compétences qui défile en boucle est un gadget qui distrait un public de recrutement ; rien ne défile en boucle. L'identifiant reste réservé, pour garder la numérotation du choix.
+
+### MV-10 — Titre révélé mot par mot
+- **Rôle** : ouvrir le site par un geste d'arrivée, une seule fois.
+- **Où** : le titre d'affiche et l'intitulé d'un écran d'accueil ; dans le portfolio, le nom et l'intitulé de l'accueil (EC-01).
+- **Comportement** : une fois, à l'arrivée ; chaque mot glisse de bas en haut derrière un cache (overflow hidden) en position et opacité ; le titre (le nom) : départ à delai-depart, un mot toutes les delai-mot-titre, chaque mot en duree-apparition ; l'intitulé : départ quand le dernier mot du titre est parti, un mot toutes les delai-mot, chaque mot en duree-longue ; puis la présentation et les boutons, en cascade (MV-01) ; tout est en place avant 2 s. Aucun délai au-delà de delai-depart sur le titre : c'est probablement le plus grand élément du premier écran, celui dont Lighthouse mesure l'affichage ; si la mesure du lot des écrans dépasse le seuil, le titre partira sans délai (voir « Budget de mouvement »). Le titre est lu d'un seul tenant par les lecteurs d'écran.
+- **Jetons** : delai-depart, delai-mot-titre, delai-mot, duree-apparition, duree-longue.
+- **Sans animation** : affiché d'emblée.
+- **Sans script** : affiché d'emblée.
+- **Coût** : opacité et transformation (translation verticale de chaque mot) ; un script découpe le titre en mots, une fois ; c'est le motif le plus exposé pour la rapidité, puisqu'il retarde l'élément que Lighthouse mesure : d'où le délai limité à delai-depart et le repli prévu.
 
 ### Réduction des animations
 
 Quand le visiteur a demandé à son système de réduire les animations :
 
-- aucune translation, aucune cascade, aucun tracé, aucun soulèvement : chaque élément s'affiche directement dans son état final ;
+- aucune translation, aucune cascade, aucun tracé, aucun soulèvement, aucune respiration, aucune transition entre pages : chaque élément s'affiche directement dans son état final ; chaque motif dit ce qu'il devient à sa puce « Sans animation » ;
+- le récit au défilement (MV-08) se présente comme sans script : pas de fenêtre collante, chaque illustration s'affiche sous le texte de son étape ;
+- la classe mv-actif n'est jamais posée : aucun état caché n'existe ;
 - les changements de couleur deviennent instantanés ; le défilement doux vers une ancre est coupé ;
+- le bouton de pause est masqué : il n'y a plus rien à figer ;
 - l'indicateur d'activité devient un anneau fixe ; le texte « Envoi en cours… » porte l'information.
 
-Rien d'essentiel ne dépend d'une animation : aucune information n'apparaît seulement par le mouvement, aucune action n'attend la fin d'une animation.
+Rien d'essentiel ne dépend d'une animation : aucune information n'apparaît seulement par le mouvement, aucune action n'attend la fin d'une animation. La préférence fait aussi taire le mouvement déclenché par le défilement (MV-02, MV-08), comme le demande le critère 2.3.3, de niveau AAA, au-delà de la cible AA.
+
+### Pause des animations
+
+La respiration des halos (MV-04) démarre seule, dure plus de 5 s et s'affiche à côté du contenu : le critère 2.2.2 « Pause, Stop, Hide » (niveau A) demande alors un moyen de la mettre en pause. Choix d'Alexandre du 17/10/2026 : un bouton dans le pied de page.
+
+- **Le bouton** : dans le pied de page (CO-08) de chaque page, « Mettre les animations en pause » ; une fois pressé, « Relancer les animations ». Le libellé change, et rien d'autre : aucun état pressé n'est annoncé, car le guide WAI-ARIA APG (page Button) déconseille de cumuler un libellé qui change et un état pressé ; le libellé d'un bouton à bascule ne doit pas changer, et un libellé qui change rend l'état pressé inutile. Il a l'apparence d'un lien discret du pied de page, avec une icône pause / lecture en trait ; sa cible mesure au moins 44 × 44 px (cible-tactile) ; il porte l'anneau-focus de la charte.
+- **Ce qu'il fige** : ce qui tourne en boucle (MV-04). Il ne touche pas aux mouvements joués une fois (cascades, tracés, transitions), qui s'arrêtent seuls.
+- **Mémoire** : le choix est mémorisé d'une page à l'autre, dans le stockage local du navigateur, sans erreur s'il est indisponible ; le petit script de tête le relit et l'applique avant le premier affichage.
+- **Masqué** quand le visiteur a demandé à réduire les animations et quand le script ne tourne pas : les halos sont alors fixes.
+- **Sa place** : le pied de page, gardée telle quelle par Alexandre le 17/10/2026 après la revue des maquettes (section 10, P-10).
+
+### Contenu visible sans script
+
+- **Visible par défaut** : les états cachés (opacité 0, translation de départ, trait non tracé, caractère invisible) n'existent que sous la classe mv-actif de l'élément html.
+- **Le petit script de tête** : quelques lignes dans le head, exécutées de façon synchrone avant le premier affichage ; il pose mv-actif, et seulement si le visiteur n'a pas demandé à réduire les animations ; il relit aussi le choix de pause mémorisé pour l'appliquer d'emblée.
+- **mv-pret** : le script de mouvement, chargé en différé, pose mv-pret quand il est prêt.
+- **Repli à 3 s** : si mv-pret n'est pas posé 3 s après, le petit script retire mv-actif et tout s'affiche. Un script de mouvement absent, bloqué ou en erreur ne cache donc jamais le contenu.
+- **L'en-tête** (marque, navigation, actions permanentes) n'entre jamais dans une cascade et n'est jamais masqué à l'arrivée : dans le portfolio, le CV et le contact restent à un clic dès le premier affichage (MF-02, conception technique) ; les boutons d'action de l'accueil sont en place avant 2 s.
+- **Politique de sécurité de contenu** : la conception technique n'en prévoit pas aujourd'hui ; si une politique est ajoutée un jour, le petit script de tête s'autorise par son empreinte, sans rouvrir les scripts en ligne en général.
 
 ### Budget de mouvement, pour un site rapide
 
-La conception technique vise un score de performance mobile d'au moins 90. Le mouvement et les effets s'y plient :
+La conception technique fixe le budget (D-11, CT-10) : score de performance Lighthouse mobile d'au moins 90 et seuils « bons » des Core Web Vitals, dont le plus grand élément affiché en 2,5 s au plus et un décalage cumulé de 0,1 au plus. Le mouvement s'y plie :
 
-- On n'anime que l'opacité et la transformation (position, échelle), que le navigateur traite sans recalculer la page : aucune animation ne décale la mise en page.
-- Aucun flou animé, aucune ombre animée sur une grande surface, aucun halo animé : halos, trame et voile sont des dégradés peints une fois.
+- **Propriétés animées** : l'opacité, la transformation, stroke-dashoffset (traits SVG de MV-05 et MV-08) et, pour les changements d'état déjà prévus par la charte, les couleurs (color, background-color, border-color, outline-color, fill, stroke, text-decoration-color). Jamais « transition: all », jamais de flou animé, jamais d'ombre animée (on anime l'opacité d'un calque d'ombre), jamais de propriété de mise en page (largeur, hauteur, position, marges).
+- **Aucun décalage de mise en page** dû au mouvement : les cadres ont leur taille finale dès le départ.
+- **Aucune bibliothèque d'animation** : du CSS et un seul script de mouvement (dans les maquettes : mouvement.js).
+- **Ce qui tourne en boucle** se limite à la respiration des halos (qu'on peut mettre en pause), à l'indicateur d'activité pendant une attente et au curseur de MV-03 pendant l'écriture, qui dure moins de 5 s (environ 3 s dans le portfolio).
+- **Halos, trame et voile** restent des dégradés peints une fois : la respiration fait varier l'opacité et l'échelle du calque, jamais le dégradé. Les halos défilent avec leur section : jamais d'arrière-plan fixé à la fenêtre.
+- **Pas de parallaxe, pas de vidéo.** La parallaxe fait défiler des plans à des vitesses différentes ; MV-02 et MV-08 suivent la progression de la lecture, sur un seul plan : ce n'en sont pas.
 - Le flou d'arrière-plan (flou-verre) est réservé à deux éléments, l'en-tête collant et le menu ouvert, et seulement à partir de 900 px. En dessous, l'en-tête est opaque à 92 % et le menu entièrement opaque ; il en va de même sur un navigateur qui ne sait pas flouter l'arrière-plan. Les cartes en verre n'ont pas de flou : posées sur des dégradés lisses, elles n'y gagneraient presque rien et le flou coûterait à chaque défilement.
-- Les halos défilent avec leur section : jamais d'arrière-plan fixé à la fenêtre.
-- Pas d'effet piloté par le défilement (parallaxe), pas de vidéo, rien en boucle hors attente.
-- Au plus une cascade par écran et un tracé de frise par page.
+- **Mesure** : au lot des écrans, sur le site en Angular, pas sur les maquettes. Si le titre révélé (MV-10) fait dépasser le seuil, il part sans délai.
 
 ## 7. Composants
 
@@ -480,9 +600,9 @@ Chaque composant n'utilise que des jetons. Les états survol, focus et appuyé s
 - **Rôle** : mener vers une autre page, une section, un fichier ou un site externe.
 - **Anatomie** : texte souligné ; icône facultative (flèche pour un lien d'action, flèche oblique pour un lien externe).
 - **Variantes** : dans le texte (couleur-accent, soulignement à 55 % de l'accent) ; discret (couleur-texte-secondaire, pour les liens de pied de page) ; d'action (« Voir la fiche » suivi d'une flèche, sans soulignement au repos, 44 px de haut) ; de navigation (couleur-texte-secondaire, 44 px de haut, trait d'accent de 2 px sous la page courante) ; externe (flèche oblique et texte masqué « (nouvel onglet) »).
-- **États** : repos ; survol (soulignement plein de 2 px, ou texte couleur-texte pour le discret et la navigation, flèche décalée de 3 px pour le lien d'action) ; focus (anneau-focus) ; page courante (navigation : texte couleur-texte et trait d'accent) ; visité (identique au repos : le site est court, l'information n'aide pas).
+- **États** : repos ; survol (soulignement plein de 2 px, ou texte couleur-texte pour le discret et la navigation ; pour le lien d'action, flèche qui glisse de distance-soulevement et soulignement qui s'étire depuis la gauche, MV-06) ; focus (anneau-focus ; le lien d'action reçoit au clavier le même soulignement, MV-06) ; page courante (navigation : texte couleur-texte et trait d'accent) ; visité (identique au repos : le site est court, l'information n'aide pas). À l'apparition de son bloc, la flèche d'un lien d'action se dessine (MV-05).
 - **Accessibilité** : dans un texte, le lien est toujours souligné, la couleur ne suffit pas ; la page courante est signalée par un attribut, pas seulement par le trait ; un lien externe s'ouvre dans un nouvel onglet (le site reste ouvert, MF-17) et l'annonce par l'icône et le texte masqué.
-- **Jetons** : couleur-accent, couleur-texte, couleur-texte-secondaire, anneau-focus, graisse-moyenne, graisse-appuyee, arrondi-petit, espace-2, espace-3, cible-tactile, duree-courte, courbe-standard, courbe-sortie.
+- **Jetons** : couleur-accent, couleur-texte, couleur-texte-secondaire, anneau-focus, graisse-moyenne, graisse-appuyee, arrondi-petit, espace-2, espace-3, cible-tactile, duree-courte, duree-moyenne, duree-longue, distance-soulevement, delai-cascade, courbe-standard, courbe-sortie, courbe-entree-sortie.
 
 ### CO-03 — Pastille
 - **Rôle** : qualifier un élément par un état ou une catégorie, en un ou deux mots.
@@ -504,15 +624,15 @@ Chaque composant n'utilise que des jetons. Les états survol, focus et appuyé s
 - **Rôle** : regrouper un contenu autonome (un projet, une compétence, un fait).
 - **Anatomie** : conteneur arrondi-grand ; étiquette facultative ; titre (taille-titre-3) ; texte (couleur-texte-secondaire) ; pied facultatif (pastilles, lien d'action). Sur une carte en verre, les pastilles du pied prennent toujours la variante à contour (CO-03).
 - **Variantes** : verre (verre-fond, filet verre-bordure, sur un fond d'ambiance) ; pleine (couleur-surface, filet couleur-bordure, sur un fond uni) ; interactive (toute la carte est cliquable, par un seul lien porté par le titre).
-- **États** : repos ; survol (interactive : soulevée de 3 px, filet couleur-accent à 45 %) ; focus (interactive : anneau-focus autour de toute la carte) ; sans contenu facultatif (pied ou étiquette absents : la carte se resserre, aucune zone vide).
-- **Accessibilité** : un seul lien par carte interactive, dont le texte est le titre ; le lien d'action visible du pied est décoratif, pour ne pas annoncer deux fois la même destination ; l'ordre de lecture suit l'ordre visuel.
-- **Jetons** : verre-fond, verre-bordure, couleur-surface, couleur-bordure, couleur-texte-secondaire, couleur-accent, anneau-focus, arrondi-grand, espace-2, espace-3, espace-6, duree-moyenne, duree-courte, courbe-sortie, courbe-standard.
+- **États** : repos ; apparition (les cartes d'une grille entrent en cascade, MV-01) ; survol (interactive, avec une souris : soulevée de distance-soulevement, ombre-flottante qui apparaît par l'opacité de son calque, filet couleur-accent à 45 % et lueur-survol qui suit le pointeur à l'intérieur de la carte, sous son contenu, MV-06) ; focus (interactive : anneau-focus autour de toute la carte, même soulèvement, sans lueur) ; sans contenu facultatif (pied ou étiquette absents : la carte se resserre, aucune zone vide).
+- **Accessibilité** : un seul lien par carte interactive, dont le texte est le titre ; le lien d'action visible du pied est décoratif, pour ne pas annoncer deux fois la même destination ; l'ordre de lecture suit l'ordre visuel ; la lueur, à l'intérieur de la carte et sous son contenu, ne dépasse pas opacite-lueur-survol (20 %), pour que le texte discret d'une carte en verre garde 4.5:1 ; une carte interactive ne se pose donc jamais sur un halo, où la lueur ferait tomber ce texte vers 3:1 (section 8).
+- **Jetons** : verre-fond, verre-bordure, couleur-surface, couleur-bordure, couleur-texte-secondaire, couleur-accent, anneau-focus, ombre-flottante, lueur-survol, opacite-lueur-survol, taille-lueur-survol, arrondi-grand, espace-2, espace-3, espace-6, duree-apparition, distance-apparition, delai-cascade, duree-moyenne, distance-soulevement, duree-courte, courbe-sortie, courbe-standard.
 
 ### CO-06 — En-tête et navigation
 - **Rôle** : identifier le site et donner accès, sur chaque page, aux sections et aux actions permanentes (dans le portfolio : le CV et le contact, MF-02).
 - **Anatomie** : marque (monogramme et nom, lien vers l'accueil) ; navigation (liste de liens de navigation, CO-02) ; actions permanentes (un bouton secondaire compact, un bouton primaire compact) ; bouton du menu replié (CO-07) en version compacte.
 - **Variantes** : complète (à partir de 1200 px : marque, navigation, actions) ; compacte (sous 1200 px : marque, actions, bouton de menu ; sous 480 px, la marque se réduit au monogramme, retenu le 16/10/2026 au point P-07 : dans le portfolio, « AM »).
-- **États** : collé en haut de page pendant le défilement ; lien de section au repos, au survol, au focus, et section courante (trait d'accent) ; à partir de 900 px, fond couleur-fond à 72 % avec flou-verre ; en dessous, fond couleur-fond à 92 % sans flou.
+- **États** : collé en haut de page pendant le défilement ; lien de section au repos, au survol, au focus, et section courante (trait d'accent) ; à partir de 900 px, fond couleur-fond à 72 % avec flou-verre ; en dessous, fond couleur-fond à 92 % sans flou. L'en-tête n'entre jamais dans une cascade et n'est jamais masqué à l'arrivée ; il reste fixe pendant une transition entre pages, où seul le repère de page courante glisse de l'ancien lien vers le nouveau (MV-07).
 - **Accessibilité** : région de navigation nommée ; section courante signalée par un attribut ; sous 480 px, le monogramme est décoratif et le nom complet reste annoncé aux lecteurs d'écran, comme nom du lien de la marque ; les actions permanentes ne sont jamais dans le menu replié ; le lien d'évitement (CO-14) le précède ; hauteur constante (hauteur-entete) pour que les ancres ne passent pas dessous.
 - **Jetons** : couleur-fond, couleur-texte, couleur-surface-relevee, verre-bordure, flou-verre, police-titre, graisse-titre, approche-sous-titre, hauteur-entete, marge-page, plan-entete, arrondi-petit, arrondi-moyen, espace-1, espace-2, espace-3.
 
@@ -526,19 +646,19 @@ Chaque composant n'utilise que des jetons. Les états survol, focus et appuyé s
 
 ### CO-08 — Pied de page
 - **Rôle** : clore chaque page avec les liens permanents : profils externes (dans le portfolio : GitHub et LinkedIn, MF-17), mentions légales (MF-19), signature.
-- **Anatomie** : rangée haute (marque en police-titre, liens externes) ; rangée basse (étiquette de signature, lien des mentions légales) ; filet couleur-bordure au-dessus. La signature ne porte aucune année qui se périme (pas de « © » suivi de l'année en cours), conformément à l'exigence « aucune information qui se périme » (MF-18).
+- **Anatomie** : rangée haute (marque en police-titre, liens externes) ; rangée basse (étiquette de signature, lien des mentions légales) ; bouton de pause des animations, gardé tel quel dans le pied après la revue des maquettes (section 10, P-10) ; filet couleur-bordure au-dessus. La signature ne porte aucune année qui se périme (pas de « © » suivi de l'année en cours), conformément à l'exigence « aucune information qui se périme » (MF-18). Le bouton de pause a l'apparence d'un lien discret, avec une icône pause / lecture en trait (section 6, « Pause des animations » ; il fige la respiration des halos, MV-04).
 - **Variantes** : une rangée par ligne sur téléphone, éléments répartis aux deux extrémités sur grand écran.
-- **États** : liens au repos, au survol, au focus (CO-02, variante discrète).
-- **Accessibilité** : liens externes annoncés (« nouvel onglet ») ; chaque lien atteint 44 px de haut ; le libellé texte du réseau est obligatoire, un logo n'est qu'un complément.
-- **Jetons** : couleur-bordure, couleur-texte, couleur-texte-secondaire, couleur-texte-discret, police-titre, graisse-titre, taille-titre-4, marge-page, cible-tactile, espace-1, espace-3, espace-5, espace-6, espace-10.
+- **États** : liens au repos, au survol, au focus (CO-02, variante discrète) ; bouton de pause en deux libellés : « Mettre les animations en pause », puis, une fois pressé, « Relancer les animations » ; seul le libellé change, aucun état pressé n'est annoncé (section 6) ; bouton masqué quand le visiteur a demandé à réduire les animations ou quand le script de mouvement ne tourne pas.
+- **Accessibilité** : liens externes annoncés (« nouvel onglet ») ; chaque lien atteint 44 px de haut ; le libellé texte du réseau est obligatoire, un logo n'est qu'un complément. Le bouton de pause est un vrai bouton, d'au moins 44 × 44 px, avec l'anneau-focus de la charte ; il répond au critère 2.2.2 (section 6) et son choix est mémorisé d'une page à l'autre. Son libellé dit l'action qu'il fera et c'est la seule chose qui change : aucun état pressé n'est annoncé, puisque le guide WAI-ARIA APG (page Button) déconseille de cumuler un libellé qui change et un état pressé.
+- **Jetons** : couleur-bordure, couleur-texte, couleur-texte-secondaire, couleur-texte-discret, anneau-focus, police-titre, graisse-titre, taille-titre-4, marge-page, cible-tactile, espace-1, espace-3, espace-5, espace-6, espace-10.
 
 ### CO-09 — Frise chronologique
 - **Rôle** : présenter des périodes datées dans l'ordre (dans le portfolio : le parcours, MF-07).
 - **Anatomie** : fil (1 px, couleur-bordure) ; tracé lumineux (2 px, dégradé de couleur-accent vers couleur-accent-secondaire) du début jusqu'à l'étape mise en avant ; une étape par période : point de 13 px, période en chasse fixe (« MM/AAAA – MM/AAAA »), intitulé (taille-titre-4), détail facultatif.
 - **Variantes** : adaptative (verticale sous 900 px, horizontale au-delà, une colonne par étape) ; verticale (toujours, pour une colonne étroite).
-- **États d'étape** : accomplie (point plein couleur-texte-secondaire) ; mise en avant (point couleur-accent avec lueur-point, période en accent) ; prévue (point creux, intitulé couleur-texte-secondaire). Tracé : dessiné une fois à l'apparition, ou affiché directement si le mouvement est réduit.
-- **Accessibilité** : liste ordonnée ; chaque période est écrite en toutes lettres, avec un début et une fin, jamais au présent (MF-18) ; l'étape mise en avant l'annonce aussi par un texte masqué, pas seulement par la lumière.
-- **Jetons** : couleur-bordure, couleur-accent, couleur-accent-secondaire, couleur-texte-secondaire, couleur-texte-discret, couleur-fond, lueur-point, police-mono, police-titre, taille-code, taille-titre-4, taille-texte-petit, plan-contenu, espace-1, espace-6, espace-8, duree-trace, courbe-entree-sortie.
+- **États d'étape** : accomplie (point plein couleur-texte-secondaire) ; mise en avant (point couleur-accent avec lueur-point, toujours allumé, même avant que le trait l'atteigne ; période en accent) ; prévue (point creux, intitulé couleur-texte-secondaire). Tracé (MV-02) : quand toute la frise est visible dans la fenêtre, il se trace d'un coup en duree-trace, courbe-entree-sortie, et chaque point s'allume au moment où le trait l'atteint réellement (décalage qui suit courbe-entree-sortie, pas une part linéaire de duree-trace) ; une fois tracé en entier, il reste tracé pendant toute la visite de la page, et au retour arrière il est posé d'emblée, sans tracé ; tant qu'il n'a pas été tracé en entier, il suit le défilement : il avance avec la progression de la frise dans la fenêtre et recule quand on remonte, et chaque point s'allume quand le trait l'atteint ; dans tous les cas, il s'arrête toujours à l'étape mise en avant. Seul le point s'allume : le texte des étapes garde toujours son plein contraste. Trait entier et points allumés si le mouvement est réduit ou sans script.
+- **Accessibilité** : liste ordonnée ; chaque période est écrite en toutes lettres, avec un début et une fin, jamais au présent (MF-18) ; l'étape mise en avant l'annonce aussi par un texte masqué, pas seulement par la lumière ; aucune étape n'est grisée.
+- **Jetons** : couleur-bordure, couleur-accent, couleur-accent-secondaire, couleur-texte-secondaire, couleur-texte-discret, couleur-fond, lueur-point, police-mono, police-titre, taille-code, taille-titre-4, taille-texte-petit, plan-contenu, espace-1, espace-6, espace-8, duree-moyenne, duree-trace, courbe-entree-sortie.
 
 ### CO-10 — Champ de formulaire
 - **Rôle** : recueillir une saisie (dans le portfolio : les cinq champs du formulaire de contact, MF-16).
@@ -562,17 +682,17 @@ Le formulaire de contact assemble CO-10 et CO-11. Ses états sont tous montrés 
 - **Rôle** : mettre en scène une capture, un extrait de code ou une interface abstraite dans un cadre d'application.
 - **Anatomie** : barre (trois points neutres de 9 px, puis un titre en chasse fixe ou une barre d'adresse factice) ; contenu (code, capture ou maquette abstraite) ; fond couleur-surface à 92 %, filet verre-bordure, ombre-fenetre, arrondi-grand.
 - **Variantes** : code (extrait en chasse fixe, mots-clés en accent, chaînes en accent secondaire, commentaires en texte discret, retour à la ligne plutôt que défilement horizontal) ; navigateur (barre d'adresse factice, interface abstraite) ; capture (image au format 16:10).
-- **États** : repos ; survol et focus si la fenêtre est un lien (soulevée de 3 px, filet couleur-accent à 40 %, anneau-focus) ; sans contenu, la fenêtre n'est pas affichée : jamais de cadre vide (SC-2.0-18).
-- **Accessibilité** : une capture a un texte alternatif qui dit ce qu'elle montre ; un extrait de code reste du texte sélectionnable ; les trois points sont décoratifs.
-- **Jetons** : couleur-surface, couleur-texte, couleur-texte-secondaire, couleur-texte-discret, couleur-accent, couleur-accent-secondaire, verre-bordure, ombre-fenetre, anneau-focus, police-mono, taille-code, taille-etiquette, arrondi-grand, arrondi-pilule, espace-3, espace-4, espace-5, duree-moyenne, courbe-sortie.
+- **États** : repos ; survol et focus si la fenêtre est un lien (soulevée de distance-soulevement, filet couleur-accent à 40 %, anneau-focus) ; en écriture (variante code : l'extrait s'écrit une fois à l'apparition, en moins de 5 s, environ 3 s dans le portfolio ; un extrait plus long s'affiche déjà écrit, MV-03) ; collante (à côté d'un récit en étapes, elle change d'illustration avec l'étape active, MV-08 ; sans script ou si le mouvement est réduit, elle n'est pas collante et chaque illustration s'affiche sous son étape) ; sans contenu, la fenêtre n'est pas affichée : jamais de cadre vide (SC-2.0-18).
+- **Accessibilité** : une capture a un texte alternatif qui dit ce qu'elle montre ; un extrait de code reste du texte sélectionnable ; une fenêtre de code qui répète des informations déjà affichées est un décor, masqué aux lecteurs d'écran (dans le portfolio, « profil.ts » : le nom, l'intitulé et l'alternance qu'elle reprend sont tous affichés sur l'accueil, l'alternance en tête de la carte « Expérience », MV-03) ; si elle portait une information propre, elle devrait être lisible par les lecteurs d'écran (technique tranchée au plan front) ; les trois points et le curseur d'écriture sont décoratifs.
+- **Jetons** : couleur-surface, couleur-texte, couleur-texte-secondaire, couleur-texte-discret, couleur-accent, couleur-accent-secondaire, verre-bordure, ombre-fenetre, anneau-focus, police-mono, taille-code, taille-etiquette, arrondi-grand, arrondi-pilule, espace-3, espace-4, espace-5, duree-moyenne, distance-soulevement, courbe-sortie, delai-caractere, duree-longue, duree-etape, delai-depart, delai-mot-titre.
 
 ### CO-13 — Arrière-plan d'ambiance
 - **Rôle** : donner sa lumière à une section : halos, trame et voile.
 - **Anatomie** : couche de fond derrière le contenu, sans interaction : trame-points, un ou deux halos, voile-bas.
 - **Variantes** : accueil (halo-accent en haut à droite, halo-secondaire en bas à gauche, trame) ; section (halo-accent et trame) ; sobre (trame seule).
-- **États** : statique ; jamais animé, jamais fixé à la fenêtre.
-- **Accessibilité** : purement décoratif ; deux halos ne se superposent jamais à leur pic (coins opposés), car le texte discret sur du verre posé sur deux halos cumulés descendrait sous 4.5:1 (section 8).
-- **Jetons** : halo-accent, halo-secondaire, trame-points, pas-trame, voile-bas, opacite-halo-accent, opacite-halo-secondaire, opacite-trame.
+- **États** : respire (MV-04) : chaque halo varie lentement en opacité, de 55 % à 100 % de sa valeur, et en échelle, en duree-respiration ; figé par le bouton de pause (CO-08), fixe si le mouvement est réduit ou sans script ; jamais fixé à la fenêtre : les halos défilent avec leur section.
+- **Accessibilité** : purement décoratif ; deux halos ne se superposent jamais à leur pic (coins opposés), car le texte discret sur du verre posé sur deux halos cumulés descendrait sous 4.5:1 (section 8) ; en respirant, un halo ne dépasse jamais sa valeur de charte, et deux halos d'une même section respirent en opposition de phase.
+- **Jetons** : halo-accent, halo-secondaire, trame-points, pas-trame, voile-bas, opacite-halo-accent, opacite-halo-secondaire, opacite-trame, duree-respiration.
 
 ### CO-14 — Lien d'évitement
 - **Rôle** : permettre au clavier d'aller directement au contenu principal, sans traverser l'en-tête.
@@ -594,13 +714,13 @@ Le formulaire de contact assemble CO-10 et CO-11. Ses états sont tous montrés 
 - **Rôle** : ouvrir une section et en donner la promesse en une ligne.
 - **Anatomie** : étiquette numérotée (CO-04) ; titre (taille-titre-1 ou taille-titre-2) ; chapô facultatif (taille-chapo).
 - **Variantes** : aligné à gauche (cas courant) ; centré (fin de page, avec une action).
-- **États** : statique ; peut entrer en cascade (étiquette, titre, chapô).
+- **États** : statique ; entre en cascade (étiquette, titre, chapô, MV-01) ; à l'apparition, son filet — le trait de l'étiquette numérotée (CO-04) — s'étire depuis la gauche (MV-05).
 - **Accessibilité** : le titre est un vrai titre de la hiérarchie de la page ; l'étiquette numérotée n'en fait pas partie.
-- **Jetons** : police-titre, taille-titre-1, taille-titre-2, taille-chapo, couleur-texte, couleur-texte-secondaire, couleur-accent, espace-4.
+- **Jetons** : police-titre, taille-titre-1, taille-titre-2, taille-chapo, couleur-texte, couleur-texte-secondaire, couleur-accent, espace-4, duree-apparition, distance-apparition, delai-cascade, duree-longue, courbe-sortie.
 
 ### CO-17 — Liste clé-valeur
 - **Rôle** : présenter des faits courts, chacun annoncé par une étiquette (dans le portfolio, par exemple, les informations d'une fiche projet).
-- **Anatomie** : paires clé (étiquette discrète) et valeur.
+- **Anatomie** : paires clé (étiquette discrète) et valeur. Une valeur de date ou de période s'écrit en police-mono (chasse fixe), comme les dates de la frise (CO-09) ; les autres valeurs gardent la police de leur variante.
 - **Variantes** : en ligne (valeurs en police-titre, taille-titre-4, côte à côte puis empilées sur téléphone) ; en tableau (clé à gauche, valeur à droite en texte courant, séparées par un filet).
 - **États** : statique.
 - **Accessibilité** : liste de définitions ; une valeur absente fait disparaître toute la paire, jamais de clé sans valeur.
@@ -637,6 +757,10 @@ La cible est le niveau AA de la WCAG 2.2, avec quelques exigences au-delà quand
 | couleur-bordure | séparateur sur couleur-fond (décoratif) | 1.63 | aucun |
 
 - **Configurations interdites** : du texte discret sur du verre posé sur les deux halos à leur pic tomberait à 3.42 ; d'où la règle de CO-13 : les deux halos se placent en coins opposés et ne se croisent qu'en lisière, là où leur intensité est faible. Une pastille teintée posée sur du verre tomberait à 3.60 (pastille erreur, verre au pic du halo d'accent) et 3.87 (verre au pic du halo secondaire), et à 4.22 posée directement au pic du halo d'accent ; d'où la variante à contour sur le verre et sur les halos (CO-03).
+- **Le mouvement ne fait passer aucun texte sous son minimum** (révision du 17/10/2026, lueur de survol revue le 18/10/2026). Le tableau ci-dessus n'est pas recalculé : aucune couleur ne change, et son pire cas (4.61) reste celui de la charte. Trois règles le gardent vrai, recalculées à la même méthode :
+  - Halos qui respirent (MV-04) : l'opacité d'un halo varie de 55 % à 100 % de sa valeur de charte, jamais au-delà ; le tableau, calculé au pic, reste donc le pire cas. Deux halos d'une même section ne cumulent pas leur pic : ils sont en coins opposés et, même agrandis à 1,08, ne se rencontrent qu'en lisière, là où leur intensité est presque nulle ; leur opposition de phase ajoute une marge, puisque l'un est à son creux quand l'autre est à son pic. Vérifié par script sur toute la surface d'une section d'accueil, les deux halos à l'échelle 1,08 : le pire cas reste 4.61 (texte discret sur le verre au pic du halo d'accent).
+  - Lueur de survol (MV-06) : elle éclaire l'intérieur de la carte, sous son contenu, comme sur la démonstration retenue par Alexandre (section 10, P-11), mais à 20 % de couleur-accent au centre du disque (opacite-lueur-survol) et non à 22 %. Sur une carte en verre hors halo, le texte discret tient 7.18:1 sans lueur et 4.69:1 sous le centre de la lueur à 20 % ; à 22 %, il tomberait à 4.44:1 (le plafond qui garde 4.5:1 est 21 % ; 20 % laisse une marge). À 20 %, sur le même verre, le texte secondaire tient 5.85:1, l'accent 6.26:1 et couleur-texte 10.39:1 ; sur une carte pleine (couleur-surface), le texte discret tient 4.91:1. Règle : une carte interactive ne se pose jamais sur un halo. Au pic du halo d'accent, la lueur à 20 % ferait tomber le texte discret à 3.03:1 et le texte secondaire à 3.79:1 (au pic du halo secondaire, 3.44:1 et 4.30:1) ; dès 2 % d'un halo sous la carte, le texte discret n'atteint déjà plus 4.5:1 (4.48:1 sur un halo secondaire à 2 %) : la règle vaut pour toute l'étendue d'un halo, pas seulement pour son pic. Au clavier, la carte n'a pas de lueur.
+  - Aucun texte n'est jamais grisé (MV-02, MV-08) : la frise allume ses points, le récit signale l'étape active par un filet d'accent et la progression. Un texte rendu translucide pour paraître « non atteint » ne tient pas 4.5:1 : à l'opacité 0,42, même couleur-texte tombe à 3.79:1 sur couleur-fond, et le texte discret à 2.29:1.
 - **La couleur n'est jamais seule** : un lien dans un texte est souligné ; une erreur a une icône et un message ; une pastille a un mot ; l'étape mise en avant de la frise l'annonce par un texte masqué ; la page courante est signalée par un attribut.
 
 ### Focus toujours visible
@@ -654,7 +778,7 @@ La cible est le niveau AA de la WCAG 2.2, avec quelques exigences au-delà quand
 
 ### Mouvement réduit
 
-La préférence du visiteur est respectée telle que décrite en section 6 : aucune translation, aucune cascade, aucun tracé, indicateur d'activité fixe. Aucune information ne passe seulement par le mouvement.
+La préférence du visiteur est respectée telle que décrite en section 6 (« Réduction des animations ») : aucune translation, aucune cascade, aucun tracé, aucune respiration, aucune transition entre pages, indicateur d'activité fixe ; le récit au défilement perd sa fenêtre collante, chaque illustration sous son étape (MV-08) ; chaque motif MV-01 à MV-10 dit ce qu'il devient à sa puce « Sans animation ». Sans cette préférence, la respiration des halos, qui démarre seule et dure plus de 5 s, se met en pause par le bouton du pied de page (CO-08), comme le demande le critère 2.2.2 (section 6, « Pause des animations »). Aucune information ne passe seulement par le mouvement.
 
 ### Taille de texte minimale
 
@@ -674,9 +798,10 @@ La préférence du visiteur est respectée telle que décrite en section 6 : auc
 ### Ce qui est générique
 
 - **Les quatorze rôles de couleur** et leur contrat : toute application qui reprend le système remplit les mêmes rôles, et chaque palette se valide par les mêmes dix-huit paires de contraste (section 2) et les mêmes fonds composés (section 8).
-- **Tous les autres jetons** : typographie, espacements, arrondis, bordures, effets, ombres, durées et courbes, plans, mise en page.
+- **Tous les autres jetons** : typographie, espacements, arrondis, bordures, effets (lueur de survol comprise), ombres, durées, délais, distances et courbes, plans, mise en page.
 - **Les dix-sept composants** CO-01 à CO-17 : rôle, anatomie, variantes, états, accessibilité. Aucun ne porte de contenu ni de nom propre au portfolio.
-- **Les règles** : mouvement et réduction des animations, budget de performance, focus, cibles tactiles, couleur jamais seule.
+- **Les dix motifs de mouvement** MV-01 à MV-10 (MV-09 écarté) : chacun est décrit par composant, avec ses jetons et ses replis sans animation et sans script.
+- **Les règles** : mouvement, réduction et pause des animations, contenu visible sans script, budget de performance, focus, cibles tactiles, couleur jamais seule.
 
 ### Ce qui est propre au portfolio
 
@@ -684,6 +809,7 @@ La préférence du visiteur est respectée telle que décrite en section 6 : auc
 - Les textes, les dates et les images, fournis par Alexandre.
 - Les usages : quelles actions sont permanentes dans l'en-tête (le CV et le contact), quelles sections figurent dans la navigation, ce que raconte la frise (le parcours), les cinq champs du formulaire de contact, la composition de la page d'accueil.
 - La marque : le nom, le monogramme.
+- Ce que le mouvement met en scène : le contenu de la fenêtre de code « profil.ts » de l'accueil (MV-03), un décor qui ne fait que répéter le nom, l'intitulé et l'alternance, affichés sur l'accueil (l'alternance en tête de la carte « Expérience ») ; les illustrations de la page Méthode (MV-08), le nom et l'intitulé révélés sur l'accueil (MV-10).
 
 ### Comment réutiliser la charte
 
@@ -708,15 +834,27 @@ Le système est en thème sombre uniquement (décision du 15/10/2026). Rien dans
 - P-08 — Nom du design system pour ses réutilisations futures. Recommandation : ne pas le nommer maintenant ; le nommer à la première réutilisation dans une autre application, quand son périmètre réel sera connu. Réponse d'Alexandre du 16/10/2026 : validé, le nom se décidera plus tard.
 - P-09 — Image d'aperçu affichée quand un lien du site est partagé, que la conception technique attend de la charte. Recommandation : la produire avec les maquettes des écrans, sur la palette retenue au point P-01 ; elle reprend l'en-tête d'accueil (affiche, étiquette, halos), sans texte au-dessous de 24 px. Réponse d'Alexandre du 16/10/2026 : validé, l'image se fera avec les maquettes des écrans, sur PA-02.
 
+Points de la révision du 17/10/2026 sur le mouvement, jugés sur la page de revue des maquettes :
+
+- P-10 — Place du bouton de pause des animations : dans le pied de page de chaque page (CO-08), choix d'Alexandre du 17/10/2026. Recommandation : le garder dans le pied de page, avec l'apparence d'un lien discret ; il y reste trouvable sans concurrencer le CV et le contact, et le critère 2.2.2 demande un moyen de pause, pas un bouton en tête de page. Réponse d'Alexandre du 17/10/2026 : le bouton est gardé tel quel, dans le pied de page.
+- P-11 — Place et intensité de la lueur de survol (MV-06, section 8). Recommandation, revue le 18/10/2026 : la lueur à l'intérieur de la carte, sous son contenu, à 20 % de couleur-accent et non à 22 %, et jamais de carte interactive sur un halo ; sur une carte en verre hors halo, le texte discret tient 4.69:1 à 20 % (4.44:1 à 22 %) ; au pic du halo d'accent, il tomberait à 3.03:1. Réponse d'Alexandre du 17/10/2026 : remplacée par celle du 18/10/2026. Réponse d'Alexandre du 18/10/2026 : la lueur suit le pointeur à l'intérieur de la carte, comme sur la démonstration, à 20 %.
+- P-12 — Repli du titre révélé (MV-10) : si la mesure Lighthouse du lot des écrans dépasse le seuil, le titre part sans délai. Recommandation : accepter ce repli dès maintenant, pour que le lot des écrans n'ait pas à revenir vers Alexandre ; l'intitulé, la présentation et les boutons gardent leur cascade. Réponse d'Alexandre du 17/10/2026 : le repli est accepté d'avance ; il ne s'appliquera que si la mesure l'exige.
+
 ## 11. Sources
 
-- WCAG 2.2, recommandation du W3C (luminance relative, ratio de contraste, critères 1.4.3, 1.4.11, 2.3.3, 2.4.7) — https://www.w3.org/TR/WCAG22/ — consulté le 16/10/2026
+- WCAG 2.2, recommandation du W3C (luminance relative, ratio de contraste, critères 1.4.3, 1.4.11, 2.2.2, 2.3.3, 2.4.7) — https://www.w3.org/TR/WCAG22/ — consulté le 16/10/2026, et le 17/10/2026 pour les niveaux des critères 2.2.2 et 2.3.3
 - Understanding SC 1.4.3, Contrast (Minimum) — https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html — consulté le 16/10/2026
 - Understanding SC 1.4.11, Non-text Contrast — https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html — consulté le 16/10/2026
 - Understanding SC 2.4.13, Focus Appearance — https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html — consulté le 16/10/2026
 - Understanding SC 2.5.8, Target Size (Minimum) — https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html — consulté le 16/10/2026
-- MDN, prefers-reduced-motion — https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion — consulté le 16/10/2026
-- web.dev, How to create high-performance CSS animations — https://web.dev/articles/animations-guide — consulté le 16/10/2026
+- Understanding SC 2.2.2, Pause, Stop, Hide — https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html — consulté le 17/10/2026
+- Understanding SC 2.3.3, Animation from Interactions — https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html — consulté le 17/10/2026
+- WAI-ARIA Authoring Practices Guide (APG), Button Pattern (bouton à bascule : un libellé qui change rend l'état pressé inutile) — https://www.w3.org/WAI/ARIA/apg/patterns/button/ — consulté le 17/10/2026
+- MDN, prefers-reduced-motion — https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion — consulté le 16/10/2026 ; consulté le 17/10/2026
+- MDN, View Transition API — https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API — consulté le 17/10/2026
+- MDN, @view-transition (transitions entre documents de même origine, disponibilité limitée) — https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@view-transition — consulté le 17/10/2026
+- web.dev, How to create high-performance CSS animations — https://web.dev/articles/animations-guide — consulté le 16/10/2026 ; consulté le 17/10/2026
+- web.dev, Cumulative Layout Shift (CLS) — https://web.dev/articles/cls — consulté le 17/10/2026
 - SIL Open Font License — https://openfontlicense.org/ — consulté le 16/10/2026
 - Bricolage Grotesque, texte de licence (OFL 1.1) — https://raw.githubusercontent.com/google/fonts/main/ofl/bricolagegrotesque/OFL.txt — consulté le 16/10/2026
 - Bricolage Grotesque, métadonnées (licence, axes de taille optique, de largeur et de graisse) — https://raw.githubusercontent.com/google/fonts/main/ofl/bricolagegrotesque/METADATA.pb — consulté le 16/10/2026
