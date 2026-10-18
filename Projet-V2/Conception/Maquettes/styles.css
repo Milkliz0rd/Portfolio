@@ -81,7 +81,7 @@
   --opacite-teinte-message: 10%;
   --flou-verre: 14px;
   --pas-trame: 28px;
-  --opacite-lueur-survol: 40%;
+  --opacite-lueur-survol: 20%;
   --taille-lueur-survol: 380px;
   --duree-instant: 100ms;
   --duree-courte: 180ms;
@@ -430,6 +430,14 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .fenetre--interactive { transition: transform var(--duree-moyenne) var(--courbe-sortie), border-color var(--duree-courte) var(--courbe-standard); }
 .fenetre--interactive:hover, .fenetre--interactive.est-survol { transform: translateY(calc(-1 * var(--distance-soulevement))); border-color: color-mix(in srgb, var(--couleur-accent) 40%, transparent); }
 .fenetre--interactive.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
+/* Variante navigateur : interface abstraite, blocs sans texte (règles reprises du catalogue). */
+.maquette { display: grid; gap: var(--espace-3); aspect-ratio: 16 / 9; align-content: start; }
+.maquette span { display: block; height: 10px; border-radius: var(--arrondi-pilule); background: color-mix(in srgb, var(--couleur-texte) 10%, transparent); }
+.maquette .maquette__titre { width: 55%; height: 18px; background: color-mix(in srgb, var(--couleur-texte) 22%, transparent); }
+.maquette .maquette__court { width: 35%; }
+.maquette .maquette__accent { width: 28%; height: 28px; border-radius: var(--arrondi-petit); background: var(--couleur-accent); }
+.maquette__blocs { display: grid !important; grid-template-columns: repeat(3, 1fr); gap: var(--espace-2); height: auto !important; background: none !important; }
+.maquette__blocs span { height: 3.5rem; border-radius: var(--arrondi-petit); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); border: var(--bordure-epaisseur) solid var(--verre-bordure); }
 .capture { display: grid; place-items: center; aspect-ratio: 16 / 10; padding: var(--espace-4); text-align: center; background: var(--halo-accent), var(--halo-secondaire), var(--couleur-surface-relevee); font-family: var(--police-mono); font-size: var(--taille-etiquette); letter-spacing: var(--approche-etiquette); text-transform: uppercase; color: var(--couleur-texte-discret); }
 
 /* CO-13 Arrière-plan d'ambiance */
@@ -556,25 +564,36 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .message__action { white-space: normal; max-width: 100%; }
 
 /* Choix d'Alexandre du 16/10/2026 sur les maquettes (C1 à C9). */
-/* C1 : contact, formulaire et colonne d'information côte à côte à partir de 1200 px ; l'un sous l'autre en dessous. */
+/* C1 : « Titre et information sur les données à gauche, collants au défilement ; formulaire à droite. Sous 1200 px,
+   retour à une seule colonne. » L'information précède le bouton d'envoi dans l'ordre du document (MF-20).
+   La section garde son halo mais rogne sans devenir un conteneur de défilement (overflow: clip), sinon la colonne ne collerait pas. */
+.section--contact { overflow: hidden; overflow: clip; }
 .contact { display: grid; gap: var(--espace-12); grid-template-columns: minmax(0, 1fr); align-items: start; }
-.contact__info { width: 100%; max-width: 44rem; }
-.contact__liens { display: grid; gap: var(--espace-1); list-style: none; }
-@media (min-width: 1200px) { .contact { grid-template-columns: minmax(0, 44rem) minmax(16rem, 24rem); column-gap: var(--espace-16); } }
-/* C2 : au lancement, une carte large par projet ; à partir de 900 px, le lien d'action passe à droite du texte. */
+.contact__presentation { display: grid; gap: var(--espace-8); align-content: start; min-width: 0; max-width: 44rem; }
+@media (min-width: 1200px) {
+  .contact { grid-template-columns: minmax(18rem, 26rem) minmax(0, 44rem); column-gap: var(--espace-16); }
+  .contact__presentation { position: sticky; top: calc(var(--hauteur-entete) + var(--espace-8)); }
+}
+/* C2 : « Chaque projet a sa carte sur toute la largeur : texte à gauche, vignette en fenêtre factice à droite (sous le
+   texte sur téléphone). » En attendant l'image de chaque projet, la vignette est CO-12 en variante navigateur. */
 .liste-projets { display: grid; gap: var(--gouttiere); grid-template-columns: minmax(0, 1fr); list-style: none; }
 .liste-projets > li { display: flex; min-width: 0; }
 .liste-projets > li > .carte { flex: 1; }
+.liste-projets .carte { gap: var(--espace-6); }
 .liste-projets .carte__texte { max-width: var(--conteneur-texte); }
+.carte__corps { display: flex; flex-direction: column; gap: var(--espace-3); min-width: 0; }
+.carte__vignette { width: 100%; max-width: 26rem; }
 @media (min-width: 900px) {
-  .liste-projets .carte { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--espace-8); row-gap: var(--espace-3); align-items: start; }
-  .liste-projets .carte > * { grid-column: 1; }
-  .liste-projets .carte > .carte__pied { grid-column: 2; grid-row: 1 / span 3; align-self: end; margin-top: 0; padding-top: 0; }
+  .liste-projets .carte { display: grid; grid-template-columns: minmax(0, 1fr) minmax(16rem, 26rem); column-gap: var(--espace-10); }
+  .liste-projets .carte__vignette { align-self: start; }
 }
 /* C3 : la fenêtre « profil.ts » de l'accueil est masquée sous 600 px. */
 @media (max-width: 599px) { .vitrine__grille > .fenetre { display: none; } }
 /* C6 : la période de l'alternance en liste clé-valeur en ligne, sous le titre : côte à côte à partir de 600 px, empilée en dessous. */
 @media (min-width: 600px) { .entete-section > .cles--en-ligne { grid-template-columns: repeat(2, max-content); column-gap: var(--espace-12); } }
+/* C6 : une valeur de date ou de période s'écrit en police-mono, comme les dates de la frise du Parcours ; graisse moyenne,
+   la plus forte chargée pour cette police. */
+.cles dd.cles__date { font-family: var(--police-mono); font-weight: var(--graisse-moyenne); letter-spacing: 0.02em; }
 /* C7 : le lien de retour porte sa flèche à gauche, pointée vers la gauche ; au survol, elle recule. */
 .lien--action.lien--retour:hover .icone, .lien--action.lien--retour.est-survol .icone { transform: translateX(calc(-1 * var(--distance-soulevement))); }
 /* C9 : le repère de page courante vaut aussi pour les boutons CV et Contact de l'en-tête : attribut et trait d'accent sous le bouton. */
@@ -690,14 +709,14 @@ html:not(.mv-pause) .pause-animations:not(.pause-animations--demo) .icone--lectu
 .recit__progression { height: 2px; margin: 0 var(--espace-4) var(--espace-4); border-radius: 2px; background: var(--couleur-bordure); overflow: hidden; }
 .recit__barre { display: block; height: 100%; background: linear-gradient(90deg, var(--couleur-accent), var(--couleur-accent-secondaire)); transform-origin: left center; }
 
-/* MV-06 : lueur qui suit le pointeur, visible seulement à travers le filet de la carte (jamais sur son fond). */
+/* MV-06 : lueur qui suit le pointeur, à l'intérieur de la carte, sous son contenu (cahier, section J) : le calque est
+   rogné par l'arrondi de la carte ; la carte isole son empilement, le calque passe donc au-dessus de son fond et sous
+   son texte, et ne prend aucun clic. Une carte interactive ne se pose jamais sur un halo. */
+.carte--interactive { isolation: isolate; }
 .mv-lueur {
-  position: absolute; inset: calc(-1 * var(--bordure-epaisseur)); z-index: 2; padding: var(--bordure-epaisseur);
+  position: absolute; inset: 0; z-index: -1;
   border-radius: inherit; overflow: hidden; pointer-events: none; opacity: 0;
   transition: opacity var(--duree-moyenne) var(--courbe-standard);
-  -webkit-mask: linear-gradient(var(--couleur-fond) 0 0) content-box, linear-gradient(var(--couleur-fond) 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(var(--couleur-fond) 0 0) content-box exclude, linear-gradient(var(--couleur-fond) 0 0);
 }
 /* Le lien d'action visible d'une carte interactive est décoratif (CO-05) : il laisse passer le clic vers le lien de la carte. */
 .carte--interactive .lien--action { pointer-events: none; }

@@ -88,10 +88,16 @@
   <div class="conteneur empile empile--large empile--etire">
     <ul class="liste-projets" data-mv-bloc>
       <li data-mv="MV-01"><article class="carte carte--pleine carte--interactive" data-mv-survol>
-        <p class="etiquette">Projet</p>
-        <h2 class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></h2>
-        <p class="carte__texte">[C-05 — description courte du projet]</p>
-        <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        <div class="carte__corps">
+          <p class="etiquette">Projet</p>
+          <h2 class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></h2>
+          <p class="carte__texte">[C-05 — description courte du projet]</p>
+          <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        </div>
+        <div class="fenetre carte__vignette" aria-hidden="true">
+          <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__adresse">alexandre-morozoff-dev.fr</span></div>
+          <div class="fenetre__contenu"><div class="maquette"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+        </div>
       </article></li>
     </ul>
     <div class="message message--bloc" role="note" data-mv-bloc data-mv="MV-01"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>
@@ -131,8 +137,8 @@
         <div><dt>Ordre de lecture</dt><dd>titre ; liste des projets, chacun avec son titre et un accès à sa fiche (au lancement, un seul : le portfolio ; description courte C-05) ; mention des projets d’entreprise non partageables</dd></div>
         <div><dt>Règles</dt><dd>la liste existe même avec un seul projet ; aucun projet d’école ni d’entreprise ; aucun état de chargement : le contenu est intégré aux pages à la construction du site</dd></div>
         <div><dt>Téléphone</dt><dd>un projet par ligne ; le titre n’est jamais coupé</dd></div>
-        <div><dt>Cartes</dt><dd>une carte large par projet, à toutes les largeurs (choix C2 d’Alexandre) : au lancement, la seule carte, celle du portfolio, occupe toute la largeur de la liste ; à partir de 900 px, son lien d’action passe à droite du texte</dd></div>
-        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-05, MV-06, MV-07</span>. Le titre, la carte du projet et la mention apparaissent en cascade ; la flèche de la carte se dessine ; au survol, la carte se soulève et son filet s’éclaire sous le pointeur. Le halo respire. La page entre et sort en fondu.</dd></div>
+        <div><dt>Cartes</dt><dd>une carte large par projet, à toutes les largeurs (choix C2 d’Alexandre, texte exact de son option du 16/10/2026) : texte à gauche et vignette à droite à partir de 900 px, vignette sous le texte en dessous ; la vignette est une image de plus à fournir par projet ; en attendant, une fenêtre factice (CO-12, variante navigateur : barre d’adresse factice, interface abstraite sans texte), décorative, masquée aux lecteurs d’écran.</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-05, MV-06, MV-07</span>. Le titre, la carte du projet et la mention apparaissent en cascade ; la flèche de la carte se dessine ; au survol, la carte se soulève et une lueur suit le pointeur à l’intérieur, sous le texte. Le halo respire. La page entre et sort en fondu.</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; un seul projet, le portfolio</li><li><a class="lien" href="#etat-plusieurs-projets">plusieurs-projets</a> : un projet ajouté apparaît sans changer les autres</li><li><a class="lien" href="#etat-liste-vide">liste-vide</a> : message, mention conservée</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
@@ -146,22 +152,40 @@
   <div class="conteneur empile empile--large empile--etire">
     <ul class="liste-projets">
       <li><article class="carte carte--pleine carte--interactive" data-mv-survol>
-        <p class="etiquette">Projet</p>
-        <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></p>
-        <p class="carte__texte">[C-05 — description courte du projet]</p>
-        <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        <div class="carte__corps">
+          <p class="etiquette">Projet</p>
+          <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></p>
+          <p class="carte__texte">[C-05 — description courte du projet]</p>
+          <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        </div>
+        <div class="fenetre carte__vignette" aria-hidden="true">
+          <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__adresse">alexandre-morozoff-dev.fr</span></div>
+          <div class="fenetre__contenu"><div class="maquette"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+        </div>
       </article></li>
       <li><article class="carte carte--pleine carte--interactive" data-mv-survol>
-        <p class="etiquette">Projet · exemple de démonstration</p>
-        <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Projet ajouté 1</a></p>
-        <p class="carte__texte">Exemple de démonstration : un projet ajouté prend sa place à la suite, sans changer les autres.</p>
-        <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        <div class="carte__corps">
+          <p class="etiquette">Projet · exemple de démonstration</p>
+          <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Projet ajouté 1</a></p>
+          <p class="carte__texte">Exemple de démonstration : un projet ajouté prend sa place à la suite, sans changer les autres.</p>
+          <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        </div>
+        <div class="fenetre carte__vignette" aria-hidden="true">
+          <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__adresse">[adresse du projet]</span></div>
+          <div class="fenetre__contenu"><div class="maquette"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+        </div>
       </article></li>
       <li><article class="carte carte--pleine carte--interactive" data-mv-survol>
-        <p class="etiquette">Projet · exemple de démonstration</p>
-        <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Projet ajouté 2</a></p>
-        <p class="carte__texte">Exemple de démonstration : un projet ajouté prend sa place à la suite, sans changer les autres.</p>
-        <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        <div class="carte__corps">
+          <p class="etiquette">Projet · exemple de démonstration</p>
+          <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Projet ajouté 2</a></p>
+          <p class="carte__texte">Exemple de démonstration : un projet ajouté prend sa place à la suite, sans changer les autres.</p>
+          <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        </div>
+        <div class="fenetre carte__vignette" aria-hidden="true">
+          <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__adresse">[adresse du projet]</span></div>
+          <div class="fenetre__contenu"><div class="maquette"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+        </div>
       </article></li>
     </ul>
     <div class="message message--bloc" role="note"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>

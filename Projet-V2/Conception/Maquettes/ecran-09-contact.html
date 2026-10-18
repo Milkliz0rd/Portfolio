@@ -74,19 +74,17 @@
 </header>
 
 <main id="contenu">
-<section class="section section--ouverture ambiance ambiance--section ambiance--calques" aria-labelledby="titre-page">
+<section class="section section--contact ambiance ambiance--section ambiance--calques" aria-labelledby="titre-page">
   <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
   <div class="conteneur">
-    <header class="entete-section" data-mv-bloc>
-      <p class="etiquette etiquette--accent" data-mv="MV-01">Écrire à Alexandre Morozoff</p>
-      <h1 class="titre-1" id="titre-page" data-mv="MV-01">Contact</h1>
-    </header>
-  </div>
-</section>
-
-<section class="section section--suite" aria-label="Formulaire de contact et autres accès">
-  <div class="conteneur">
     <div class="contact" data-mv-bloc>
+    <div class="contact__presentation">
+      <header class="entete-section">
+        <p class="etiquette etiquette--accent" data-mv="MV-01">Écrire à Alexandre Morozoff</p>
+        <h1 class="titre-1" id="titre-page" data-mv="MV-01">Contact</h1>
+      </header>
+      <p class="formulaire__info" data-mv="MV-01"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
+    </div>
     <div class="contenu-formulaire" data-mv="MV-01">
     <form class="formulaire" action="#etat-envoi-en-cours" novalidate>
       <p class="champ__aide">Tous les champs sont obligatoires.</p>
@@ -97,22 +95,10 @@
       <div class="champ"><label class="champ__libelle" for="f-courriel">Adresse e-mail</label><input class="champ__saisie" id="f-courriel" type="email" autocomplete="email" placeholder="Votre adresse e-mail"></div>
       <div class="champ"><label class="champ__libelle" for="f-sujet">Sujet</label><input class="champ__saisie" id="f-sujet" type="text"></div>
       <div class="champ"><label class="champ__libelle" for="f-message">Message</label><textarea class="champ__saisie" id="f-message" rows="5"></textarea></div>
-      <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
       <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="submit">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button></div>
       <div class="formulaire__resultat" aria-live="polite"></div>
     </form>
     </div>
-    <aside class="contact__info" aria-labelledby="titre-autres-acces" data-mv="MV-01">
-      <div class="carte carte--pleine">
-        <p class="etiquette">Information</p>
-        <h2 class="titre-4" id="titre-autres-acces">Autres accès</h2>
-        <ul class="contact__liens">
-          <li><a class="lien lien--action" data-mv-survol href="ecran-08-cv.html">Voir le CV<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></a></li>
-          <li><a class="lien lien--action" data-mv-survol href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
-          <li><a class="lien lien--action" data-mv-survol href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
-        </ul>
-      </div>
-    </aside>
     </div>
   </div>
 </section>
@@ -148,12 +134,12 @@
         <div><dt>Adresse réelle</dt><dd><code>/contact</code></dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-04, MF-06, MF-16, MF-18, MF-20</dd></div>
         <div><dt>Navigation</dt><dd>le bouton « Contact » de l’en-tête porte l’attribut de page courante et un trait d’accent sous le bouton (choix C9 d’Alexandre) ; aucune entrée de la navigation n’est signalée</dd></div>
-        <div><dt>Ordre de lecture</dt><dd>titre ; champs nom, prénom, adresse e-mail, sujet, message, tous obligatoires ; information sur l’usage des données, avant le bouton ; bouton d’envoi ; emplacement du message de résultat, juste sous le bouton ; puis la colonne d’information : autres accès au CV, à GitHub et à LinkedIn, faits déjà publiés</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; information sur l’usage des données, avant le formulaire et donc avant le bouton (MF-20) ; champs nom, prénom, adresse e-mail, sujet, message, tous obligatoires ; bouton d’envoi ; emplacement du message de résultat, juste sous le bouton</dd></div>
         <div><dt>Information sur les données</dt><dd>texte final à valider (D-10, conception technique CT-12) : qui reçoit, pourquoi, base légale, prestataires et transferts, durée de conservation, droits</dd></div>
         <div><dt>Protection</dt><dd>aucune protection contre les messages indésirables n’est visible (V-06)</dd></div>
-        <div><dt>Colonnes</dt><dd>formulaire et colonne d’information côte à côte à partir de 1200 px (choix C1 d’Alexandre) ; en dessous, la colonne d’information passe sous le formulaire. L’information sur les données reste dans le formulaire, avant le bouton (MF-20). Colonne de droite : carte Autres accès (Voir le CV, GitHub, LinkedIn), choix d’Alexandre du 17/10/2026.</dd></div>
+        <div><dt>Colonnes</dt><dd>à partir de 1200 px, le titre et l’information sur les données à gauche, collants au défilement sous l’en-tête, et le formulaire à droite ; sous 1200 px, une seule colonne : titre, information, formulaire (choix C1 d’Alexandre, texte exact de son option du 16/10/2026) ; les états du formulaire suivent la même mise en page.</dd></div>
         <div><dt>Téléphone</dt><dd>une colonne, chaque champ sur toute la largeur ; nom et prénom côte à côte quand la place le permet ; le bouton et le message de résultat restent atteignables</dd></div>
-        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-05, MV-06, MV-07</span>. Le titre, le formulaire et la colonne d’information apparaissent en cascade ; les flèches des autres accès se dessinent, glissent au survol et leur soulignement s’étire. Le halo respire. La page entre et sort en fondu ; le repère de page courante glisse jusqu’au bouton « Contact » de l’en-tête.</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-07</span>. Le titre, l’information sur les données et le formulaire apparaissent en cascade. Le halo respire. La page entre et sort en fondu ; le repère de page courante glisse jusqu’au bouton « Contact » de l’en-tête.</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; formulaire vide</li><li><a class="lien" href="#etat-champ-manquant">champ-manquant</a> : message sous le champ, rien n’est envoyé</li><li><a class="lien" href="#etat-email-invalide">email-invalide</a> : message sous le champ e-mail</li><li><a class="lien" href="#etat-envoi-en-cours">envoi-en-cours</a> : bouton inactif, attente jusqu’à 90 secondes</li><li><a class="lien" href="#etat-envoi-reussi">envoi-reussi</a> : confirmation, champs vidés</li><li><a class="lien" href="#etat-envoi-echoue">envoi-echoue</a> : erreur réessayable, saisie conservée</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
@@ -163,6 +149,14 @@
       <h3 class="annotation__nom" id="titre-etat-champ-manquant">État : champ-manquant</h3>
       <p class="annotation__note">Le sujet est vide à l’envoi : un message sous le champ indique qu’il est obligatoire, le champ est marqué invalide et reçoit le focus. Rien n’est envoyé ; les autres champs gardent leur saisie.</p>
       <div class="annotation__rendu">
+        <div class="contact">
+        <div class="contact__presentation">
+          <div class="entete-section">
+            <p class="etiquette etiquette--accent">Écrire à Alexandre Morozoff</p>
+            <p class="titre-1">Contact</p>
+          </div>
+          <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
+        </div>
         <div class="contenu-formulaire">
     <form class="formulaire" action="#etat-envoi-en-cours" novalidate>
       <p class="champ__aide">Tous les champs sont obligatoires.</p>
@@ -173,10 +167,10 @@
       <div class="champ"><label class="champ__libelle" for="f-courriel-a">Adresse e-mail</label><input class="champ__saisie" id="f-courriel-a" type="email" value="[adresse saisie, conservée]" autocomplete="email" placeholder="Votre adresse e-mail"></div>
       <div class="champ"><label class="champ__libelle" for="f-sujet-a">Sujet</label><input class="champ__saisie" id="f-sujet-a" type="text" aria-invalid="true" aria-describedby="f-sujet-a-erreur"><p class="champ__erreur" id="f-sujet-a-erreur"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg>Ce champ est obligatoire.</p></div>
       <div class="champ"><label class="champ__libelle" for="f-message-a">Message</label><textarea class="champ__saisie" id="f-message-a" rows="5">Exemple de message, conservé tel qu’il a été saisi.</textarea></div>
-      <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
       <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="submit">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button></div>
       <div class="formulaire__resultat" aria-live="polite"></div>
     </form>
+        </div>
         </div>
       </div>
     </section>
@@ -184,6 +178,14 @@
       <h3 class="annotation__nom" id="titre-etat-email-invalide">État : email-invalide</h3>
       <p class="annotation__note">L’adresse saisie n’a pas un format valide : un message sous le champ le dit. Rien n’est envoyé ; la saisie est conservée.</p>
       <div class="annotation__rendu">
+        <div class="contact">
+        <div class="contact__presentation">
+          <div class="entete-section">
+            <p class="etiquette etiquette--accent">Écrire à Alexandre Morozoff</p>
+            <p class="titre-1">Contact</p>
+          </div>
+          <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
+        </div>
         <div class="contenu-formulaire">
     <form class="formulaire" action="#etat-envoi-en-cours" novalidate>
       <p class="champ__aide">Tous les champs sont obligatoires.</p>
@@ -194,10 +196,10 @@
       <div class="champ"><label class="champ__libelle" for="f-courriel-b">Adresse e-mail</label><input class="champ__saisie" id="f-courriel-b" type="email" value="adresse-incomplete" autocomplete="email" placeholder="Votre adresse e-mail" aria-invalid="true" aria-describedby="f-courriel-b-erreur"><p class="champ__erreur" id="f-courriel-b-erreur"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg>L’adresse e-mail n’est pas valide.</p></div>
       <div class="champ"><label class="champ__libelle" for="f-sujet-b">Sujet</label><input class="champ__saisie" id="f-sujet-b" type="text" value="Exemple de sujet"></div>
       <div class="champ"><label class="champ__libelle" for="f-message-b">Message</label><textarea class="champ__saisie" id="f-message-b" rows="5">Exemple de message, conservé tel qu’il a été saisi.</textarea></div>
-      <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
       <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="submit">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button></div>
       <div class="formulaire__resultat" aria-live="polite"></div>
     </form>
+        </div>
         </div>
       </div>
     </section>
@@ -205,6 +207,14 @@
       <h3 class="annotation__nom" id="titre-etat-envoi-en-cours">État : envoi-en-cours</h3>
       <p class="annotation__note">Le bouton est inactif et indique l’attente, pour éviter un double envoi ; les champs sont désactivés mais leur saisie reste lisible. L’attente peut durer jusqu’à 90 secondes quand le service d’envoi se réveille : le message le dit.</p>
       <div class="annotation__rendu">
+        <div class="contact">
+        <div class="contact__presentation">
+          <div class="entete-section">
+            <p class="etiquette etiquette--accent">Écrire à Alexandre Morozoff</p>
+            <p class="titre-1">Contact</p>
+          </div>
+          <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
+        </div>
         <div class="contenu-formulaire">
     <form class="formulaire" action="#etat-envoi-en-cours" novalidate>
       <p class="champ__aide">Tous les champs sont obligatoires.</p>
@@ -215,10 +225,10 @@
       <div class="champ"><label class="champ__libelle" for="f-courriel-c">Adresse e-mail</label><input class="champ__saisie" id="f-courriel-c" type="email" value="[adresse saisie, conservée]" autocomplete="email" placeholder="Votre adresse e-mail" disabled></div>
       <div class="champ"><label class="champ__libelle" for="f-sujet-c">Sujet</label><input class="champ__saisie" id="f-sujet-c" type="text" value="Exemple de sujet" disabled></div>
       <div class="champ"><label class="champ__libelle" for="f-message-c">Message</label><textarea class="champ__saisie" id="f-message-c" rows="5" disabled>Exemple de message, conservé tel qu’il a été saisi.</textarea></div>
-      <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
       <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="button" aria-busy="true" aria-disabled="true"><span class="indicateur" aria-hidden="true"></span>Envoi en cours…</button></div>
       <div class="formulaire__resultat" aria-live="polite"><div class="message" role="status"><span class="indicateur" aria-hidden="true"></span><div class="message__corps"><p class="message__titre">Envoi en cours…</p><p class="message__texte">L’envoi peut prendre jusqu’à 90 secondes. Votre saisie est conservée.</p></div></div></div>
     </form>
+        </div>
         </div>
       </div>
     </section>
@@ -226,6 +236,14 @@
       <h3 class="annotation__nom" id="titre-etat-envoi-reussi">État : envoi-reussi</h3>
       <p class="annotation__note">Une confirmation s’affiche sous le bouton et les champs sont vidés. Le message reste jusqu’à la prochaine action.</p>
       <div class="annotation__rendu">
+        <div class="contact">
+        <div class="contact__presentation">
+          <div class="entete-section">
+            <p class="etiquette etiquette--accent">Écrire à Alexandre Morozoff</p>
+            <p class="titre-1">Contact</p>
+          </div>
+          <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
+        </div>
         <div class="contenu-formulaire">
     <form class="formulaire" action="#etat-envoi-en-cours" novalidate>
       <p class="champ__aide">Tous les champs sont obligatoires.</p>
@@ -236,10 +254,10 @@
       <div class="champ"><label class="champ__libelle" for="f-courriel-d">Adresse e-mail</label><input class="champ__saisie" id="f-courriel-d" type="email" autocomplete="email" placeholder="Votre adresse e-mail"></div>
       <div class="champ"><label class="champ__libelle" for="f-sujet-d">Sujet</label><input class="champ__saisie" id="f-sujet-d" type="text"></div>
       <div class="champ"><label class="champ__libelle" for="f-message-d">Message</label><textarea class="champ__saisie" id="f-message-d" rows="5"></textarea></div>
-      <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
       <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="submit">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button></div>
       <div class="formulaire__resultat" aria-live="polite"><div class="message message--succes" role="status"><svg class="icone" aria-hidden="true"><use href="#i-valide"/></svg><div class="message__corps"><p class="message__titre">Message envoyé</p><p class="message__texte">Merci. Les champs du formulaire ont été vidés.</p></div></div></div>
     </form>
+        </div>
         </div>
       </div>
     </section>
@@ -247,6 +265,14 @@
       <h3 class="annotation__nom" id="titre-etat-envoi-echoue">État : envoi-echoue</h3>
       <p class="annotation__note">Un message d’erreur visible indique que l’envoi a échoué et qu’on peut réessayer ; la saisie est conservée. Un envoi refusé par la protection contre les messages indésirables, invisible pour le visiteur, affiche ce même message.</p>
       <div class="annotation__rendu">
+        <div class="contact">
+        <div class="contact__presentation">
+          <div class="entete-section">
+            <p class="etiquette etiquette--accent">Écrire à Alexandre Morozoff</p>
+            <p class="titre-1">Contact</p>
+          </div>
+          <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
+        </div>
         <div class="contenu-formulaire">
     <form class="formulaire" action="#etat-envoi-en-cours" novalidate>
       <p class="champ__aide">Tous les champs sont obligatoires.</p>
@@ -257,10 +283,10 @@
       <div class="champ"><label class="champ__libelle" for="f-courriel-e">Adresse e-mail</label><input class="champ__saisie" id="f-courriel-e" type="email" value="[adresse saisie, conservée]" autocomplete="email" placeholder="Votre adresse e-mail"></div>
       <div class="champ"><label class="champ__libelle" for="f-sujet-e">Sujet</label><input class="champ__saisie" id="f-sujet-e" type="text" value="Exemple de sujet"></div>
       <div class="champ"><label class="champ__libelle" for="f-message-e">Message</label><textarea class="champ__saisie" id="f-message-e" rows="5">Exemple de message, conservé tel qu’il a été saisi.</textarea></div>
-      <p class="formulaire__info"><strong>Vos données.</strong> [texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]</p>
       <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="submit">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button></div>
       <div class="formulaire__resultat" aria-live="polite"><div class="message message--erreur" role="alert"><svg class="icone" aria-hidden="true"><use href="#i-erreur"/></svg><div class="message__corps"><p class="message__titre">L’envoi a échoué</p><p class="message__texte">Votre saisie est conservée. Vous pouvez réessayer.</p></div><button class="bouton bouton--secondaire message__action" type="submit"><svg class="icone" aria-hidden="true"><use href="#i-reessayer"/></svg>Réessayer</button></div></div>
     </form>
+        </div>
         </div>
       </div>
     </section>

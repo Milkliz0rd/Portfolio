@@ -361,7 +361,7 @@
     }
   }
 
-  /* ---------- MV-06 : la lueur suit le pointeur, à travers le filet de la carte seulement ---------- */
+  /* ---------- MV-06 : la lueur suit le pointeur, à l'intérieur de la carte, sous son contenu (cahier, section J) ---------- */
   function initLueurs() {
     if (!media("(hover: hover) and (pointer: fine)")) { return; }
     var rayon = jeton("taille-lueur-survol") / 2;
@@ -378,7 +378,8 @@
       var attente = false;
       function deplacer() { attente = false; disque.style.transform = "translate(" + (x - rayon).toFixed(1) + "px, " + (y - rayon).toFixed(1) + "px)"; }
       function suivre(evenement) {
-        var r = carte.getBoundingClientRect();
+        /* Position rapportée au calque lui-même (il bouge avec la carte qui se soulève, et commence sous son filet). */
+        var r = calque.getBoundingClientRect();
         x = evenement.clientX - r.left;
         y = evenement.clientY - r.top;
         if (!attente) { attente = true; window.requestAnimationFrame(deplacer); }
