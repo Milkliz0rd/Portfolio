@@ -1,5 +1,5 @@
 # Charte graphique — design system
-Statut : [x] à approuver  [ ] approuvé par : ______  (version du 16/10/26 approuvée par Alexandre Morozoff ; révision du 17/10/26 sur le mouvement, à approuver)
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 18/10/26 (révision sur le mouvement des 17 et 18/10/26 ; version précédente approuvée le 16/10/26)
 Base : US-2.0 et SC-2.0, approuvés par Alexandre Morozoff le 15/10/26 ; décisions d'Alexandre du 15/10/2026 sur la charte ; choix d'Alexandre du 17/10/2026 sur le mouvement.
 
 ## 1. Principes
