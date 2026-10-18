@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Éléments communs — maquette EC-00 · Alexandre Morozoff</title>
+<meta name="description" content="Maquette de l’écran EC-00 : en-tête, navigation et pied de page communs à toutes les pages.">
+<script>
+/* Mouvement : le contenu reste visible par défaut. Les états cachés n’existent que sous « mv-actif », posé ici avant le premier affichage et seulement sans demande de réduction des animations ; sans « mv-pret » 3 s après, tout s’affiche. Le choix de pause mémorisé s’applique ici aussi. */
+(function () {
+  var h = document.documentElement;
+  try {
+    if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: no-preference)").matches) { return; }
+    h.classList.add("mv-actif");
+    try { if (window.localStorage.getItem("mv-pause") === "1") { h.classList.add("mv-pause"); } } catch (e) {}
+    window.setTimeout(function () { if (!h.classList.contains("mv-pret")) { h.classList.remove("mv-actif"); } }, 3000);
+  } catch (e) {}
+})();
+</script>
+<script src="mouvement.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-valide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></symbol>
+  <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
+  <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-lecture" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
+  <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
+</svg>
+<a class="evitement" href="#contenu">Aller au contenu</a>
+
+<div class="ecran" id="etat-nominal" data-etat="nominal">
+<header class="entete" data-commun="entete">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <nav class="entete__navigation" aria-label="Sections du site">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+    </ul>
+  </nav>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main id="contenu">
+<section class="section ambiance ambiance--section ambiance--calques" aria-labelledby="titre-page">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+  <div class="conteneur empile empile--etire">
+    <header class="entete-section">
+      <p class="etiquette etiquette--accent">Présents sur chaque écran</p>
+      <h1 class="titre-1" id="titre-page">Éléments communs</h1>
+      <p class="chapo">L’en-tête et le pied de page encadrent chaque écran du site, page introuvable comprise. Le CV et le contact y restent à un clic ; la navigation y est la même partout.</p>
+    </header>
+    <p class="zone-contenu">Contenu de l’écran affiché</p>
+  </div>
+</section>
+</main>
+
+<footer class="pied pied--page" data-commun="pied">
+  <div class="conteneur">
+    <div class="pied__haut">
+      <p class="pied__marque">Alexandre Morozoff</p>
+      <ul class="pied__liens">
+        <li><a class="lien lien--discret lien--externe" href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+        <li><a class="lien lien--discret lien--externe" href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+      </ul>
+    </div>
+    <div class="pied__bas">
+      <p class="etiquette">alexandre-morozoff-dev.fr</p>
+      <div class="pied__actions">
+        <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+        <button class="lien lien--discret pause-animations" type="button" data-mv-pause><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Mettre les animations en pause</span></button>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<aside class="annotation" aria-labelledby="annotation-titre">
+  <div class="conteneur annotation__interieur">
+    <header class="annotation__entete">
+      <p class="annotation__marque">Annotation de maquette · hors design</p>
+      <h2 class="annotation__titre" id="annotation-titre">États de l'écran — annotation de maquette</h2>
+      <dl class="annotation__faits">
+        <div><dt>Écran</dt><dd>EC-00 · Éléments communs</dd></div>
+        <div><dt>Adresse réelle</dt><dd>toutes les pages, page introuvable comprise</dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-02, MF-03, MF-06, MF-17, MF-19</dd></div>
+        <div><dt>En-tête</dt><dd>marque (monogramme « AM » sous 480 px, nom Alexandre Morozoff au-delà), lien vers l’accueil ; navigation complète à partir de 1200 px : Accueil, Parcours, Compétences, Expérience, Méthode, Projets ; « CV » (bouton secondaire) et « Contact » (bouton primaire), toujours visibles, jamais dans le menu</dd></div>
+        <div><dt>Pied de page</dt><dd>GitHub et LinkedIn, ouverts dans un nouvel onglet ; lien vers les mentions légales ; bouton « Mettre les animations en pause » (lien discret, icône pause en trait, cible de 44 px ; place validée par Alexandre le 17/10/2026 (choix D6)), absent sans script et quand le visiteur a demandé à réduire les animations ; aucune année ni mention de droits datée</dd></div>
+        <div><dt>Téléphone</dt><dd>menu replié sous 1200 px ; pied de page lu en colonne ; aucune entrée coupée, aucun défilement horizontal</dd></div>
+        <div><dt>Composants</dt><dd>CO-06 en-tête, CO-07 menu replié, CO-08 pied de page, CO-14 lien d’évitement (premier élément focalisable, visible à la touche Tab)</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-04, MV-07</span>. Le halo de la section respire (cycle de 8 s) et se fige avec le bouton de pause du pied de page. En changeant d’écran, la page s’efface en montant puis la suivante arrive en fondu ; l’en-tête reste fixe et son repère de page courante glisse vers la nouvelle entrée. L’en-tête et le pied de page n’entrent jamais en cascade.</dd></div>
+        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’entrée courante dépend de l’écran</li><li><a class="lien" href="#etat-entree-courante">entree-courante</a> : entrée de l’écran affiché signalée</li><li><a class="lien" href="#etat-menu-replie">menu-replie</a> : téléphone, menu fermé</li><li><a class="lien" href="#etat-menu-deplie">menu-deplie</a> : téléphone, menu ouvert</li><li><a class="lien" href="#etat-sans-section-courante">sans-section-courante</a> : mentions légales, page introuvable</li><li><a class="lien" href="#etat-animations-en-pause">animations-en-pause</a> : bouton de pause pressé, halos figés</li></ul></dd></div>
+      </dl>
+      <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
+    </header>
+
+    <section class="annotation__etat" id="etat-entree-courante" data-etat="entree-courante" aria-labelledby="titre-etat-entree-courante">
+      <h3 class="annotation__nom" id="titre-etat-entree-courante">État : entree-courante</h3>
+      <p class="annotation__note">L’entrée de l’écran affiché est reconnaissable : trait d’accent sous le lien dans la navigation complète, fond teinté et barre d’accent dans le menu déplié, et attribut de page courante pour les lecteurs d’écran. Sur la fiche d’un projet, l’entrée « Projets » est la courante. Sur les écrans CV et Contact, le bouton correspondant de l’en-tête porte le même attribut et le même trait d’accent, sous le bouton (choix C9 d’Alexandre).</p>
+      <div class="annotation__rendu annotation__rendu--nu">
+        <p class="annotation__note">Sur l’écran Parcours, à partir de 1200 px (en dessous, l’en-tête passe en version compacte) :</p>
+        <div class="cadre-demo cadre-demo--entete">
+<header class="entete entete--demo">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <nav class="entete__navigation" aria-label="Sections du site (démonstration)">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html" aria-current="page">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+    </ul>
+  </nav>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html" aria-current="page">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+          <div class="cadre-demo__corps ambiance"><p class="zone-contenu">Contenu de l’écran affiché</p></div>
+        </div>
+        <p class="annotation__note">Le même repère dans le menu déplié, sous 1200 px :</p>
+<div class="menu-replie--en-place">
+  <nav class="menu-replie__panneau" aria-label="Menu déplié (démonstration)">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html" aria-current="page">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+    </ul>
+  </nav>
+</div>
+        <p class="annotation__note">Sur la fiche d’un projet, l’entrée « Projets » est la courante :</p>
+        <div class="cadre-demo cadre-demo--entete">
+<header class="entete entete--demo">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <nav class="entete__navigation" aria-label="Sections du site (démonstration)">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+    </ul>
+  </nav>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+          <div class="cadre-demo__corps ambiance"><p class="zone-contenu">Contenu de l’écran affiché</p></div>
+        </div>
+        <p class="annotation__note">Le même repère dans le menu déplié, sous 1200 px :</p>
+<div class="menu-replie--en-place">
+  <nav class="menu-replie__panneau" aria-label="Menu déplié (démonstration)">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+    </ul>
+  </nav>
+</div>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-menu-replie" data-etat="menu-replie" aria-labelledby="titre-etat-menu-replie">
+      <h3 class="annotation__nom" id="titre-etat-menu-replie">État : menu-replie</h3>
+      <p class="annotation__note">Sous 1200 px : un seul bouton de menu ; le CV et le contact restent visibles à côté, hors du menu. Sous 480 px, la marque se réduit au monogramme « AM » ; le nom reste annoncé aux lecteurs d’écran.</p>
+      <div class="annotation__rendu annotation__rendu--nu">
+        <div class="cadre-telephone">
+<header class="entete entete--demo entete--compacte">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+          <div class="cadre-telephone__contenu ambiance ambiance--accueil ambiance--calques">
+  <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+            <p class="etiquette etiquette--puce">Écran courant</p>
+            <p class="titre-2">Parcours</p>
+            <p class="texte-petit">Contenu de l’écran affiché.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-menu-deplie" data-etat="menu-deplie" aria-labelledby="titre-etat-menu-deplie">
+      <h3 class="annotation__nom" id="titre-etat-menu-deplie">État : menu-deplie</h3>
+      <p class="annotation__note">Le bouton ouvre la liste de toutes les sections ; l’entrée courante y est signalée. Échap, le bouton croix ou le choix d’une section referment le menu : la page ne change pas d’écran tant qu’aucune section n’est choisie. Ce cadre reste ouvert pour la démonstration.</p>
+      <div class="annotation__rendu annotation__rendu--nu">
+        <div class="cadre-telephone">
+<header class="entete entete--demo entete--compacte">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie" open data-fige>
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html" aria-current="page">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+          <div class="cadre-telephone__contenu ambiance ambiance--accueil ambiance--calques">
+  <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+            <p class="etiquette etiquette--puce">Écran courant</p>
+            <p class="titre-2">Parcours</p>
+            <p class="texte-petit">Contenu de l’écran affiché.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-sans-section-courante" data-etat="sans-section-courante" aria-labelledby="titre-etat-sans-section-courante">
+      <h3 class="annotation__nom" id="titre-etat-sans-section-courante">État : sans-section-courante</h3>
+      <p class="annotation__note">Sur la page introuvable et sur les mentions légales, aucune entrée n’est signalée ; toutes restent utilisables.</p>
+      <div class="annotation__rendu annotation__rendu--nu">
+        <div class="cadre-demo cadre-demo--entete">
+<header class="entete entete--demo">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <nav class="entete__navigation" aria-label="Sections du site (démonstration)">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+    </ul>
+  </nav>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+          <div class="cadre-demo__corps ambiance"><p class="zone-contenu">Mentions légales ou page introuvable</p></div>
+        </div>
+        <p class="annotation__note">Le menu déplié, sous 1200 px, sans entrée signalée :</p>
+<div class="menu-replie--en-place">
+  <nav class="menu-replie__panneau" aria-label="Menu déplié (démonstration)">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+    </ul>
+  </nav>
+</div>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-animations-en-pause" data-etat="animations-en-pause" aria-labelledby="titre-etat-animations-en-pause">
+      <h3 class="annotation__nom" id="titre-etat-animations-en-pause">État : animations-en-pause</h3>
+      <p class="annotation__note">Le bouton « Mettre les animations en pause » du pied de page a été activé : son libellé devient « Relancer les animations » et son icône pause devient une icône lecture ; aucun état pressé n’est annoncé, seul le libellé change (choix Q1 d’Alexandre). La respiration des halos est figée sur toutes les pages, et le choix est mémorisé d’une page à l’autre ; les mouvements joués une fois (cascades, tracés, transitions entre pages) ne changent pas. Le bouton n’existe pas quand le visiteur a demandé à réduire les animations, ni sans script : les halos sont alors fixes. Ce cadre reste en pause pour la démonstration.</p>
+      <div class="annotation__rendu annotation__rendu--nu">
+        <div class="cadre-demo">
+<div class="pied">
+    <div class="pied__haut">
+      <p class="pied__marque">Alexandre Morozoff</p>
+      <ul class="pied__liens">
+        <li><a class="lien lien--discret lien--externe" href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+        <li><a class="lien lien--discret lien--externe" href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+      </ul>
+    </div>
+    <div class="pied__bas">
+      <p class="etiquette">alexandre-morozoff-dev.fr</p>
+      <div class="pied__actions">
+        <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+        <button class="lien lien--discret pause-animations pause-animations--demo" type="button"><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Relancer les animations</span></button>
+      </div>
+    </div>
+</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</aside>
+
+<script>
+/* Menu replié : Échap le ferme et rend le focus à son bouton ; choisir une section ou cliquer ailleurs le ferme. */
+(function () {
+  var menus = document.querySelectorAll("details.menu-replie:not([data-fige])");
+  function fermer(menu, rendreFocus) {
+    menu.open = false;
+    if (rendreFocus) { menu.querySelector("summary").focus(); }
+  }
+  document.addEventListener("keydown", function (evenement) {
+    if (evenement.key !== "Escape") { return; }
+    for (var i = 0; i < menus.length; i++) {
+      if (menus[i].open) { fermer(menus[i], menus[i].contains(document.activeElement)); }
+    }
+  });
+  document.addEventListener("click", function (evenement) {
+    for (var i = 0; i < menus.length; i++) {
+      var menu = menus[i];
+      if (!menu.open) { continue; }
+      if (!menu.contains(evenement.target) || evenement.target.closest(".menu-replie__panneau a")) { fermer(menu, false); }
+    }
+  });
+})();
+</script>
+</body>
+</html>

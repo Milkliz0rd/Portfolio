@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Page introuvable — maquette EC-11 · Alexandre Morozoff</title>
+<meta name="description" content="Maquette de la page introuvable, pour une adresse inconnue ou un projet inexistant.">
+<script>
+/* Mouvement : le contenu reste visible par défaut. Les états cachés n’existent que sous « mv-actif », posé ici avant le premier affichage et seulement sans demande de réduction des animations ; sans « mv-pret » 3 s après, tout s’affiche. Le choix de pause mémorisé s’applique ici aussi. */
+(function () {
+  var h = document.documentElement;
+  try {
+    if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: no-preference)").matches) { return; }
+    h.classList.add("mv-actif");
+    try { if (window.localStorage.getItem("mv-pause") === "1") { h.classList.add("mv-pause"); } } catch (e) {}
+    window.setTimeout(function () { if (!h.classList.contains("mv-pret")) { h.classList.remove("mv-actif"); } }, 3000);
+  } catch (e) {}
+})();
+</script>
+<script src="mouvement.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-valide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></symbol>
+  <symbol id="i-erreur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
+  <symbol id="i-attention" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-lecture" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
+  <symbol id="i-reessayer" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></symbol>
+</svg>
+<a class="evitement" href="#contenu">Aller au contenu</a>
+
+<div class="ecran" id="etat-adresse-inconnue" data-etat="adresse-inconnue">
+<header class="entete" data-commun="entete">
+  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <nav class="entete__navigation" aria-label="Sections du site">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+    </ul>
+  </nav>
+  <div class="entete__actions">
+    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main id="contenu">
+<section class="section section--accueil ambiance ambiance--accueil ambiance--calques" aria-labelledby="titre-page">
+  <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+  <div class="conteneur empile" data-mv-bloc>
+    <p class="texte-affiche" aria-hidden="true" data-mv="MV-01">404</p>
+    <h1 class="titre-2" id="titre-page" data-mv="MV-01">Cette page n’existe pas</h1>
+    <p class="chapo" data-mv="MV-01">L’adresse demandée ne correspond à aucune page du site.</p>
+    <div class="groupe-actions" data-mv="MV-01">
+        <a class="bouton bouton--primaire" href="ecran-01-accueil.html">Revenir à l’accueil<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="pied pied--page" data-commun="pied">
+  <div class="conteneur">
+    <div class="pied__haut">
+      <p class="pied__marque">Alexandre Morozoff</p>
+      <ul class="pied__liens">
+        <li><a class="lien lien--discret lien--externe" href="https://github.com/Milkliz0rd" target="_blank" rel="noopener noreferrer">GitHub<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+        <li><a class="lien lien--discret lien--externe" href="https://www.linkedin.com/in/alexandre-morozoff-4b1386337" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a></li>
+      </ul>
+    </div>
+    <div class="pied__bas">
+      <p class="etiquette">alexandre-morozoff-dev.fr</p>
+      <div class="pied__actions">
+        <a class="lien lien--discret" href="ecran-10-mentions-legales.html">Mentions légales</a>
+        <button class="lien lien--discret pause-animations" type="button" data-mv-pause><svg class="icone icone--pause" aria-hidden="true"><use href="#i-pause"/></svg><svg class="icone icone--lecture" aria-hidden="true"><use href="#i-lecture"/></svg><span class="pause-animations__libelle">Mettre les animations en pause</span></button>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<aside class="annotation" aria-labelledby="annotation-titre">
+  <div class="conteneur annotation__interieur">
+    <header class="annotation__entete">
+      <p class="annotation__marque">Annotation de maquette · hors design</p>
+      <h2 class="annotation__titre" id="annotation-titre">États de l'écran — annotation de maquette</h2>
+      <dl class="annotation__faits">
+        <div><dt>Écran</dt><dd>EC-11 · Page introuvable</dd></div>
+        <div><dt>Adresse réelle</dt><dd>toute adresse qui ne correspond à aucun écran, par exemple <code>/une-adresse-inconnue</code> ou <code>/projets/identifiant-inconnu</code> ; réponse 404, page non indexée</dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-04, MF-05</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>message clair indiquant que la page n’existe pas ; retour à l’accueil ; retour vers la liste des projets quand l’adresse visée était celle d’un projet</dd></div>
+        <div><dt>Navigation</dt><dd>en-tête, menu replié et pied de page présents ; aucune entrée signalée</dd></div>
+        <div><dt>Téléphone</dt><dd>le message et le retour à l’accueil se lisent sans défilement</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-07</span>. Le « 404 », le message et le retour à l’accueil apparaissent en cascade. Les deux halos respirent en opposition de phase. La page entre et sort en fondu.</dd></div>
+        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-adresse-inconnue">adresse-inconnue</a> : en haut de page ; message, retour à l’accueil</li><li><a class="lien" href="#etat-projet-inexistant">projet-inexistant</a> : même écran, plus le retour vers la liste des projets</li></ul></dd></div>
+      </dl>
+      <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
+    </header>
+
+    <section class="annotation__etat" id="etat-projet-inexistant" data-etat="projet-inexistant" aria-labelledby="titre-etat-projet-inexistant">
+      <h3 class="annotation__nom" id="titre-etat-projet-inexistant">État : projet-inexistant</h3>
+      <p class="annotation__note">Adresse de la forme <code>/projets/</code> suivie d’un identifiant inconnu : même écran, avec en plus le retour vers la liste des projets. Cet écran est l’unique description de cet état (EC-07 y renvoie).</p>
+      <div class="annotation__rendu">
+<section class="section section--accueil ambiance ambiance--accueil ambiance--calques">
+  <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+  <div class="conteneur empile">
+    <p class="texte-affiche" aria-hidden="true">404</p>
+    <p class="titre-2">Cette page n’existe pas</p>
+    <p class="chapo">L’adresse demandée ne correspond à aucune page du site.</p>
+    <div class="groupe-actions">
+        <a class="bouton bouton--primaire" href="ecran-01-accueil.html">Revenir à l’accueil<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+        <a class="bouton bouton--secondaire" href="ecran-06-projets.html">Voir la liste des projets<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+    </div>
+  </div>
+</section>
+      </div>
+    </section>
+  </div>
+</aside>
+
+<script>
+/* Menu replié : Échap le ferme et rend le focus à son bouton ; choisir une section ou cliquer ailleurs le ferme. */
+(function () {
+  var menus = document.querySelectorAll("details.menu-replie:not([data-fige])");
+  function fermer(menu, rendreFocus) {
+    menu.open = false;
+    if (rendreFocus) { menu.querySelector("summary").focus(); }
+  }
+  document.addEventListener("keydown", function (evenement) {
+    if (evenement.key !== "Escape") { return; }
+    for (var i = 0; i < menus.length; i++) {
+      if (menus[i].open) { fermer(menus[i], menus[i].contains(document.activeElement)); }
+    }
+  });
+  document.addEventListener("click", function (evenement) {
+    for (var i = 0; i < menus.length; i++) {
+      var menu = menus[i];
+      if (!menu.open) { continue; }
+      if (!menu.contains(evenement.target) || evenement.target.closest(".menu-replie__panneau a")) { fermer(menu, false); }
+    }
+  });
+})();
+</script>
+</body>
+</html>
