@@ -1,5 +1,5 @@
 # Tickets-V2 — Estimation et découpage de la v2.0.0
-Statut : [x] à approuver  [ ] approuvé par : ______
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 27/10/26
 Base : Contexte-Pitch, signé par Alexandre Morozoff le 14/10/26 ; US-2.0 et SC-2.0, approuvés le 15/10/26 ; Conception-Technique-V2 et Parcours-Ecrans-V2, approuvés le 16/10/26 ; Charte-Graphique-V2, approuvée le 16/10/26 et réapprouvée le 18/10/26 après la révision du mouvement ; maquettes des douze écrans (EC-00 à EC-11) et leur prototype animé, approuvés le 18/10/26.
 
 Ce document découpe la v2.0.0 en tickets, estime chacun et les ordonne en vagues de réalisation. Il ne crée rien sur GitHub : les issues, les labels et le board seront créés à partir de lui, une fois signé. Les estimations, les priorités et l'ordre des vagues sont des propositions : la signature d'Alexandre les valide (section 7).
