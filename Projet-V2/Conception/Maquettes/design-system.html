@@ -77,6 +77,8 @@
   --opacite-teinte-message: 10%;
   --flou-verre: 14px;
   --pas-trame: 28px;
+  --opacite-lueur-survol: 20%;
+  --taille-lueur-survol: 380px;
   --duree-instant: 100ms;
   --duree-courte: 180ms;
   --duree-moyenne: 320ms;
@@ -170,7 +172,7 @@
   --halo-accent: radial-gradient(60% 55% at 84% 22%, color-mix(in srgb, var(--couleur-accent) var(--opacite-halo-accent), transparent), transparent 70%);
   --halo-secondaire: radial-gradient(50% 50% at 6% 96%, color-mix(in srgb, var(--couleur-accent-secondaire) var(--opacite-halo-secondaire), transparent), transparent 70%);
   --trame-points: radial-gradient(color-mix(in srgb, var(--couleur-texte) var(--opacite-trame), transparent) 1px, transparent 1.5px);
-  --voile-bas: linear-gradient(180deg, transparent 65%, color-mix(in srgb, var(--couleur-fond) 70%, transparent));
+  --voile-bas: linear-gradient(180deg, transparent 65%, color-mix(in srgb, var(--couleur-fond) 50%, transparent) 90%, var(--couleur-fond));
   --lueur-point: 0 0 0 6px color-mix(in srgb, var(--couleur-accent) var(--opacite-teinte), transparent), 0 0 24px color-mix(in srgb, var(--couleur-accent) 50%, transparent);
   --ombre-fenetre: 0 30px 60px -30px color-mix(in srgb, var(--couleur-fond) 90%, transparent), inset 0 1px 0 color-mix(in srgb, var(--couleur-texte) 6%, transparent);
   --ombre-flottante: 0 18px 40px -16px color-mix(in srgb, var(--couleur-fond) 90%, transparent);
@@ -350,9 +352,12 @@ svg { display: block; }
 .entete__actions { display: flex; align-items: center; gap: var(--espace-2); }
 @media (max-width: 479px) {
   .entete__nom { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* La marque réduite au monogramme garde une cible de 44 × 44 px ; le monogramme, centré, garde sa taille. */
+  .entete__marque { min-width: var(--cible-tactile); justify-content: center; }
 }
+/* 73 % : le texte secondaire de la navigation garde 4.5:1 même sans compter le flou (charte, CO-06 et section 8). */
 @media (min-width: 900px) {
-  .entete { background: color-mix(in srgb, var(--couleur-fond) 72%, transparent); -webkit-backdrop-filter: blur(var(--flou-verre)); backdrop-filter: blur(var(--flou-verre)); }
+  .entete { background: color-mix(in srgb, var(--couleur-fond) 73%, transparent); -webkit-backdrop-filter: blur(var(--flou-verre)); backdrop-filter: blur(var(--flou-verre)); }
 }
 @media (min-width: 1200px) {
   .entete:not(.entete--compacte) .entete__navigation { display: block; }
@@ -413,7 +418,8 @@ svg { display: block; }
   .frise--adaptative > .frise__etape { grid-row: 2; grid-column: auto; }
   .frise--adaptative::before { left: 0; right: 0; top: 6px; bottom: auto; width: auto; height: 1px; }
   .frise--adaptative::after { grid-row: 1; grid-column: 1 / var(--etape-avant, 2); width: auto; height: 2px; margin: 5.5px calc(-1 * (var(--frise-ecart) + 6.5px)) 0 6.5px; background: linear-gradient(90deg, var(--couleur-accent), var(--couleur-accent-secondaire)); transform-origin: left; }
-  .frise--adaptative .frise__etape { padding-left: 0; padding-top: var(--espace-8); }
+  /* Chaque étape part du haut de sa colonne : périodes et intitulés restent alignés, quel que soit le détail. */
+  .frise--adaptative .frise__etape { padding-left: 0; padding-top: var(--espace-8); align-content: start; }
   .frise--adaptative .frise__point { top: 0; }
 }
 
