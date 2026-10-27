@@ -1292,3 +1292,76 @@ La signature de ce document tranche les points suivants, tous pris faute de réf
 - Les textes légaux (TK-45) sont rédigés par le développement sur la base de CT-12, puis validés par Alexandre dans la PR (A-13) : aucun contenu C-xx ne les couvre.
 - Les illustrations des étapes de la méthode (TK-66) : les maquettes n'en montrent que de démonstration, et aucun contenu C-xx ne les couvre. Le développement les dessinera dans TK-66, abstraites, sur le modèle des maquettes, une par étape de C-04, sauf si Alexandre préfère les fournir.
 - Les transitions entre pages (MV-07, TK-52) reposent sur les transitions de vue du navigateur, que la charte présente comme une amélioration facultative, pas encore disponible dans tous les navigateurs courants, alors que la conception technique écrit que le site n'utilise que des fonctions de la Baseline « largement disponible » (section 3, R-10). La DoD commune admet donc une exception, à valider : une amélioration facultative avec repli immédiat, qu'un navigateur sans prise en charge ignore en naviguant sans transition et sans erreur.
+
+## 8. Correspondance avec les issues GitHub
+
+Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`).
+
+| Ticket | Issue |
+| --- | --- |
+| TK-01 | #18 |
+| TK-02 | #19 |
+| TK-03 | #20 |
+| TK-04 | #21 |
+| TK-05 | #22 |
+| TK-06 | #23 |
+| TK-07 | #24 |
+| TK-08 | #25 |
+| TK-09 | #26 |
+| TK-10 | #27 |
+| TK-11 | #28 |
+| TK-12 | #29 |
+| TK-13 | #30 |
+| TK-14 | #31 |
+| TK-15 | #32 |
+| TK-16 | #33 |
+| TK-17 | #34 |
+| TK-18 | #35 |
+| TK-19 | #36 |
+| TK-20 | #37 |
+| TK-21 | #38 |
+| TK-22 | #39 |
+| TK-23 | #40 |
+| TK-24 | #41 |
+| TK-25 | #42 |
+| TK-26 | #43 |
+| TK-27 | #44 |
+| TK-28 | #45 |
+| TK-29 | #46 |
+| TK-30 | #47 |
+| TK-31 | #48 |
+| TK-32 | #49 |
+| TK-33 | #50 |
+| TK-34 | #51 |
+| TK-35 | #52 |
+| TK-36 | #53 |
+| TK-37 | #54 |
+| TK-38 | #55 |
+| TK-39 | #56 |
+| TK-40 | #57 |
+| TK-41 | #58 |
+| TK-42 | #59 |
+| TK-43 | #60 |
+| TK-44 | #61 |
+| TK-45 | #62 |
+| TK-46 | #63 |
+| TK-47 | #64 |
+| TK-48 | #65 |
+| TK-49 | #66 |
+| TK-50 | #67 |
+| TK-51 | #68 |
+| TK-52 | #69 |
+| TK-53 | #70 |
+| TK-54 | #71 |
+| TK-55 | #72 |
+| TK-56 | #73 |
+| TK-57 | #74 |
+| TK-58 | #75 |
+| TK-59 | #76 |
+| TK-60 | #77 |
+| TK-61 | #78 |
+| TK-62 | #79 |
+| TK-63 | #80 |
+| TK-64 | #81 |
+| TK-65 | #82 |
+| TK-66 | #83 |
