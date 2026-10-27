@@ -1,5 +1,5 @@
 # Contract-API-V2 — Formulaire de contact
-Statut : [x] à approuver  [ ] approuvé par : ______
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 27/10/26
 Base : US-2.0 et SC-2.0, approuvés par Alexandre Morozoff le 15/10/26 ; Conception-Technique-V2 et Parcours-Ecrans-V2, approuvés le 16/10/26 ; Charte-Graphique-V2, approuvée le 16/10/26 et réapprouvée le 18/10/26 ; maquettes des douze écrans, dont EC-09 (Contact), approuvées le 18/10/26 ; Tickets-V2, approuvé le 27/10/26 ; réponse d'Alexandre à Q-10 (tâche A-01) du 27/10/26, qui confirme le formulaire à cinq champs obligatoires.
 
 Ce contrat est le seul point de jonction entre le front et le back de la v2.0.0. Il fixe les trois échanges du formulaire de contact : leur route, leurs en-têtes, le JSON exact de chaque requête et de chaque réponse, et ce que fait le front de chaque réponse. L'API du back (TK-16, TK-18, TK-20, TK-22) et le client du front (TK-42, TK-43) l'implémentent tel quel. Ce qu'il ne dit pas ne s'invente pas d'un côté : on le demande, et le contrat se corrige avant le code.
