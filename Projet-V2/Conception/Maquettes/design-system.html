@@ -355,9 +355,9 @@ svg { display: block; }
   /* La marque réduite au monogramme garde une cible de 44 × 44 px ; le monogramme, centré, garde sa taille. */
   .entete__marque { min-width: var(--cible-tactile); justify-content: center; }
 }
-/* 73 % : le texte secondaire de la navigation garde 4.5:1 même sans compter le flou (charte, CO-06 et section 8). */
+/* 74 % : le texte secondaire de la navigation garde 4.5:1 même sans compter le flou, et même au-dessus d'une zone blanche (charte, CO-06 et section 8). */
 @media (min-width: 900px) {
-  .entete { background: color-mix(in srgb, var(--couleur-fond) 73%, transparent); -webkit-backdrop-filter: blur(var(--flou-verre)); backdrop-filter: blur(var(--flou-verre)); }
+  .entete { background: color-mix(in srgb, var(--couleur-fond) 74%, transparent); -webkit-backdrop-filter: blur(var(--flou-verre)); backdrop-filter: blur(var(--flou-verre)); }
 }
 @media (min-width: 1200px) {
   .entete:not(.entete--compacte) .entete__navigation { display: block; }
@@ -1473,7 +1473,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
     <header class="entete-section">
       <p class="etiquette"><span class="etiquette__numero">06</span>Mise en scène</p>
       <h2 class="titre-2" id="titre-scene">Une section d’accueil et une frise</h2>
-      <p class="texte">Un exemple d’assemblage, pas une maquette d’écran : les maquettes viendront sur la palette retenue.</p>
+      <p class="texte">Un exemple d’assemblage, pas une maquette d’écran : les maquettes des écrans sont dans le même dossier que cette page, une par écran, sur la palette retenue, approuvées le 18/10/2026.</p>
     </header>
     <div class="cadre-demo">
       <div class="vitrine ambiance ambiance--accueil">
