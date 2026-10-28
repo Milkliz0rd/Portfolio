@@ -1,5 +1,5 @@
 # Plan-Back-V2 — Plan d'implémentation du back
-Statut : [x] à approuver  [ ] approuvé par : ______
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 28/10/26 (points à valider acceptés selon leurs recommandations)
 Base : Contract-API-V2, approuvé par Alexandre Morozoff le 27/10/26 ; Conception-Technique-V2, approuvée le 16/10/26, et son erratum, approuvé le 27/10/26 ; Tickets-V2, approuvé le 27/10/26 ; US-2.0 et SC-2.0, approuvés le 15/10/26.
 
 Ce plan tranche ce que la conception technique et le contrat d'API laissent au plan du back, pour que les tickets du back (TK-06, TK-14, TK-16, TK-18, TK-20, TK-22) et ceux qui le touchent (TK-07, TK-09, TK-24, TK-49, TK-58, TK-59, TK-63) n'aient plus rien à décider. Il n'ajoute rien au contrat : routes, en-têtes, JSON, codes, format d'erreur et noms de variables y sont repris tels quels. Une incohérence relevée entre documents signés n'est pas corrigée ici : elle figure dans les points à valider.
