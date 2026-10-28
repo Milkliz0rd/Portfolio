@@ -1,7 +1,8 @@
 # Back
 
 L'API du portfolio, en Spring Boot 4.1 sur Java 25, construite par Maven. Pour l'instant, elle
-ne fait que démarrer et exposer son indicateur de santé.
+expose son indicateur de santé et le socle HTTP commun aux routes du formulaire, sous `/api/v1/`,
+qui s'y brancheront.
 
 ## Prérequis
 
@@ -28,8 +29,12 @@ Le port se change par la variable d'environnement `PORT`, par exemple
 
 ## Ce que le back expose
 
-Seul l'indicateur de santé d'Actuator : `GET /actuator/health` répond `200` et exactement
+Côté Actuator, seul l'indicateur de santé : `GET /actuator/health` répond `200` et exactement
 `{"status":"UP"}`. Toute autre adresse d'Actuator répond `404`, la page `/actuator` comprise.
+
+- Toute réponse porte `Cache-Control: no-store`, `X-Content-Type-Options: nosniff` et
+  `Content-Security-Policy: frame-ancestors 'none'`.
+- Toute erreur suit le format d'erreur du contrat d'API (section 4), en `application/json`.
 
 ## Analyse statique
 
