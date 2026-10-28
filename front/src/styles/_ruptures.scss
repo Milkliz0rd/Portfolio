@@ -1,0 +1,40 @@
+// Points de rupture de la charte (section 5). Ce sont des variables SCSS, et non des propriétés
+// personnalisées, parce qu'une requête média ne lit pas une propriété personnalisée (PF-01).
+// Un composant charge ce module par @use 'ruptures', puis écrit, pour la tranche large :
+// @include ruptures.depuis(large) { … } à partir de 900 px, ruptures.jusqua(large) en dessous.
+@use 'sass:map';
+
+$rupture-moyenne: 600px;
+$rupture-large: 900px;
+$rupture-tres-large: 1200px;
+$rupture-immense: 1600px;
+
+// Les noms qu'acceptent depuis() et jusqua().
+$-par-nom: (
+  moyenne: $rupture-moyenne,
+  large: $rupture-large,
+  tres-large: $rupture-tres-large,
+  immense: $rupture-immense,
+);
+
+@function -largeur($nom) {
+  @if not map.has-key($-par-nom, $nom) {
+    @error 'Rupture inconnue : #{$nom} (moyenne, large, tres-large ou immense).';
+  }
+
+  @return map.get($-par-nom, $nom);
+}
+
+// À partir de la rupture, sa largeur comprise.
+@mixin depuis($nom) {
+  @media (width >= #{-largeur($nom)}) {
+    @content;
+  }
+}
+
+// Sous la rupture, sa largeur exclue.
+@mixin jusqua($nom) {
+  @media (width < #{-largeur($nom)}) {
+    @content;
+  }
+}

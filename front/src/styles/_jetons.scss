@@ -1,0 +1,202 @@
+// Jetons de la charte graphique (sections 3 et 5), en thème sombre seulement : une propriété
+// personnalisée par jeton, sous son nom exact, déclarée sur l'élément html. Les couleurs sont
+// celles de la palette PA-02 Lagune ; les jetons composés ne mêlent que ces couleurs, avec
+// color-mix(). C'est le seul fichier qui porte des couleurs (PF-10). Les points de rupture sont
+// dans _ruptures.scss ; les dix tailles de texte de la section 4 ne sont pas ici.
+@use 'ruptures';
+
+:root {
+  // 3.1 Couleurs sémantiques, palette PA-02 Lagune.
+  --couleur-fond: #070c0c;
+  --couleur-surface: #0f1616;
+  --couleur-surface-relevee: #172121;
+  --couleur-bordure: #2a3939;
+  --couleur-texte: #eef5f5;
+  --couleur-texte-secondaire: #a9bdbe;
+  --couleur-texte-discret: #97a9ab;
+  --couleur-accent: #3fd4c8;
+  --couleur-accent-secondaire: #ffb59e;
+  --couleur-texte-sur-accent: #04201e;
+  --couleur-succes: #7adb9a;
+  --couleur-erreur: #ff7272;
+  --couleur-attention: #f2cf6b;
+  --couleur-focus: #ffe08a;
+
+  // 3.2 Typographie : familles, graisses, interlignes et approches.
+  --police-titre: 'Bricolage Grotesque', system-ui, sans-serif;
+  --police-texte: 'Hanken Grotesk', system-ui, sans-serif;
+  --police-mono: 'JetBrains Mono', monospace;
+  --graisse-normale: 400;
+  --graisse-moyenne: 500;
+  --graisse-appuyee: 600;
+  --graisse-forte: 700;
+  --graisse-titre: 800;
+  --interligne-affiche: 0.96;
+  --interligne-titre: 1.06;
+  --interligne-sous-titre: 1.2;
+  --interligne-chapo: 1.55;
+  --interligne-texte: 1.6;
+  --interligne-compact: 1.45;
+  --approche-affiche: -0.045em;
+  --approche-titre: -0.03em;
+  --approche-sous-titre: -0.015em;
+  --approche-etiquette: 0.16em;
+  --approche-pastille: 0.1em;
+
+  // 3.3 Espacements, sur une grille de 4 px, en rem pour suivre la taille de texte du visiteur.
+  --espace-1: 0.25rem;
+  --espace-2: 0.5rem;
+  --espace-3: 0.75rem;
+  --espace-4: 1rem;
+  --espace-5: 1.25rem;
+  --espace-6: 1.5rem;
+  --espace-8: 2rem;
+  --espace-10: 2.5rem;
+  --espace-12: 3rem;
+  --espace-16: 4rem;
+  --espace-20: 5rem;
+  --espace-24: 6rem;
+  --espace-32: 8rem;
+
+  // 3.4 Arrondis.
+  --arrondi-petit: 6px;
+  --arrondi-moyen: 10px;
+  --arrondi-grand: 14px;
+  --arrondi-pilule: 999px;
+  --arrondi-cercle: 50%;
+
+  // 3.5 Bordures et focus.
+  --bordure-epaisseur: 1px;
+  --focus-epaisseur: 2px;
+  --focus-decalage: 2px;
+  --anneau-focus: var(--focus-epaisseur) solid var(--couleur-focus);
+  --cible-tactile: 44px;
+
+  // 3.6 Effets : verre, halo, trame. La trame se répète tous les pas-trame : le composant qui
+  // la pose règle background-size à pas-trame. La lueur de survol est à 20 %, et non 22 %.
+  --opacite-verre-haut: 6%;
+  --opacite-verre-bas: 2%;
+  --opacite-verre-bordure: 10%;
+  --verre-fond: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--couleur-texte) var(--opacite-verre-haut), transparent),
+    color-mix(in srgb, var(--couleur-texte) var(--opacite-verre-bas), transparent)
+  );
+  --verre-bordure: color-mix(
+    in srgb,
+    var(--couleur-texte) var(--opacite-verre-bordure),
+    transparent
+  );
+  --flou-verre: 14px;
+  --opacite-halo-accent: 20%;
+  --halo-accent: radial-gradient(
+    60% 55% at 84% 22%,
+    color-mix(in srgb, var(--couleur-accent) var(--opacite-halo-accent), transparent),
+    transparent 70%
+  );
+  --opacite-halo-secondaire: 15%;
+  --halo-secondaire: radial-gradient(
+    50% 50% at 6% 96%,
+    color-mix(
+      in srgb,
+      var(--couleur-accent-secondaire) var(--opacite-halo-secondaire),
+      transparent
+    ),
+    transparent 70%
+  );
+  --opacite-trame: 7%;
+  --pas-trame: 28px;
+  --trame-points: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--couleur-texte) var(--opacite-trame), transparent) 1px,
+    transparent 1.5px
+  );
+  --voile-bas: linear-gradient(
+    to bottom,
+    transparent 65%,
+    color-mix(in srgb, var(--couleur-fond) 50%, transparent) 90%,
+    var(--couleur-fond)
+  );
+  --opacite-teinte: 14%;
+  --opacite-teinte-message: 10%;
+  --lueur-point:
+    0 0 0 6px color-mix(in srgb, var(--couleur-accent) var(--opacite-teinte), transparent),
+    0 0 24px color-mix(in srgb, var(--couleur-accent) 50%, transparent);
+  --opacite-lueur-survol: 20%;
+  --taille-lueur-survol: 380px;
+  --lueur-survol: radial-gradient(
+    circle calc(var(--taille-lueur-survol) / 2),
+    color-mix(in srgb, var(--couleur-accent) var(--opacite-lueur-survol), transparent),
+    transparent
+  );
+
+  // 3.7 Ombres.
+  --ombre-fenetre:
+    0 30px 60px -30px color-mix(in srgb, var(--couleur-fond) 90%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--couleur-texte) 6%, transparent);
+  --ombre-flottante: 0 18px 40px -16px color-mix(in srgb, var(--couleur-fond) 90%, transparent);
+
+  // 3.8 Durées, délais, distances et courbes du mouvement, lus aussi par le script de mouvement.
+  --duree-instant: 100ms;
+  --duree-courte: 180ms;
+  --duree-moyenne: 320ms;
+  --duree-longue: 600ms;
+  --duree-apparition: 700ms;
+  --duree-trace: 1200ms;
+  --duree-rotation: 900ms;
+  --duree-etape: 450ms;
+  --duree-sortie-page: 240ms;
+  --duree-respiration: 8s;
+  --delai-depart: 200ms;
+  --delai-cascade: 70ms;
+  --delai-mot-titre: 110ms;
+  --delai-mot: 40ms;
+  --delai-caractere: 11ms;
+  --distance-apparition: 16px;
+  --distance-soulevement: 4px;
+  --courbe-standard: cubic-bezier(0.2, 0, 0, 1);
+  --courbe-sortie: cubic-bezier(0.23, 1, 0.32, 1);
+  --courbe-entree-sortie: cubic-bezier(0.77, 0, 0.175, 1);
+
+  // 3.9 Plans de superposition.
+  --plan-contenu: 1;
+  --plan-entete: 10;
+  --plan-menu: 20;
+  --plan-evitement: 30;
+
+  // 5. Mise en page. marge-page et gouttiere valent ici leur valeur de la tranche étroite ;
+  // elles changent par tranche ci-dessous.
+  --conteneur-texte: 68ch;
+  --conteneur-standard: 1200px;
+  --conteneur-large: 1440px;
+  --marge-page: 16px;
+  --gouttiere: 16px;
+  --hauteur-entete: 64px;
+}
+
+@include ruptures.depuis(moyenne) {
+  :root {
+    --marge-page: 24px;
+    --gouttiere: 20px;
+  }
+}
+
+@include ruptures.depuis(large) {
+  :root {
+    --marge-page: 32px;
+    --gouttiere: 24px;
+  }
+}
+
+@include ruptures.depuis(tres-large) {
+  :root {
+    --marge-page: 48px;
+  }
+}
+
+@include ruptures.depuis(immense) {
+  :root {
+    --marge-page: 64px;
+    --gouttiere: 32px;
+  }
+}
