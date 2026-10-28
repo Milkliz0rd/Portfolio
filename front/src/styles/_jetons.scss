@@ -167,11 +167,11 @@
   // 5. Mise en page. marge-page et gouttiere valent ici leur valeur de la tranche étroite ;
   // elles changent par tranche ci-dessous.
   --conteneur-texte: 68ch;
-  --conteneur-standard: 1200px;
-  --conteneur-large: 1440px;
+  --conteneur-standard: 75rem;
+  --conteneur-large: 90rem;
   --marge-page: 16px;
   --gouttiere: 16px;
-  --hauteur-entete: 64px;
+  --hauteur-entete: 4rem;
 }
 
 @include ruptures.depuis(moyenne) {
