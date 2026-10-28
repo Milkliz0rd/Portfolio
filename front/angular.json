@@ -16,6 +16,9 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "fr"
+      },
       "architect": {
         "build": {
           "builder": "@angular/build:application",
@@ -36,7 +39,8 @@
             "outputMode": "static",
             "security": {
               "allowedHosts": []
-            }
+            },
+            "polyfills": ["@angular/localize/init"]
           },
           "configurations": {
             "production": {
