@@ -34,3 +34,8 @@ management:
     # Not meaningful on the host's ephemeral disk.
     diskspace:
       enabled: false
+
+contact:
+  # Exact origins accepted for browser calls to /api/v1/, comma-separated: scheme http or https,
+  # host, optional port; no path, trailing slash or wildcard. Empty: no browser origin.
+  allowed-origins: ${CONTACT_ALLOWED_ORIGINS:}
