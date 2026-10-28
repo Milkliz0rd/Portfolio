@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SpotBugs exclusions. Empty on purpose: every exclusion added here comes
+  with a comment that says why the finding is not a defect.
+-->
+<FindBugsFilter xmlns="https://github.com/spotbugs/filter/3.0.0">
+</FindBugsFilter>
