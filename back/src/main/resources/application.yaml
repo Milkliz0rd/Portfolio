@@ -1,3 +1,36 @@
 spring:
   application:
     name: portfolio-back
+
+server:
+  # The host sets PORT; 8080 when it is absent.
+  port: ${PORT:8080}
+  # Forwarding headers are never trusted: a visitor can forge them.
+  forward-headers-strategy: none
+  tomcat:
+    threads:
+      max: 20
+
+# Actuator is reduced to the health indicator, which answers {"status":"UP"} only.
+management:
+  endpoints:
+    access:
+      default: none
+    web:
+      exposure:
+        include: health
+      # Closes the discovery page served on /actuator.
+      discovery:
+        enabled: false
+  endpoint:
+    health:
+      access: read-only
+      show-details: never
+      show-components: never
+      # Spring Boot 4 adds the liveness and readiness groups by default.
+      probes:
+        enabled: false
+  health:
+    # Not meaningful on the host's ephemeral disk.
+    diskspace:
+      enabled: false
