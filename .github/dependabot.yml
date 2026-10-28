@@ -36,6 +36,8 @@ updates:
           - patch
       # L'outillage de test, présent ou à venir (Vitest, Playwright, axe-core,
       # Lighthouse CI) : il ne part pas avec le site, une seule PR suffit.
+      # Mineures et correctifs seulement : une majeure de Vitest ou de Playwright arrive seule,
+      # pour qu'une CI rouge désigne tout de suite le paquet en cause.
       test-tooling:
         patterns:
           - 'vitest'
@@ -45,6 +47,9 @@ updates:
           - 'axe-core'
           - '@axe-core/*'
           - '@lhci/*'
+        update-types:
+          - minor
+          - patch
     # Les autres paquets arrivent chacun dans sa PR.
     ignore:
       # Les majeures d'Angular sont réservées à l'entretien annuel (TK-64), avant la fin
@@ -54,6 +59,10 @@ updates:
       - dependency-name: '@angular*'
         update-types: ['version-update:semver-major']
       - dependency-name: 'angular-eslint'
+        update-types: ['version-update:semver-major']
+      # Les types de Node suivent la version de Node du site (.nvmrc), qui ne change qu'à
+      # l'entretien annuel (CT-02) : pas de types d'une majeure de Node en avance.
+      - dependency-name: '@types/node'
         update-types: ['version-update:semver-major']
 
   - package-ecosystem: maven
