@@ -1,5 +1,5 @@
 # Tickets-V2 — Estimation et découpage de la v2.0.0
-Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 27/10/26
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 27/10/26 (révision du 28/10/26 : changements et lectures acceptés en signant les plans d'implémentation)
 Base : Contexte-Pitch, signé par Alexandre Morozoff le 14/10/26 ; US-2.0 et SC-2.0, approuvés le 15/10/26 ; Conception-Technique-V2 et Parcours-Ecrans-V2, approuvés le 16/10/26 ; Charte-Graphique-V2, approuvée le 16/10/26 et réapprouvée le 18/10/26 après la révision du mouvement ; maquettes des douze écrans (EC-00 à EC-11) et leur prototype animé, approuvés le 18/10/26.
 Révision du 28/10/2026 : changements et lectures acceptés en signant les plans d'implémentation (TK-67 créé ; TK-16, TK-24, TK-28, TK-42, TK-59, TK-65, A-03, A-04, A-12, A-20 et A-26 modifiés ; A-27 créée).
 
