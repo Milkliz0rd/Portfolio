@@ -14,12 +14,14 @@ signaux. Le build produit des pages statiques pré-rendues, une par adresse du s
 
 Toutes se lancent depuis `front/`.
 
-| Commande        | Effet                                                                                 |
-| --------------- | ------------------------------------------------------------------------------------- |
-| `npm ci`        | installe les dépendances exactes de `package-lock.json`                               |
-| `npm start`     | lance le serveur de développement sur `http://localhost:4200/`                        |
-| `npm run build` | construit le site pré-rendu dans `dist/front/browser/`, puis place les pages d'erreur |
-| `npm test`      | lance les tests unitaires (Vitest, par `ng test`) ; avec `CI=true`, un seul passage   |
+| Commande                | Effet                                                                                                            |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `npm ci`                | installe les dépendances exactes de `package-lock.json`                                                          |
+| `npm start`             | lance le serveur de développement sur `http://localhost:4200/`                                                   |
+| `npm run build`         | construit le site pré-rendu dans `dist/front/browser/`, puis place les pages d'erreur                            |
+| `npm test`              | lance les tests unitaires (Vitest, par `ng test`) ; avec `CI=true`, un seul passage                              |
+| `npm run lint`          | lance l'analyse statique : ESLint, Stylelint, puis Prettier en vérification                                      |
+| `npm run i18n:verifier` | extrait les libellés dans `tmp/i18n/` (non versionné) et échoue si l'un d'eux n'a pas d'identifiant personnalisé |
 
 ## Sortie du build
 

@@ -9,5 +9,5 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Provisoire {
-  protected readonly ecran: string = inject(ActivatedRoute).snapshot.data['ecran'];
+  protected readonly ecran = inject(ActivatedRoute).snapshot.data['ecran'] as string;
 }
