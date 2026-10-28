@@ -1,59 +1,34 @@
 # Front
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.4.
+Le site du portfolio, en Angular 22 : composants autonomes, détection de changement sans zone,
+signaux. Le build produit des pages statiques pré-rendues, une par adresse du site.
 
-## Development server
+## Prérequis
 
-To start a local development server, run:
+- **Node 24.22.1**, la version fixée dans `.nvmrc` ; avec nvm, `nvm install` puis `nvm use` dans
+  ce dossier.
+- **npm**, livré avec Node. `.npmrc` active `engine-strict` : une installation sous une autre
+  version de Node que celle du champ `engines` de `package.json` échoue.
 
-```bash
-ng serve
-```
+## Commandes
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Toutes se lancent depuis `front/`.
 
-## Code scaffolding
+| Commande        | Effet                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------- |
+| `npm ci`        | installe les dépendances exactes de `package-lock.json`                               |
+| `npm start`     | lance le serveur de développement sur `http://localhost:4200/`                        |
+| `npm run build` | construit le site pré-rendu dans `dist/front/browser/`, puis place les pages d'erreur |
+| `npm test`      | lance les tests unitaires (Vitest, par `ng test`) ; avec `CI=true`, un seul passage   |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Sortie du build
 
-```bash
-ng generate component component-name
-```
+`dist/front/browser/` contient un `index.html` par adresse (`parcours/index.html`,
+`projets/portfolio/index.html`…) et trois pages d'erreur, placées par
+`outils/finaliser-build.mjs` : `404.html`, `projets/404.html` et `cv/404.html`.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Langue
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Internationalisation intégrée d'Angular : langue source française (`i18n.sourceLocale` « fr »
+dans `angular.json`), aucune autre langue. Chaque libellé d'interface porte l'attribut `i18n`
+avec un identifiant personnalisé, de la forme `@@zone.element`.
