@@ -1,14 +1,19 @@
 // Jetons de la charte (TK-10) : chaque nom des tableaux des sections 3 et 5 de la charte est
 // déclaré sous son nom exact, et les valeurs de la palette PA-02 Lagune et de la révision du
 // 27/10/2026 sont celles de la charte. Les listes sont recopiées de la charte, dans son ordre,
-// et non lues dans le dépôt : un jeton retiré, renommé ou changé fait échouer le test.
+// et non lues dans le dépôt. Un jeton retiré, renommé ou mis en commentaire fait échouer le
+// test, comme une valeur changée de PA-02, de la révision, des tranches ou des ruptures.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const styles = join(import.meta.dirname, '..', '..', 'src', 'styles');
-const jetons = readFileSync(join(styles, '_jetons.scss'), 'utf8');
-const ruptures = readFileSync(join(styles, '_ruptures.scss'), 'utf8');
+// Les commentaires sont retirés avant la recherche : un jeton en commentaire n'est pas déclaré.
+const sansCommentaires = (source) =>
+  source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+const lire = (fichier) => sansCommentaires(readFileSync(join(styles, fichier), 'utf8'));
+const jetons = lire('_jetons.scss');
+const ruptures = lire('_ruptures.scss');
 
 const NOMS_SECTION_3 = [
   // 3.1
