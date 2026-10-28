@@ -50,7 +50,7 @@ Côté Actuator, seul l'indicateur de santé : `GET /actuator/health` répond `2
 - Toute erreur suit le format d'erreur du contrat d'API (section 4), en `application/json`.
 - Sous `/api/v1/`, avant tout autre traitement : un en-tête `Origin` hors de
   `CONTACT_ALLOWED_ORIGINS` reçoit `403`, requête préalable comprise ; une requête sans `Origin`
-  est traitée.
+  est traitée ; un corps de plus de 64 Kio, annoncé ou non, reçoit `400`.
 
 ## Analyse statique
 
