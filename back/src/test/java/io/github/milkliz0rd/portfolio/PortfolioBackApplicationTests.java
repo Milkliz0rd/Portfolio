@@ -21,6 +21,7 @@ class PortfolioBackApplicationTests {
 
 	@Test
 	void contextLoads() {
+		org.junit.jupiter.api.Assertions.fail("essai : test cassé exprès (TK-07, DoD 4)");
 	}
 
 	@Test

@@ -16,6 +16,6 @@ describe('App', () => {
   });
 
   it('should use French as the locale', () => {
-    expect(TestBed.inject(LOCALE_ID)).toBe('fr');
+    expect(TestBed.inject(LOCALE_ID)).toBe('en'); // essai : test cassé exprès (TK-07, DoD 4)
   });
 });
