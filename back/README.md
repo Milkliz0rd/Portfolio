@@ -27,6 +27,19 @@ Toutes se lancent depuis `back/`.
 Le port se change par la variable d'environnement `PORT`, par exemple
 `PORT=9090 ./mvnw spring-boot:run`.
 
+## Configuration
+
+Toute valeur réglable passe par une variable d'environnement ; aucun fichier de variables n'est
+versionné.
+
+| Variable                  | Rôle                                                                                                                                                                                     | Par défaut                               |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `CONTACT_ALLOWED_ORIGINS` | origines exactes acceptées pour les appels de navigateur sous `/api/v1/`, séparées par des virgules : schéma `http` ou `https`, hôte en minuscules, port facultatif ; ni chemin, ni barre finale, ni joker | vide : aucune origine de navigateur acceptée |
+
+Une origine mal formée empêche le back de démarrer ; le message nomme la variable, jamais sa
+valeur. En développement, avec le serveur de développement du front :
+`CONTACT_ALLOWED_ORIGINS=http://localhost:4200 ./mvnw spring-boot:run`.
+
 ## Ce que le back expose
 
 Côté Actuator, seul l'indicateur de santé : `GET /actuator/health` répond `200` et exactement
@@ -35,6 +48,9 @@ Côté Actuator, seul l'indicateur de santé : `GET /actuator/health` répond `2
 - Toute réponse porte `Cache-Control: no-store`, `X-Content-Type-Options: nosniff` et
   `Content-Security-Policy: frame-ancestors 'none'`.
 - Toute erreur suit le format d'erreur du contrat d'API (section 4), en `application/json`.
+- Sous `/api/v1/`, avant tout autre traitement : un en-tête `Origin` hors de
+  `CONTACT_ALLOWED_ORIGINS` reçoit `403`, requête préalable comprise ; une requête sans `Origin`
+  est traitée.
 
 ## Analyse statique
 
