@@ -1,5 +1,5 @@
 # Plan-Front-V2 — Plan d'implémentation du front
-Statut : [x] à approuver  [ ] approuvé par : ______
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 28/10/26 (points à valider acceptés selon leurs recommandations)
 Base : Contexte-Pitch, signé par Alexandre Morozoff le 14/10/26 ; US-2.0 et SC-2.0, approuvés le 15/10/26 ; Conception-Technique-V2, approuvée le 16/10/26, et son erratum (attente affichée jusqu'à 90 secondes), approuvé le 27/10/26 ; Parcours-Ecrans-V2, approuvé le 16/10/26 ; Charte-Graphique-V2, approuvée le 16/10/26, réapprouvée le 18/10/26, et sa révision sur les points laissés par les maquettes, approuvée le 27/10/26 ; maquettes des douze écrans et leur prototype animé, approuvés le 18/10/26 ; Tickets-V2, approuvé le 27/10/26 ; Contract-API-V2, approuvé le 27/10/26.
 
 Ce document est le plan d'implémentation du front de la v2.0.0 (Étape 6, ticket TK-04). Il tranche tout ce que la conception technique, le parcours d'écrans, la charte, les maquettes et le contrat d'API laissent au plan front, mouvement compris, pour que chaque ticket du front se réalise sans nouvelle décision. Il ne rouvre aucun document signé : une incohérence relevée entre eux est posée en point à valider. Le back a son propre plan (Plan-Back-V2.md) ; le seul point de jonction entre les deux est le contrat d'API signé.
