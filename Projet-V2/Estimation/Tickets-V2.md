@@ -1,6 +1,7 @@
 # Tickets-V2 — Estimation et découpage de la v2.0.0
 Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 27/10/26
 Base : Contexte-Pitch, signé par Alexandre Morozoff le 14/10/26 ; US-2.0 et SC-2.0, approuvés le 15/10/26 ; Conception-Technique-V2 et Parcours-Ecrans-V2, approuvés le 16/10/26 ; Charte-Graphique-V2, approuvée le 16/10/26 et réapprouvée le 18/10/26 après la révision du mouvement ; maquettes des douze écrans (EC-00 à EC-11) et leur prototype animé, approuvés le 18/10/26.
+Révision du 28/10/2026 : changements acceptés en signant les plans d'implémentation (TK-67 créé ; TK-16, TK-24, TK-42, A-04, A-20 et A-26 modifiés ; A-27 créée).
 
 Ce document découpe la v2.0.0 en tickets, estime chacun et les ordonne en vagues de réalisation. Il ne crée rien sur GitHub : les issues, les labels et le board seront créés à partir de lui, une fois signé. Les estimations, les priorités et l'ordre des vagues sont des propositions : la signature d'Alexandre les valide (section 7).
 
@@ -55,7 +56,7 @@ Le total mesuré est écrit dans la description de la PR. Chaque ticket donne ci
 
 - Branche : `<préfixe>/<n° d'issue>-<sujet>`, en anglais, en kebab-case, créée depuis staging ; préfixes feat, fix, chore, docs, ci, test, refactor ; par exemple `feat/31-contact-form`.
 - Commits et titre de PR en Conventional Commits, en anglais ; le titre de PR est celui du ticket.
-- Un ticket = une branche = une PR, vers staging, avec le modèle .github/PULL_REQUEST_TEMPLATE.md (`Closes #<n° d'issue>`), relue et approuvée par quelqu'un qui ne l'a pas écrite.
+- Un ticket = une branche = une PR, vers staging, avec le modèle .github/PULL_REQUEST_TEMPLATE.md (`Closes #<n° d'issue>`), relue et approuvée par quelqu'un qui ne l'a pas écrite. Une seule exception : TK-24, en deux PR sur la même issue, de part et d'autre de la création du service par Alexandre (voir ce ticket).
 - Les PR du robot de mises à jour gardent leur propre format de branche et n'ont pas d'issue.
 - Aucun secret dans le dépôt : clés et adresses vivent dans les variables d'environnement des hébergeurs. Le dépôt est public, historique compris.
 
@@ -77,7 +78,7 @@ Une DoD de ticket qui commence par « DoD commune » ajoute ses propres critère
 
 ## 2. Tickets
 
-Les tickets sont présentés par numéro. Un numéro ne change plus une fois attribué et ne suit pas toujours l'ordre de réalisation, qui se lit dans le champ « Vague » et dans la section 3. Tickets v2.0.0 : TK-01 à TK-59, puis TK-65 et TK-66, ajoutés à la relecture pour intégrer les contenus d'Alexandre ; tickets après-v2 : TK-60 à TK-64 (section 6).
+Les tickets sont présentés par numéro. Un numéro ne change plus une fois attribué et ne suit pas toujours l'ordre de réalisation, qui se lit dans le champ « Vague » et dans la section 3. Tickets v2.0.0 : TK-01 à TK-59, puis TK-65 et TK-66, ajoutés à la relecture pour intégrer les contenus d'Alexandre, et TK-67, ajouté par la révision du 28/10/2026 ; tickets après-v2 : TK-60 à TK-64 (section 6).
 
 ### TK-01 — Contrat d'API du formulaire de contact
 
@@ -313,11 +314,11 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Estimation** : 2 j
 - **Version** : v2.0.0
 - **Couvre** : CT-08, MF-16, SC-2.0-24, SC-2.0-25
-- **Dépend de** : TK-01, TK-07
+- **Dépend de** : TK-01, TK-07, TK-67
 - **Vague** : W9
-- **Taille** : ≈ 330 lignes
-- **DoD** : DoD commune, et : (1) la route d'envoi du contrat reçoit le message en POST et le valide à nouveau, sans faire confiance au navigateur : champs obligatoires, format de l'adresse, longueurs maximales du contrat, espaces de bord retirés, aucun retour à la ligne dans le nom, le prénom et le sujet ; (2) un message invalide est refusé avec les champs en cause, au format du contrat, et rien n'est transmis (SC-2.0-24, SC-2.0-25) ; (3) le back n'accepte que l'origine autorisée, lue dans une variable d'environnement ; (4) l'envoi passe par l'interface d'expéditeur, avec un adaptateur de développement qui n'envoie rien ; (5) tests par tranche : chaque règle de validation, origine refusée, message valide transmis une seule fois à l'expéditeur ; (6) les journaux ne contiennent ni champ du formulaire ni adresse.
-- **Résumé** : Crée le point d'entrée du back : il revalide le message et le confie à l'interface d'expéditeur. La protection et l'envoi réel s'y branchent ensuite (TK-22, TK-20).
+- **Taille** : ≈ 380 lignes
+- **DoD** : DoD commune, et : (1) la route d'envoi du contrat reçoit le message en POST et le valide à nouveau, sans faire confiance au navigateur : champs obligatoires, format de l'adresse, longueurs maximales du contrat, espaces de bord retirés, aucun retour à la ligne dans le nom, le prénom et le sujet ; (2) un message invalide est refusé avec les champs en cause, au format du contrat, et rien n'est transmis (SC-2.0-24, SC-2.0-25) ; (3) la route d'envoi est servie derrière le socle HTTP de TK-67 : une origine refusée y reçoit le 403 du contrat ; (4) l'envoi passe par l'interface d'expéditeur, avec un adaptateur de développement qui n'envoie rien ; (5) tests par tranche : chaque règle de validation, origine refusée, message valide transmis une seule fois à l'expéditeur ; (6) les journaux ne contiennent ni champ du formulaire ni adresse.
+- **Résumé** : Crée le point d'entrée du back, sur le socle HTTP posé par TK-67 : il revalide le message et le confie à l'interface d'expéditeur. La protection et l'envoi réel s'y branchent ensuite (TK-22, TK-20).
 
 ### TK-17 — Composants de texte
 
@@ -433,11 +434,11 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Estimation** : 1 j
 - **Version** : v2.0.0
 - **Couvre** : CT-06, CT-09, D-04, D-05
-- **Dépend de** : TK-13, TK-14, TK-20, TK-22, A-04, A-05
+- **Dépend de** : TK-13, TK-14, TK-20, TK-22, A-05, A-27, A-04 (pour finir)
 - **Vague** : W13
 - **Taille** : ≈ 60 lignes
 - **DoD** : DoD commune, et : (1) la description du service du back est versionnée dans le dépôt, si l'hébergeur le permet (CT-09) ; (2) une instance gratuite de Render, région Francfort, branchée sur staging, se déploie seulement après une CI verte ; (3) secrets et réglages vivent dans les variables d'environnement de l'hébergeur (A-04), aucun dans le dépôt ; (4) l'indicateur de santé répond sans détail ; un jeton est délivré à l'origine de la préproduction du front et refusé à une autre origine ; (5) l'en-tête qui porte l'adresse IP du visiteur chez l'hébergeur est constaté et configuré pour TK-22 ; (6) le délai entre le réveil, après 15 minutes sans trafic, et la réponse est mesuré et noté dans le README du back ; au-delà de 60 secondes, D-04 revient à Alexandre (A-15) ; (7) rien ne garde le back éveillé ; (8) l'envoi réel depuis la préproduction se vérifie dans la passe manuelle (TK-58), une fois le domaine d'envoi authentifié (A-10).
-- **Résumé** : Déploie le back en préproduction dès que sa chaîne de contact est complète, pour mesurer tôt le réveil réel de l'instance gratuite.
+- **Résumé** : Déploie le back en préproduction dès que sa chaîne de contact est complète, pour mesurer tôt le réveil réel de l'instance gratuite. Il compte deux PR, de part et d'autre de la création du service par Alexandre, seule exception à la règle « Un ticket = une branche = une PR » (section 1) : la première PR apporte back/render.yaml sans l'en-tête de l'adresse IP et renvoie à l'issue sans la fermer ; A-04 crée le service après sa fusion ; la seconde PR, qui porte le titre du ticket, écrit l'en-tête retenu et le README, et ferme l'issue. Les deux branches prennent le même numéro d'issue.
 
 ### TK-25 — Composant fenêtre factice
 
@@ -703,7 +704,7 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Estimation** : 2 j
 - **Version** : v2.0.0
 - **Couvre** : CT-08, D-07, MF-16
-- **Dépend de** : TK-01, TK-07
+- **Dépend de** : TK-01, TK-07, A-04
 - **Vague** : W22
 - **Taille** : ≈ 300 lignes
 - **DoD** : DoD commune, et : (1) un service du front implémente le contrat : demande du jeton, envoi du message en POST, lecture des erreurs par champ et de l'échec réessayable ; (2) l'adresse du back vient de la configuration de l'environnement (préproduction, production), jamais du code ; (3) aucun envoi ne part sans jeton ni avant le délai minimal compté depuis la délivrance du jeton ; si le jeton manque au moment de l'envoi, le service l'attend, puis attend le délai minimal, dans la limite de 90 secondes comptées depuis le clic, au-delà desquelles il rend l'échec réessayable (D-07) ; une coupure réseau mène au même échec ; (4) un jeton expiré est renouvelé sans action du visiteur ; (5) tests unitaires avec un back simulé : jeton à l'heure, jeton en retard puis succès, délai minimal respecté, attente de 90 secondes dépassée, refus de validation, échec réessayable, coupure réseau.
@@ -1069,6 +1070,21 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **DoD** : DoD commune, et : (1) chaque étape de la méthode (C-04) a son illustration définitive, une par étape, à la place des illustrations de démonstration : dessinée par le développement, abstraite, sur le modèle des maquettes et avec les seuls jetons de la charte, sauf si Alexandre fournit les siennes (section 7) ; (2) chaque illustration reprend la composition des illustrations de démonstration (schéma tracé, barres), pour que le récit au défilement de TK-55 l'anime sans changement (MV-08) ; (3) elle s'affiche dans la fenêtre collante du récit au défilement et, avec les animations réduites ou sans script, sous le texte de son étape (TK-40) ; (4) une illustration qui ne fait que répéter le texte de son étape est déclarée décorative (CO-12), sinon elle porte un texte alternatif ; (5) aucun document interne, client, projet, outil interne ni dépôt d'entreprise n'y figure, contrôlé à la relecture ; (6) bout en bout : une illustration par étape, changement d'illustration au défilement, présentation réduite.
 - **Résumé** : Donne à chaque étape de la méthode son illustration définitive, que la section 7 confie au développement. Ticket séparé de TK-65 parce que ses dessins, du texte, sont comptés dans la limite des 400 lignes.
 
+### TK-67 — Socle HTTP du back : format d'erreur, en-têtes de sécurité, origine autorisée
+
+- **Titre de PR** : `feat(back): add http foundation with error format, security headers and allowed origin`
+- **Type** : feature
+- **Domaine** : back
+- **Priorité** : prio-critique
+- **Estimation** : 1 j
+- **Version** : v2.0.0
+- **Couvre** : CT-08, MF-16
+- **Dépend de** : TK-01, TK-06
+- **Vague** : W5
+- **Taille** : ≈ 390 lignes
+- **DoD** : DoD commune, et : (1) toute réponse d'erreur du back, y compris 404, 405, 406, 415 et 500, suit le format d'erreur du contrat ; (2) chaque réponse porte les en-têtes de sécurité prévus par le plan du back (PB-06) ; (3) une requête venue d'une autre origine que l'origine autorisée, lue dans `CONTACT_ALLOWED_ORIGINS`, reçoit `403` au format du contrat, requête préalable comprise ; une requête préalable de l'origine autorisée reçoit les en-têtes CORS du contrat ; une requête sans `Origin` est traitée ; (4) un corps de plus de 64 Kio, annoncé ou non, est refusé par le `400` de corps illisible du contrat ; (5) le back refuse de démarrer si une origine configurée contient un joker, un chemin ou une barre finale ; (6) des tests par tranche web, avec un contrôleur de test sous `/api/v1/`, couvrent chacun de ces cas.
+- **Résumé** : Pose le socle HTTP du back avant le point d'envoi : un format d'erreur unique pour toutes les réponses d'erreur, des en-têtes de sécurité sur chaque réponse, le refus de toute origine autre que l'origine autorisée et une taille de corps bornée. Le point d'envoi s'y branche ensuite (TK-16).
+
 ## 3. Vagues de réalisation
 
 | Vague | Tickets | Ce que la vague démontre |
@@ -1077,7 +1093,7 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 | W2 | TK-03 — Plan d'implémentation du back ; TK-04 — Plan d'implémentation du front | Plus rien n'est à trancher pour coder : les deux plans d'implémentation sont signés. |
 | W3 | TK-05 — Mise en place du front | Première vague de code, à un seul ticket : le front produit un document HTML par adresse, aux versions de CT-02. |
 | W4 | TK-06 — Mise en place du back ; TK-08 — Retrait de l'ancien site | Le back démarre, aux versions de CT-02 ; staging ne contient plus que la refonte. |
-| W5 | TK-07 — Intégration continue du front et du back | Chaque PR est vérifiée par la CI, pour le front comme pour le back. |
+| W5 | TK-07 — Intégration continue du front et du back ; TK-67 — Socle HTTP du back : format d'erreur, en-têtes de sécurité, origine autorisée | Chaque PR est vérifiée par la CI, pour le front comme pour le back ; le back répond au format d'erreur du contrat, avec ses en-têtes de sécurité, et refuse toute origine autre que l'origine autorisée. |
 | W6 | TK-09 — Robot de mises à jour des dépendances ; TK-10 — Jetons de la charte | Les dépendances sont suivies par le robot ; la charte existe en jetons dans le front. |
 | W7 | TK-11 — Typographie, polices et mise en page de base ; TK-12 — Modèle de contenu et fichiers de contenu | Les pages ont la typographie de la charte ; le contenu se lit au build depuis des fichiers typés. |
 | W8 | TK-13 — Hébergement du front et préversions ; TK-14 — Image Docker du back | Chaque branche a sa préversion, avec une vraie 404 ; le back tient dans une image dont le démarrage à froid est mesuré. |
@@ -1116,7 +1132,7 @@ Ces tâches ne sont pas des tickets : elles demandent ses comptes, ses accès, s
 - **A-01** — Répondre à Q-10 : le contact passe-t-il par le formulaire à cinq champs obligatoires, hypothèse sur laquelle repose la conception technique, et dans quelle boîte arrivent les messages ? Une autre réponse rouvrirait CT-06 à CT-08 ; bloque : TK-01
 - **A-02** — Dans les réglages du dépôt GitHub : protéger staging et main en exigeant une CI verte avant fusion (CT-09), activer la protection à l'envoi des secrets et vérifier que l'analyse des secrets et les alertes de dépendances sont actives (section 7 de la conception technique) ; bloque : TK-07, TK-09
 - **A-03** — Ouvrir le compte Cloudflare et y raccorder le dépôt pour les builds et les préversions par branche des ressources statiques des Workers (CT-05, CT-09, D-02), sans jeton de déploiement dans les secrets de la CI ; bloque : TK-13
-- **A-04** — Ouvrir le compte Render et créer le service de préproduction du back : instance gratuite, région Francfort (disponibilité de l'instance gratuite dans cette région à vérifier), raccordé au dépôt, branché sur staging, déployé seulement après une CI verte ; y poser les variables d'environnement — clé d'API de Brevo, adresse de destination, qui est la boîte qu'Alexandre désigne (D-05) et ne figure jamais dans le dépôt, adresse d'expédition du domaine, origine autorisée, secret de signature des jetons, seuils de D-07 — et activer les notifications d'échec de déploiement et de suspension (CT-14) ; bloque : TK-24
+- **A-04** — Créer le service de préproduction du back en W13, entre les deux PR de TK-24, par un Blueprint de Render relié à staging, qui lit le fichier back/render.yaml de la première PR une fois celle-ci fusionnée : instance gratuite, région Francfort, raccordé au dépôt, branché sur staging, déployé seulement après une CI verte ; y saisir à la création les variables d'environnement — clé d'API de Brevo, adresse de destination, qui est la boîte qu'Alexandre désigne (D-05) et ne figure jamais dans le dépôt, adresse d'expédition du domaine, origine autorisée, qui est l'origine de la préversion staging, relevée dans la console de Cloudflare après le premier build de staging — sans y poser le secret de signature des jetons, que Render tire lui-même, ni les seuils de D-07, qui ne se saisissent que pour changer une valeur de départ ; une fois le service créé, poser son adresse technique chez Cloudflare comme variable de build de préproduction ; activer les notifications d'échec de déploiement et de suspension (CT-14) ; bloque : TK-24 (pour finir), TK-42
 - **A-05** — Ouvrir le compte Brevo, obtenir son approbation pour l'envoi (300 e-mails par jour une fois le compte approuvé) et créer la clé d'API, posée seulement dans les variables d'environnement de Render (CT-07) ; bloque : TK-24
 - **A-06** — Répondre à Q-06 : quelles compétences techniques et humaines afficher, et faut-il un niveau pour chacune ? Hypothèse retenue : celles de C-02, sans niveau ; un niveau ajouterait un champ facultatif ; bloque : TK-35
 - **A-07** — Répondre à Q-07 : quel CV proposer ? Hypothèse retenue : un seul CV, en français, sous un nom sans date ni mention de situation, nom à donner dans la réponse ; bloque : TK-38
@@ -1132,15 +1148,16 @@ Ces tâches ne sont pas des tickets : elles demandent ses comptes, ses accès, s
 - **A-17** — Vérifier le domaine dans la Search Console de Google par un enregistrement DNS dans la zone Cloudflare, puis, après la bascule, y soumettre le plan du site (CT-11) ; bloque : TK-59
 - **A-18** — Activer le renouvellement automatique du domaine chez OVH, recommandé par la conception technique (section 9) ; bloque : TK-59
 - **A-19** — Recetter la v2.0.0 sur la préproduction (Étape 7), une fois la passe manuelle faite (TK-58), et signer la recette ; bloque : TK-59
-- **A-20** — Faire les gestes de la bascule qui lui reviennent (section 6 de la conception technique) : fusionner la PR de staging vers main et poser le tag annoté v2.0.0 ; une fois la production déployée, pointer www et le domaine nu vers le front dans la zone Cloudflare, sans toucher aux serveurs de noms ni à DNSSEC ; en cas de problème, remettre les anciens enregistrements vers OVH ; bloque : TK-59
+- **A-20** — Faire les gestes de la bascule qui lui reviennent (section 6 de la conception technique) : fusionner la PR de staging vers main et poser le tag annoté v2.0.0 ; juste après le tag qui publie la première image du back, rendre public, une fois et sans retour, le paquet de cette image dans le registre de conteneurs de GitHub ; une fois la production déployée, pointer www et le domaine nu vers le front dans la zone Cloudflare, sans toucher aux serveurs de noms ni à DNSSEC ; en cas de problème, remettre les anciens enregistrements vers OVH ; bloque : TK-59
 - **A-21** — Résilier l'hébergement mutualisé OVH 30 jours après la bascule (D-15), une fois la période de retour arrière passée ; aucune messagerie n'est à préserver (D-09) et le domaine reste chez OVH ; bloque : TK-62
 - **A-22** — Identifier l'hébergement de l'ancien back et révoquer les identifiants d'envoi qu'il utilise, avant l'archivage de son dépôt séparé (section 10 de la conception technique) ; bloque : TK-62
 - **A-23** — Relever les messages indésirables reçus pendant les premières semaines de production et les comparer au seuil de renfort de CT-08 : plus de 5 par semaine, deux semaines de suite (D-06) ; bloque : TK-63
 - **A-24** — Définir le choix de la langue et fournir ou valider les textes anglais avant la v2.0.1 (MF-23) ; bloque : TK-60
 - **A-25** — Décider du lancement du lot VPS et choisir le VPS loué (décision du 15/10/2026 : lot séparé, après la v2.0.0) ; bloque : TK-61
-- **A-26** — Créer chez Render le service de production du back, au moment de la bascule, une fois staging fusionné dans main (section 6 de la conception technique, étape 4 : les déploiements de production ne sont reliés à main qu'à ce moment) : instance gratuite, région Francfort, raccordé au dépôt, branché sur main, déployé seulement après une CI verte ; y poser les variables d'environnement de production : clé d'API de Brevo, adresse de destination (D-05), qui ne figure jamais dans le dépôt, adresse d'expédition du domaine, origine autorisée de production, secret de signature des jetons distinct de celui de la préproduction et seuils de D-07 ; activer les notifications d'échec de déploiement et de suspension (CT-14) ; rattacher le sous-domaine du back au service comme domaine personnalisé et créer son enregistrement dans la zone Cloudflare, en « DNS seulement » (CT-13), après A-09 ; bloque : TK-59
+- **A-26** — Créer chez Render le service de production du back, au moment de la bascule, une fois staging fusionné dans main (section 6 de la conception technique, étape 4 : les déploiements de production ne sont reliés à main qu'à ce moment), par un second Blueprint de Render relié à main, qui lit le fichier back/render-production.yaml : instance gratuite, région Francfort, raccordé au dépôt, branché sur main, déployé seulement après une CI verte ; l'origine autorisée de production et le sous-domaine du back, rattaché au service comme domaine personnalisé, viennent du fichier, et le secret de signature des jetons, distinct de celui de la préproduction, est tiré par Render ; y saisir les variables d'environnement de production que Render demande à la création : clé d'API de Brevo, adresse de destination (D-05), qui ne figure jamais dans le dépôt, et adresse d'expédition du domaine ; les seuils de D-07 ne se saisissent que pour changer une valeur de départ ; activer les notifications d'échec de déploiement et de suspension (CT-14) ; créer l'enregistrement du sous-domaine du back dans la zone Cloudflare, en « DNS seulement » (CT-13), après A-09 ; bloque : TK-59
+- **A-27** — Ouvrir le compte Render, pour une instance gratuite en région Francfort (disponibilité de l'instance gratuite dans cette région à vérifier), avant W13 : le service de préproduction n'est créé qu'en W13, par A-04 ; bloque : TK-24
 
-Échéancier, d'après les dépendances des tickets : avant W1, A-01 ; pendant W5, A-02 ; avant W8, A-03 ; avant W13, A-04 et A-05 ; avant W19, A-06 ; avant W20, A-07 ; pendant W24, A-13 ; avant W29, A-11 et A-12 ; avant W30, A-14 ; avant W32, A-09 et A-10 ; avant W33, A-18 ; pendant W33, A-16, A-17, A-19, A-20 et A-26 ; avant la recette, A-08 et A-15 ; après la v2.0.0, A-21, A-22, A-23, A-24 et A-25. A-09 demande plusieurs jours d'attente (24 heures chez OVH, puis au moins un TTL du DS) et précède A-10 : mieux vaut la commencer dès la signature de ce document.
+Échéancier, d'après les dépendances des tickets : avant W1, A-01 ; pendant W5, A-02 ; avant W8, A-03 ; avant W13, A-05 et A-27 ; pendant W13, A-04 (entre les deux PR de TK-24) ; avant W19, A-06 ; avant W20, A-07 ; pendant W24, A-13 ; avant W29, A-11 et A-12 ; avant W30, A-14 ; avant W32, A-09 et A-10 ; avant W33, A-18 ; pendant W33, A-16, A-17, A-19, A-20 et A-26 ; avant la recette, A-08 et A-15 ; après la v2.0.0, A-21, A-22, A-23, A-24 et A-25. A-09 demande plusieurs jours d'attente (24 heures chez OVH, puis au moins un TTL du DS) et précède A-10 : mieux vaut la commencer dès la signature de ce document.
 
 ## 5. Matrice de couverture
 
@@ -1165,7 +1182,7 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | MF-13 | Fiche d'un projet | TK-37 |
 | MF-14 | Ajouter un projet sans toucher au reste du site | TK-47 |
 | MF-15 | Consulter et télécharger le CV | TK-38, TK-65 |
-| MF-16 | Envoyer un message à Alexandre | TK-16, TK-20, TK-22, TK-41, TK-42, TK-43 |
+| MF-16 | Envoyer un message à Alexandre | TK-16, TK-20, TK-22, TK-41, TK-42, TK-43, TK-67 |
 | MF-17 | Liens vers les profils externes | TK-15, TK-30, TK-46 |
 | MF-18 | Aucune information qui se périme | TK-28, TK-30, TK-32, TK-33, TK-34, TK-36, TK-65 |
 | MF-19 | Mentions légales | TK-30, TK-31, TK-45 |
@@ -1237,7 +1254,7 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 - CT-05 — Hébergement du front : TK-13, TK-56, TK-61 (après-v2), A-03
 - CT-06 — Hébergement du back : TK-03, TK-14, TK-24, TK-61 (après-v2), A-04, A-26
 - CT-07 — Envoi des e-mails : TK-01, TK-03, TK-20, A-05, A-10
-- CT-08 — Protection contre les messages indésirables : TK-01, TK-03, TK-16, TK-18, TK-22, TK-42, TK-43, TK-58, TK-63 (après-v2)
+- CT-08 — Protection contre les messages indésirables : TK-01, TK-03, TK-16, TK-18, TK-22, TK-42, TK-43, TK-58, TK-63 (après-v2), TK-67
 - CT-09 — Intégration et déploiement continus : TK-07, TK-09, TK-14, TK-24, TK-59, A-02, A-03
 - CT-10 — Stratégie de tests : TK-04, TK-07, TK-21, TK-28, TK-57
 - CT-11 — Référencement et aperçu au partage : TK-04, TK-44, TK-46, A-17
@@ -1274,7 +1291,7 @@ Ces tickets portent le label après-v2. Ils sont créés pour tracer ce qui est 
 
 La signature de ce document tranche les points suivants, tous pris faute de référentiel ou proposés :
 
-- Les estimations : 61 tickets v2.0.0, à raison de 5 tickets à 0,5 j, 36 tickets à 1 j, 20 tickets à 2 j, en jours d'effort d'un développeur. Total des estimations v2.0.0 : 78,5 j. Ce sont des propositions, pas des mesures, et aucune date de livraison n'en découle.
+- Les estimations : 62 tickets v2.0.0, à raison de 5 tickets à 0,5 j, 37 tickets à 1 j, 20 tickets à 2 j, en jours d'effort d'un développeur. Total des estimations v2.0.0 : 79,5 j. Ce sont des propositions, pas des mesures, et aucune date de livraison n'en découle.
 - Les priorités, dont trois choix : TK-02 (points de charte) est en prio-low, mais passe en première vague parce que les jetons et l'en-tête en reprennent les valeurs ; les halos et la pause des animations (TK-50) sont en prio-high, parce que la respiration des halos sans moyen de pause enfreindrait le critère WCAG 2.2.2, de niveau A ; les tracés et survols (TK-51) et les transitions entre pages (TK-52) sont en prio-medium, parce que le budget de performance (TK-57), qui précède la mise en production, les attend : TK-51 est sur le chemin critique.
 - L'ordre des vagues : 33 vagues de deux tickets au plus. La première vague de code (W3) ne contient que la mise en place du front (TK-05) ; le back passe tôt (W8 à W13), pour mesurer dès W13 le réveil réel de l'instance gratuite et trancher D-04 avant les écrans ; les motifs de mouvement passent après les écrans qu'ils animent (W25 à W29), leur socle étant posé dès W13 ; les contenus d'Alexandre sont intégrés en W29 et W30, puis le budget de performance est mesuré sur le site complet (W31) ; la passe manuelle et la bascule ferment la liste.
 - Le contrat d'API (TK-01) attend la réponse à Q-10 (A-01), parce que ses cinq champs en dépendent ; une réponse à la signature de ce document ne retarde rien.
@@ -1288,14 +1305,14 @@ La signature de ce document tranche les points suivants, tous pris faute de réf
 - Le comportement d'une frise plus haute que la fenêtre (TK-53) : dès que le trait a atteint l'étape mise en avant en suivant le défilement, il est tenu pour tracé en entier et ne recule plus.
 - Le domaine des tickets : la CI, l'hébergement et la passe manuelle sont du domaine infra ; l'image Docker est du domaine back, puisqu'elle vit dans back/.
 - L'accès au board de GitHub : l'autoriser, ou garder les colonnes en labels de statut (section 1).
-- La lecture de « Dépend de » : une tâche A-xx marquée « (pour finir) » se fait pendant le ticket (protection des branches pendant TK-07, validation des textes pendant TK-45, recette, gestes de la bascule et service de production du back pendant TK-59) ; toute autre dépendance précède le ticket.
+- La lecture de « Dépend de » : une tâche A-xx marquée « (pour finir) » se fait pendant le ticket (protection des branches pendant TK-07, création du service de préproduction du back pendant TK-24, entre ses deux PR, validation des textes pendant TK-45, recette, gestes de la bascule et service de production du back pendant TK-59) ; toute autre dépendance précède le ticket.
 - Les textes légaux (TK-45) sont rédigés par le développement sur la base de CT-12, puis validés par Alexandre dans la PR (A-13) : aucun contenu C-xx ne les couvre.
 - Les illustrations des étapes de la méthode (TK-66) : les maquettes n'en montrent que de démonstration, et aucun contenu C-xx ne les couvre. Le développement les dessinera dans TK-66, abstraites, sur le modèle des maquettes, une par étape de C-04, sauf si Alexandre préfère les fournir.
 - Les transitions entre pages (MV-07, TK-52) reposent sur les transitions de vue du navigateur, que la charte présente comme une amélioration facultative, pas encore disponible dans tous les navigateurs courants, alors que la conception technique écrit que le site n'utilise que des fonctions de la Baseline « largement disponible » (section 3, R-10). La DoD commune admet donc une exception, à valider : une amélioration facultative avec repli immédiat, qu'un navigateur sans prise en charge ignore en naviguant sans transition et sans erreur.
 
 ## 8. Correspondance avec les issues GitHub
 
-Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`).
+Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`). Amendement du 28/10/2026 : TK-67 créé (#90).
 
 | Ticket | Issue |
 | --- | --- |
@@ -1365,3 +1382,4 @@ Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par
 | TK-64 | #81 |
 | TK-65 | #82 |
 | TK-66 | #83 |
+| TK-67 | #90 |
