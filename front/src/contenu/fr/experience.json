@@ -1,0 +1,22 @@
+{
+  "entreprise": "OSOL",
+  "periode": { "debut": 2025, "fin": 2028 },
+  "volets": [
+    {
+      "cle": "application",
+      "intitule": "Application",
+      "description": ["[C-08 — description du volet application]"]
+    },
+    {
+      "cle": "backend",
+      "intitule": "Backend",
+      "description": ["[C-08 — description du volet backend]"]
+    },
+    {
+      "cle": "appui-devops",
+      "intitule": "Appui DevOps, sur certaines tâches",
+      "description": ["[C-08 — description de l’appui DevOps, sur certaines tâches]"]
+    }
+  ],
+  "mentionConfidentialite": "Les projets menés en entreprise ne sont pas partageables."
+}

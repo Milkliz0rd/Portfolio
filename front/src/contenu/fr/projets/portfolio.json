@@ -1,0 +1,25 @@
+{
+  "identifiant": "portfolio",
+  "titre": "Portfolio",
+  "description": [
+    "[C-05 — description du projet : la démarche]",
+    "[C-05 — description du projet : l’architecture du site]"
+  ],
+  "descriptionCourte": "[C-05 — description courte du projet]",
+  "rang": 1,
+  "captures": [
+    {
+      "fichier": "[C-05 — capture 1]",
+      "alternatif": "[C-05 — texte alternatif de la capture 1]",
+      "largeur": "[C-05 — capture 1]",
+      "hauteur": "[C-05 — capture 1]"
+    },
+    {
+      "fichier": "[C-05 — capture 2]",
+      "alternatif": "[C-05 — texte alternatif de la capture 2]",
+      "largeur": "[C-05 — capture 2]",
+      "hauteur": "[C-05 — capture 2]"
+    }
+  ],
+  "lienCode": "https://github.com/Milkliz0rd/Portfolio"
+}

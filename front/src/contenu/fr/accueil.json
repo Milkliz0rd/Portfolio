@@ -1,0 +1,10 @@
+{
+  "presentation": ["[C-06 — présentation de l’accueil, en deux phrases au plus]"],
+  "orientations": {
+    "parcours": "[C-10 — phrase d’orientation vers le parcours]",
+    "competences": "[C-10 — phrase d’orientation vers les compétences]",
+    "experience": "[C-10 — phrase d’orientation vers l’expérience]",
+    "methode": "[C-10 — phrase d’orientation vers la méthode de travail]",
+    "projets": "[C-10 — phrase d’orientation vers les projets]"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "mentionsLegales": [
+    { "intitule": "Éditeur", "paragraphes": [[{ "texte": "Alexandre Morozoff" }]] },
+    {
+      "intitule": "Contact",
+      "paragraphes": [
+        [{ "texte": "Par le " }, { "texte": "formulaire de contact", "lien": "/contact" }]
+      ]
+    },
+    {
+      "intitule": "Hébergement des pages",
+      "paragraphes": [[{ "texte": "Cloudflare. [Étape 8 — coordonnées des hébergeurs]" }]]
+    },
+    {
+      "intitule": "Hébergement du formulaire",
+      "paragraphes": [[{ "texte": "Render. [Étape 8 — coordonnées des hébergeurs]" }]]
+    }
+  ],
+  "informationDonnees": [
+    {
+      "intitule": "Vos données.",
+      "paragraphes": [
+        [
+          {
+            "texte": "[texte à valider — D-10] Elles sont reçues par Alexandre Morozoff, seulement pour répondre à votre message ; le site ne les conserve pas. Elles transitent par les hébergeurs du site (Cloudflare, Render) et par le prestataire d’envoi des messages (Brevo). Base légale, durée de conservation, transferts hors de l’Union européenne et droits : [texte à valider — D-10]"
+          }
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "techniques": [
+    {
+      "libelle": "[C-02 — catégorie 1]",
+      "rang": 1,
+      "competences": [
+        { "libelle": "[C-02 — compétence]", "rang": 1 },
+        { "libelle": "[C-02 — compétence]", "rang": 2 },
+        { "libelle": "[C-02 — compétence]", "rang": 3 },
+        { "libelle": "[C-02 — compétence]", "rang": 4 }
+      ]
+    },
+    {
+      "libelle": "[C-02 — catégorie 2]",
+      "rang": 2,
+      "competences": [
+        { "libelle": "[C-02 — compétence]", "rang": 1 },
+        { "libelle": "[C-02 — compétence]", "rang": 2 },
+        { "libelle": "[C-02 — compétence]", "rang": 3 },
+        { "libelle": "[C-02 — compétence]", "rang": 4 }
+      ]
+    },
+    {
+      "libelle": "[C-02 — catégorie 3]",
+      "rang": 3,
+      "competences": [
+        { "libelle": "[C-02 — compétence]", "rang": 1 },
+        { "libelle": "[C-02 — compétence]", "rang": 2 },
+        { "libelle": "[C-02 — compétence]", "rang": 3 },
+        { "libelle": "[C-02 — compétence]", "rang": 4 }
+      ]
+    }
+  ],
+  "humaines": {
+    "competences": [
+      { "libelle": "[C-02 — compétence humaine]", "rang": 1 },
+      { "libelle": "[C-02 — compétence humaine]", "rang": 2 },
+      { "libelle": "[C-02 — compétence humaine]", "rang": 3 },
+      { "libelle": "[C-02 — compétence humaine]", "rang": 4 },
+      { "libelle": "[C-02 — compétence humaine]", "rang": 5 }
+    ],
+    "recit": [
+      "[C-07 — récit de la reconversion depuis la restauration, et ce qu’il montre des compétences humaines]"
+    ]
+  }
+}

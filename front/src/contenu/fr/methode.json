@@ -1,0 +1,25 @@
+{
+  "etapes": [
+    {
+      "intitule": "[C-04 — étape 1 de la méthode : son intitulé]",
+      "texte": ["[C-04 — étape 1 : le texte de la méthodologie de travail, découpé en étapes]"],
+      "illustration": "demonstration-schema"
+    },
+    {
+      "intitule": "[C-04 — étape 2 de la méthode : son intitulé]",
+      "texte": ["[C-04 — étape 2 : le texte de la méthodologie de travail, découpé en étapes]"],
+      "illustration": "demonstration-barres"
+    },
+    {
+      "intitule": "[C-04 — étape 3 de la méthode : son intitulé]",
+      "texte": ["[C-04 — étape 3 : le texte de la méthodologie de travail, découpé en étapes]"],
+      "illustration": "demonstration-couches"
+    },
+    {
+      "intitule": "[C-04 — étape 4 de la méthode : son intitulé]",
+      "texte": ["[C-04 — étape 4 : le texte de la méthodologie de travail, découpé en étapes]"],
+      "illustration": "demonstration-validation"
+    }
+  ],
+  "renvoi": { "projet": "portfolio" }
+}

@@ -1,0 +1,30 @@
+{
+  "introduction": "[C-10 — phrase d’introduction du parcours]",
+  "orientation": [
+    "[C-09 — texte d’orientation vers l’architecture logicielle, qui cite le master en architecture durable du logiciel comme étape]"
+  ],
+  "etapes": [
+    {
+      "type": "reconversion",
+      "intitule": "Reconversion depuis la restauration",
+      "debut": "[C-01 — début]",
+      "fin": "[C-01 — fin]",
+      "etat": "accomplie"
+    },
+    {
+      "type": "bac+3",
+      "intitule": "[C-01 — intitulé du bac+3]",
+      "etablissement": "[C-01 — établissement]",
+      "debut": "[C-01 — début]",
+      "fin": "[C-01 — fin]",
+      "etat": "accomplie"
+    },
+    {
+      "type": "master",
+      "intitule": "Master en architecture durable du logiciel",
+      "debut": "[C-01 — début du master]",
+      "fin": { "annee": 2028 },
+      "etat": "mise-en-avant"
+    }
+  ]
+}
