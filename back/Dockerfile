@@ -1,8 +1,8 @@
 # Image du back (TK-14, PB-08), construite depuis back/ : docker build -t portfolio-back .
 # Les images de base sont épinglées par étiquette et par empreinte. L'empreinte est celle de
 # l'index multi-architecture : la même ligne sert arm64 en local, amd64 en CI et chez
-# l'hébergeur. Le robot de mises à jour propose chaque semaine la nouvelle empreinte de
-# l'étiquette, ou une nouvelle étiquette de Java 25 (dependabot.yml).
+# l'hébergeur. Le robot de mises à jour vérifie chaque semaine si l'étiquette pointe vers une
+# nouvelle image et en propose alors l'empreinte (dependabot.yml).
 
 # 1. build : le jar seul. Tests et analyse statique tournent dans la CI, pas ici.
 FROM eclipse-temurin:25-jdk@sha256:3ab7fc8d0b4ade8fef96903fb36767c1dbb4fd1535dcfad85b59c17afbbb5857 AS build

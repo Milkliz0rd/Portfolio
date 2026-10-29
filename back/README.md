@@ -60,8 +60,8 @@ passent par `-e`, par exemple `-e PORT=9090 -p 9090:9090`.
   publier. À chaque tag `v*`, le workflow `publish-back-image.yml` la publie au registre de
   conteneurs de GitHub, `ghcr.io/milkliz0rd/portfolio-back:<tag>`, avec le seul jeton éphémère
   de la CI. Le paquet naît privé : il est rendu public une fois, juste après le premier tag.
-- **Mises à jour** : Dependabot propose chaque semaine les nouvelles images de base de Java 25,
-  sans majeure de Java.
+- **Mises à jour** : Dependabot vérifie chaque semaine si `25-jdk` et `25-jre` pointent vers une
+  nouvelle image et en propose alors l'empreinte, sans majeure de Java.
 
 ### Démarrage mesuré
 
