@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build && node outils/finaliser-build.mjs",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "npm run test:outils && ng test",
+    "test:outils": "vitest run --config outils/vitest.config.mjs",
     "lint": "ng lint && stylelint \"src/**/*.scss\" --max-warnings 0 && prettier --check .",
     "i18n:verifier": "ng extract-i18n --format xlf2 --output-path tmp/i18n && node outils/verifier-libelles.mjs tmp/i18n/messages.xlf"
   },
