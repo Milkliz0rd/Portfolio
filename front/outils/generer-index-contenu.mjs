@@ -8,8 +8,10 @@ import { join, relative } from 'node:path';
 
 const nomImport = (fichier) => `projet_${fichier.replace(/\.json$/, '').replace(/\W+/g, '_')}`;
 
-/** Le texte de l'index, dans l'ordre reçu, déjà dans la forme de Prettier (printWidth 100). */
-export function texteIndex(fichiers, cvPresent) {
+/** Le texte de l'index, fichiers rangés par nom, déjà dans la forme de Prettier (printWidth 100). */
+export function texteIndex(fichiersRecus, cvPresent) {
+  // L'ordre de lecture d'un dossier dépend du système de fichiers : l'index, lui, n'en dépend pas.
+  const fichiers = [...fichiersRecus].sort();
   const imports = fichiers.map((fichier) => `import ${nomImport(fichier)} from './${fichier}';\n`);
   const elements = fichiers.map((fichier) => `${nomImport(fichier)} satisfies Projet`);
   const debut = 'export const projets: readonly Projet[] = [';
@@ -26,7 +28,7 @@ export function texteIndex(fichiers, cvPresent) {
   ].join('\n');
 }
 
-/** Écrit l'index de chaque langue de <racine>/src/contenu/, fichiers par nom ; rend ses chemins. */
+/** Écrit l'index de chaque langue de <racine>/src/contenu/ ; rend leurs chemins. */
 export function genererIndexContenu(racine) {
   const contenu = join(racine, 'src', 'contenu');
   const langues = readdirSync(contenu, { withFileTypes: true }).filter((e) => e.isDirectory());
@@ -39,7 +41,7 @@ export function genererIndexContenu(racine) {
     const nomDeFichier = /^[\w.-]+$/.test(cv.fichier);
     const cvPresent = nomDeFichier && existsSync(join(racine, 'public', 'cv', cv.fichier));
     const index = join(dossier, 'index.genere.ts');
-    writeFileSync(index, texteIndex(fichiers.sort(), cvPresent));
+    writeFileSync(index, texteIndex(fichiers, cvPresent));
     return index;
   });
 }

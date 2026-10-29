@@ -43,13 +43,17 @@ describe('generer-index-contenu', () => {
     );
   });
 
-  it('range les fichiers par nom, quel que soit l’ordre de leur création', () => {
-    ajouterProjet('zeta');
-    ajouterProjet('alpha');
-    const texte = index();
+  it('range les fichiers par nom, quel que soit l’ordre où le dossier les donne', () => {
+    const texte = texteIndex(['zeta.json', 'alpha.json', 'portfolio.json'], false);
     const positions = ['alpha', 'portfolio', 'zeta'].map((nom) => texte.indexOf(`./${nom}.json`));
     expect(positions).toEqual([...positions].sort((a, b) => a - b));
-    expect(index()).toBe(texte);
+    expect(texteIndex(['portfolio.json', 'zeta.json', 'alpha.json'], false)).toBe(texte);
+  });
+
+  it('écrit le même index à chaque passage', () => {
+    ajouterProjet('zeta');
+    ajouterProjet('alpha');
+    expect(index()).toBe(index());
   });
 
   it('donne cvPresent vrai seulement si le fichier du CV est dans public/cv/', () => {
