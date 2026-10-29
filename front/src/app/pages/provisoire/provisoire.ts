@@ -7,7 +7,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './provisoire.scss',
   templateUrl: './provisoire.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'conteneur-standard' },
 })
 export class Provisoire {
-  protected readonly ecran = inject(ActivatedRoute).snapshot.data['ecran'] as string;
+  // L'étiquette de la route, « EC-02 Parcours » : l'identifiant de l'écran, puis son nom.
+  private readonly ecran = inject(ActivatedRoute).snapshot.data['ecran'] as string;
+  protected readonly identifiant = this.ecran.slice(0, this.ecran.indexOf(' '));
+  protected readonly nom = this.ecran.slice(this.ecran.indexOf(' ') + 1);
 }
