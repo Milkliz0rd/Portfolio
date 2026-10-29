@@ -1,0 +1,35 @@
+# Publication de l'image du back à chaque tag v* (TK-14, PB-08), au registre de conteneurs de
+# GitHub : ghcr.io/<propriétaire en minuscules>/portfolio-back:<tag>, pour la portabilité (CT-09).
+# Seul le jeton éphémère de la CI sert (GITHUB_TOKEN, permission d'écrire les paquets) : aucun
+# secret stocké. L'image est construite depuis back/, comme sur chaque PR (ci.yml).
+# Le paquet naît privé : Alexandre le rend public une fois, juste après le premier tag (A-20).
+# Ce geste est sans retour.
+name: Publication de l'image du back
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      # Le registre n'accepte que des minuscules ; le propriétaire du dépôt a une majuscule.
+      - name: Nom de l'image
+        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/portfolio-back:${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+      - name: Construction
+        run: docker build -t "$IMAGE" back
+      - name: Publication
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker push "$IMAGE"
