@@ -48,3 +48,6 @@ jobs:
           java-version: '25'
           cache: maven
       - run: ./mvnw -B -ntp verify
+      # L'image du back (TK-14) se construit sur chaque PR, sans être publiée : la publication
+      # n'a lieu qu'aux tags (publish-back-image.yml).
+      - run: docker build -t portfolio-back:ci .
