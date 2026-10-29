@@ -1,4 +1,5 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
+import { contenuProjets } from '../contenu/contenu-langue';
 
 // Toutes les adresses sont pré-rendues ; seule « ** » est rendue dans le navigateur (PF-06).
 const prerendues = [
@@ -21,8 +22,9 @@ export const serverRoutes: ServerRoute[] = [
   {
     path: 'projets/:id',
     renderMode: RenderMode.Prerender,
-    // Le seul projet tant que l'index des projets n'existe pas (étape 7 du plan front).
-    getPrerenderParams: () => Promise.resolve([{ id: 'portfolio' }]),
+    // Une fiche par fichier de src/contenu/<langue>/projets/, lu dans l'index généré (PF-02).
+    getPrerenderParams: () =>
+      Promise.resolve(contenuProjets.map(({ identifiant }) => ({ id: identifiant }))),
   },
   { path: '**', renderMode: RenderMode.Client },
 ];

@@ -24,6 +24,28 @@ Toutes se lancent depuis `front/`.
 | `npm run lint`          | lance l'analyse statique : ESLint, Stylelint, puis Prettier en vérification                                      |
 | `npm run i18n:verifier` | extrait les libellés dans `tmp/i18n/` (non versionné) et échoue si l'un d'eux n'a pas d'identifiant personnalisé |
 
+`npm start`, `npm run build`, `npm test`, `npm run lint` et `npm run i18n:verifier` écrivent
+d'abord l'index des projets (voir « Contenu »).
+
+## Contenu
+
+Le contenu vit en JSON dans `src/contenu/fr/`, décrit par `src/app/interfaces/contenu.ts` : du
+texte brut, jamais de HTML ; un contenu encore à fournir est un emplacement étiqueté
+`[C-xx — description]`. Il est lu au build, jamais depuis le back, par les services de
+`src/app/services/contenu/`, un par fichier.
+
+**Ajouter un projet**, c'est ajouter un fichier JSON et un dossier d'images, rien d'autre :
+
+- `src/contenu/fr/projets/<identifiant>.json`, nommé par son identifiant (minuscules, chiffres
+  et tirets, jamais `404`) : titre, description, description courte, rang, captures ; vignette
+  et lien vers le code source facultatifs ;
+- `public/images/projets/<identifiant>/`, sa vignette et ses captures.
+
+`outils/generer-index-contenu.mjs` en tire `src/contenu/fr/projets/index.genere.ts`, non
+versionné : un import par projet, vérifié par `satisfies Projet` (un champ obligatoire manquant
+fait échouer la compilation), et `cvPresent`. La fiche `/projets/<identifiant>` est pré-rendue
+depuis cet index.
+
 ## Styles
 
 Les jetons de la charte graphique sont des propriétés personnalisées CSS, déclarées dans
