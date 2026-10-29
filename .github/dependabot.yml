@@ -60,6 +60,11 @@ updates:
         update-types: ['version-update:semver-major']
       - dependency-name: 'angular-eslint'
         update-types: ['version-update:semver-major']
+      # Angular fixe aussi la version de TypeScript (Angular 22.2 : TypeScript 6.0 seulement) :
+      # une majeure de TypeScript ne s'installe qu'avec une majeure d'Angular, donc à l'entretien
+      # annuel, elle aussi.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
       # Les types de Node suivent la version de Node du site (.nvmrc), qui ne change qu'à
       # l'entretien annuel (CT-02) : pas de types d'une majeure de Node en avance.
       - dependency-name: '@types/node'
