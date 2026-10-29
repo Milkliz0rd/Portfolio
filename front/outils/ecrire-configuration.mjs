@@ -73,7 +73,7 @@ export function deduireConfiguration(variables, adresses, pourLesTests = false) 
     } else {
       // Facultative jusqu'au client du contrat d'API (TK-42), qui la rendra obligatoire.
       avertissements.push(
-        'PORTFOLIO_BASE_API_PREPRODUCTION absente : build de préproduction sans adresse du back (baseApi vide).',
+        "PORTFOLIO_BASE_API_PREPRODUCTION absente : build de préproduction sans adresse du back (baseApi vide, connect-src réduit à 'self').",
       );
     }
   } else if (variables.PORTFOLIO_BASE_API) {
