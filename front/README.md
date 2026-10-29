@@ -18,7 +18,7 @@ Toutes se lancent depuis `front/`.
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `npm ci`                | installe les dépendances exactes de `package-lock.json`                                                          |
 | `npm start`             | lance le serveur de développement sur `http://localhost:4200/`                                                   |
-| `npm run build`         | construit le site pré-rendu dans `dist/front/browser/`, puis place les pages d'erreur                            |
+| `npm run build`         | construit le site pré-rendu dans `dist/front/browser/`, place les pages d'erreur et écrit `_headers`             |
 | `npm test`              | lance `test:outils`, puis les tests unitaires (Vitest, par `ng test`) ; avec `CI=true`, un seul passage          |
 | `npm run test:outils`   | lance une fois les tests de `outils/tests/` (Vitest), dont ceux des jetons et des polices                        |
 | `npm run lint`          | lance l'analyse statique : ESLint, Stylelint, puis Prettier en vérification                                      |
@@ -130,7 +130,61 @@ Bricolage Grotesque, U+201B chez les trois.
 
 `dist/front/browser/` contient un `index.html` par adresse (`parcours/index.html`,
 `projets/portfolio/index.html`…) et trois pages d'erreur, placées par
-`outils/finaliser-build.mjs` : `404.html`, `projets/404.html` et `cv/404.html`.
+`outils/finaliser-build.mjs` : `404.html`, `projets/404.html` et `cv/404.html`. Ce script y écrit
+ensuite le fichier d'en-têtes de l'hébergeur, `_headers` (voir « Hébergement »).
+
+## Hébergement
+
+Le front est servi par les ressources statiques des Workers de Cloudflare, sans script Worker.
+`wrangler.jsonc` ne déclare que le dossier `dist/front/browser/`, la page 404 la plus proche
+(`not_found_handling` « 404-page », avec le statut 404) et les adresses sans barre finale
+(`html_handling` « drop-trailing-slash » : `/parcours/` redirige en 307 vers `/parcours`). Wrangler,
+l'outil de l'hébergeur, est une dépendance de développement à version fixe, télémétrie coupée
+(`send_metrics`). Rien de propre à l'hébergeur n'entre dans `src/`.
+
+**Réglages chez Cloudflare**, posés une fois par Alexandre en raccordant le dépôt :
+
+| Réglage                    | Valeur                                                                      |
+| -------------------------- | --------------------------------------------------------------------------- |
+| Nom du Worker              | `portfolio-front`, le `name` de `wrangler.jsonc`, sans quoi le build échoue |
+| Dossier racine             | `front/`                                                                    |
+| Commande de build          | `npm run build`                                                             |
+| Commande de déploiement    | celle par défaut, `npx wrangler deploy`                                     |
+| Branche de production      | `main`                                                                      |
+| Builds des autres branches | activés, avec la commande de préversion par défaut, `npx wrangler preview`  |
+| Variable de build          | `PORTFOLIO_BASE_API_PREPRODUCTION`, une fois le back de préproduction créé  |
+
+L'hébergeur installe lui-même les dépendances et construit sous Node 24.22.1, sa version par
+défaut et celle de `.nvmrc`. Chaque branche a sa préversion, construite en préproduction ; celle de
+`staging` est la préproduction du front. Son adresse, sur le domaine technique de l'hébergeur,
+n'entre pas dans le dépôt.
+
+**Le fichier d'en-têtes.** `outils/en-tetes.mjs` écrit `_headers` depuis
+`hebergement/en-tetes.modele`, pour l'environnement du build :
+
+- la politique de sécurité du contenu, dont `script-src` porte l'empreinte SHA-256 de chaque
+  script en ligne exécutable des pages produites, calculée à chaque build, et `connect-src` la base
+  de l'API, ou `'self'` seul quand elle est vide ;
+- les autres en-têtes : `nosniff`, politique de référent, politique des permissions, interdiction
+  du cadre et HTTPS obligatoire (HSTS) ; `X-Robots-Tag: noindex` hors production ; ni
+  `upgrade-insecure-requests` ni HSTS en test et en développement, servis en HTTP ;
+- un an de cache immuable pour `/*.js`, `/*.css` et `/polices/*` ; la politique retirée du seul
+  fichier du CV, quand il est présent.
+
+Le build échoue si une page porte un attribut de gestionnaire d'événement (`onload`, `onclick`…)
+ou une adresse `javascript:`, qu'aucune empreinte n'autorise, ou si une ligne de `_headers` dépasse
+2 000 caractères, la limite de l'hébergeur.
+
+**Servir le build en local**, avec les règles de l'hébergeur :
+
+```sh
+PORTFOLIO_ENVIRONNEMENT=test npm run build
+npx wrangler dev
+```
+
+Le site répond sur `http://localhost:8787`, avec la page 404 la plus proche, les redirections de
+barre finale et les en-têtes de `_headers`, appliqués aussi aux réponses 404 (constaté avec
+Wrangler 4.155.0). L'état local de `wrangler dev` va dans `.wrangler/`, non versionné.
 
 ## Langue
 
