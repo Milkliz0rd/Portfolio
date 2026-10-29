@@ -58,3 +58,24 @@ export const textesLegauxDeTest: Modele.TextesLegaux = {
   ],
   informationDonnees: [{ intitule: 'Données', paragraphes: [[{ texte: 'Sans lien' }]] }],
 };
+
+const projet = (identifiant: string, rang: number): Modele.Projet => ({
+  identifiant,
+  titre: `Projet ${identifiant}`,
+  description: ['Description'],
+  descriptionCourte: 'Description courte',
+  rang,
+  captures: [],
+});
+
+/** Un projet complet, un sans lien ni vignette ni capture, un dernier : hors de l'ordre des rangs. */
+export const projetsDeTest: readonly Modele.Projet[] = [
+  {
+    ...projet('complet', 2),
+    captures: [{ fichier: 'capture-01.webp', alternatif: 'Capture', largeur: 1280, hauteur: 800 }],
+    vignette: { fichier: 'vignette.webp', largeur: 640, hauteur: 400 },
+    lienCode: 'https://example.org/code',
+  },
+  projet('dernier', 3),
+  projet('sans-lien', 1),
+];

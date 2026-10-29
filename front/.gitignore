@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+# Fichiers générés avant chaque commande (index des projets, PF-02)
+*.genere.ts
+
 # Node
 /node_modules
 npm-debug.log

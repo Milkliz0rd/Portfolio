@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build && node outils/finaliser-build.mjs",
-    "watch": "ng build --watch --configuration development",
-    "test": "npm run test:outils && ng test",
+    "start": "node outils/generer-index-contenu.mjs && ng serve",
+    "build": "node outils/generer-index-contenu.mjs && ng build && node outils/finaliser-build.mjs",
+    "watch": "node outils/generer-index-contenu.mjs && ng build --watch --configuration development",
+    "test": "node outils/generer-index-contenu.mjs && npm run test:outils && ng test",
     "test:outils": "vitest run --config outils/vitest.config.mjs",
-    "lint": "ng lint && stylelint \"src/**/*.scss\" --max-warnings 0 && prettier --check .",
-    "i18n:verifier": "ng extract-i18n --format xlf2 --output-path tmp/i18n && node outils/verifier-libelles.mjs tmp/i18n/messages.xlf"
+    "lint": "node outils/generer-index-contenu.mjs && ng lint && stylelint \"src/**/*.scss\" --max-warnings 0 && prettier --check .",
+    "i18n:verifier": "node outils/generer-index-contenu.mjs && ng extract-i18n --format xlf2 --output-path tmp/i18n && node outils/verifier-libelles.mjs tmp/i18n/messages.xlf"
   },
   "private": true,
   "engines": {
