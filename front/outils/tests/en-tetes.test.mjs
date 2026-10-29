@@ -41,11 +41,14 @@ describe('en-tetes', () => {
       '<script src="main.js" type="module"></script>',
       '<script id="ng-state" type="application/json">{"a":1}</script>',
       '<script type="application/ld+json">{"@type":"Person"}</script>',
+      // Le texte exact entre les balises, espaces et fins de ligne compris.
+      '<script>\n  alert(1)\n</script>',
     ].join('');
     expect(empreintesScripts(html)).toEqual([
       alerte,
       alerte,
       "'sha256-NGPfjnKeFW+AIqdECe3jeLOTpAEYUpQHpJuVdOkPEpM='",
+      "'sha256-BjA0ROBfupHLCiW2gRrYiELX3ecfNFbiR7URMIXYaeU='",
     ]);
   });
 
