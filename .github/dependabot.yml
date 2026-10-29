@@ -1,0 +1,96 @@
+# Robot de mises à jour des dépendances (TK-09) : Dependabot, syntaxe 2.
+# Ce fichier règle les mises à jour de versions. Les mises à jour de sécurité, activées
+# dans les réglages du dépôt, s'ouvrent dès qu'une alerte paraît, sans attendre ce
+# calendrier, et visent la version corrigée la plus basse, majeure comprise.
+# Toutes ses PR passent par la CI, contrôles « front » et « back », comme les autres.
+# L'écosystème Docker de back/ s'ajoutera avec l'image (TK-14).
+#
+# Choix communs aux trois écosystèmes :
+# - chaque semaine (le lundi par défaut) : des PR petites et régulières, vite relues,
+#   sans le bruit d'un passage quotidien sur un dépôt tenu par une seule personne ;
+# - vers staging, qui reçoit toutes les PR. C'est aussi la branche par défaut, que les
+#   mises à jour de sécurité visent toujours ; la cible écrite garde les mises à jour
+#   de versions sur staging même si la branche par défaut changeait ;
+# - les groupes ne valent que pour les mises à jour de versions (applies-to par
+#   défaut) : un correctif de sécurité reste une PR par dépendance.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /front
+    schedule:
+      interval: weekly
+    target-branch: staging
+    groups:
+      # Angular et son outillage (@angular/cli, @angular/build), angular-eslint,
+      # TypeScript et typescript-eslint montent ensemble : chacun borne la version des
+      # autres (Angular 22.2 exige TypeScript 6.0), séparés ils ne s'installeraient pas.
+      # Mineures et correctifs seulement : une majeure ne se mêle pas au groupe.
+      angular:
+        patterns:
+          - '@angular*'
+          - 'angular-eslint'
+          - 'typescript'
+          - 'typescript-eslint'
+        update-types:
+          - minor
+          - patch
+      # L'outillage de test, présent ou à venir (Vitest, Playwright, axe-core,
+      # Lighthouse CI) : il ne part pas avec le site, une seule PR suffit.
+      # Mineures et correctifs seulement : une majeure de Vitest ou de Playwright arrive seule,
+      # pour qu'une CI rouge désigne tout de suite le paquet en cause.
+      test-tooling:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+          - 'playwright'
+          - '@playwright/*'
+          - 'axe-core'
+          - '@axe-core/*'
+          - '@lhci/*'
+        update-types:
+          - minor
+          - patch
+    # Les autres paquets arrivent chacun dans sa PR.
+    ignore:
+      # Les majeures d'Angular sont réservées à l'entretien annuel (TK-64), avant la fin
+      # de la LTS d'Angular 22 en 06/2028. angular-eslint suit la majeure d'Angular (sa
+      # version 22 exige l'outillage 22). La règle ne porte que sur update-types, qui
+      # n'écarte pas un correctif de sécurité : celui-ci s'ouvre quand même.
+      - dependency-name: '@angular*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'angular-eslint'
+        update-types: ['version-update:semver-major']
+      # Les types de Node suivent la version de Node du site (.nvmrc), qui ne change qu'à
+      # l'entretien annuel (CT-02) : pas de types d'une majeure de Node en avance.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: maven
+    directory: /back
+    schedule:
+      interval: weekly
+    target-branch: staging
+    groups:
+      # Le parent Spring Boot fixe presque toutes les versions ; restent les rares
+      # versions écrites à part (le greffon SpotBugs). Mineures et correctifs en une PR
+      # par semaine, qui garde le back sur une mineure supportée (CT-02). Une majeure
+      # de Spring Boot est une migration : elle arrive seule.
+      maven:
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    # « / » : Dependabot lit les fichiers de .github/workflows/.
+    directory: /
+    schedule:
+      interval: weekly
+    target-branch: staging
+    groups:
+      # Peu d'actions, appelées par leur majeure (@v7) : chaque montée est une majeure.
+      # La CI de la PR les exerce toutes : une seule PR pour toutes.
+      actions:
+        patterns:
+          - '*'
