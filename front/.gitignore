@@ -6,8 +6,10 @@
 /out-tsc
 /bazel-out
 
-# Fichiers générés avant chaque commande (index des projets, PF-02)
+# Fichiers générés avant chaque commande (index des projets, PF-02 ; configuration, PF-07)
 *.genere.ts
+# Base du back local, sur le poste (PF-07)
+.env.local
 
 # Node
 /node_modules
