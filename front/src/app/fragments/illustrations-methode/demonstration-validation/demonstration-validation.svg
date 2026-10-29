@@ -1,0 +1,29 @@
+<svg viewBox="0 0 320 180" focusable="false" aria-hidden="true">
+  <path
+    class="recit__trait recit__piece recit__piece--trace"
+    pathLength="1"
+    style="--i: 0"
+    d="M40 90a50 50 0 1 0 100 0a50 50 0 1 0-100 0"
+  />
+  <path
+    class="recit__trait recit__piece recit__piece--trace"
+    pathLength="1"
+    style="--i: 1"
+    d="M68 92l16 16 30-34"
+  />
+  <path
+    class="recit__barre-dessin recit__piece recit__piece--barre"
+    style="--i: 2"
+    d="M170 62h120v14H170z"
+  />
+  <path
+    class="recit__barre-dessin--neutre recit__piece recit__piece--barre"
+    style="--i: 3"
+    d="M170 88h96v14h-96z"
+  />
+  <path
+    class="recit__barre-dessin--neutre recit__piece recit__piece--barre"
+    style="--i: 4"
+    d="M170 114h108v14H170z"
+  />
+</svg>

@@ -79,3 +79,11 @@ export const projetsDeTest: readonly Modele.Projet[] = [
   projet('dernier', 3),
   projet('sans-lien', 1),
 ];
+
+export const methodeDeTest: Modele.Brut<Modele.Methode> = {
+  etapes: [
+    { intitule: 'Une', texte: ['Texte'], illustration: 'demonstration-barres' },
+    { intitule: 'Deux', texte: ['Texte'], illustration: 'demonstration-schema' },
+  ],
+  renvoi: { projet: 'portfolio' },
+};

@@ -1,0 +1,12 @@
+<svg viewBox="0 0 320 180" focusable="false" aria-hidden="true">
+  <path class="recit__boite recit__piece" style="--i: 0" d="M24 64h72v52H24z" />
+  <path class="recit__boite recit__piece" style="--i: 1" d="M124 24h72v52h-72z" />
+  <path class="recit__boite recit__piece" style="--i: 2" d="M124 104h72v52h-72z" />
+  <path class="recit__boite recit__piece" style="--i: 3" d="M224 64h72v52h-72z" />
+  <path
+    class="recit__trait recit__piece recit__piece--trace"
+    pathLength="1"
+    style="--i: 4"
+    d="M96 90h14V50h14M96 90h14v40h14M196 50h14v40h14M196 130h14V90h14"
+  />
+</svg>
