@@ -1,0 +1,18 @@
+// Configuration de l'hébergeur du front (PF-08), lue par ses builds et par wrangler dev : les
+// fichiers du build pré-rendu servis tels quels, sans script Worker.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Le nom du Worker entre dans l'adresse des préversions : il ne change plus (PF-07).
+  "name": "portfolio-front",
+  "compatibility_date": "2026-10-23",
+  "assets": {
+    "directory": "./dist/front/browser",
+    // Une adresse sans fichier reçoit le 404.html le plus proche, avec le statut 404 (PF-06).
+    "not_found_handling": "404-page",
+    // /parcours sert parcours/index.html ; /parcours/ redirige vers /parcours (PF-08).
+    "html_handling": "drop-trailing-slash",
+  },
+  // Les préversions par branche demandent ce bloc, même vide.
+  "previews": {},
+  "send_metrics": false,
+}
