@@ -23,6 +23,14 @@ Toutes se lancent depuis `front/`.
 | `npm run lint`          | lance l'analyse statique : ESLint, Stylelint, puis Prettier en vérification                                      |
 | `npm run i18n:verifier` | extrait les libellés dans `tmp/i18n/` (non versionné) et échoue si l'un d'eux n'a pas d'identifiant personnalisé |
 
+## Styles
+
+Les jetons de la charte graphique sont des propriétés personnalisées CSS, déclarées dans
+`src/styles/_jetons.scss`, seul fichier qui porte des couleurs. Les points de rupture sont des
+variables SCSS de `src/styles/_ruptures.scss` : `src/styles/` étant dans les chemins de Sass
+d'`angular.json`, un composant écrit `@use 'ruptures';`, puis
+`@include ruptures.depuis(large) { … }` à partir de 900 px, ou `ruptures.jusqua(large)` en dessous.
+
 ## Sortie du build
 
 `dist/front/browser/` contient un `index.html` par adresse (`parcours/index.html`,
