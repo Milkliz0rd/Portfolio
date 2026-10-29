@@ -57,7 +57,8 @@ fichiers variables du dossier `ofl/` de
 | Hanken Grotesk      | `HankenGrotesk[wght].ttf`                | 3.013   | `hanken-grotesk-ofl.txt`      |
 | JetBrains Mono      | `JetBrainsMono[wght].ttf`                | 2.211   | `jetbrains-mono-ofl.txt`      |
 
-Chaque fichier se produit une fois avec fontTools et brotli (`pip install fonttools brotli`) :
+Chaque fichier se produit une fois avec fontTools et brotli, dans les versions qui ont produit ceux
+du dépôt (`pip install fonttools==4.68.0 brotli==1.2.1`) :
 fixer la graisse, puis réduire aux caractères utiles et compresser. La version de la police entre
 dans le nom du fichier. Par exemple, pour Hanken Grotesk 400 :
 
