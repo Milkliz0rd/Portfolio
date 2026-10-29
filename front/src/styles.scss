@@ -1,11 +1,4 @@
 // Styles globaux. _jetons.scss déclare les jetons de la charte et charge lui-même _ruptures.scss.
 @use 'styles/jetons';
 @use 'styles/polices';
-
-// Thème sombre seulement : la page et les contrôles natifs du navigateur prennent les couleurs
-// de la charte.
-html {
-  color-scheme: dark;
-  background-color: var(--couleur-fond);
-  color: var(--couleur-texte);
-}
+@use 'styles/base';
