@@ -14,6 +14,8 @@ describe('Provisoire', () => {
     });
     const harness = await RouterTestingHarness.create();
     await harness.navigateByUrl('/parcours', Provisoire);
-    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toBe('EC-02 Parcours');
+    const titre = harness.routeNativeElement?.querySelector('h1');
+    expect(titre?.textContent?.trim()).toBe('EC-02 Parcours');
+    expect(titre?.querySelector('.provisoire__ecran')?.textContent).toBe('EC-02');
   });
 });

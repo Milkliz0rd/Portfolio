@@ -1,0 +1,33 @@
+// Socle des styles globaux (sections 3.5 et 8 de la charte), en jetons seulement.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Thème sombre seulement : la page et les contrôles natifs du navigateur prennent les couleurs
+// de la charte. Le fond est explicite sur html comme sur body.
+html {
+  color-scheme: dark;
+  background-color: var(--couleur-fond);
+  color: var(--couleur-texte);
+}
+
+body {
+  margin: 0;
+  background-color: var(--couleur-fond);
+}
+
+// L'anneau de focus de la charte sur tout élément focalisable au clavier : 2 px de couleur-focus,
+// décalé de 2 px. Un composant qui le retire le remplace.
+:focus-visible {
+  outline: var(--anneau-focus);
+  outline-offset: var(--focus-decalage);
+}
+
+// Cibles d'au moins 44 px de côté, sans spécificité : une case à cocher les tient par son libellé,
+// un lien isolé par son composant ; les liens d'une phrase en sont exemptés (critère 2.5.8).
+:where(button, input:not([type='checkbox'], [type='radio']), select, summary, textarea) {
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
+}

@@ -1,0 +1,58 @@
+// Les trois familles de la charte (section 4), servies par le site depuis public/polices/ (CT-12) :
+// un fichier WOFF2 par graisse (README). Le texte s'affiche aussitôt dans la police de repli, puis
+// prend la police chargée. Bricolage Grotesque garde son axe de taille optique.
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-weight: 700;
+  font-display: swap;
+  src: url('/polices/bricolage-grotesque-700-v1.001.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-weight: 800;
+  font-display: swap;
+  src: url('/polices/bricolage-grotesque-800-v1.001.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-weight: 400;
+  font-display: swap;
+  src: url('/polices/hanken-grotesk-400-v3.013.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-weight: 500;
+  font-display: swap;
+  src: url('/polices/hanken-grotesk-500-v3.013.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-weight: 600;
+  font-display: swap;
+  src: url('/polices/hanken-grotesk-600-v3.013.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-weight: 700;
+  font-display: swap;
+  src: url('/polices/hanken-grotesk-700-v3.013.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 400;
+  font-display: swap;
+  src: url('/polices/jetbrains-mono-400-v2.211.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 500;
+  font-display: swap;
+  src: url('/polices/jetbrains-mono-500-v2.211.woff2') format('woff2');
+}

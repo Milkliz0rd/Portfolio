@@ -1,0 +1,30 @@
+// L'allure du site, sans composant : conteneur standard (classe de l'hôte), rythme vertical d'une
+// section, identifiant de l'écran en étiquette au-dessus de son nom.
+@use 'ruptures';
+
+:host {
+  display: block;
+  padding-block: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-24);
+  }
+}
+
+.provisoire__ecran {
+  display: block;
+  margin-block-end: var(--espace-4);
+  font-family: var(--police-mono);
+  font-size: var(--taille-etiquette);
+  font-weight: var(--graisse-moyenne);
+  line-height: var(--interligne-sous-titre);
+  letter-spacing: var(--approche-etiquette);
+  text-transform: uppercase;
+  color: var(--couleur-texte-discret);
+}
+
+.provisoire__mention {
+  margin-block: var(--espace-6) 0;
+  max-width: var(--conteneur-texte);
+  color: var(--couleur-texte-secondaire);
+}

@@ -1,0 +1,46 @@
+// Mise en page (section 5 de la charte). marge-page et gouttiere changent de valeur par tranche
+// dans _jetons.scss ; les colonnes de la grille changent ici.
+@use 'ruptures';
+
+// Retire un élément de l'écran sans le retirer aux lecteurs d'écran.
+.masque-visuellement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Le contenu, centré, ne dépasse pas la largeur du conteneur (marges non comprises) et garde de
+// chaque côté la marge de page de sa tranche.
+.conteneur-standard,
+.conteneur-large {
+  box-sizing: content-box;
+  max-width: var(--conteneur-standard);
+  margin-inline: auto;
+  padding-inline: var(--marge-page);
+}
+
+.conteneur-large {
+  max-width: var(--conteneur-large);
+}
+
+// La grille de la charte : 4 colonnes en tranche étroite, 8 en moyenne, 12 à partir de la large,
+// séparées par la gouttière de la tranche.
+.grille {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--gouttiere);
+
+  @include ruptures.depuis(moyenne) {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  @include ruptures.depuis(large) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}

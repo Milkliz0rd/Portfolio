@@ -1,0 +1,89 @@
+// Échelle typographique de la charte (section 4), appliquée aux éléments de base. Entre 360 et
+// 1200 px de large, une taille croît en ligne droite de sa valeur téléphone à sa valeur grand
+// écran (pente : écart / 840 px ; base : téléphone - pente x 360 px) ; hors de cet intervalle,
+// elle garde la valeur du bord, sauf l'affiche, qui descend jusqu'à 42 px. En rem, pour suivre la
+// taille de texte du visiteur.
+:root {
+  --taille-affiche: clamp(2.625rem, 0.8929rem + 8.8095vw, 7.5rem); // 46 à 120 px, 42 au plus bas
+  --taille-titre-1: clamp(2.375rem, 1.4643rem + 4.0476vw, 4.5rem); // 38 à 72 px
+  --taille-titre-2: clamp(1.875rem, 1.3929rem + 2.1429vw, 3rem); // 30 à 48 px
+  --taille-titre-3: clamp(1.375rem, 1.2143rem + 0.7143vw, 1.75rem); // 22 à 28 px
+  --taille-titre-4: clamp(1.125rem, 1.0714rem + 0.2381vw, 1.25rem); // 18 à 20 px
+  --taille-chapo: clamp(1.125rem, 1.0179rem + 0.4762vw, 1.375rem); // 18 à 22 px
+  --taille-texte: clamp(1rem, 0.9732rem + 0.119vw, 1.0625rem); // 16 à 17 px
+  --taille-texte-petit: clamp(0.875rem, 0.8482rem + 0.119vw, 0.9375rem); // 14 à 15 px
+  // 14 px à toutes les largeurs, et non 13 px sur téléphone : la section 8 de la charte refuse
+  // tout texte utile sous 14 px, sauf les étiquettes en capitales.
+  --taille-code: 0.875rem;
+  --taille-etiquette: 0.75rem; // 12 px à toutes les largeurs
+}
+
+body {
+  font-family: var(--police-texte);
+  font-size: var(--taille-texte);
+  font-weight: var(--graisse-normale);
+  line-height: var(--interligne-texte);
+
+  // Un mot plus long que la ligne passe à la ligne plutôt que de faire défiler la page.
+  overflow-wrap: break-word;
+}
+
+// Titres en casse normale, équilibrés sur leurs lignes : text-wrap: balance est une amélioration
+// facultative, qu'un navigateur sans prise en charge ignore.
+h1,
+h2,
+h3,
+h4,
+.affiche {
+  margin-block: 0;
+  font-family: var(--police-titre);
+  text-wrap: balance;
+}
+
+h1,
+h2 {
+  font-weight: var(--graisse-titre);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--approche-titre);
+}
+
+h3,
+h4 {
+  font-weight: var(--graisse-forte);
+  line-height: var(--interligne-sous-titre);
+  letter-spacing: var(--approche-sous-titre);
+}
+
+// La césure est permise sur le titre 1 et l'affiche, pour qu'aucun mot ne déborde à 320 px.
+h1 {
+  font-size: var(--taille-titre-1);
+  hyphens: auto;
+}
+
+h2 {
+  font-size: var(--taille-titre-2);
+}
+
+h3 {
+  font-size: var(--taille-titre-3);
+}
+
+h4 {
+  font-size: var(--taille-titre-4);
+}
+
+// Le nom ou la phrase d'impact, une fois par page, posé sur un titre ou un paragraphe.
+.affiche {
+  font-size: var(--taille-affiche);
+  font-weight: var(--graisse-titre);
+  line-height: var(--interligne-affiche);
+  letter-spacing: var(--approche-affiche);
+  hyphens: auto;
+}
+
+// Code en chasse fixe, sans ligatures : les caractères tels qu'ils sont tapés.
+code {
+  font-family: var(--police-mono);
+  font-size: var(--taille-code);
+  font-variant-ligatures: none;
+}
