@@ -209,6 +209,9 @@
   --longueur-trait-etiquette: 1.5rem;
   --taille-puce-etiquette: 7px;
   --rayonnement-puce-etiquette: 0 0 10px var(--couleur-accent);
+
+  // CO-17 Liste clé-valeur : approche d'une valeur de date ou de période (maquettes, choix C6).
+  --approche-date: 0.02em;
 }
 
 @include ruptures.depuis(moyenne) {

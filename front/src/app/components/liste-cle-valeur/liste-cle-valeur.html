@@ -1,0 +1,14 @@
+@if (pairesAffichees().length) {
+  <dl class="liste-cle-valeur__liste">
+    @for (paire of pairesAffichees(); track $index) {
+      <div class="liste-cle-valeur__paire">
+        <dt class="liste-cle-valeur__cle">
+          <app-etiquette>{{ paire.cle }}</app-etiquette>
+        </dt>
+        <dd class="liste-cle-valeur__valeur" [class.liste-cle-valeur__valeur--date]="paire.date">
+          {{ paire.valeur }}
+        </dd>
+      </div>
+    }
+  </dl>
+}
