@@ -2,18 +2,30 @@ package io.github.milkliz0rd.portfolio.web;
 
 import static io.github.milkliz0rd.portfolio.controller.ContactMessageController.ROUTE;
 import static io.github.milkliz0rd.portfolio.web.ContractResults.SECURITY_HEADERS;
+import static io.github.milkliz0rd.portfolio.web.ContractResults.errorBody;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
+import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
 import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
+import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_MAX_AGE;
+import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS;
+import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD;
+import static org.springframework.http.HttpHeaders.ALLOW;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.ORIGIN;
 import static org.springframework.http.HttpHeaders.VARY;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.TEXT_HTML;
+import static org.springframework.http.MediaType.TEXT_PLAIN;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -24,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import io.github.milkliz0rd.portfolio.exception.ContactUnavailableException;
 import io.github.milkliz0rd.portfolio.sender.ContactMessage;
 import io.github.milkliz0rd.portfolio.sender.MessageSender;
 import io.github.milkliz0rd.portfolio.service.ContactService;
@@ -140,6 +153,73 @@ class ContactMessageEndpointTest {
 		verify(this.messageSender, never()).send(any());
 	}
 
+	/** Malformed JSON, empty body, a body that is not an object, a value neither a string nor null, 64 KiB. */
+	static Stream<String> unreadableBodies() {
+		return Stream.of("{\"lastName\": \"Nom\",", "", "[]", "\"texte\"", "12", "null", "{\"lastName\":\"Nom\"} x",
+				body("lastName", 12), body("email", true), body("subject", List.of("a")), body("message", Map.of("a", "b")),
+				body("website", false), body("formToken", 3), body("message", "m".repeat(70_000)));
+	}
+
+	@ParameterizedTest
+	@MethodSource("unreadableBodies")
+	void anUnreadableBodyGetsThe400WithoutValidationErrors(String body) throws Exception {
+		send(body).andExpect(SECURITY_HEADERS)
+			.andExpect(error(400, "The request body could not be read."));
+		verify(this.messageSender, never()).send(any());
+	}
+
+	@Test
+	void theOtherErrorsFollowTheContractFormat() throws Exception {
+		this.mockMvc.perform(e02().contentType(TEXT_PLAIN).content(body()))
+			.andExpect(error(415, "The request content type is not supported."))
+			.andExpect(SECURITY_HEADERS);
+		this.mockMvc.perform(e02().contentType(APPLICATION_JSON).accept(TEXT_HTML).content(body()))
+			.andExpect(error(406, "The requested response type is not supported."))
+			.andExpect(SECURITY_HEADERS);
+		this.mockMvc.perform(get(ROUTE).header(ORIGIN, ALLOWED))
+			.andExpect(error(405, "The request method is not supported."))
+			.andExpect(header().string(ALLOW, "POST"));
+		verify(this.messageSender, never()).send(any());
+	}
+
+	@Test
+	void aRefusalRaisedDuringTheSendingGetsTheSingle503() throws Exception {
+		willThrow(new ContactUnavailableException()).given(this.messageSender).send(any());
+		send(body()).andExpect(error(503, "The service is temporarily unavailable."))
+			.andExpect(SECURITY_HEADERS);
+	}
+
+	@Test
+	void aForeignOriginGetsThe403AndNothingIsHandedOver() throws Exception {
+		this.mockMvc
+			.perform(post(ROUTE).header(ORIGIN, "https://autre.example").contentType(APPLICATION_JSON).content(body()))
+			.andExpect(error(403, "The request is not allowed."))
+			.andExpect(SECURITY_HEADERS)
+			.andExpect(header().doesNotExist(ACCESS_CONTROL_ALLOW_ORIGIN));
+		this.mockMvc.perform(preflight("https://autre.example")).andExpect(error(403, "The request is not allowed."));
+		verify(this.messageSender, never()).send(any());
+	}
+
+	@Test
+	void thePreflightOfTheAllowedOriginGetsTheContractHeaders() throws Exception {
+		this.mockMvc.perform(preflight(ALLOWED))
+			.andExpect(status().isOk())
+			.andExpect(content().string(""))
+			.andExpect(SECURITY_HEADERS)
+			.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, ALLOWED))
+			.andExpect(header().string(ACCESS_CONTROL_ALLOW_METHODS, "POST"))
+			.andExpect(header().string(ACCESS_CONTROL_ALLOW_HEADERS, "content-type"))
+			.andExpect(header().string(ACCESS_CONTROL_MAX_AGE, "1800"));
+	}
+
+	@Test
+	void aRequestWithoutOriginIsProcessed() throws Exception {
+		this.mockMvc.perform(post(ROUTE).contentType(APPLICATION_JSON).content(body()))
+			.andExpect(status().isAccepted())
+			.andExpect(header().doesNotExist(ACCESS_CONTROL_ALLOW_ORIGIN));
+		verify(this.messageSender).send(any());
+	}
+
 	/** A valid body, whose listed properties are replaced, {@link #ABSENT} removing one. */
 	static String body(Object... replacements) {
 		Map<String, Object> body = map("lastName", "Nom", "firstName", "Prénom", "email", ADDRESS, "subject", "Sujet",
@@ -170,6 +250,20 @@ class ContactMessageEndpointTest {
 
 	static MockHttpServletRequestBuilder e02() {
 		return post(ROUTE).accept(APPLICATION_JSON).header(ORIGIN, ALLOWED);
+	}
+
+	static MockHttpServletRequestBuilder preflight(String origin) {
+		return options(ROUTE).header(ORIGIN, origin)
+			.header(ACCESS_CONTROL_REQUEST_METHOD, "POST")
+			.header(ACCESS_CONTROL_REQUEST_HEADERS, "content-type");
+	}
+
+	/** The contract's error, with validationErrors at null, as the response's code and in its body. */
+	static ResultMatcher error(int code, String message) {
+		return (result) -> {
+			status().is(code).match(result);
+			errorBody(code, message, ROUTE).match(result);
+		};
 	}
 
 	/** The validation 400: the six properties, and exactly these reasons, in this order. */
