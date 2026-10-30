@@ -185,6 +185,14 @@
   --interligne-bouton: 1.2;
   --distance-enfoncement: 1px;
   --echelle-enfoncement: 0.98;
+
+  // CO-02 Lien : soulignement du lien dans le texte et du discret (maquettes), épaisseurs du
+  // soulignement au repos (maquettes) et au survol, trait d'accent de la page courante.
+  --soulignement-lien: color-mix(in srgb, var(--couleur-accent) 55%, transparent);
+  --soulignement-lien-discret: color-mix(in srgb, var(--couleur-texte-secondaire) 45%, transparent);
+  --epaisseur-soulignement: 1px;
+  --epaisseur-soulignement-survol: 2px;
+  --epaisseur-trait-courant: 2px;
 }
 
 @include ruptures.depuis(moyenne) {

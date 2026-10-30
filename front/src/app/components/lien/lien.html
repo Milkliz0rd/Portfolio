@@ -1,0 +1,10 @@
+<ng-content />
+@switch (variante()) {
+  @case ('action') {
+    <app-icone class="lien__icone" nom="fleche" />
+  }
+  @case ('externe') {
+    <app-icone class="lien__icone lien__icone--externe" nom="externe" />
+    <span class="masque-visuellement" i18n="@@commun.nouvel-onglet"> (nouvel onglet)</span>
+  }
+}

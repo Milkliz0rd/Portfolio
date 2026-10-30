@@ -1,0 +1,94 @@
+// Lien de la charte (CO-02), souligné dans le texte : la couleur ne suffit jamais. Le focus garde
+// l'anneau de _base.scss ; un lien visité reste identique au repos (aucune règle :visited).
+:host {
+  border-radius: var(--arrondi-petit);
+  color: var(--couleur-accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--epaisseur-soulignement);
+  text-decoration-color: var(--soulignement-lien);
+  text-underline-offset: 0.22em;
+  transition:
+    color var(--duree-courte) var(--courbe-standard),
+    text-decoration-color var(--duree-courte) var(--courbe-standard);
+}
+
+// Dans le texte et externe : soulignement plein de 2 px au survol.
+:host(.lien--texte:hover),
+:host(.lien--externe:hover) {
+  text-decoration-color: currentcolor;
+  text-decoration-thickness: var(--epaisseur-soulignement-survol);
+}
+
+// Discret, pour le pied de page : au survol, le texte passe en couleur-texte.
+:host(.lien--discret) {
+  color: var(--couleur-texte-secondaire);
+  text-decoration-color: var(--soulignement-lien-discret);
+}
+
+:host(.lien--discret:hover) {
+  color: var(--couleur-texte);
+}
+
+// D'action et de navigation : sans soulignement au repos, au moins 44 px de côté.
+:host(.lien--action),
+:host(.lien--navigation) {
+  display: inline-flex;
+  align-items: center;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
+  text-decoration-line: none;
+}
+
+// D'action : la flèche après le texte. Au survol et au focus clavier, un soulignement plein ; la
+// flèche qui glisse et le soulignement qui s'étire viennent avec le mouvement (MV-06).
+:host(.lien--action) {
+  gap: var(--espace-2);
+  font-weight: var(--graisse-appuyee);
+}
+
+:host(.lien--action:hover),
+:host(.lien--action:focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-color: currentcolor;
+  text-decoration-thickness: var(--epaisseur-soulignement-survol);
+}
+
+// De navigation : le texte passe en couleur-texte au survol et sur la page courante, que souligne
+// un trait d'accent de 2 px.
+:host(.lien--navigation) {
+  position: relative;
+  justify-content: center;
+  padding-inline: var(--espace-3);
+  color: var(--couleur-texte-secondaire);
+  font-weight: var(--graisse-moyenne);
+}
+
+:host(.lien--navigation:hover),
+:host(.lien--navigation[aria-current='page']) {
+  color: var(--couleur-texte);
+}
+
+:host(.lien--navigation[aria-current='page'])::after {
+  content: '';
+  position: absolute;
+  inset-inline: var(--espace-3);
+  bottom: var(--espace-2);
+  height: var(--epaisseur-trait-courant);
+  border-radius: var(--arrondi-pilule);
+  background: var(--couleur-accent);
+}
+
+// Externe : la flèche oblique suit le texte, un peu plus petite que lui.
+.lien__icone--externe {
+  width: 0.85em;
+  height: 0.85em;
+  margin-inline-start: 0.2em;
+  vertical-align: -0.05em;
+}
+
+// Mouvement réduit : les couleurs changent d'un coup.
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}
