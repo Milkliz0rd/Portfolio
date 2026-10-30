@@ -219,6 +219,15 @@
   --epaisseur-filet-erreur: 3px;
   --taille-icone-erreur: 1.1em;
   --decalage-icone-erreur: 0.15em;
+
+  // CO-15 Indicateur d'activité : anneau de 1.1em dans un texte et un bouton, épaisseur 2 px
+  // (maquettes) ; grand de 32 px, épaisseur 3 px (maquettes) ; le reste de l'anneau, la couleur du
+  // texte à 28 % (currentcolor se résout sur l'indicateur).
+  --taille-indicateur: 1.1em;
+  --epaisseur-indicateur: 2px;
+  --taille-indicateur-grand: 2rem;
+  --epaisseur-indicateur-grand: 3px;
+  --reste-indicateur: color-mix(in srgb, currentcolor 28%, transparent);
 }
 
 @include ruptures.depuis(moyenne) {
