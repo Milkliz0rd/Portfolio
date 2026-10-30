@@ -228,6 +228,18 @@
   --taille-indicateur-grand: 2rem;
   --epaisseur-indicateur-grand: 3px;
   --reste-indicateur: color-mix(in srgb, currentcolor 28%, transparent);
+
+  // CO-11 Message d'état : fond et filet d'un message teinté, la couleur du rôle (currentcolor se
+  // résout sur le message) à opacite-teinte-message mêlée à couleur-surface, et à 40 % ; taille et
+  // décalage de l'icône ou de l'indicateur (maquettes).
+  --fond-message-teinte: color-mix(
+    in srgb,
+    currentcolor var(--opacite-teinte-message),
+    var(--couleur-surface)
+  );
+  --filet-message-teinte: color-mix(in srgb, currentcolor 40%, transparent);
+  --taille-icone-message: 1.375rem;
+  --decalage-icone-message: 0.1rem;
 }
 
 @include ruptures.depuis(moyenne) {

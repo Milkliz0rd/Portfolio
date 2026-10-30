@@ -1,0 +1,74 @@
+// Message d'état de la charte (CO-11). Information et envoi en cours : fond couleur-surface, filet
+// couleur-bordure, icône accent. Succès, échec et attention prennent la couleur de leur rôle, sur
+// l'hôte : le titre et l'icône la portent, le fond la mêle à couleur-surface, le filet à 40 %.
+:host {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--espace-3);
+  align-items: start;
+  padding: var(--espace-4) var(--espace-5);
+  border: var(--bordure-epaisseur) solid var(--couleur-bordure);
+  border-radius: var(--arrondi-moyen);
+  background: var(--couleur-surface);
+  color: var(--couleur-texte);
+}
+
+:host(.message-etat--succes) {
+  color: var(--couleur-succes);
+}
+
+:host(.message-etat--echec) {
+  color: var(--couleur-erreur);
+}
+
+:host(.message-etat--attention) {
+  color: var(--couleur-attention);
+}
+
+:host(.message-etat--succes),
+:host(.message-etat--echec),
+:host(.message-etat--attention) {
+  border-color: var(--filet-message-teinte);
+  background: var(--fond-message-teinte);
+}
+
+.message-etat__icone {
+  width: var(--taille-icone-message);
+  height: var(--taille-icone-message);
+  margin-top: var(--decalage-icone-message);
+}
+
+:host(.message-etat--information) .message-etat__icone,
+:host(.message-etat--envoi) .message-etat__icone {
+  color: var(--couleur-accent);
+}
+
+.message-etat__corps {
+  display: grid;
+  gap: var(--espace-1);
+  min-width: 0;
+}
+
+.message-etat__titre {
+  margin: 0;
+  font-size: var(--taille-texte);
+  font-weight: var(--graisse-forte);
+  line-height: var(--interligne-texte);
+}
+
+.message-etat__texte {
+  color: var(--couleur-texte-secondaire);
+  font-size: var(--taille-texte-petit);
+  line-height: var(--interligne-compact);
+}
+
+// L'action, sous le texte ; sans action, rien ne prend sa place.
+.message-etat__action {
+  grid-column: 2;
+  justify-self: start;
+  margin-top: var(--espace-1);
+}
+
+.message-etat__action:empty {
+  display: none;
+}
