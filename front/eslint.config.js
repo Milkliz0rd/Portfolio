@@ -49,11 +49,11 @@ module.exports = defineConfig([
       ],
       '@angular-eslint/component-selector': [
         'error',
-        {
-          type: 'element',
-          prefix: 'app',
-          style: 'kebab-case',
-        },
+        [
+          { type: 'element', prefix: 'app', style: 'kebab-case' },
+          // Les composants d'action se posent sur l'élément natif : button[appBouton] (PF-01).
+          { type: 'attribute', prefix: 'app', style: 'camelCase' },
+        ],
       ],
       '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       '@angular-eslint/prefer-standalone': 'error',
@@ -106,8 +106,17 @@ module.exports = defineConfig([
     rules: {
       '@angular-eslint/template/prefer-control-flow': 'error',
       // Chaque libellé est marqué, avec un identifiant personnalisé « @@zone.element » (PF-03).
-      '@angular-eslint/template/i18n': ['error', { checkId: true, checkText: true }],
+      // nom et variante, entrées des composants de la charte, portent une clé, jamais un libellé.
+      '@angular-eslint/template/i18n': [
+        'error',
+        { checkId: true, checkText: true, ignoreAttributes: ['nom', 'variante'] },
+      ],
     },
+  },
+  {
+    // Les modèles d'essai des tests ne portent aucun libellé d'interface.
+    files: ['**/*.spec.ts/*.html'],
+    rules: { '@angular-eslint/template/i18n': 'off' },
   },
   {
     // index.html n'est pas un modèle de composant : Angular n'en extrait aucun libellé.

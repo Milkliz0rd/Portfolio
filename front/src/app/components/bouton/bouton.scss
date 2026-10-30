@@ -1,0 +1,90 @@
+// Bouton de la charte (CO-01) : au moins 44 px de côté ; libellé en police-texte, graisse-appuyee ;
+// icône facultative avant ou après le libellé. Le focus garde l'anneau de _base.scss.
+:host {
+  display: inline-flex;
+  gap: var(--espace-2);
+  align-items: center;
+  justify-content: center;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
+  padding: var(--espace-2) var(--espace-5);
+  border: var(--bordure-epaisseur) solid transparent;
+  border-radius: var(--arrondi-petit);
+  font-family: var(--police-texte);
+  font-size: var(--taille-texte);
+  font-weight: var(--graisse-appuyee);
+  line-height: var(--interligne-bouton);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duree-courte) var(--courbe-standard),
+    border-color var(--duree-courte) var(--courbe-standard),
+    color var(--duree-courte) var(--courbe-standard),
+    transform var(--duree-instant) var(--courbe-standard);
+}
+
+// Une seule action primaire par zone d'écran.
+:host(.bouton--primaire) {
+  background: var(--couleur-accent);
+  color: var(--couleur-texte-sur-accent);
+}
+
+:host(.bouton--primaire:hover:not(:disabled)) {
+  background: var(--fond-bouton-primaire-survol);
+}
+
+:host(.bouton--secondaire) {
+  border-color: var(--verre-bordure);
+  background: var(--verre-fond);
+  color: var(--couleur-texte);
+}
+
+:host(.bouton--secondaire:hover:not(:disabled)) {
+  border-color: var(--couleur-texte-discret);
+  background: var(--fond-bouton-survol);
+}
+
+// L'icône seule a l'aspect du discret, sur un carré de 44 px.
+:host(.bouton--discret),
+:host(.bouton--icone) {
+  padding-inline: var(--espace-3);
+  background: none;
+  color: var(--couleur-texte);
+}
+
+:host(.bouton--discret:hover:not(:disabled)),
+:host(.bouton--icone:hover:not(:disabled)) {
+  background: var(--fond-bouton-survol);
+}
+
+:host(.bouton--icone) {
+  width: var(--cible-tactile);
+  padding: 0;
+}
+
+:host(.bouton--compact) {
+  padding-inline: var(--espace-3);
+}
+
+// Appuyé : 1 px plus bas, à l'échelle 0.98 ; jamais quand le mouvement est réduit.
+@media (prefers-reduced-motion: no-preference) {
+  :host(:active:not(:disabled)) {
+    transform: translateY(var(--distance-enfoncement)) scale(var(--echelle-enfoncement));
+  }
+}
+
+// Désactivé : sans survol ni enfoncement, quelle que soit la variante.
+:host(:disabled) {
+  border-color: transparent;
+  background: var(--couleur-surface-relevee);
+  color: var(--couleur-texte-discret);
+  cursor: not-allowed;
+}
+
+// Mouvement réduit : les couleurs changent d'un coup.
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}
