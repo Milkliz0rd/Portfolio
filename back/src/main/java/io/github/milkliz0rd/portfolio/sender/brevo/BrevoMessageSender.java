@@ -2,11 +2,14 @@ package io.github.milkliz0rd.portfolio.sender.brevo;
 
 import java.net.SocketTimeoutException;
 import java.net.http.HttpTimeoutException;
+import java.util.regex.Pattern;
 
 import io.github.milkliz0rd.portfolio.sender.ContactMessage;
 import io.github.milkliz0rd.portfolio.sender.MessageSender;
 import io.github.milkliz0rd.portfolio.sender.SendFailedException;
 import io.github.milkliz0rd.portfolio.sender.SendFailedException.Kind;
+import io.github.milkliz0rd.portfolio.validation.EmailSyntax;
+import org.jspecify.annotations.Nullable;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -19,7 +22,9 @@ import org.springframework.web.client.RestClient;
  * {@code CONTACT_MAIL_TO} alone; the visitor's address is only the reply-to address, the back never
  * writes to it (CT-07). Any 2xx answer is a success. Any other answer, of which only the code is read,
  * or a network error is a failure; no answer within the time limit, a timeout. Nothing is retried.
- * No message, text or log of this class shows the key or an address.
+ * The key and the two addresses are checked here, at startup, rather than by the validation of the
+ * properties, whose failure report shows the value; no message, text or log of this class shows them.
+ * Final, since its constructor refuses a wrong setting.
  */
 public final class BrevoMessageSender implements MessageSender {
 
@@ -28,6 +33,9 @@ public final class BrevoMessageSender implements MessageSender {
 
 	/** The header that carries the key, as Brevo names it. */
 	static final String API_KEY_HEADER = "api-key";
+
+	/** Visible ASCII, without space: what an HTTP header can carry as it is. */
+	private static final Pattern KEY = Pattern.compile("[\\x21-\\x7E]+");
 
 	private final RestClient restClient;
 
@@ -44,11 +52,30 @@ public final class BrevoMessageSender implements MessageSender {
 	 * @param mailFrom {@code CONTACT_MAIL_FROM}
 	 * @param mailTo {@code CONTACT_MAIL_TO}
 	 */
-	public BrevoMessageSender(RestClient.Builder client, String apiKey, String mailFrom, String mailTo) {
+	public BrevoMessageSender(RestClient.Builder client, @Nullable String apiKey, @Nullable String mailFrom,
+			@Nullable String mailTo) {
+		if (apiKey == null || apiKey.isBlank()) {
+			throw new IllegalStateException("CONTACT_BREVO_API_KEY is missing: set the key of Brevo's API, or"
+					+ " CONTACT_MAIL_SENDER=none to start without sending any message");
+		}
+		if (!KEY.matcher(apiKey).matches()) {
+			throw new IllegalStateException("CONTACT_BREVO_API_KEY must be made of visible ASCII characters, without"
+					+ " space");
+		}
 		this.restClient = client.build();
 		this.apiKey = apiKey;
-		this.mailFrom = mailFrom;
-		this.mailTo = mailTo;
+		this.mailFrom = checkAddress("CONTACT_MAIL_FROM", "the sending address, on the site's domain", mailFrom);
+		this.mailTo = checkAddress("CONTACT_MAIL_TO", "the receiving address", mailTo);
+	}
+
+	private static String checkAddress(String variable, String role, @Nullable String address) {
+		if (address == null || address.isBlank()) {
+			throw new IllegalStateException(variable + " is missing: set " + role);
+		}
+		if (!EmailSyntax.isValid(address)) {
+			throw new IllegalStateException(variable + " is not a valid e-mail address");
+		}
+		return address;
 	}
 
 	@Override

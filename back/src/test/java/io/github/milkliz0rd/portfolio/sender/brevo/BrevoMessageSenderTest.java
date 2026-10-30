@@ -2,6 +2,7 @@ package io.github.milkliz0rd.portfolio.sender.brevo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
@@ -155,6 +156,17 @@ class BrevoMessageSenderTest {
 				assertThat(failure.providerStatus()).isNull();
 				assertThat(failure).hasNoCause().hasMessageNotContaining("marqueur");
 			});
+	}
+
+	/** A key or an address made of spaces is missing; the other wrong settings: MessageSenderConfigTest. */
+	@Test
+	void aBlankKeyOrAddressIsMissing() {
+		assertThatIllegalStateException().isThrownBy(() -> new BrevoMessageSender(this.builder, " \t", FROM, TO))
+			.withMessageStartingWith("CONTACT_BREVO_API_KEY is missing");
+		assertThatIllegalStateException().isThrownBy(() -> new BrevoMessageSender(this.builder, KEY, "\u3000", TO))
+			.withMessageStartingWith("CONTACT_MAIL_FROM is missing");
+		assertThatIllegalStateException().isThrownBy(() -> new BrevoMessageSender(this.builder, KEY, FROM, null))
+			.withMessageStartingWith("CONTACT_MAIL_TO is missing");
 	}
 
 	@Test
