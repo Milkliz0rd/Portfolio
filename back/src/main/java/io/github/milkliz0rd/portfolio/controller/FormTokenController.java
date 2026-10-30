@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * E-01 of the contract, the request of a form token: {@code POST /api/v1/form-tokens}, without
  * parameter nor body, answered 200 with a new token and the delays in force (PB-02). No body is
- * read, so neither a content type nor a body is ever refused. The filters of the HTTP foundation run
- * before; every error is the global handler's; no log line is written (PB-05).
+ * read, so a content type or a body sent anyway is ignored, save a body announced over 64 KiB: the
+ * filters of the HTTP foundation run before, and the size filter among them refuses it with 400
+ * (PB-06); past them, every error is the global handler's; no log line is written (PB-05).
  */
 @RestController
 public class FormTokenController {

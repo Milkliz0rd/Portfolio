@@ -113,7 +113,9 @@ versionné.
 | `CONTACT_TOKEN_SECRET`    | secret de signature des jetons : au moins 32 octets aléatoires, en Base64 standard (voir « Secret du jeton ») ; jamais dans le dépôt ni dans un journal                                  | aucune : le back refuse de démarrer      |
 
 Une valeur mal formée empêche le back de démarrer ; le message nomme la variable, jamais la
-valeur reçue. `CONTACT_MAIL_SENDER=brevo`, valeur par défaut, l'empêche aussi tant que
+valeur reçue, sauf pour une durée illisible, comme `abc` : le rapport d'échec de Spring montre alors
+cette valeur, qui n'est pas secrète, et nomme la variable par son origine (`Origin`). Le secret,
+lui, n'est jamais montré. `CONTACT_MAIL_SENDER=brevo`, valeur par défaut, l'empêche aussi tant que
 l'adaptateur Brevo n'existe pas (TK-20), avec un message qui nomme cette valeur prévue et dit de
 poser `none` : un oubli de réglage ne fait jamais répondre `202` à des messages qui ne partiraient
 pas. En développement, avec le serveur de développement du front, dans le terminal où le secret
@@ -158,7 +160,8 @@ Côté Actuator, seul l'indicateur de santé : `GET /actuator/health` répond `2
   délivrance, en millisecondes, et 16 octets aléatoires ; la signature est un HMAC-SHA256 calculé
   avec `CONTACT_TOKEN_SECRET`. Il vaut de `CONTACT_TOKEN_MIN_AGE` à `CONTACT_TOKEN_MAX_AGE` après
   sa délivrance, bornes comprises, et peut servir plusieurs fois.
-- Un corps ou un type de contenu envoyé malgré tout ne change rien ; `GET` reçoit `405`, une
+- Un corps ou un type de contenu envoyé malgré tout est ignoré, sauf un corps annoncé de plus de
+  64 Kio : le filtre de taille commun à `/api/v1/` le refuse en `400` ; `GET` reçoit `405`, une
   origine refusée `403`, et la requête préalable la même réponse que sur l'envoi d'un message.
 
 En local : `curl -i -X POST http://localhost:8080/api/v1/form-tokens -H 'Accept: application/json'`
