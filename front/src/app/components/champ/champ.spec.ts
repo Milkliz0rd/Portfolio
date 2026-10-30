@@ -1,19 +1,31 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { disabled, email, form, required, submit, validate } from '@angular/forms/signals';
+import { disabled, email, form, required, validate } from '@angular/forms/signals';
 import { Champ, TypeChamp } from './champ';
 
 @Component({
   imports: [Champ],
   template: `
-    <app-champ [champ]="formulaire.valeur" libelle="Sujet" [type]="type()" [aide]="aide()" />
-    <app-champ [champ]="formulaire.libre" libelle="Libre" autocomplete="family-name" />
+    <app-champ
+      [champ]="formulaire.valeur"
+      libelle="Sujet"
+      [type]="type()"
+      [aide]="aide()"
+      [envoiTente]="tentative()"
+    />
+    <app-champ
+      [champ]="formulaire.libre"
+      libelle="Libre"
+      autocomplete="family-name"
+      [envoiTente]="tentative()"
+    />
   `,
 })
 class Hote {
   readonly type = signal<TypeChamp>('texte');
   readonly aide = signal<string | undefined>(undefined);
   readonly envoi = signal(false);
+  readonly tentative = signal(false);
   readonly modele = signal({ valeur: '', libre: '' });
   readonly formulaire = form(this.modele, (chemin) => {
     required(chemin.valeur);
@@ -105,16 +117,21 @@ describe('Champ', () => {
     expect(controle().value).toBe('Rempli');
   });
 
-  it('n’affiche aucune erreur tant que le champ n’est pas touché', () => {
-    const { champ, controle } = rendre();
+  it('n’affiche aucune erreur sans tentative d’envoi, même une fois le champ vide quitté', () => {
+    const { hote, champ, controle, actualiser } = rendre();
+    controle().focus();
+    controle().blur();
+    actualiser();
+    expect(hote.formulaire.valeur().touched()).toBe(true);
+    expect(hote.formulaire.valeur().invalid()).toBe(true);
     expect(controle().hasAttribute('aria-invalid')).toBe(false);
     expect(controle().hasAttribute('aria-describedby')).toBe(false);
     expect(champ.querySelector('.champ__erreur')).toBeNull();
   });
 
-  it('montre « Ce champ est obligatoire. » à l’envoi, lié au champ marqué invalide', async () => {
+  it('montre « Ce champ est obligatoire. » après une tentative d’envoi, lié au champ invalide', () => {
     const { hote, champ, controle, actualiser } = rendre();
-    await submit(hote.formulaire, () => Promise.resolve(undefined));
+    hote.tentative.set(true);
     actualiser();
     const erreur = champ.querySelector('.champ__erreur')!;
     expect(texte(erreur)).toBe('Ce champ est obligatoire.');
@@ -123,10 +140,12 @@ describe('Champ', () => {
     expect(erreur.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('montre « L’adresse e-mail n’est pas valide. » pour une adresse invalide', () => {
+  it('montre « L’adresse e-mail n’est pas valide. » après une tentative d’envoi', () => {
     const { hote, champ, controle, actualiser } = rendre('email');
     hote.modele.set({ valeur: 'pas-une-adresse', libre: '' });
-    hote.formulaire.valeur().markAsTouched();
+    actualiser();
+    expect(controle().hasAttribute('aria-invalid')).toBe(false);
+    hote.tentative.set(true);
     actualiser();
     expect(texte(champ.querySelector(`#${decrits(controle())[0]}`))).toBe(
       'L’adresse e-mail n’est pas valide.',
@@ -137,15 +156,16 @@ describe('Champ', () => {
   it('montre le message propre d’une autre erreur', () => {
     const { hote, libre, actualiser } = rendre();
     hote.modele.set({ valeur: '', libre: 'propre' });
-    hote.formulaire.libre().markAsTouched();
+    hote.tentative.set(true);
     actualiser();
     expect(texte(libre.querySelector('.champ__erreur'))).toBe('Un message propre.');
   });
 
-  it('retire l’erreur et la marque invalide une fois le champ corrigé', () => {
+  it('retire l’erreur et la marque invalide dès que le champ devient valide', () => {
     const { hote, champ, controle, actualiser } = rendre('email');
-    hote.formulaire.valeur().markAsTouched();
+    hote.tentative.set(true);
     actualiser();
+    expect(texte(champ.querySelector('.champ__erreur'))).toBe('Ce champ est obligatoire.');
     hote.modele.set({ valeur: 'nom@example.com', libre: '' });
     actualiser();
     expect(controle().hasAttribute('aria-invalid')).toBe(false);
@@ -158,7 +178,7 @@ describe('Champ', () => {
     const aide = champ.querySelector('.champ__aide')!;
     expect(texte(aide)).toBe('Pour vous répondre.');
     expect(decrits(controle())).toEqual([aide.id]);
-    hote.formulaire.valeur().markAsTouched();
+    hote.tentative.set(true);
     actualiser();
     expect(decrits(controle())).toEqual([aide.id, champ.querySelector('.champ__erreur')!.id]);
   });
@@ -167,18 +187,21 @@ describe('Champ', () => {
     const { hote, champ, controle, actualiser } = rendre();
     hote.modele.set({ valeur: 'Saisie conservée', libre: '' });
     hote.envoi.set(true);
-    hote.formulaire.valeur().markAsTouched();
+    hote.tentative.set(true);
     actualiser();
     expect(controle().disabled).toBe(true);
     expect(controle().value).toBe('Saisie conservée');
     expect(controle().hasAttribute('aria-invalid')).toBe(false);
     expect(champ.querySelector('.champ__erreur')).toBeNull();
+    hote.envoi.set(false);
+    actualiser();
+    expect(texte(champ.querySelector('.champ__erreur'))).toBe('L’adresse e-mail n’est pas valide.');
   });
 
   it('refuse d’afficher une autre erreur sans message', () => {
     const { hote, actualiser } = rendre();
     hote.modele.set({ valeur: '', libre: 'muette' });
-    hote.formulaire.libre().markAsTouched();
+    hote.tentative.set(true);
     expect(actualiser).toThrow(/« muette » n'a pas de message/);
   });
 

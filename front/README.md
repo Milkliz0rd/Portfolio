@@ -170,26 +170,29 @@ cours… » (`@@commun.envoi-en-cours`), « Votre adresse e-mail » (`@@champ.in
 champ est obligatoire. » (`@@champ.erreur-obligatoire`) et « L’adresse e-mail n’est pas valide. »
 (`@@champ.erreur-email`). Le reste vient de la page (`i18n-libelle`, `i18n-titre`, `i18n`).
 
-| Composant                     | Se pose                                                | Entrées                                                                                                                                     |
-| ----------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Champ (CO-10)                 | `<app-champ [champ]="formulaire.nom" libelle="Nom" />` | `champ` (un champ de Signal Forms), `libelle`, `type` (`texte`, par défaut, `email`, `zone`), `aide`, `autocomplete` (`email` pour `email`) |
-| Message d'état (CO-11)        | voir ci-dessous                                        | `variante` (`information`, par défaut, `envoi`, `succes`, `echec`, `attention`), `titre`                                                    |
-| Indicateur d'activité (CO-15) | `<app-indicateur-activite taille="grand" />`           | `taille` (`texte`, par défaut, `bouton`, `grand` : 32 px)                                                                                   |
-| Bouton en cours (CO-01)       | `<button appBouton type="submit" [enCours]="envoi()">` | `enCours`                                                                                                                                   |
+| Composant                     | Se pose                                                                            | Entrées                                                                                                                                                                                                             |
+| ----------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Champ (CO-10)                 | `<app-champ [champ]="formulaire.nom" libelle="Nom" [envoiTente]="envoiTente()" />` | `champ` (un champ de Signal Forms), `libelle`, `type` (`texte`, par défaut, `email`, `zone`), `aide`, `autocomplete` (`email` pour `email`), `envoiTente` (faux par défaut, vrai dès la première tentative d'envoi) |
+| Message d'état (CO-11)        | voir ci-dessous                                                                    | `variante` (`information`, par défaut, `envoi`, `succes`, `echec`, `attention`), `titre`                                                                                                                            |
+| Indicateur d'activité (CO-15) | `<app-indicateur-activite taille="grand" />`                                       | `taille` (`texte`, par défaut, `bouton`, `grand` : 32 px)                                                                                                                                                           |
+| Bouton en cours (CO-01)       | `<button appBouton type="submit" [enCours]="envoi()">`                             | `enCours`                                                                                                                                                                                                           |
 
 **Champ.** Il se lie au champ de Signal Forms par la directive `FormField` : la valeur, `required`
 (règle `required()`) et `disabled` (règle `disabled()`, pendant l'envoi) viennent de l'état du
 champ. Le formulaire porte `novalidate`, ou `[formRoot]`, qui le pose : les bulles du navigateur ne
 remplacent jamais les messages. Le champ désactivé garde sa saisie, lisible, sur un bord pointillé.
 
-**Quand une erreur s'affiche.** Quand le champ est touché et invalide pour Signal Forms. `submit()`
-(ou `[formRoot]`) touche tous les champs : à l'envoi, chaque champ en faute montre son message.
-Signal Forms touche aussi un champ que le visiteur quitte, qui montre alors le sien. Un champ
-désactivé n'est ni touché ni validé. Le message est celui de la première erreur : la charte donne
-ceux de `required` et `email`, toute autre erreur apporte le sien (`message`), sans quoi le rendu
-échoue. Le champ en faute porte `aria-invalid="true"` et `aria-describedby` vers l'aide, puis vers
-l'erreur, affichée sous le champ avec son icône. Mettre le focus sur le premier champ à corriger
-revient à la page (`focusBoundControl()` de Signal Forms).
+**Quand une erreur s'affiche.** À l'envoi seulement (CO-01) : quand `envoiTente` est vrai et que le
+champ est invalide pour Signal Forms. La page passe `envoiTente` à vrai à la première tentative
+d'envoi (TK-41) ; si elle vide le formulaire, après un succès, elle le remet à faux, sans quoi les
+champs vidés montreraient leur erreur. Quitter un champ ne suffit pas : Signal Forms le touche, mais
+« touché » ne compte pas. Après une tentative, l'erreur suit l'état du champ : elle disparaît dès
+qu'il devient valide. Un champ désactivé n'est pas validé et ne montre aucune erreur. Le message est
+celui de la première erreur : la charte donne ceux de `required` et `email`, toute autre erreur
+apporte le sien (`message`), sans quoi le rendu échoue. Le champ en faute porte
+`aria-invalid="true"` et `aria-describedby` vers l'aide, puis vers l'erreur, affichée sous le champ
+avec son icône. Mettre le focus sur le premier champ à corriger revient à la page
+(`focusBoundControl()` de Signal Forms).
 
 **Message d'état.** Il dit toujours ce qui se passe par une icône (l'indicateur pendant l'envoi), un
 titre et un texte ; sans titre ou sans texte, il lève une erreur au rendu. Le texte est projeté, en
