@@ -3,8 +3,8 @@
 L'API du portfolio, en Spring Boot 4.1 sur Java 25, construite par Maven. Elle expose son
 indicateur de santé, la demande du jeton de formulaire et l'envoi d'un message du formulaire de
 contact, ces deux derniers derrière le socle HTTP commun aux routes du formulaire, sous `/api/v1/`.
-Les filtres contre les messages indésirables (TK-22), qui vérifieront le jeton, et l'envoi réel
-(TK-20) s'y brancheront.
+Le message part chez le prestataire d'envoi, Brevo, par son API HTTPS. Les filtres contre les
+messages indésirables (TK-22), qui vérifieront le jeton, s'y brancheront.
 
 ## Prérequis
 
@@ -28,7 +28,8 @@ Toutes se lancent depuis `back/`.
 | `CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run`              | lance le back en local sur `http://localhost:8080/`, avec le `CONTACT_TOKEN_SECRET` du terminal, sans rien envoyer        |
 | `CONTACT_MAIL_SENDER=none java -jar target/portfolio-back.jar` | lance le jar construit par `./mvnw verify`, avec le `CONTACT_TOKEN_SECRET` du terminal, sans rien envoyer                 |
 
-Sans `CONTACT_TOKEN_SECRET` ou sans `CONTACT_MAIL_SENDER=none`, le back refuse de démarrer (voir
+En local, toujours `CONTACT_MAIL_SENDER=none` : rien ne part chez Brevo. Sans
+`CONTACT_TOKEN_SECRET`, ou sans `none` ni les réglages de Brevo, le back refuse de démarrer (voir
 « Configuration »). Le port se change par la variable d'environnement `PORT`, par exemple
 `PORT=9090 CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run`, dans le terminal où le secret est tiré.
 
@@ -111,15 +112,20 @@ versionné.
 | `CONTACT_TOKEN_MIN_AGE`   | délai minimal entre la délivrance d'un jeton et l'envoi du message : une durée avec son unité (`3s`, `1500ms`), lue en secondes sans unité ; zéro ou plus                                | `3s`                                     |
 | `CONTACT_TOKEN_MAX_AGE`   | âge maximal d'un jeton : une durée qui dépasse le délai minimal de plus de 60 secondes, la marge que retranche le front                                                                  | `2h`                                     |
 | `CONTACT_TOKEN_SECRET`    | secret de signature des jetons : au moins 32 octets aléatoires, en Base64 standard (voir « Secret du jeton ») ; jamais dans le dépôt ni dans un journal                                  | aucune : le back refuse de démarrer      |
+| `CONTACT_PROVIDER_TIMEOUT` | délai maximal de l'appel au prestataire, pour la connexion comme pour la réponse : une durée de 1 à 20 secondes | `10s` |
+| `CONTACT_BREVO_API_KEY` | clé de l'API de Brevo (voir « Envoi par Brevo ») ; jamais dans le dépôt ni dans un journal | aucune : exigée avec `brevo` |
+| `CONTACT_MAIL_FROM` | adresse d'expédition, sur le domaine du site ; jamais dans le dépôt | aucune : exigée avec `brevo` |
+| `CONTACT_MAIL_TO` | adresse de destination, la boîte d'Alexandre ; jamais dans le dépôt ni dans un document | aucune : exigée avec `brevo` |
+| `CONTACT_BREVO_BASE_URL` | adresse de base de l'API de Brevo : une adresse `https` absolue, sans utilisateur, paramètre ni fragment | `https://api.brevo.com/v3`, l'adresse publique de l'API v3 de Brevo |
 
 Une valeur mal formée empêche le back de démarrer ; le message nomme la variable, jamais la
 valeur reçue, sauf pour une durée illisible, comme `abc` : le rapport d'échec de Spring montre alors
 cette valeur, qui n'est pas secrète, et nomme la variable par son origine (`Origin`). Le secret,
-lui, n'est jamais montré. `CONTACT_MAIL_SENDER=brevo`, valeur par défaut, l'empêche aussi tant que
-l'adaptateur Brevo n'existe pas (TK-20), avec un message qui nomme cette valeur prévue et dit de
-poser `none` : un oubli de réglage ne fait jamais répondre `202` à des messages qui ne partiraient
-pas. En développement, avec le serveur de développement du front, dans le terminal où le secret
-est tiré : `CONTACT_ALLOWED_ORIGINS=http://localhost:4200 CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run`.
+la clé et les adresses, eux, ne sont jamais montrés. Avec `brevo`, valeur par défaut, une clé ou
+une adresse absente, ou une adresse mal formée, empêche aussi le démarrage : un oubli de réglage ne
+fait jamais répondre `202` à des messages qui ne partiraient pas. En développement, avec le serveur
+de développement du front, dans le terminal où le secret est tiré :
+`CONTACT_ALLOWED_ORIGINS=http://localhost:4200 CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run`.
 
 ### Secret du jeton
 
@@ -180,8 +186,9 @@ fait foi (sections 2 à 4).
   unités UTF-16, un émoji comptant pour deux (100, 100, 254, 100 et 5000) ; aucun retour à la
   ligne dans le nom, le prénom et le sujet ; adresse de la syntaxe de la norme HTML, avec un point
   après l'arobase, en ASCII seulement.
-- Message valide : `202` sans corps, et le message passe une seule fois à l'expéditeur (avec
-  `CONTACT_MAIL_SENDER=none`, rien ne part).
+- Message valide : `202` sans corps, une fois le message accepté par Brevo, à qui il passe une
+  seule fois (avec `CONTACT_MAIL_SENDER=none`, rien ne part). Brevo en échec ou plus lent que
+  `CONTACT_PROVIDER_TIMEOUT` : `503` au format d'erreur du contrat ; rien n'est gardé ni réessayé.
 - Champ en cause : `400` avec `validationErrors`, une clé par champ, dans l'ordre du formulaire, et
   une seule raison, la première de `required`, `too-long`, `line-break`, `invalid-email` ; rien
   n'est transmis.
@@ -202,6 +209,25 @@ Tel quel, l'exemple reçoit `400` et `{"email":"invalid-email"}` : comme dans le
 est écrite sans arobase, pour qu'aucune adresse n'entre dans le dépôt public. Avec une arobase à
 la place de `(at)`, il reçoit `202`.
 
+## Envoi par Brevo
+
+`POST` sur `/smtp/email` sous `CONTACT_BREVO_BASE_URL`, avec la clé dans l'en-tête `api-key`, par
+le client HTTP de Spring sur celui du JDK, sans kit du prestataire :
+
+- l'e-mail part de `CONTACT_MAIL_FROM`, au nom fixe « Formulaire du portfolio », vers la seule
+  adresse `CONTACT_MAIL_TO` ; l'adresse du visiteur n'est que l'adresse de réponse, avec son prénom
+  suivi de son nom : le back n'écrit jamais à l'adresse saisie ;
+- objet : `[Portfolio] ` suivi du sujet ; corps en texte brut, sans HTML ni copie : nom, prénom,
+  adresse et sujet, un par ligne avec leur libellé, puis le message ;
+- toute réponse 2xx est un succès ; une autre réponse, dont seul le code est lu, ou une erreur
+  réseau est un échec ; aucune réponse dans le délai, un délai dépassé. Les deux donnent le `503`.
+
+**Rotation de la clé** (compromission, ou rotation demandée par Brevo) : créer une nouvelle clé
+dans le compte Brevo, la poser dans `CONTACT_BREVO_API_KEY` chez l'hébergeur (le changement
+redéploie le service), vérifier qu'un message envoyé depuis le formulaire arrive, puis supprimer
+l'ancienne clé dans Brevo. Dans cet ordre, aucun envoi n'échoue ; une clé compromise se supprime
+tout de suite, au prix de quelques `503` (`provider-failure` au journal) jusqu'au redéploiement.
+
 ## Journal
 
 Le back écrit sur la sortie standard, au niveau INFO, sans fichier ni journal d'accès. Chaque
@@ -213,13 +239,17 @@ contact-message outcome=validation-refused durationMs=12 fields=lastName:require
 
 - `outcome` nomme la vraie issue : `sent`, `validation-refused` (avec `fields`, les champs en cause
   et leurs raisons, jamais leurs valeurs), `unreadable-body`, `unsupported-media-type`,
-  `not-acceptable`, `origin-refused` ou `internal-error` ; les issues des filtres et du
-  prestataire viendront avec eux (TK-22, TK-20). `durationMs` est la durée de traitement.
-- `internal-error` s'écrit au niveau ERROR, avec la trace d'exécution ; les autres au niveau INFO.
+  `not-acceptable`, `origin-refused`, `provider-failure` (avec `providerStatus`, le code de la
+  réponse de Brevo, s'il a répondu), `provider-timeout` ou `internal-error` ; celles des filtres
+  viendront avec eux (TK-22). `durationMs` est la durée de traitement.
+- `provider-failure` et `provider-timeout` s'écrivent au niveau WARN ; `internal-error` au niveau
+  ERROR, avec la trace d'exécution ; les autres au niveau INFO.
 - Une requête préalable `OPTIONS`, une autre méthode ou une autre route, la demande de jeton
   comprise, n'écrivent aucune ligne, même refusées.
 - Jamais dans un journal : un champ du formulaire, une adresse e-mail, une adresse IP, la valeur
-  d'un en-tête (`Origin` compris), le jeton, le secret du jeton, un extrait du corps.
+  d'un en-tête (`Origin` compris), le jeton, le secret du jeton, la clé de Brevo, un extrait du
+  corps, le corps d'une réponse de Brevo. Au niveau DEBUG, le client de Spring écrit le corps qu'il
+  envoie : son texte cache toutes les valeurs.
 
 Au démarrage, le back écrit le nombre d'origines autorisées et l'adaptateur d'envoi, jamais leur
 valeur, avec un avertissement si l'adaptateur est `none`.
