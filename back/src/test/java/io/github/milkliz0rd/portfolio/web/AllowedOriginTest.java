@@ -30,6 +30,7 @@ import java.util.stream.Stream;
 
 import io.github.milkliz0rd.portfolio.config.ContactProperties;
 import io.github.milkliz0rd.portfolio.service.ContactService;
+import io.github.milkliz0rd.portfolio.service.FormTokenService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -64,6 +65,10 @@ class AllowedOriginTest {
 	/** Needed by the controller of E-02, which the slice loads too; unused here. */
 	@MockitoBean
 	private ContactService contactService;
+
+	/** Needed by the controller of E-01, which the slice loads too; unused here. */
+	@MockitoBean
+	private FormTokenService formTokenService;
 
 	@Autowired
 	private JsonMapper jsonMapper;

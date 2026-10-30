@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 import io.github.milkliz0rd.portfolio.sender.MessageSender;
 import io.github.milkliz0rd.portfolio.service.ContactOutcomeLog;
 import io.github.milkliz0rd.portfolio.service.ContactService;
+import io.github.milkliz0rd.portfolio.service.FormTokenService;
 import jakarta.servlet.RequestDispatcher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,6 +62,10 @@ class ContactOutcomeLogTest {
 
 	@MockitoBean
 	private MessageSender messageSender;
+
+	/** Needed by the controller of E-01, which the slice loads too; unused here. */
+	@MockitoBean
+	private FormTokenService formTokenService;
 
 	/** A body whose every value is marked, with the given properties replaced. */
 	private static String marked(Object... replacements) {

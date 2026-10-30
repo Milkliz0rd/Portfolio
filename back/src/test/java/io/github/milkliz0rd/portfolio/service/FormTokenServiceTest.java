@@ -81,6 +81,14 @@ class FormTokenServiceTest {
 		assertThat(this.service.verify(signedByTheTest)).isEqualTo(VALID);
 	}
 
+	/** Nothing is drawn at startup: with the same secret, a token survives the sleep and a restart. */
+	@Test
+	void aTokenSurvivesARestart() {
+		String token = this.service.issue();
+		this.clock.advance(MIN_AGE);
+		assertThat(service(this.secret, MIN_AGE, MAX_AGE).verify(token)).isEqualTo(VALID);
+	}
+
 	@ParameterizedTest
 	@NullAndEmptySource
 	@ValueSource(strings = { " ", "\t　   " })
