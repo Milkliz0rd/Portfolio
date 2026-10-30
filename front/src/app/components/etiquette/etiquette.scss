@@ -1,0 +1,41 @@
+// Étiquette de la charte (CO-04) : police-mono, graisse-moyenne, taille-etiquette (12 px à toutes
+// les largeurs), capitales espacées, couleur-texte-discret pour la discrète.
+:host {
+  display: inline-flex;
+  gap: var(--espace-2);
+  align-items: center;
+  max-width: 100%;
+  color: var(--couleur-texte-discret);
+  font-family: var(--police-mono);
+  font-size: var(--taille-etiquette);
+  font-weight: var(--graisse-moyenne);
+  line-height: var(--interligne-sous-titre);
+  letter-spacing: var(--approche-etiquette);
+  text-transform: uppercase;
+}
+
+:host(.etiquette--accent),
+.etiquette__numero {
+  color: var(--couleur-accent);
+}
+
+// Le trait qui suit le numéro : le filet que le mouvement étirera depuis la gauche (MV-05).
+.etiquette__trait {
+  flex: none;
+  width: var(--longueur-trait-etiquette);
+  height: var(--bordure-epaisseur);
+  background: var(--couleur-accent);
+}
+
+.etiquette__puce {
+  flex: none;
+  width: var(--taille-puce-etiquette);
+  height: var(--taille-puce-etiquette);
+  border-radius: var(--arrondi-cercle);
+  background: var(--couleur-accent);
+  box-shadow: var(--rayonnement-puce-etiquette);
+}
+
+.etiquette__texte {
+  min-width: 0;
+}

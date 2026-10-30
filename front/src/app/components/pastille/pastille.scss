@@ -1,0 +1,71 @@
+// Pastille de la charte (CO-03) : une pilule ; le mot en police-mono, capitales espacées ; un point
+// de 6 px de la couleur du texte. Une pastille longue passe à la ligne plutôt que de déborder.
+:host {
+  display: inline-flex;
+  gap: var(--espace-2);
+  align-items: center;
+  max-width: 100%;
+  padding: var(--marge-verticale-pastille) var(--espace-3);
+  border-radius: var(--arrondi-pilule);
+  background: var(--fond-pastille-neutre);
+  color: var(--couleur-texte-secondaire);
+  font-family: var(--police-mono);
+  font-size: var(--taille-etiquette);
+  font-weight: var(--graisse-moyenne);
+  line-height: var(--interligne-pastille);
+  letter-spacing: var(--approche-pastille);
+  text-transform: uppercase;
+}
+
+.pastille__point {
+  flex: none;
+  width: var(--taille-point-pastille);
+  height: var(--taille-point-pastille);
+  border-radius: var(--arrondi-cercle);
+  background: currentcolor;
+}
+
+.pastille__mot {
+  min-width: 0;
+}
+
+:host(.pastille--lumineuse) .pastille__point {
+  box-shadow: var(--rayonnement-point-pastille);
+}
+
+// Teintées : la couleur du rôle, sur la même couleur à opacite-teinte. Un fond uni seulement.
+:host(.pastille--accent),
+:host(.pastille--secondaire),
+:host(.pastille--succes),
+:host(.pastille--attention),
+:host(.pastille--erreur) {
+  background: var(--fond-pastille-teintee);
+}
+
+:host(.pastille--accent) {
+  color: var(--couleur-accent);
+}
+
+:host(.pastille--secondaire) {
+  color: var(--couleur-accent-secondaire);
+}
+
+:host(.pastille--succes) {
+  color: var(--couleur-succes);
+}
+
+:host(.pastille--attention) {
+  color: var(--couleur-attention);
+}
+
+:host(.pastille--erreur) {
+  color: var(--couleur-erreur);
+}
+
+// Contour : sans fond, filet verre-bordure, texte couleur-texte. La seule permise sur le verre et
+// sur un halo.
+:host(.pastille--contour) {
+  background: none;
+  box-shadow: inset 0 0 0 var(--bordure-epaisseur) var(--verre-bordure);
+  color: var(--couleur-texte);
+}

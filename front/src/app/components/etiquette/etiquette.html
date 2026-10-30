@@ -1,0 +1,10 @@
+@switch (variante()) {
+  @case ('numerotee') {
+    <span class="etiquette__numero">{{ numeroAffiche() }}</span>
+    <span class="etiquette__trait" aria-hidden="true"></span>
+  }
+  @case ('puce') {
+    <span class="etiquette__puce" aria-hidden="true"></span>
+  }
+}
+<span class="etiquette__texte"><ng-content /></span>
