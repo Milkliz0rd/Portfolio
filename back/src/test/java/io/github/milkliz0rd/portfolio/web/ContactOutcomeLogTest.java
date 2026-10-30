@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import io.github.milkliz0rd.portfolio.sender.MessageSender;
+import io.github.milkliz0rd.portfolio.sender.SendFailedException;
+import io.github.milkliz0rd.portfolio.sender.SendFailedException.Kind;
 import io.github.milkliz0rd.portfolio.service.ContactOutcomeLog;
 import io.github.milkliz0rd.portfolio.service.ContactService;
 import io.github.milkliz0rd.portfolio.service.FormTokenService;
@@ -127,6 +129,25 @@ class ContactOutcomeLogTest {
 		assertThat(lines(output)).singleElement().asString().matches(".* ERROR .* outcome=internal-error durationMs=\\d+");
 		assertThat(output.getAll()).contains("java.lang.IllegalStateException: Test failure")
 			.doesNotContainIgnoringCase("marqueur");
+	}
+
+	static Stream<Arguments> providerFailures() {
+		return Stream.of(
+				arguments(new SendFailedException(Kind.FAILURE, 401), "provider-failure durationMs=\\d+ providerStatus=401"),
+				arguments(new SendFailedException(Kind.FAILURE, 500), "provider-failure durationMs=\\d+ providerStatus=500"),
+				arguments(new SendFailedException(Kind.FAILURE, null), "provider-failure durationMs=\\d+"),
+				arguments(new SendFailedException(Kind.TIMEOUT, null), "provider-timeout durationMs=\\d+"));
+	}
+
+	/** At WARN, which Alexandre must notice; providerStatus only when the provider answered. */
+	@ParameterizedTest
+	@MethodSource("providerFailures")
+	void aFailureOfTheProviderGetsOneWarningWithItsIssueAndNoValue(SendFailedException failure, String issue,
+			CapturedOutput output) throws Exception {
+		willThrow(failure).given(this.messageSender).send(any());
+		this.mockMvc.perform(e02(marked()));
+		assertThat(lines(output)).singleElement().asString().matches(".* WARN .* contact-message outcome=" + issue);
+		assertThat(output.getAll()).doesNotContainIgnoringCase("marqueur");
 	}
 
 	static Stream<RequestBuilder> requestsWithoutLine() {

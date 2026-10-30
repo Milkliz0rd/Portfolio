@@ -19,8 +19,9 @@ import org.springframework.web.util.pattern.PathPatternParser;
 /**
  * The single log line of each POST on the route of E-02 (PB-05), under the logger {@code contact}:
  * {@code contact-message outcome=<issue> durationMs=<duration>}, plus
- * {@code fields=<field>:<reason>,…} for a validation refusal. It names the issue and never a value
- * of the request: neither a field, nor an address, nor a header, nor an excerpt of the body.
+ * {@code fields=<field>:<reason>,…} for a validation refusal and {@code providerStatus=<code>} for a
+ * failure of the provider that answered. It names the issue and never a value of the request: neither
+ * a field, nor an address, nor a header, nor an excerpt of the body; nor the provider's answer.
  * AllowedOriginFilter marks such a request on its arrival; only a marked request gets a line, and
  * only one, from whoever writes first: a preflight request, E-01 and E-03 never get one. Static,
  * not a bean, so that the servlet filters and the error handler that write it load in slice tests.
@@ -56,6 +57,14 @@ public final class ContactOutcomeLog {
 		write(request, outcome, "", null);
 	}
 
+	/** A failure of the provider, with the code of its answer when it answered, for the contact service. */
+	public static void writeProviderFailure(@Nullable Integer providerStatus) {
+		if (RequestContextHolder.getRequestAttributes() instanceof ServletRequestAttributes attributes) {
+			write(attributes.getRequest(), ContactOutcome.PROVIDER_FAILURE,
+					(providerStatus != null) ? " providerStatus=" + providerStatus : "", null);
+		}
+	}
+
 	/** The validation refusal, with the reason of each field in question, in the order given. */
 	public static void writeValidationRefused(HttpServletRequest request, Map<String, String> reasons) {
 		String fields = reasons.entrySet()
@@ -79,6 +88,10 @@ public final class ContactOutcomeLog {
 		long durationMs = (System.nanoTime() - arrival) / 1_000_000;
 		if (outcome == ContactOutcome.INTERNAL_ERROR) {
 			LOGGER.error("contact-message outcome={} durationMs={}{}", outcome.code(), durationMs, details, failure);
+		}
+		else if (outcome == ContactOutcome.PROVIDER_FAILURE || outcome == ContactOutcome.PROVIDER_TIMEOUT) {
+			// What Alexandre must notice (CT-14).
+			LOGGER.warn("contact-message outcome={} durationMs={}{}", outcome.code(), durationMs, details);
 		}
 		else {
 			LOGGER.info("contact-message outcome={} durationMs={}{}", outcome.code(), durationMs, details);

@@ -39,6 +39,8 @@ import java.util.stream.Stream;
 import io.github.milkliz0rd.portfolio.exception.ContactUnavailableException;
 import io.github.milkliz0rd.portfolio.sender.ContactMessage;
 import io.github.milkliz0rd.portfolio.sender.MessageSender;
+import io.github.milkliz0rd.portfolio.sender.SendFailedException;
+import io.github.milkliz0rd.portfolio.sender.SendFailedException.Kind;
 import io.github.milkliz0rd.portfolio.service.ContactService;
 import io.github.milkliz0rd.portfolio.service.FormTokenService;
 import org.junit.jupiter.api.Test;
@@ -192,6 +194,22 @@ class ContactMessageEndpointTest {
 		willThrow(new ContactUnavailableException()).given(this.messageSender).send(any());
 		send(body()).andExpect(error(503, "The service is temporarily unavailable."))
 			.andExpect(SECURITY_HEADERS);
+	}
+
+	/** A failure of the provider, answered or not, and a timeout: the same 503, the message handed once. */
+	static Stream<SendFailedException> providerFailures() {
+		return Stream.of(new SendFailedException(Kind.FAILURE, 401), new SendFailedException(Kind.FAILURE, null),
+				new SendFailedException(Kind.TIMEOUT, null));
+	}
+
+	@ParameterizedTest
+	@MethodSource("providerFailures")
+	void aFailureOfTheProviderGetsTheSingle503(SendFailedException failure) throws Exception {
+		willThrow(failure).given(this.messageSender).send(any());
+		send(body()).andExpect(error(503, "The service is temporarily unavailable."))
+			.andExpect(SECURITY_HEADERS)
+			.andExpect(header().string(ACCESS_CONTROL_ALLOW_ORIGIN, ALLOWED));
+		verify(this.messageSender).send(any());
 	}
 
 	@Test
