@@ -39,3 +39,6 @@ contact:
   # Exact origins accepted for browser calls to /api/v1/, comma-separated: scheme http or https,
   # host, optional port; no path, trailing slash or wildcard. Empty: no browser origin.
   allowed-origins: ${CONTACT_ALLOWED_ORIGINS:}
+  # Message sender: brevo, the provider, or none, which sends nothing (development, AOT training).
+  # brevo by default, so that a forgotten setting never loses messages in silence.
+  mail-sender: ${CONTACT_MAIL_SENDER:brevo}
