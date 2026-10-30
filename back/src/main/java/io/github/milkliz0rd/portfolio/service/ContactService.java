@@ -6,7 +6,8 @@ import io.github.milkliz0rd.portfolio.sender.MessageSender;
 import org.springframework.stereotype.Service;
 
 /**
- * The contact service: hands a validated message to the message sender, once. The filter chain
+ * The contact service: hands a validated message to the message sender, once, and writes the line
+ * of a message sent (PB-05); a failure of the sender is the global handler's. The filter chain
  * against unwanted messages (TK-22) will run here first; until then, every valid message is handed
  * over, whatever its honeypot and its token.
  */
@@ -21,6 +22,7 @@ public class ContactService {
 
 	public void send(ContactMessage message) {
 		this.messageSender.send(message);
+		ContactOutcomeLog.write(ContactOutcome.SENT);
 	}
 
 }

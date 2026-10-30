@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import io.github.milkliz0rd.portfolio.config.ContactProperties;
+import io.github.milkliz0rd.portfolio.service.ContactOutcome;
+import io.github.milkliz0rd.portfolio.service.ContactOutcomeLog;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +27,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * processing there: an {@code Origin} outside {@code CONTACT_ALLOWED_ORIGINS} gets the contract's
  * 403, preflight requests included; an allowed one gets itself back, and its preflight request is
  * answered here with the contract's CORS headers. A request without {@code Origin} is processed.
+ * A POST on E-02 is marked here for its log line (PB-05), and its refusal written here.
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 20)
@@ -50,6 +53,7 @@ public class AllowedOriginFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
+		ContactOutcomeLog.markArrival(request);
 		response.setHeader(HttpHeaders.VARY, HttpHeaders.ORIGIN);
 		String origin = request.getHeader(HttpHeaders.ORIGIN);
 		if (origin == null) {
@@ -59,6 +63,7 @@ public class AllowedOriginFilter extends OncePerRequestFilter {
 		// The configured value is echoed, never the request's own header.
 		String allowed = this.allowedOrigins.stream().filter(origin::equals).findFirst().orElse(null);
 		if (allowed == null) {
+			ContactOutcomeLog.write(request, ContactOutcome.ORIGIN_REFUSED);
 			this.errorResponseWriter.write(request, response, HttpStatus.FORBIDDEN);
 			return;
 		}

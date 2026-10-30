@@ -157,6 +157,28 @@ Tel quel, l'exemple reçoit `400` et `{"email":"invalid-email"}` : comme dans le
 est écrite sans arobase, pour qu'aucune adresse n'entre dans le dépôt public. Avec une arobase à
 la place de `(at)`, il reçoit `202`.
 
+## Journal
+
+Le back écrit sur la sortie standard, au niveau INFO, sans fichier ni journal d'accès. Chaque
+requête `POST` sur la route d'envoi écrit une ligne et une seule, sous le nom de journal `contact` :
+
+```text
+contact-message outcome=validation-refused durationMs=12 fields=lastName:required,email:invalid-email
+```
+
+- `outcome` nomme la vraie issue : `sent`, `validation-refused` (avec `fields`, les champs en cause
+  et leurs raisons, jamais leurs valeurs), `unreadable-body`, `unsupported-media-type`,
+  `not-acceptable`, `origin-refused` ou `internal-error` ; les issues des filtres et du
+  prestataire viendront avec eux (TK-22, TK-20). `durationMs` est la durée de traitement.
+- `internal-error` s'écrit au niveau ERROR, avec la trace d'exécution ; les autres au niveau INFO.
+- Une requête préalable `OPTIONS`, une autre méthode ou une autre route n'écrivent aucune ligne,
+  même refusées.
+- Jamais dans un journal : un champ du formulaire, une adresse e-mail, une adresse IP, la valeur
+  d'un en-tête (`Origin` compris), le jeton, un extrait du corps.
+
+Au démarrage, le back écrit le nombre d'origines autorisées et l'adaptateur d'envoi, jamais leur
+valeur, avec un avertissement si l'adaptateur est `none`.
+
 ## Analyse statique
 
 SpotBugs analyse le code principal à chaque `./mvnw verify` et fait échouer le build à la

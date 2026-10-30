@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
+import io.github.milkliz0rd.portfolio.service.ContactOutcome;
+import io.github.milkliz0rd.portfolio.service.ContactOutcomeLog;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletException;
@@ -48,6 +50,7 @@ public class RequestSizeLimitFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		if (request.getContentLengthLong() > MAX_BODY_BYTES) {
+			ContactOutcomeLog.write(request, ContactOutcome.UNREADABLE_BODY);
 			this.errorResponseWriter.write(request, response, HttpStatus.BAD_REQUEST);
 			return;
 		}
