@@ -1,0 +1,8 @@
+<svg class="icone__dessin" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  @if (dessin().cercle) {
+    <circle cx="12" cy="12" r="9" pathLength="1" />
+  }
+  @for (trace of dessin().traces; track $index) {
+    <path [attr.d]="trace" pathLength="1" />
+  }
+</svg>
