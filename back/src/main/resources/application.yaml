@@ -46,3 +46,6 @@ contact:
   # duration with its unit, such as 3s, 2h or 1500ms; without unit, in seconds.
   token-min-age: ${CONTACT_TOKEN_MIN_AGE:3s}
   token-max-age: ${CONTACT_TOKEN_MAX_AGE:2h}
+  # Secret of the form token signatures: at least 32 random bytes in standard Base64, no default.
+  # Checked by FormTokenService, outside ContactProperties, whose failure report shows values.
+  token-secret: ${CONTACT_TOKEN_SECRET:}
