@@ -41,11 +41,13 @@ COPY --from=extract /extract/extracted/application/ ./
 # qu'avec la même JVM, les mêmes options et les mêmes chemins de classes.
 ENV JDK_JAVA_OPTIONS="-XX:+UseSerialGC -XX:MaxRAMPercentage=60"
 # Exécution d'entraînement : le contexte démarre puis s'arrête, et la JVM écrit app.aot, avec
-# 512 Mo simulés comme l'instance gratuite. Les deux variables ne valent que pour cette commande.
-# CONTACT_MAIL_SENDER=none choisit l'adaptateur d'envoi qui n'envoie rien : le back la lit depuis
-# TK-16 et, avec brevo, sa valeur par défaut, refuse de démarrer tant que l'adaptateur Brevo
-# n'existe pas (TK-20). Le secret de jeton, tiré au hasard ici, jamais écrit ni gardé dans
-# l'image, est posé dès maintenant pour que le jeton (TK-18) n'ait pas à toucher ce fichier.
+# 512 Mo simulés comme l'instance gratuite. Les deux variables ne valent que pour cette commande ;
+# sans l'une ou l'autre, le contexte ne démarre pas. CONTACT_MAIL_SENDER=none choisit
+# l'adaptateur d'envoi qui n'envoie rien : le back la lit depuis TK-16 et, avec brevo, sa valeur
+# par défaut, refuse de démarrer tant que l'adaptateur Brevo n'existe pas (TK-20).
+# CONTACT_TOKEN_SECRET, le secret de signature des jetons de formulaire, est lu depuis TK-18 et
+# n'a pas de valeur par défaut : tiré au hasard ici, il n'est jamais écrit ni gardé dans l'image,
+# et chaque conteneur reçoit le sien au lancement.
 RUN CONTACT_TOKEN_SECRET="$(head -c 32 /dev/urandom | base64 -w0)" CONTACT_MAIL_SENDER=none \
     java -XX:MaxRAM=512m -XX:AOTCacheOutput=app.aot -Dspring.context.exit=onRefresh -jar application.jar
 USER 10001:10001
