@@ -1,0 +1,11 @@
+<app-etiquette variante="numerotee" [numero]="numero()">{{ etiquette() }}</app-etiquette>
+<!-- Le titre projeté, rendu une seule fois, dans le h2 ou le h3 du niveau demandé. -->
+<ng-template #titre><ng-content /></ng-template>
+@if (niveau() === 3) {
+  <h3 class="entete-section__titre"><ng-container [ngTemplateOutlet]="titre" /></h3>
+} @else {
+  <h2 class="entete-section__titre"><ng-container [ngTemplateOutlet]="titre" /></h2>
+}
+@if (chapo(); as modele) {
+  <p class="entete-section__chapo"><ng-container [ngTemplateOutlet]="modele" /></p>
+}

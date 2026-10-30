@@ -1,0 +1,33 @@
+// En-tête de section de la charte (CO-16) : étiquette, titre et chapô, espacés de espace-4 ; la
+// largeur de 56rem vient des maquettes.
+:host {
+  display: grid;
+  gap: var(--espace-4);
+  justify-items: start;
+  max-width: 56rem;
+}
+
+:host(.entete-section--centre) {
+  justify-items: center;
+  margin-inline: auto;
+  text-align: center;
+}
+
+// Le titre d'un bloc (taille-titre-2), qu'il soit un h2 ou un h3 : comme tout h2 de la page, et
+// jamais plus petit pour un h3 (CO-16).
+.entete-section__titre {
+  color: var(--couleur-texte);
+  font-size: var(--taille-titre-2);
+  font-weight: var(--graisse-titre);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--approche-titre);
+}
+
+// Le chapô tient sur 68 caractères au plus par ligne.
+.entete-section__chapo {
+  max-width: var(--conteneur-texte);
+  margin: 0;
+  color: var(--couleur-texte-secondaire);
+  font-size: var(--taille-chapo);
+  line-height: var(--interligne-chapo);
+}
