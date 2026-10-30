@@ -6,9 +6,11 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import java.io.IOException;
 import java.net.http.HttpTimeoutException;
 import java.time.Duration;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 
@@ -28,6 +30,22 @@ class BrevoRestClientFactoryTest {
 			assertThat(client.post().uri("/smtp/email").retrieve().toBodilessEntity().getStatusCode().value())
 				.isEqualTo(201);
 			assertThat(server.paths()).containsExactly("/v3/smtp/email");
+		}
+	}
+
+	/** Gathered, the body goes with its length, not in chunks. */
+	@Test
+	void theBodyIsSentWithItsLength() throws IOException {
+		try (LocalHttpServer server = new LocalHttpServer(201, Duration.ZERO)) {
+			BrevoRestClientFactory.builder(server.baseUrl(), Duration.ofSeconds(5))
+				.build()
+				.post()
+				.uri("/smtp/email")
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(Map.of("subject", "Sujet"))
+				.retrieve()
+				.toBodilessEntity();
+			assertThat(server.framings()).containsExactly("Content-Length 19, Transfer-Encoding null, 19 bytes");
 		}
 	}
 

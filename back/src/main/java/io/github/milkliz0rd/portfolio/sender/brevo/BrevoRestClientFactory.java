@@ -11,7 +11,8 @@ import org.springframework.web.client.RestClient;
  * The HTTP client of the Brevo adapter (PB-01, PB-04): Spring's RestClient on the JDK's HTTP client,
  * no provider kit. One time limit, {@code CONTACT_PROVIDER_TIMEOUT}, bounds the connection and the
  * answer; the base address is {@code CONTACT_BREVO_BASE_URL}. Redirections are not followed, the JDK
- * client's default.
+ * client's default. The body, a few kilobytes at most, is gathered before it leaves, so that it goes
+ * with its Content-Length rather than in chunks, which not every server reads.
  */
 public final class BrevoRestClientFactory {
 
@@ -26,7 +27,10 @@ public final class BrevoRestClientFactory {
 	public static RestClient.Builder builder(URI baseUrl, Duration timeout) {
 		JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient(timeout));
 		requestFactory.setReadTimeout(timeout);
-		return RestClient.builder().baseUrl(baseUrl).requestFactory(requestFactory);
+		return RestClient.builder()
+			.baseUrl(baseUrl)
+			.requestFactory(requestFactory)
+			.bufferContent((uri, method) -> true);
 	}
 
 	static HttpClient httpClient(Duration timeout) {

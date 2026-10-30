@@ -17,7 +17,7 @@ import com.sun.net.httpserver.HttpServer;
 /**
  * The HTTP server built into the JDK, on the loopback address, for the tests of the real client
  * (PB-07): it answers every request with a status and no body, after a delay that its closing cuts
- * short. It records the path of each request.
+ * short. It records the path of each request, and how its body was framed.
  */
 final class LocalHttpServer implements AutoCloseable {
 
@@ -29,12 +29,17 @@ final class LocalHttpServer implements AutoCloseable {
 
 	private final List<String> paths = new CopyOnWriteArrayList<>();
 
+	private final List<String> framings = new CopyOnWriteArrayList<>();
+
 	LocalHttpServer(int status, Duration delay) throws IOException {
 		this.server = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), 0), 0);
 		this.server.setExecutor(this.executor);
 		this.server.createContext("/", (exchange) -> {
 			this.paths.add(exchange.getRequestURI().getPath());
-			exchange.getRequestBody().readAllBytes();
+			int length = exchange.getRequestBody().readAllBytes().length;
+			this.framings.add("Content-Length " + exchange.getRequestHeaders().getFirst("Content-Length")
+					+ ", Transfer-Encoding " + exchange.getRequestHeaders().getFirst("Transfer-Encoding") + ", " + length
+					+ " bytes");
 			try {
 				this.closing.await(delay.toMillis(), TimeUnit.MILLISECONDS);
 				exchange.sendResponseHeaders(status, -1);
@@ -57,6 +62,10 @@ final class LocalHttpServer implements AutoCloseable {
 
 	List<String> paths() {
 		return List.copyOf(this.paths);
+	}
+
+	List<String> framings() {
+		return List.copyOf(this.framings);
 	}
 
 	@Override
