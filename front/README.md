@@ -111,6 +111,46 @@ Un `button` sans `type` reçoit `type="button"`. Le lien externe s'ouvre dans un
 (`target="_blank"`, `rel="noopener noreferrer"`) et l'annonce par sa flèche et le texte masqué
 « (nouvel onglet) ».
 
+Les composants de texte sont statiques, sans survol ni focus. Ils n'ajoutent aucun texte : tout
+vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$localize`).
+
+| Composant                  | Se pose                                                                   | Entrées                                                                                                                                |
+| -------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Pastille (CO-03)           | `<app-pastille variante="succes">Validé</app-pastille>`                   | `variante` (`neutre`, par défaut, `accent`, `secondaire`, `succes`, `attention`, `erreur`, `contour`), `lumineuse` (point qui rayonne) |
+| Étiquette (CO-04)          | `<app-etiquette variante="numerotee" numero="02">Section</app-etiquette>` | `variante` (`discrete`, par défaut, `accent`, `numerotee`, `puce`), `numero` (exigé par `numerotee`)                                   |
+| En-tête de section (CO-16) | voir ci-dessous                                                           | `numero`, `etiquette`, `niveau` (`2` ou `3` : le titre est un `h2` ou un `h3`), `centre` (fin de page)                                 |
+| Liste clé-valeur (CO-17)   | `<app-liste-cle-valeur [paires]="paires" />`                              | `variante` (`en-ligne`, par défaut, `tableau`), `paires`                                                                               |
+
+**Pastille sur le verre.** Sur du verre (carte CO-05) et sur le halo d'un arrière-plan d'ambiance
+(CO-13), seule la variante `contour` est permise ; la neutre et les teintées se posent sur un fond
+uni, `couleur-fond` ou `couleur-surface` (sur le verre, une teintée tomberait à 3.60:1). Une
+pastille sans mot lève une erreur au rendu, qui fait échouer le pré-rendu ; de même une étiquette
+numérotée sans numéro. Le trait de l'étiquette numérotée est un élément à part, `etiquette__trait`,
+que le mouvement étirera (MV-05).
+
+**En-tête de section.** Le titre est le contenu, rendu dans le `h2` ou le `h3` du niveau ;
+l'étiquette numérotée reste hors du titre. Le chapô, facultatif, est un modèle `#chapo` : absent,
+rien n'est rendu à sa place ; présent, il tient sur 68 caractères au plus par ligne.
+
+```html
+<app-entete-section
+  numero="02"
+  etiquette="Compétences"
+  i18n-etiquette="@@competences.etiquette"
+  [niveau]="2"
+>
+  <ng-container i18n="@@competences.titre">Compétences techniques</ng-container>
+  <ng-template #chapo>
+    <ng-container i18n="@@competences.chapo">Le chapô.</ng-container>
+  </ng-template>
+</app-entete-section>
+```
+
+**Liste clé-valeur.** Chaque paire est un `PaireCleValeur` : `cle`, `valeur` (texte déjà mis en
+forme par la page) et `date`, vrai pour une date ou une période, écrite en police-mono. Une paire
+dont la valeur manque, est nulle ou vide une fois les espaces retirés disparaît entière ; sans
+aucune paire, aucune liste n'est rendue.
+
 ## Polices
 
 Bricolage Grotesque (700, 800), Hanken Grotesk (400 à 700) et JetBrains Mono (400, 500) sont
