@@ -42,3 +42,7 @@ contact:
   # Message sender: brevo, the provider, or none, which sends nothing (development, AOT training).
   # brevo by default, so that a forgotten setting never loses messages in silence.
   mail-sender: ${CONTACT_MAIL_SENDER:brevo}
+  # Minimal delay between the issue of a form token and its use, and its maximal age (PB-02): a
+  # duration with its unit, such as 3s, 2h or 1500ms; without unit, in seconds.
+  token-min-age: ${CONTACT_TOKEN_MIN_AGE:3s}
+  token-max-age: ${CONTACT_TOKEN_MAX_AGE:2h}
