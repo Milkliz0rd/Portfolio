@@ -47,6 +47,7 @@ public record ErrorResponse(int status, String error, String message, Instant ti
 			case NOT_ACCEPTABLE -> "The requested response type is not supported.";
 			case UNSUPPORTED_MEDIA_TYPE -> "The request content type is not supported.";
 			case INTERNAL_SERVER_ERROR -> "An unexpected error occurred.";
+			case SERVICE_UNAVAILABLE -> "The service is temporarily unavailable.";
 			default -> "The request could not be processed.";
 		};
 	}

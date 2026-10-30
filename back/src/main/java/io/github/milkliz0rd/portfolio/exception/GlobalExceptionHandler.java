@@ -36,6 +36,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 	}
 
+	/** The same 503 whatever its cause, which the response never tells. */
+	@ExceptionHandler(ContactUnavailableException.class)
+	public @Nullable ResponseEntity<Object> handleContactUnavailable(ContactUnavailableException ex,
+			WebRequest request) {
+		return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.SERVICE_UNAVAILABLE, request);
+	}
+
 	/** The parent's response, without its warning: PB-05 writes no line for this request. */
 	@Override
 	protected @Nullable ResponseEntity<Object> handleHttpRequestMethodNotSupported(
