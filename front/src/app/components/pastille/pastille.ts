@@ -45,8 +45,8 @@ export class Pastille implements AfterViewInit {
 
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
-  // Le mot projeté est écrit quand la vue est prête. Au pré-rendu, l'erreur s'écrit dans le
-  // journal du build sans l'arrêter, et la pastille muette part vide dans la page pré-rendue.
+  // Le mot projeté est écrit quand la vue est prête : au pré-rendu, une pastille muette fait
+  // échouer le build (app.config.server.ts).
   ngAfterViewInit(): void {
     if (!this.element.textContent?.trim()) {
       throw new Error('Une pastille porte toujours un mot : jamais de pastille muette (CO-03).');
