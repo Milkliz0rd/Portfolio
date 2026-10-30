@@ -25,7 +25,35 @@ Toutes se lancent depuis `front/`.
 | `npm run i18n:verifier` | extrait les libellés dans `tmp/i18n/` (non versionné) et échoue si l'un d'eux n'a pas d'identifiant personnalisé |
 
 `npm start`, `npm run build`, `npm test`, `npm run lint` et `npm run i18n:verifier` écrivent
-d'abord l'index des projets (voir « Contenu »).
+d'abord la configuration de l'environnement (voir « Environnements ») et l'index des projets (voir
+« Contenu »).
+
+## Environnements
+
+`outils/ecrire-configuration.mjs` écrit `src/configuration/configuration.genere.ts`, non versionné,
+le seul fichier que le code lit pour connaître son environnement : `environnement`, `baseApi` (la
+base de l'API du back, sans barre finale) et `origineSite` (l'origine canonique du site). Les
+adresses publiques sont versionnées dans `src/configuration/adresses-publiques.json` ; l'adresse
+technique du back de préproduction n'entre jamais dans le dépôt.
+
+| Environnement   | Choisi quand                                     | `baseApi`                                         | `origineSite`         |
+| --------------- | ------------------------------------------------ | ------------------------------------------------- | --------------------- |
+| `developpement` | sur le poste, par défaut                         | `PORTFOLIO_BASE_API`, sinon vide                  | `origineSite` du JSON |
+| `test`          | `CI` posée (la CI), ou `npm test`                | `http://localhost:8787`, le serveur local de test | la même               |
+| `preproduction` | chez l'hébergeur, toute branche autre que `main` | `PORTFOLIO_BASE_API_PREPRODUCTION`, sinon vide    | `origineSite` du JSON |
+| `production`    | chez l'hébergeur, branche `main`                 | `baseApiProduction` du JSON                       | `origineSite` du JSON |
+
+- `PORTFOLIO_ENVIRONNEMENT` l'emporte sur tout, par exemple
+  `PORTFOLIO_ENVIRONNEMENT=production npm run build`. Chez l'hébergeur, la branche construite
+  (`WORKERS_CI_BRANCH`) l'emporte sur `CI`, que l'hébergeur pose aussi.
+- `PORTFOLIO_BASE_API_PREPRODUCTION` est une variable de build de l'hébergeur, posée une fois le
+  service de préproduction du back créé. Absente, le build réussit avec un avertissement dans son
+  journal : elle reste facultative jusqu'au client du contrat d'API (TK-42).
+- `PORTFOLIO_BASE_API`, la base du back local, se pose dans `front/.env.local` (non versionné), par
+  exemple `PORTFOLIO_BASE_API=http://localhost:8080`, ou dans l'environnement, qui l'emporte.
+- En préproduction et en production, une valeur qui n'est pas une origine HTTPS (schéma et hôte en
+  minuscules, sans port, chemin ni barre finale) fait échouer la commande ; en développement, une
+  origine HTTP ou HTTPS, avec un port si besoin.
 
 ## Contenu
 
