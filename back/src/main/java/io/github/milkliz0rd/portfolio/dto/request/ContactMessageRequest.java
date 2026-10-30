@@ -1,8 +1,10 @@
 package io.github.milkliz0rd.portfolio.dto.request;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.github.milkliz0rd.portfolio.sender.ContactMessage;
 import io.github.milkliz0rd.portfolio.validation.ContactField;
 import io.github.milkliz0rd.portfolio.validation.ContactField.Kind;
 import io.github.milkliz0rd.portfolio.validation.Whitespace;
@@ -40,6 +42,13 @@ public record ContactMessageRequest(
 		subject = Whitespace.strip(subject);
 		message = Whitespace.strip(message);
 		website = Whitespace.strip(website);
+	}
+
+	/** The five fields, once validated: none of them is null then. */
+	public ContactMessage toContactMessage() {
+		return new ContactMessage(Objects.requireNonNull(this.lastName), Objects.requireNonNull(this.firstName),
+				Objects.requireNonNull(this.email), Objects.requireNonNull(this.subject),
+				Objects.requireNonNull(this.message));
 	}
 
 	/** Never the values: an address, the fields of the form and the token stay out of any text. */

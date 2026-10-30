@@ -32,6 +32,12 @@ public record ErrorResponse(int status, String error, String message, Instant ti
 				Instant.now().truncatedTo(ChronoUnit.SECONDS), path, null);
 	}
 
+	/** The validation refusal of E-02: the reason of each field in question, in the order of the form. */
+	public static ErrorResponse invalidFields(String path, Map<String, String> validationErrors) {
+		return new ErrorResponse(400, HttpStatus.BAD_REQUEST.getReasonPhrase(), "One or more fields are invalid.",
+				Instant.now().truncatedTo(ChronoUnit.SECONDS), path, validationErrors);
+	}
+
 	private static String messageFor(HttpStatus status) {
 		return switch (status) {
 			case BAD_REQUEST -> "The request body could not be read.";

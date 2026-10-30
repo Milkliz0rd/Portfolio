@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.stream.Stream;
 
+import io.github.milkliz0rd.portfolio.service.ContactService;
 import jakarta.servlet.RequestDispatcher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,6 +28,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
@@ -37,6 +39,10 @@ class ErrorFormatTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	/** Needed by the controller of E-02, which the slice loads too; unused here. */
+	@MockitoBean
+	private ContactService contactService;
 
 	static Stream<Arguments> successes() {
 		return Stream.of(arguments(get(OK), 200),

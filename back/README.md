@@ -1,8 +1,9 @@
 # Back
 
-L'API du portfolio, en Spring Boot 4.1 sur Java 25, construite par Maven. Pour l'instant, elle
-expose son indicateur de santé et le socle HTTP commun aux routes du formulaire, sous `/api/v1/`,
-qui s'y brancheront.
+L'API du portfolio, en Spring Boot 4.1 sur Java 25, construite par Maven. Elle expose son
+indicateur de santé et l'envoi d'un message du formulaire de contact, derrière le socle HTTP commun
+aux routes du formulaire, sous `/api/v1/`. Le jeton (TK-18), les filtres contre les messages
+indésirables (TK-22) et l'envoi réel (TK-20) s'y brancheront.
 
 ## Prérequis
 
@@ -120,6 +121,41 @@ Côté Actuator, seul l'indicateur de santé : `GET /actuator/health` répond `2
 - Sous `/api/v1/`, avant tout autre traitement : un en-tête `Origin` hors de
   `CONTACT_ALLOWED_ORIGINS` reçoit `403`, requête préalable comprise ; une requête sans `Origin`
   est traitée ; un corps de plus de 64 Kio, annoncé ou non, reçoit `400`.
+
+## Envoi d'un message
+
+`POST /api/v1/contact-messages`, en `application/json` : l'échange E-02 du contrat d'API, qui
+fait foi (sections 2 à 4).
+
+- Le corps porte sept propriétés, chacune une chaîne ou `null` : les cinq champs `lastName`,
+  `firstName`, `email`, `subject` et `message`, le champ piège `website` et le jeton `formToken`.
+  Une propriété absente vaut `null` ; une propriété inconnue est ignorée.
+- Le back revalide les cinq champs (section 3) : espaces de bord retirés, soit exactement les 25
+  points de code `White_Space` du contrat (ni `trim()` ni `strip()`) ; longueur mesurée ensuite en
+  unités UTF-16, un émoji comptant pour deux (100, 100, 254, 100 et 5000) ; aucun retour à la
+  ligne dans le nom, le prénom et le sujet ; adresse de la syntaxe de la norme HTML, avec un point
+  après l'arobase, en ASCII seulement.
+- Message valide : `202` sans corps, et le message passe une seule fois à l'expéditeur (avec
+  `CONTACT_MAIL_SENDER=none`, rien ne part).
+- Champ en cause : `400` avec `validationErrors`, une clé par champ, dans l'ordre du formulaire, et
+  une seule raison, la première de `required`, `too-long`, `line-break`, `invalid-email` ; rien
+  n'est transmis.
+- Corps illisible (JSON mal formé, corps vide, valeur ni chaîne ni `null`, corps qui n'est pas un
+  objet, plus de 64 Kio) : `400` avec `validationErrors` à `null`. Autre type de contenu : `415` ;
+  `Accept` sans JSON : `406`.
+- Le champ piège et le jeton sont lus, mais ne changent encore rien : un message valide reçoit
+  `202` même piège rempli ou sans jeton, jusqu'au jeton (TK-18) et aux filtres (TK-22).
+
+En local, le back lancé par `CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run` :
+
+```sh
+curl -i http://localhost:8080/api/v1/contact-messages -H 'Content-Type: application/json' \
+  -d '{"lastName":"Nom","firstName":"Prénom","email":"visiteur(at)exemple.fr","subject":"Sujet","message":"Bonjour","website":"","formToken":"jeton"}'
+```
+
+Tel quel, l'exemple reçoit `400` et `{"email":"invalid-email"}` : comme dans le contrat, l'adresse
+est écrite sans arobase, pour qu'aucune adresse n'entre dans le dépôt public. Avec une arobase à
+la place de `(at)`, il reçoit `202`.
 
 ## Analyse statique
 

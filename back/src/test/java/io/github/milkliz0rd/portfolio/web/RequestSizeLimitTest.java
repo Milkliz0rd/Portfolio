@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
+import io.github.milkliz0rd.portfolio.service.ContactService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
@@ -37,6 +39,10 @@ class RequestSizeLimitTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	/** Needed by the controller of E-02, which the slice loads too; unused here. */
+	@MockitoBean
+	private ContactService contactService;
 
 	@ParameterizedTest
 	@ValueSource(booleans = { true, false })

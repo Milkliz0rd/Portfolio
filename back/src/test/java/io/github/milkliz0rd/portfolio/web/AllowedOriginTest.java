@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import io.github.milkliz0rd.portfolio.config.ContactProperties;
+import io.github.milkliz0rd.portfolio.service.ContactService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -41,6 +42,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -57,6 +59,10 @@ class AllowedOriginTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	/** Needed by the controller of E-02, which the slice loads too; unused here. */
+	@MockitoBean
+	private ContactService contactService;
 
 	@Autowired
 	private JsonMapper jsonMapper;
