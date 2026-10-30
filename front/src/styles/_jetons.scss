@@ -172,6 +172,19 @@
   --marge-page: 16px;
   --gouttiere: 16px;
   --hauteur-entete: 4rem;
+
+  // Jetons de rôle des composants (section 9 de la charte) : mélanges et valeurs que la section 7
+  // donne sans les nommer. CO-01 Bouton : fond du primaire au survol, fond du secondaire et du
+  // discret au survol, interligne du libellé (maquettes), enfoncement de l'état appuyé.
+  --fond-bouton-primaire-survol: color-mix(
+    in srgb,
+    var(--couleur-texte) 12%,
+    var(--couleur-accent)
+  );
+  --fond-bouton-survol: color-mix(in srgb, var(--couleur-texte) 8%, transparent);
+  --interligne-bouton: 1.2;
+  --distance-enfoncement: 1px;
+  --echelle-enfoncement: 0.98;
 }
 
 @include ruptures.depuis(moyenne) {
