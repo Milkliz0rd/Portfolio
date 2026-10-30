@@ -20,7 +20,11 @@ class Hote {
     email(chemin.valeur);
     disabled(chemin.valeur, () => this.envoi());
     validate(chemin.libre, ({ value }) =>
-      value() === 'propre' ? { kind: 'propre', message: 'Un message propre.' } : undefined,
+      value() === 'propre'
+        ? { kind: 'propre', message: 'Un message propre.' }
+        : value() === 'muette'
+          ? { kind: 'muette' }
+          : undefined,
     );
   });
 }
@@ -169,6 +173,13 @@ describe('Champ', () => {
     expect(controle().value).toBe('Saisie conservée');
     expect(controle().hasAttribute('aria-invalid')).toBe(false);
     expect(champ.querySelector('.champ__erreur')).toBeNull();
+  });
+
+  it('refuse d’afficher une autre erreur sans message', () => {
+    const { hote, actualiser } = rendre();
+    hote.modele.set({ valeur: '', libre: 'muette' });
+    hote.formulaire.libre().markAsTouched();
+    expect(actualiser).toThrow(/« muette » n'a pas de message/);
   });
 
   it('refuse un champ sans libellé', () => {
