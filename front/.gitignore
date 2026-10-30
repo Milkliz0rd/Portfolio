@@ -10,6 +10,8 @@
 *.genere.ts
 # Base du back local, sur le poste (PF-07)
 .env.local
+# État local de wrangler dev (PF-08)
+/.wrangler/
 
 # Node
 /node_modules
