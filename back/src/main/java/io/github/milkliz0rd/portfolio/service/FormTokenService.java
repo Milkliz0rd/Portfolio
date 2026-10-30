@@ -3,6 +3,7 @@ package io.github.milkliz0rd.portfolio.service;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.time.Clock;
 import java.time.Duration;
@@ -13,6 +14,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import io.github.milkliz0rd.portfolio.config.ContactProperties;
+import io.github.milkliz0rd.portfolio.validation.Whitespace;
 import org.jspecify.annotations.Nullable;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -31,13 +33,24 @@ import org.springframework.stereotype.Service;
 @Service
 public final class FormTokenService {
 
+	/** The result of a verification; PB-02 checks them in this order, after the signature. */
+	public enum Verification {
+
+		VALID, MISSING, FORGED, TOO_RECENT, EXPIRED
+
+	}
+
 	private static final String PREFIX = "v1";
 
 	private static final String ALGORITHM = "HmacSHA256";
 
+	private static final int MAX_LENGTH = 200;
+
 	private static final int PAYLOAD_BYTES = 24;
 
 	private static final int RANDOM_BYTES = 16;
+
+	private static final int SIGNATURE_BYTES = 32;
 
 	private static final int MIN_SECRET_BYTES = 32;
 
@@ -86,10 +99,52 @@ public final class FormTokenService {
 		return this.maxAge.getSeconds();
 	}
 
+	/**
+	 * Checks a token as received, in the order of PB-02: missing, forged (form, then signature, compared
+	 * in constant time), too recent, expired. Both bounds are included: a token is valid from the minimal
+	 * delay to the maximal age after its issue; one issued in the future is too recent.
+	 */
+	public Verification verify(@Nullable String token) {
+		if (token == null || "".equals(Whitespace.strip(token))) {
+			return Verification.MISSING;
+		}
+		if (token.length() > MAX_LENGTH) {
+			return Verification.FORGED;
+		}
+		String[] parts = token.split("\\.", -1);
+		if (parts.length != 3 || !PREFIX.equals(parts[0])) {
+			return Verification.FORGED;
+		}
+		byte[] payload = decode(parts[1]);
+		byte[] signature = decode(parts[2]);
+		if (payload.length != PAYLOAD_BYTES || signature.length != SIGNATURE_BYTES
+				|| !MessageDigest.isEqual(sign(PREFIX + "." + parts[1]), signature)) {
+			return Verification.FORGED;
+		}
+		Duration age = Duration.ofMillis(this.clock.millis() - ByteBuffer.wrap(payload).getLong());
+		if (age.compareTo(this.minAge) < 0) {
+			return Verification.TOO_RECENT;
+		}
+		return (age.compareTo(this.maxAge) > 0) ? Verification.EXPIRED : Verification.VALID;
+	}
+
 	/** Never the secret. */
 	@Override
 	public String toString() {
 		return "FormTokenService[secret hidden]";
+	}
+
+	/** The bytes of a part in URL-safe Base64 without padding; none if it is not one. */
+	private static byte[] decode(String part) {
+		if (part.indexOf('=') >= 0) {
+			return new byte[0];
+		}
+		try {
+			return Base64.getUrlDecoder().decode(part);
+		}
+		catch (IllegalArgumentException ex) {
+			return new byte[0];
+		}
 	}
 
 	/** A Mac per call: the class is not safe between threads. */
