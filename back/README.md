@@ -104,10 +104,11 @@ versionné.
 | `CONTACT_ALLOWED_ORIGINS` | origines exactes acceptées pour les appels de navigateur sous `/api/v1/`, séparées par des virgules : schéma `http` ou `https`, hôte en minuscules, port facultatif ; ni chemin, ni barre finale, ni joker | vide : aucune origine de navigateur acceptée |
 | `CONTACT_MAIL_SENDER`     | adaptateur d'envoi : `brevo`, le prestataire, ou `none`, qui accepte chaque message et n'envoie rien (développement, entraînement du cache AOT), annoncé par un avertissement au démarrage | `brevo`                                  |
 
-Une valeur mal formée empêche le back de démarrer ; le message nomme la variable, jamais sa
-valeur. C'est aussi le cas de `CONTACT_MAIL_SENDER=brevo`, valeur par défaut, tant que
-l'adaptateur Brevo n'existe pas (TK-20) : un oubli de réglage ne fait jamais répondre `202` à des
-messages qui ne partiraient pas. En développement, avec le serveur de développement du front :
+Une valeur mal formée empêche le back de démarrer ; le message nomme la variable, jamais la
+valeur reçue. `CONTACT_MAIL_SENDER=brevo`, valeur par défaut, l'empêche aussi tant que
+l'adaptateur Brevo n'existe pas (TK-20), avec un message qui nomme cette valeur prévue et dit de
+poser `none` : un oubli de réglage ne fait jamais répondre `202` à des messages qui ne partiraient
+pas. En développement, avec le serveur de développement du front :
 `CONTACT_ALLOWED_ORIGINS=http://localhost:4200 CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run`.
 
 ## Ce que le back expose
@@ -156,6 +157,28 @@ curl -i http://localhost:8080/api/v1/contact-messages -H 'Content-Type: applicat
 Tel quel, l'exemple reçoit `400` et `{"email":"invalid-email"}` : comme dans le contrat, l'adresse
 est écrite sans arobase, pour qu'aucune adresse n'entre dans le dépôt public. Avec une arobase à
 la place de `(at)`, il reçoit `202`.
+
+## Journal
+
+Le back écrit sur la sortie standard, au niveau INFO, sans fichier ni journal d'accès. Chaque
+requête `POST` sur la route d'envoi écrit une ligne et une seule, sous le nom de journal `contact` :
+
+```text
+contact-message outcome=validation-refused durationMs=12 fields=lastName:required,email:invalid-email
+```
+
+- `outcome` nomme la vraie issue : `sent`, `validation-refused` (avec `fields`, les champs en cause
+  et leurs raisons, jamais leurs valeurs), `unreadable-body`, `unsupported-media-type`,
+  `not-acceptable`, `origin-refused` ou `internal-error` ; les issues des filtres et du
+  prestataire viendront avec eux (TK-22, TK-20). `durationMs` est la durée de traitement.
+- `internal-error` s'écrit au niveau ERROR, avec la trace d'exécution ; les autres au niveau INFO.
+- Une requête préalable `OPTIONS`, une autre méthode ou une autre route n'écrivent aucune ligne,
+  même refusées.
+- Jamais dans un journal : un champ du formulaire, une adresse e-mail, une adresse IP, la valeur
+  d'un en-tête (`Origin` compris), le jeton, un extrait du corps.
+
+Au démarrage, le back écrit le nombre d'origines autorisées et l'adaptateur d'envoi, jamais leur
+valeur, avec un avertissement si l'adaptateur est `none`.
 
 ## Analyse statique
 
