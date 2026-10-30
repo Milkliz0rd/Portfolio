@@ -40,6 +40,7 @@ import io.github.milkliz0rd.portfolio.exception.ContactUnavailableException;
 import io.github.milkliz0rd.portfolio.sender.ContactMessage;
 import io.github.milkliz0rd.portfolio.sender.MessageSender;
 import io.github.milkliz0rd.portfolio.service.ContactService;
+import io.github.milkliz0rd.portfolio.service.FormTokenService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -78,6 +79,10 @@ class ContactMessageEndpointTest {
 
 	@MockitoBean
 	private MessageSender messageSender;
+
+	/** Needed by the controller of E-01, which the slice loads too; unused here. */
+	@MockitoBean
+	private FormTokenService formTokenService;
 
 	@Test
 	void aValidMessageGets202AndIsHandedOnceToTheSenderWithoutItsEdgeSpaces() throws Exception {

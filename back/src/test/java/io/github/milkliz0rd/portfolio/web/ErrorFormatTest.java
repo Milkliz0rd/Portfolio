@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.stream.Stream;
 
 import io.github.milkliz0rd.portfolio.service.ContactService;
+import io.github.milkliz0rd.portfolio.service.FormTokenService;
 import jakarta.servlet.RequestDispatcher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,6 +44,10 @@ class ErrorFormatTest {
 	/** Needed by the controller of E-02, which the slice loads too; unused here. */
 	@MockitoBean
 	private ContactService contactService;
+
+	/** Needed by the controller of E-01, which the slice loads too; unused here. */
+	@MockitoBean
+	private FormTokenService formTokenService;
 
 	static Stream<Arguments> successes() {
 		return Stream.of(arguments(get(OK), 200),
