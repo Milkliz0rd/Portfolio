@@ -124,9 +124,11 @@ vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$
 **Pastille sur le verre.** Sur du verre (carte CO-05) et sur le halo d'un arrière-plan d'ambiance
 (CO-13), seule la variante `contour` est permise ; la neutre et les teintées se posent sur un fond
 uni, `couleur-fond` ou `couleur-surface` (sur le verre, une teintée tomberait à 3.60:1). Une
-pastille sans mot lève une erreur au rendu, qui fait échouer le pré-rendu ; de même une étiquette
-numérotée sans numéro. Le trait de l'étiquette numérotée est un élément à part, `etiquette__trait`,
-que le mouvement étirera (MV-05).
+pastille sans mot lève une erreur au rendu, de même une étiquette numérotée sans numéro. Au
+pré-rendu, l'erreur s'écrit dans le journal du build (une ligne `ERROR`) sans l'arrêter : une
+pastille sans mot part vide dans la page pré-rendue ; une étiquette numérotée sans numéro
+interrompt le rendu de la suite de la page, dont des contenus manquent alors. Le trait de
+l'étiquette numérotée est un élément à part, `etiquette__trait`, que le mouvement étirera (MV-05).
 
 **En-tête de section.** Le titre est le contenu, rendu dans le `h2` ou le `h3` du niveau ;
 l'étiquette numérotée reste hors du titre. Le chapô, facultatif, est un modèle `#chapo` : absent,
