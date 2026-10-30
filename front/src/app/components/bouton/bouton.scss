@@ -30,7 +30,7 @@
   color: var(--couleur-texte-sur-accent);
 }
 
-:host(.bouton--primaire:hover:not(:disabled)) {
+:host(.bouton--primaire:hover:not(:disabled, .bouton--en-cours)) {
   background: var(--fond-bouton-primaire-survol);
 }
 
@@ -40,7 +40,7 @@
   color: var(--couleur-texte);
 }
 
-:host(.bouton--secondaire:hover:not(:disabled)) {
+:host(.bouton--secondaire:hover:not(:disabled, .bouton--en-cours)) {
   border-color: var(--couleur-texte-discret);
   background: var(--fond-bouton-survol);
 }
@@ -53,8 +53,8 @@
   color: var(--couleur-texte);
 }
 
-:host(.bouton--discret:hover:not(:disabled)),
-:host(.bouton--icone:hover:not(:disabled)) {
+:host(.bouton--discret:hover:not(:disabled, .bouton--en-cours)),
+:host(.bouton--icone:hover:not(:disabled, .bouton--en-cours)) {
   background: var(--fond-bouton-survol);
 }
 
@@ -69,7 +69,7 @@
 
 // Appuyé : 1 px plus bas, à l'échelle 0.98 ; jamais quand le mouvement est réduit.
 @media (prefers-reduced-motion: no-preference) {
-  :host(:active:not(:disabled)) {
+  :host(:active:not(:disabled, .bouton--en-cours)) {
     transform: translateY(var(--distance-enfoncement)) scale(var(--echelle-enfoncement));
   }
 }
@@ -80,6 +80,21 @@
   background: var(--couleur-surface-relevee);
   color: var(--couleur-texte-discret);
   cursor: not-allowed;
+}
+
+// Le contenu de la page, sans boîte à lui : texte et icône restent espacés par le bouton.
+.bouton__contenu {
+  display: contents;
+}
+
+// En cours : l'indicateur et « Envoi en cours… » remplacent le contenu ; l'aspect reste celui de
+// la variante, sans survol ni enfoncement.
+:host(.bouton--en-cours) {
+  cursor: progress;
+}
+
+:host(.bouton--en-cours) .bouton__contenu {
+  display: none;
 }
 
 // Mouvement réduit : les couleurs changent d'un coup.
