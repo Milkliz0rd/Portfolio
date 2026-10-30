@@ -194,11 +194,10 @@
   --epaisseur-soulignement-survol: 2px;
   --epaisseur-trait-courant: 2px;
 
-  // CO-03 Pastille : marge verticale et interligne (maquettes), point de 6 px et rayonnement du
-  // point lumineux (maquettes) ; fond de la neutre, couleur-texte à 8 %, et des teintées, la couleur
-  // de leur texte à opacite-teinte (currentcolor se résout sur la pastille, à la couleur du rôle).
+  // CO-03 Pastille : marge verticale (maquettes), point de 6 px et rayonnement du point lumineux
+  // (maquettes) ; fond de la neutre, couleur-texte à 8 %, et des teintées, la couleur de leur
+  // texte à opacite-teinte (currentcolor se résout sur la pastille, à la couleur du rôle).
   --marge-verticale-pastille: 7px;
-  --interligne-pastille: 1;
   --taille-point-pastille: 6px;
   --rayonnement-point-pastille: 0 0 8px currentcolor;
   --fond-pastille-neutre: color-mix(in srgb, var(--couleur-texte) 8%, transparent);
@@ -209,6 +208,9 @@
   --longueur-trait-etiquette: 1.5rem;
   --taille-puce-etiquette: 7px;
   --rayonnement-puce-etiquette: 0 0 10px var(--couleur-accent);
+
+  // CO-17 Liste clé-valeur : approche d'une valeur de date ou de période (maquettes, choix C6).
+  --approche-date: 0.02em;
 }
 
 @include ruptures.depuis(moyenne) {
