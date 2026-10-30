@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.net.URI;
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -128,7 +129,8 @@ class AllowedOriginTest {
 
 	@Test
 	void anEmptyListAcceptsNoBrowserOrigin() throws Exception {
-		AllowedOriginFilter filter = new AllowedOriginFilter(new ContactProperties(List.of()), this.jsonMapper);
+		AllowedOriginFilter filter = new AllowedOriginFilter(
+				new ContactProperties(List.of(), Duration.ofSeconds(3), Duration.ofHours(2)), this.jsonMapper);
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", OK);
 		request.addHeader(ORIGIN, ALLOWED);
 		MockHttpServletResponse response = new MockHttpServletResponse();
