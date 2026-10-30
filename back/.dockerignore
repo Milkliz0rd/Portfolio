@@ -1,0 +1,17 @@
+# Hors du contexte de construction de l'image : le build local, les fichiers d'éditeur et de
+# système, et le fichier de variables locales, qui peut porter un secret.
+target/
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+.apt_generated
+.springBeans
+.sts4-cache
+*.iml
+*.iws
+*.ipr
+.DS_Store
+.env
