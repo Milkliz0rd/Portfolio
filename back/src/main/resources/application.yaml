@@ -49,3 +49,13 @@ contact:
   # Secret of the form token signatures: at least 32 random bytes in standard Base64, no default.
   # Checked by FormTokenService, outside ContactProperties, whose failure report shows values.
   token-secret: ${CONTACT_TOKEN_SECRET:}
+  # Time limit of the call to the provider, for the connection and for the answer: 1 to 20 seconds.
+  provider-timeout: ${CONTACT_PROVIDER_TIMEOUT:10s}
+  # Base address of Brevo's API, the public one its documentation gives: an absolute https address.
+  brevo-base-url: ${CONTACT_BREVO_BASE_URL:https://api.brevo.com/v3}
+  # The key of Brevo's API, the sending address, on the site's domain, and the receiving address,
+  # Alexandre's box: no default, never in the repository. Required when the sender is brevo, and
+  # checked by the Brevo adapter, outside ContactProperties, whose failure report shows values.
+  brevo-api-key: ${CONTACT_BREVO_API_KEY:}
+  mail-from: ${CONTACT_MAIL_FROM:}
+  mail-to: ${CONTACT_MAIL_TO:}
