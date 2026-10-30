@@ -91,6 +91,26 @@ d'`angular.json`, un composant écrit `@use 'ruptures';`, puis
 | `_typographie.scss` | les dix tailles de texte (`--taille-affiche` à `--taille-etiquette`), appliquées à `body`, `h1` à `h4` et `code` ; classe `affiche`       |
 | `_utilitaires.scss` | `masque-visuellement`, `conteneur-standard` et `conteneur-large` (plus la marge de page de chaque côté), `grille` (4, 8 puis 12 colonnes) |
 
+Les mélanges de couleur et les valeurs propres à un composant, que la charte donne sans les
+nommer, sont des jetons de rôle, en fin de `_jetons.scss` (`--fond-bouton-survol`…).
+
+## Composants
+
+Les composants de la charte vivent dans `src/app/components/`, un dossier par composant. Ils
+n'emploient que des jetons et ne dépendent d'aucun contenu ni d'aucun service du portfolio. Le
+bouton et le lien se posent sur l'élément natif, qui garde sa sémantique, son clavier et le lien du
+routeur :
+
+| Composant      | Se pose                                                                | Entrées                                                                                                                       |
+| -------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Icône          | `<app-icone nom="fleche" />`                                           | `nom`, l'une des 13 icônes ; décorative, à la couleur et à 1,25 fois la taille du texte                                       |
+| Bouton (CO-01) | `<button appBouton>` pour une action, `<a appBouton>` pour une page    | `variante` (`primaire`, par défaut, `secondaire`, `discret`, `icone`), `compact`, `libelle` (texte masqué, exigé par `icone`) |
+| Lien (CO-02)   | `<a appLien routerLink="/parcours">`, `<a appLien href="…">` hors site | `variante` (`texte`, par défaut, `discret`, `action`, `navigation`, `externe`), `courant` (`aria-current="page"`)             |
+
+Un `button` sans `type` reçoit `type="button"`. Le lien externe s'ouvre dans un nouvel onglet
+(`target="_blank"`, `rel="noopener noreferrer"`) et l'annonce par sa flèche et le texte masqué
+« (nouvel onglet) ».
+
 ## Polices
 
 Bricolage Grotesque (700, 800), Hanken Grotesk (400 à 700) et JetBrains Mono (400, 500) sont
