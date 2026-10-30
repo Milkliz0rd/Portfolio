@@ -193,6 +193,22 @@
   --epaisseur-soulignement: 1px;
   --epaisseur-soulignement-survol: 2px;
   --epaisseur-trait-courant: 2px;
+
+  // CO-03 Pastille : marge verticale et interligne (maquettes), point de 6 px et rayonnement du
+  // point lumineux (maquettes) ; fond de la neutre, couleur-texte à 8 %, et des teintées, la couleur
+  // de leur texte à opacite-teinte (currentcolor se résout sur la pastille, à la couleur du rôle).
+  --marge-verticale-pastille: 7px;
+  --interligne-pastille: 1;
+  --taille-point-pastille: 6px;
+  --rayonnement-point-pastille: 0 0 8px currentcolor;
+  --fond-pastille-neutre: color-mix(in srgb, var(--couleur-texte) 8%, transparent);
+  --fond-pastille-teintee: color-mix(in srgb, currentcolor var(--opacite-teinte), transparent);
+
+  // CO-04 Étiquette : trait de 24 px de la numérotée (1.5rem dans les maquettes), que le mouvement
+  // étirera (MV-05) ; puce lumineuse de 7 px et son rayonnement (maquettes).
+  --longueur-trait-etiquette: 1.5rem;
+  --taille-puce-etiquette: 7px;
+  --rayonnement-puce-etiquette: 0 0 10px var(--couleur-accent);
 }
 
 @include ruptures.depuis(moyenne) {
