@@ -1,0 +1,102 @@
+// Champ de formulaire de la charte (CO-10) : libellé au-dessus, zone de saisie d'au moins 48 px
+// (144 px pour la zone de texte, extensible en hauteur), aide et erreur dessous. Le bord, en
+// couleur-texte-discret, atteint 3:1 sur le fond du champ (section 8). Le focus garde l'anneau de
+// _base.scss ; les règles suivent l'ordre des maquettes : l'erreur l'emporte sur le survol et le
+// focus, le désactivé sur tout.
+:host {
+  display: grid;
+  gap: var(--espace-2);
+  align-content: start;
+  min-width: 0;
+}
+
+.champ__libelle {
+  color: var(--couleur-texte);
+  font-size: var(--taille-texte);
+  font-weight: var(--graisse-appuyee);
+  line-height: var(--interligne-texte);
+}
+
+.champ__saisie {
+  width: 100%;
+  min-height: var(--hauteur-champ);
+  margin: 0;
+  padding: var(--espace-3) var(--espace-4);
+  border: var(--bordure-epaisseur) solid var(--couleur-texte-discret);
+  border-radius: var(--arrondi-petit);
+  background: var(--couleur-surface);
+  color: var(--couleur-texte);
+  font-family: var(--police-texte);
+  font-size: var(--taille-texte);
+  font-weight: var(--graisse-normale);
+  line-height: var(--interligne-texte);
+  transition: border-color var(--duree-courte) var(--courbe-standard);
+}
+
+.champ__saisie--zone {
+  min-height: var(--hauteur-zone-texte);
+  resize: vertical;
+}
+
+// Le texte indicatif n'est jamais le libellé ; il garde 4.5:1 sur la surface.
+.champ__saisie::placeholder {
+  color: var(--couleur-texte-discret);
+  opacity: 1;
+}
+
+.champ__saisie:hover {
+  border-color: var(--couleur-texte-secondaire);
+}
+
+.champ__saisie:focus-visible {
+  border-color: var(--couleur-focus);
+}
+
+// Manquant ou invalide : bord et filet intérieur gauche couleur-erreur.
+.champ__saisie[aria-invalid='true'] {
+  border-color: var(--couleur-erreur);
+  box-shadow: inset var(--epaisseur-filet-erreur) 0 0 var(--couleur-erreur);
+}
+
+// Désactivé pendant l'envoi : la saisie reste lisible.
+.champ__saisie:disabled {
+  border-style: dashed;
+  border-color: var(--couleur-bordure);
+  background: var(--couleur-fond);
+  color: var(--couleur-texte-secondaire);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.champ__aide,
+.champ__erreur {
+  margin: 0;
+  font-size: var(--taille-texte-petit);
+  line-height: var(--interligne-compact);
+}
+
+.champ__aide {
+  color: var(--couleur-texte-discret);
+}
+
+// L'erreur : une icône et un texte, la couleur ne porte jamais seule l'information.
+.champ__erreur {
+  display: flex;
+  gap: var(--espace-2);
+  align-items: flex-start;
+  color: var(--couleur-erreur);
+  font-weight: var(--graisse-moyenne);
+}
+
+.champ__icone {
+  width: var(--taille-icone-erreur);
+  height: var(--taille-icone-erreur);
+  margin-top: var(--decalage-icone-erreur);
+}
+
+// Mouvement réduit : le bord change d'un coup.
+@media (prefers-reduced-motion: reduce) {
+  .champ__saisie {
+    transition: none;
+  }
+}

@@ -1,0 +1,30 @@
+<label class="champ__libelle" [for]="identifiant">{{ libelleAffiche() }}</label>
+@if (type() === 'zone') {
+  <textarea
+    class="champ__saisie champ__saisie--zone"
+    [id]="identifiant"
+    [formField]="champ()"
+    [attr.autocomplete]="autocompleteEffectif()"
+    [attr.aria-describedby]="descriptions()"
+    [attr.aria-invalid]="erreur() ? 'true' : null"
+  ></textarea>
+} @else {
+  <input
+    class="champ__saisie"
+    [type]="type() === 'email' ? 'email' : 'text'"
+    [id]="identifiant"
+    [formField]="champ()"
+    [attr.placeholder]="type() === 'email' ? indicatifEmail : null"
+    [attr.autocomplete]="autocompleteEffectif()"
+    [attr.aria-describedby]="descriptions()"
+    [attr.aria-invalid]="erreur() ? 'true' : null"
+  />
+}
+@if (aide(); as aide) {
+  <p class="champ__aide" [id]="identifiant + '-aide'">{{ aide }}</p>
+}
+@if (erreur(); as erreur) {
+  <p class="champ__erreur" [id]="identifiant + '-erreur'">
+    <app-icone class="champ__icone" nom="erreur" />{{ erreur }}
+  </p>
+}
