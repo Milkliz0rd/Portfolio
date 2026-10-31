@@ -41,6 +41,7 @@ describe('IndicateurActivite', () => {
     expect(indicateur.getAttribute('aria-hidden')).toBe('true');
     expect(indicateur.hasAttribute('role')).toBe(false);
     expect(indicateur.hasAttribute('tabindex')).toBe(false);
-    expect(indicateur.childNodes).toHaveLength(0);
+    expect(indicateur.querySelector('.indicateur-activite__anneau')).not.toBeNull();
+    expect(indicateur.textContent).toBe('');
   });
 });

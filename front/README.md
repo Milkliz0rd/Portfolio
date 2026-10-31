@@ -164,6 +164,58 @@ forme par la page) et `date`, vrai pour une date ou une période, écrite en pol
 dont la valeur manque, est nulle ou vide une fois les espaces retirés disparaît entière ; sans
 aucune paire, aucune liste n'est rendue.
 
+Les composants de formulaire et d'état servent au formulaire de contact et au CV indisponible. Leurs
+seuls textes propres sont ceux que la charte leur donne, marqués pour la traduction : « Envoi en
+cours… » (`@@commun.envoi-en-cours`), « Votre adresse e-mail » (`@@champ.indicatif-email`), « Ce
+champ est obligatoire. » (`@@champ.erreur-obligatoire`) et « L’adresse e-mail n’est pas valide. »
+(`@@champ.erreur-email`). Le reste vient de la page (`i18n-libelle`, `i18n-titre`, `i18n`).
+
+| Composant                     | Se pose                                                                            | Entrées                                                                                                                                                                                                             |
+| ----------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Champ (CO-10)                 | `<app-champ [champ]="formulaire.nom" libelle="Nom" [envoiTente]="envoiTente()" />` | `champ` (un champ de Signal Forms), `libelle`, `type` (`texte`, par défaut, `email`, `zone`), `aide`, `autocomplete` (`email` pour `email`), `envoiTente` (faux par défaut, vrai dès la première tentative d'envoi) |
+| Message d'état (CO-11)        | voir ci-dessous                                                                    | `variante` (`information`, par défaut, `envoi`, `succes`, `echec`, `attention`), `titre`                                                                                                                            |
+| Indicateur d'activité (CO-15) | `<app-indicateur-activite taille="grand" />`                                       | `taille` (`texte`, par défaut, `bouton`, `grand` : 32 px)                                                                                                                                                           |
+| Bouton en cours (CO-01)       | `<button appBouton type="submit" [enCours]="envoi()">`                             | `enCours`                                                                                                                                                                                                           |
+
+**Champ.** Il se lie au champ de Signal Forms par la directive `FormField` : la valeur, `required`
+(règle `required()`) et `disabled` (règle `disabled()`, pendant l'envoi) viennent de l'état du
+champ. Le formulaire porte `novalidate`, ou `[formRoot]`, qui le pose : les bulles du navigateur ne
+remplacent jamais les messages. Le champ désactivé garde sa saisie, lisible, sur un bord pointillé.
+
+**Quand une erreur s'affiche.** À l'envoi seulement (CO-01) : quand `envoiTente` est vrai et que le
+champ est invalide pour Signal Forms. La page passe `envoiTente` à vrai à la première tentative
+d'envoi (TK-41) ; si elle vide le formulaire, après un succès, elle le remet à faux, sans quoi les
+champs vidés montreraient leur erreur. Quitter un champ ne suffit pas : Signal Forms le touche, mais
+« touché » ne compte pas. Après une tentative, l'erreur suit l'état du champ : elle disparaît dès
+qu'il devient valide. Un champ désactivé n'est pas validé et ne montre aucune erreur. Le message est
+celui de la première erreur : la charte donne ceux de `required` et `email`, toute autre erreur
+apporte le sien (`message`), sans quoi le rendu échoue. Le champ en faute porte
+`aria-invalid="true"` et `aria-describedby` vers l'aide, puis vers l'erreur, affichée sous le champ
+avec son icône. Mettre le focus sur le premier champ à corriger revient à la page
+(`focusBoundControl()` de Signal Forms).
+
+**Message d'état.** Il dit toujours ce qui se passe par une icône (l'indicateur pendant l'envoi), un
+titre et un texte ; sans titre ou sans texte, il lève une erreur au rendu. Le texte est projeté, en
+ligne ; un `button` projeté devient l'action, placée sous le texte ; un lien reste dans le texte.
+L'échec s'annonce aussitôt (`role="alert"`) ; l'information, l'envoi en cours, le succès et
+l'attention, poliment (`role="status"`). Le message ne disparaît jamais de lui-même : la page le
+remplace (l'envoi en cours par le succès ou l'échec) ou le retire à la prochaine action.
+
+```html
+<app-message-etat variante="echec" titre="L’envoi a échoué" i18n-titre="@@contact.echec-titre">
+  <ng-container i18n="@@contact.echec-texte">Votre saisie est conservée.</ng-container>
+  <button appBouton variante="secondaire" (click)="reessayer()">
+    <app-icone nom="reessayer" /><ng-container i18n="@@contact.reessayer">Réessayer</ng-container>
+  </button>
+</app-message-etat>
+```
+
+**Bouton en cours.** `enCours` garde l'aspect et le focus du bouton, sans l'attribut `disabled` :
+l'indicateur et « Envoi en cours… » remplacent son contenu, il porte `aria-disabled="true"` et
+annule tout clic, si bien que ni un clic, ni Entrée, ni Espace, ni l'envoi implicite du formulaire
+ne relancent l'envoi. L'indicateur, décoratif, tourne en `duree-rotation` et reste fixe quand le
+visiteur réduit les animations : le texte voisin dit toujours ce qu'on attend.
+
 ## Polices
 
 Bricolage Grotesque (700, 800), Hanken Grotesk (400 à 700) et JetBrains Mono (400, 500) sont

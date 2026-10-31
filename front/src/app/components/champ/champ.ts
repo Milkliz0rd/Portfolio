@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 import { Icone } from '../icone/icone';
 
@@ -14,13 +20,15 @@ let prochainNumero = 0;
 
 /**
  * Champ de formulaire de la charte (CO-10), lié à un champ de Signal Forms par la directive
- * FormField : valeur, required, disabled et touché viennent de son état. Le libellé, visible
+ * FormField : valeur, required, disabled et validité viennent de son état. Le libellé, visible
  * au-dessus, est lié au contrôle ; l'aide et l'erreur, sous le champ, lui sont liées par
  * aria-describedby.
  *
- * L'erreur s'affiche quand le champ est touché et invalide : submit() (ou [formRoot]) touche tous
- * les champs, si bien que chaque champ en faute montre son message à l'envoi ; Signal Forms touche
- * aussi un champ que le visiteur quitte. Un champ désactivé n'est jamais touché ni validé.
+ * Les erreurs s'affichent à l'envoi (CO-01) : l'erreur n'apparaît que si la page a passé
+ * envoiTente à vrai, à la première tentative d'envoi (TK-41), et que le champ est invalide.
+ * Signal Forms touche un champ que le visiteur quitte, mais « touché » ne compte pas ici. Après une
+ * tentative, l'erreur suit l'état du champ : elle disparaît dès qu'il est valide. Un champ
+ * désactivé n'est pas validé, il n'a donc jamais d'erreur.
  */
 @Component({
   selector: 'app-champ',
@@ -39,6 +47,8 @@ export class Champ {
   readonly aide = input<string>();
   /** La valeur d'autocomplete ; « email » par défaut pour le type email. */
   readonly autocomplete = input<string>();
+  /** Vrai dès que la page a tenté un envoi ; tant qu'il est faux, aucune erreur ne s'affiche. */
+  readonly envoiTente = input(false, { transform: booleanAttribute });
 
   protected readonly identifiant = `champ-${prochainNumero++}`;
   protected readonly indicatifEmail = $localize`:@@champ.indicatif-email:Votre adresse e-mail`;
@@ -52,7 +62,7 @@ export class Champ {
   });
   protected readonly erreur = computed(() => {
     const etat = this.champ()();
-    const [erreur] = etat.touched() && etat.invalid() ? etat.errors() : [];
+    const [erreur] = this.envoiTente() && etat.invalid() ? etat.errors() : [];
     if (!erreur) {
       return undefined;
     }

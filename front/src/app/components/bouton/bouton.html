@@ -1,4 +1,8 @@
-<ng-content />
+<span class="bouton__contenu"><ng-content /></span>
+@if (enCours()) {
+  <app-indicateur-activite taille="bouton" />
+  <span i18n="@@commun.envoi-en-cours">Envoi en cours…</span>
+}
 @if (libelleMasque(); as libelle) {
   <span class="masque-visuellement">{{ libelle }}</span>
 }

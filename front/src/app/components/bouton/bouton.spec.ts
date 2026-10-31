@@ -27,6 +27,29 @@ class Hote {
 })
 class IconeSansLibelle {}
 
+@Component({
+  imports: [Bouton, Icone],
+  template: `
+    <form (submit)="envois = envois + 1; $event.preventDefault()">
+      <button appBouton type="submit" [enCours]="enCours()" (click)="clics = clics + 1">
+        Envoyer <app-icone nom="fleche" />
+      </button>
+    </form>
+  `,
+})
+class Envoi {
+  readonly enCours = signal(true);
+  envois = 0;
+  clics = 0;
+}
+
+function rendreEnvoi() {
+  const fixture = TestBed.createComponent(Envoi);
+  fixture.detectChanges();
+  const bouton = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('button')!;
+  return { fixture, hote: fixture.componentInstance, bouton };
+}
+
 function rendre() {
   const fixture = TestBed.createComponent(Hote);
   fixture.detectChanges();
@@ -97,5 +120,39 @@ describe('Bouton', () => {
   it('refuse une icône seule sans libellé masqué', () => {
     const fixture = TestBed.createComponent(IconeSansLibelle);
     expect(() => fixture.detectChanges()).toThrow(/libellé masqué/);
+  });
+
+  it('montre en cours l’indicateur et « Envoi en cours… », sans perdre l’aspect primaire', () => {
+    const { bouton } = rendreEnvoi();
+    expect(variantesPortees(bouton)).toEqual(['bouton--primaire', 'bouton--en-cours']);
+    // Le contenu de la page reste dans le bouton, masqué par la classe bouton--en-cours.
+    const [contenu, indicateur, libelle] = [...bouton.children];
+    expect(contenu.classList).toContain('bouton__contenu');
+    expect(indicateur.localName).toBe('app-indicateur-activite');
+    expect(indicateur.classList).toContain('indicateur-activite--bouton');
+    expect(indicateur.getAttribute('aria-hidden')).toBe('true');
+    expect(libelle.textContent).toBe('Envoi en cours…');
+  });
+
+  it('bloque un nouvel envoi sans l’attribut disabled : clic et envoi sans effet', () => {
+    const { hote, bouton } = rendreEnvoi();
+    expect(bouton.disabled).toBe(false);
+    expect(bouton.getAttribute('aria-disabled')).toBe('true');
+    const clic = new MouseEvent('click', { bubbles: true, cancelable: true });
+    bouton.dispatchEvent(clic);
+    expect(clic.defaultPrevented).toBe(true);
+    expect([hote.clics, hote.envois]).toEqual([0, 0]);
+  });
+
+  it('retrouve son contenu et son envoi une fois l’envoi terminé', () => {
+    const { fixture, hote, bouton } = rendreEnvoi();
+    hote.enCours.set(false);
+    fixture.detectChanges();
+    expect(bouton.classList).not.toContain('bouton--en-cours');
+    expect(bouton.hasAttribute('aria-disabled')).toBe(false);
+    expect(bouton.querySelector('app-indicateur-activite')).toBeNull();
+    expect(bouton.textContent?.trim()).toBe('Envoyer');
+    bouton.click();
+    expect([hote.clics, hote.envois]).toEqual([1, 1]);
   });
 });
