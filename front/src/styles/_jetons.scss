@@ -211,6 +211,14 @@
 
   // CO-17 Liste clé-valeur : approche d'une valeur de date ou de période (maquettes, choix C6).
   --approche-date: 0.02em;
+
+  // CO-10 Champ : hauteurs minimales de la zone de saisie (48 px) et de la zone de texte (144 px) ;
+  // filet intérieur gauche d'un champ en erreur, taille et décalage de l'icône d'erreur (maquettes).
+  --hauteur-champ: 3rem;
+  --hauteur-zone-texte: 9rem;
+  --epaisseur-filet-erreur: 3px;
+  --taille-icone-erreur: 1.1em;
+  --decalage-icone-erreur: 0.15em;
 }
 
 @include ruptures.depuis(moyenne) {
