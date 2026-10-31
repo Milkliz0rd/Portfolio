@@ -14,12 +14,16 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-/** Reading of CONTACT_ALLOWED_ORIGINS, CONTACT_TOKEN_MIN_AGE and CONTACT_TOKEN_MAX_AGE at startup (PB-04). */
+/**
+ * Reading of CONTACT_ALLOWED_ORIGINS, CONTACT_TOKEN_MIN_AGE, CONTACT_TOKEN_MAX_AGE, CONTACT_PROVIDER_TIMEOUT and
+ * CONTACT_BREVO_BASE_URL at startup (PB-04).
+ */
 class ContactPropertiesTest {
 
 	private final ApplicationContextRunner runner = new ApplicationContextRunner()
 		.withUserConfiguration(PropertiesConfiguration.class)
-		.withPropertyValues("contact.token-min-age=3s", "contact.token-max-age=2h");
+		.withPropertyValues("contact.token-min-age=3s", "contact.token-max-age=2h", "contact.provider-timeout=10s",
+				"contact.brevo-base-url=https://api.brevo.com/v3");
 
 	@ParameterizedTest
 	@ValueSource(strings = { "https://*.site.example", "https://site.example/path", "https://site.example/",
@@ -80,6 +84,60 @@ class ContactPropertiesTest {
 			.run((context) -> {
 				assertThat(context.getBean(ContactProperties.class).tokenMinAge()).isEqualTo(Duration.ofSeconds(3));
 				assertThat(context.getBean(ContactProperties.class).tokenMaxAge()).isEqualTo(Duration.ofHours(2));
+			});
+	}
+
+	/** From 1 to 20 seconds, bounds included; without unit, in seconds. */
+	@ParameterizedTest
+	@CsvSource({ "10s, PT10S", "1s, PT1S", "20s, PT20S", "1500ms, PT1.5S", "5, PT5S" })
+	void theProviderTimeoutIsRead(String timeout, Duration expected) {
+		this.runner.withPropertyValues("contact.provider-timeout=" + timeout)
+			.run((context) -> assertThat(context.getBean(ContactProperties.class).providerTimeout()).isEqualTo(expected));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = { "0s", "999ms", "20001ms", "25s", "-1s", "" })
+	void aProviderTimeoutOutside1To20SecondsStopsTheStartup(String timeout) {
+		this.runner.withPropertyValues("contact.provider-timeout=" + timeout).run((context) -> {
+			assertThat(context).hasFailed();
+			assertThat(context.getStartupFailure()).rootCause()
+				.hasMessageStartingWith("CONTACT_PROVIDER_TIMEOUT must be a duration from 1 to 20 seconds");
+		});
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = { "https://api.brevo.com/v3", "https://localhost:18386/v3", "https://brevo.example" })
+	void anAbsoluteHttpsBaseAddressIsRead(String address) {
+		this.runner.withPropertyValues("contact.brevo-base-url=" + address)
+			.run((context) -> assertThat(context.getBean(ContactProperties.class).brevoBaseUrl()).isEqualTo(address));
+	}
+
+	/** Another scheme, an upper-case one, a relative address, no host, a user, a query, a fragment, a space. */
+	@ParameterizedTest
+	@ValueSource(strings = { "http://marqueur.example/v3", "HTTPS://marqueur.example/v3", "//marqueur.example/v3",
+			"/v3", "marqueur.example/v3", "https://", "https:///v3", "https://marqueur" + "@" + "brevo.example/v3",
+			"https://brevo.example/v3?marqueur=1", "https://brevo.example/v3#marqueur", "https://marqueur example/v3",
+			"" })
+	void aBaseAddressThatIsNotAbsoluteHttpsStopsTheStartupWithoutBeingShown(String address) {
+		this.runner.withPropertyValues("contact.brevo-base-url=" + address).run((context) -> {
+			assertThat(context).hasFailed();
+			assertThat(context.getStartupFailure()).rootCause()
+				.hasMessageStartingWith("CONTACT_BREVO_BASE_URL must be an absolute https address")
+				.hasMessageNotContaining("marqueur")
+				.hasMessageNotContaining("example");
+		});
+	}
+
+	/** The values of application.yaml when the variables are unset; skipped if this shell sets them. */
+	@Test
+	void theProviderSettingsDefaultTo10sAndBrevosPublicAddress() {
+		assumeTrue(System.getenv("CONTACT_PROVIDER_TIMEOUT") == null && System.getenv("CONTACT_BREVO_BASE_URL") == null,
+				"CONTACT_PROVIDER_TIMEOUT or CONTACT_BREVO_BASE_URL is set in this shell");
+		new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class)
+			.withInitializer(new ConfigDataApplicationContextInitializer())
+			.run((context) -> {
+				assertThat(context.getBean(ContactProperties.class).providerTimeout()).isEqualTo(Duration.ofSeconds(10));
+				assertThat(context.getBean(ContactProperties.class).brevoBaseUrl()).isEqualTo("https://api.brevo.com/v3");
 			});
 	}
 

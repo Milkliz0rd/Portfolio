@@ -135,7 +135,9 @@ class AllowedOriginTest {
 	@Test
 	void anEmptyListAcceptsNoBrowserOrigin() throws Exception {
 		AllowedOriginFilter filter = new AllowedOriginFilter(
-				new ContactProperties(List.of(), Duration.ofSeconds(3), Duration.ofHours(2)), this.jsonMapper);
+				new ContactProperties(List.of(), Duration.ofSeconds(3), Duration.ofHours(2), Duration.ofSeconds(10),
+						"https://api.brevo.com/v3"),
+				this.jsonMapper);
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", OK);
 		request.addHeader(ORIGIN, ALLOWED);
 		MockHttpServletResponse response = new MockHttpServletResponse();
