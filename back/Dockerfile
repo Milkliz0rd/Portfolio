@@ -43,8 +43,8 @@ ENV JDK_JAVA_OPTIONS="-XX:+UseSerialGC -XX:MaxRAMPercentage=60"
 # Exécution d'entraînement : le contexte démarre puis s'arrête, et la JVM écrit app.aot, avec
 # 512 Mo simulés comme l'instance gratuite. Les deux variables ne valent que pour cette commande ;
 # sans l'une ou l'autre, le contexte ne démarre pas. CONTACT_MAIL_SENDER=none choisit
-# l'adaptateur d'envoi qui n'envoie rien : le back la lit depuis TK-16 et, avec brevo, sa valeur
-# par défaut, refuse de démarrer tant que l'adaptateur Brevo n'existe pas (TK-20).
+# l'adaptateur d'envoi qui n'envoie rien : avec brevo, sa valeur par défaut, le back exige la clé
+# de Brevo et les deux adresses, que l'image ne contient jamais ; chaque conteneur les reçoit.
 # CONTACT_TOKEN_SECRET, le secret de signature des jetons de formulaire, est lu depuis TK-18 et
 # n'a pas de valeur par défaut : tiré au hasard ici, il n'est jamais écrit ni gardé dans l'image,
 # et chaque conteneur reçoit le sien au lancement.
