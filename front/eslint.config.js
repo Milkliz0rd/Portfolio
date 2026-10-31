@@ -106,10 +106,11 @@ module.exports = defineConfig([
     rules: {
       '@angular-eslint/template/prefer-control-flow': 'error',
       // Chaque libellé est marqué, avec un identifiant personnalisé « @@zone.element » (PF-03).
-      // nom et variante, entrées des composants de la charte, portent une clé, jamais un libellé.
+      // nom, variante et taille, entrées des composants de la charte, portent une clé, jamais un
+      // libellé.
       '@angular-eslint/template/i18n': [
         'error',
-        { checkId: true, checkText: true, ignoreAttributes: ['nom', 'variante'] },
+        { checkId: true, checkText: true, ignoreAttributes: ['nom', 'variante', 'taille'] },
       ],
     },
   },

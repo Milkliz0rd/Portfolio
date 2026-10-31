@@ -1,0 +1,35 @@
+// Indicateur d'activité de la charte (CO-15) : l'hôte est l'anneau. Un quart du trait prend la
+// couleur du texte, le reste cette couleur à 28 %.
+:host {
+  display: inline-block;
+  flex: none;
+  width: var(--taille-indicateur);
+  height: var(--taille-indicateur);
+  border: var(--epaisseur-indicateur) solid var(--reste-indicateur);
+  border-top-color: currentcolor;
+  border-radius: var(--arrondi-cercle);
+}
+
+:host(.indicateur-activite--bouton) {
+  color: var(--couleur-texte-sur-accent);
+}
+
+:host(.indicateur-activite--grand) {
+  width: var(--taille-indicateur-grand);
+  height: var(--taille-indicateur-grand);
+  border-width: var(--epaisseur-indicateur-grand);
+}
+
+// Un tour en duree-rotation, en boucle, tant qu'il est affiché ; un anneau fixe quand le visiteur
+// réduit les animations : le texte voisin porte l'information.
+@media (prefers-reduced-motion: no-preference) {
+  :host {
+    animation: rotation var(--duree-rotation) linear infinite;
+  }
+}
+
+@keyframes rotation {
+  to {
+    transform: rotate(1turn);
+  }
+}

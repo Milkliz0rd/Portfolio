@@ -1,0 +1,10 @@
+@if (icone(); as icone) {
+  <app-icone class="message-etat__icone" [nom]="icone" />
+} @else {
+  <app-indicateur-activite class="message-etat__icone" />
+}
+<div class="message-etat__corps">
+  <p class="message-etat__titre">{{ titre() }}</p>
+  <div #texte class="message-etat__texte"><ng-content /></div>
+</div>
+<div class="message-etat__action"><ng-content select="button" /></div>
