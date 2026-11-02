@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,6 +48,7 @@ import io.github.milkliz0rd.portfolio.sender.MessageSender;
 import io.github.milkliz0rd.portfolio.sender.SendFailedException;
 import io.github.milkliz0rd.portfolio.sender.SendFailedException.Kind;
 import io.github.milkliz0rd.portfolio.service.FormTokenService;
+import jakarta.servlet.RequestDispatcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -243,6 +245,22 @@ class ContactMessageEndpointTest {
 		this.clock.advance(Duration.ofHours(2).minusSeconds(3).plusMillis(1));
 		bodies.add(unavailable(send(body())));
 		assertThat(bodies).hasSize(8).containsOnly(bodies.getFirst());
+	}
+
+	/** Handler, filter, validation or fallback: each error is stamped by the back's clock, to the second (PB-06). */
+	@Test
+	void theErrorsAreStampedByTheInjectedClock() throws Exception {
+		this.clock.advance(Duration.ofMillis(500));
+		String now = this.clock.instant().truncatedTo(ChronoUnit.SECONDS).toString();
+		for (ResultActions error : List.of(send(body("formToken", ABSENT)), send(body("subject", "")),
+				this.mockMvc.perform(post(ROUTE).header(ORIGIN, "https://autre.example")),
+				this.mockMvc.perform(post(ROUTE + "/inconnue")),
+				this.mockMvc.perform(get("/error").requestAttr(RequestDispatcher.ERROR_STATUS_CODE, 500)))) {
+			Map<String, Object> body = JSON.readValue(error.andReturn().getResponse().getContentAsString(),
+					new TypeReference<>() {
+					});
+			assertThat(body).containsEntry("timestamp", now);
+		}
 	}
 
 	/** Five messages from each of ten addresses: the 50 of the cap. */

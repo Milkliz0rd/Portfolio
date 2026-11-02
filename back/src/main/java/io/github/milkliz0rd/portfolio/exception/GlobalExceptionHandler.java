@@ -1,5 +1,6 @@
 package io.github.milkliz0rd.portfolio.exception;
 
+import java.time.Clock;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -35,6 +36,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+	private final Clock clock;
+
+	public GlobalExceptionHandler(Clock clock) {
+		this.clock = clock;
+	}
 
 	@ExceptionHandler(Exception.class)
 	public @Nullable ResponseEntity<Object> handleUnexpected(Exception ex, WebRequest request) {
@@ -72,8 +79,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		if (request instanceof ServletWebRequest servletRequest) {
 			ContactOutcomeLog.writeValidationRefused(servletRequest.getRequest(), reasons);
 		}
-		return handleExceptionInternal(ex, ErrorResponse.invalidFields(path(request), reasons), headers, status,
-				request);
+		return handleExceptionInternal(ex, ErrorResponse.invalidFields(path(request), reasons, this.clock), headers,
+				status, request);
 	}
 
 	@Override
@@ -85,7 +92,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		HttpHeaders jsonHeaders = HttpHeaders.copyOf(headers);
 		jsonHeaders.setContentType(MediaType.APPLICATION_JSON);
 		ErrorResponse error = (body instanceof ErrorResponse given) ? given
-				: ErrorResponse.of(HttpStatus.valueOf(statusCode.value()), path(request));
+				: ErrorResponse.of(HttpStatus.valueOf(statusCode.value()), path(request), this.clock);
 		return super.handleExceptionInternal(ex, error, jsonHeaders, statusCode, request);
 	}
 

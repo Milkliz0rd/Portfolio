@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.stream.Stream;
 
+import io.github.milkliz0rd.portfolio.config.ClockConfig;
 import io.github.milkliz0rd.portfolio.service.ContactService;
 import io.github.milkliz0rd.portfolio.service.FormTokenService;
 import jakarta.servlet.RequestDispatcher;
@@ -35,7 +36,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 
 /** The error format and the security headers (TK-67), on a test controller under /api/v1/: PB-06. */
 @WebMvcTest
-@Import(ApiTestController.class)
+@Import({ ApiTestController.class, ClockConfig.class })
 class ErrorFormatTest {
 
 	@Autowired

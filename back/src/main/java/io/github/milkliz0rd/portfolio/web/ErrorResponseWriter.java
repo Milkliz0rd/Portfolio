@@ -1,6 +1,7 @@
 package io.github.milkliz0rd.portfolio.web;
 
 import java.io.IOException;
+import java.time.Clock;
 
 import io.github.milkliz0rd.portfolio.dto.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,15 +19,18 @@ final class ErrorResponseWriter {
 
 	private final JsonMapper jsonMapper;
 
-	ErrorResponseWriter(JsonMapper jsonMapper) {
+	private final Clock clock;
+
+	ErrorResponseWriter(JsonMapper jsonMapper, Clock clock) {
 		this.jsonMapper = jsonMapper;
+		this.clock = clock;
 	}
 
 	void write(HttpServletRequest request, HttpServletResponse response, HttpStatus status)
 			throws IOException {
 		response.setStatus(status.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		this.jsonMapper.writeValue(response.getOutputStream(), ErrorResponse.of(status, request.getRequestURI()));
+		this.jsonMapper.writeValue(response.getOutputStream(), ErrorResponse.of(status, request.getRequestURI(), this.clock));
 	}
 
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.time.Clock;
 import java.util.Objects;
 
 import io.github.milkliz0rd.portfolio.service.ContactOutcome;
@@ -37,8 +38,8 @@ public class RequestSizeLimitFilter extends OncePerRequestFilter {
 
 	private final ErrorResponseWriter errorResponseWriter;
 
-	public RequestSizeLimitFilter(JsonMapper jsonMapper) {
-		this.errorResponseWriter = new ErrorResponseWriter(jsonMapper);
+	public RequestSizeLimitFilter(JsonMapper jsonMapper, Clock clock) {
+		this.errorResponseWriter = new ErrorResponseWriter(jsonMapper, clock);
 	}
 
 	@Override

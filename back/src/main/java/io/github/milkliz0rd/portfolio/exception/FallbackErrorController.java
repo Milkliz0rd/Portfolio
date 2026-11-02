@@ -1,5 +1,6 @@
 package io.github.milkliz0rd.portfolio.exception;
 
+import java.time.Clock;
 import java.util.Objects;
 
 import io.github.milkliz0rd.portfolio.dto.response.ErrorResponse;
@@ -22,6 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FallbackErrorController implements ErrorController {
 
+	private final Clock clock;
+
+	public FallbackErrorController(Clock clock) {
+		this.clock = clock;
+	}
+
 	@RequestMapping("${server.error.path:/error}")
 	public ResponseEntity<ErrorResponse> error(HttpServletRequest request) {
 		Object code = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
@@ -37,7 +44,7 @@ public class FallbackErrorController implements ErrorController {
 		}
 		return ResponseEntity.status(status)
 			.contentType(MediaType.APPLICATION_JSON)
-			.body(ErrorResponse.of(status, path));
+			.body(ErrorResponse.of(status, path, this.clock));
 	}
 
 }
