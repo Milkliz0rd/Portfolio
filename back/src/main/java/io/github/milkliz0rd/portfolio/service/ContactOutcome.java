@@ -1,8 +1,8 @@
 package io.github.milkliz0rd.portfolio.service;
 
 /**
- * The closed vocabulary of the issues of E-02 (PB-05), as far as this version goes: those of the
- * limit per address and of the cap come with them (TK-22).
+ * The closed vocabulary of the issues of E-02 (PB-05), as far as this version goes: that of the cap
+ * comes with it (TK-22).
  */
 public enum ContactOutcome {
 
@@ -10,7 +10,7 @@ public enum ContactOutcome {
 	UNSUPPORTED_MEDIA_TYPE("unsupported-media-type"), NOT_ACCEPTABLE("not-acceptable"),
 	ORIGIN_REFUSED("origin-refused"), HONEYPOT("honeypot"), TOKEN_MISSING("token-missing"),
 	TOKEN_FORGED("token-forged"), TOKEN_TOO_RECENT("token-too-recent"), TOKEN_EXPIRED("token-expired"),
-	PROVIDER_FAILURE("provider-failure"), PROVIDER_TIMEOUT("provider-timeout"), INTERNAL_ERROR("internal-error");
+	IP_LIMIT("ip-limit"), PROVIDER_FAILURE("provider-failure"), PROVIDER_TIMEOUT("provider-timeout"), INTERNAL_ERROR("internal-error");
 
 	private final String code;
 

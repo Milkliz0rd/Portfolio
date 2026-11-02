@@ -16,14 +16,16 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
  * Reading of CONTACT_ALLOWED_ORIGINS, CONTACT_TOKEN_MIN_AGE, CONTACT_TOKEN_MAX_AGE, CONTACT_PROVIDER_TIMEOUT,
- * CONTACT_BREVO_BASE_URL, CONTACT_CLIENT_IP_HEADER and CONTACT_CLIENT_IP_POSITION at startup (PB-04).
+ * CONTACT_BREVO_BASE_URL, CONTACT_CLIENT_IP_HEADER, CONTACT_CLIENT_IP_POSITION and CONTACT_IP_LIMIT_PER_HOUR at
+ * startup (PB-04).
  */
 class ContactPropertiesTest {
 
 	private final ApplicationContextRunner runner = new ApplicationContextRunner()
 		.withUserConfiguration(PropertiesConfiguration.class)
 		.withPropertyValues("contact.token-min-age=3s", "contact.token-max-age=2h", "contact.provider-timeout=10s",
-				"contact.brevo-base-url=https://api.brevo.com/v3", "contact.client-ip-position=1");
+				"contact.brevo-base-url=https://api.brevo.com/v3", "contact.client-ip-position=1",
+				"contact.ip-limit-per-hour=5");
 
 	@ParameterizedTest
 	@ValueSource(strings = { "https://*.site.example", "https://site.example/path", "https://site.example/",
@@ -164,34 +166,41 @@ class ContactPropertiesTest {
 
 	@ParameterizedTest
 	@ValueSource(ints = { 1, 2, 10 })
-	void theClientIpPositionIsRead(int position) {
-		this.runner.withPropertyValues("contact.client-ip-position=" + position)
-			.run((context) -> assertThat(context.getBean(ContactProperties.class).clientIpPosition()).isEqualTo(position));
+	void theCountsAreRead(int count) {
+		this.runner.withPropertyValues("contact.client-ip-position=" + count, "contact.ip-limit-per-hour=" + count)
+			.run((context) -> {
+				assertThat(context.getBean(ContactProperties.class).clientIpPosition()).isEqualTo(count);
+				assertThat(context.getBean(ContactProperties.class).ipLimitPerHour()).isEqualTo(count);
+			});
 	}
 
 	/** Zero, negative or empty: refused by name; not a whole number: refused by Spring's conversion. */
 	@ParameterizedTest
-	@CsvSource({ "0, true", "-1, true", "'', true", "un, false", "1.5, false" })
-	void aClientIpPositionBelow1StopsTheStartup(String position, boolean named) {
-		this.runner.withPropertyValues("contact.client-ip-position=" + position).run((context) -> {
+	@CsvSource({ "client-ip-position, 0, CONTACT_CLIENT_IP_POSITION", "client-ip-position, -1, CONTACT_CLIENT_IP_POSITION",
+			"client-ip-position, '', CONTACT_CLIENT_IP_POSITION", "client-ip-position, un, ", "client-ip-position, 1.5, ",
+			"ip-limit-per-hour, 0, CONTACT_IP_LIMIT_PER_HOUR", "ip-limit-per-hour, -5, CONTACT_IP_LIMIT_PER_HOUR",
+			"ip-limit-per-hour, '', CONTACT_IP_LIMIT_PER_HOUR", "ip-limit-per-hour, cinq, " })
+	void aCountBelow1StopsTheStartup(String property, String count, String variable) {
+		this.runner.withPropertyValues("contact." + property + "=" + count).run((context) -> {
 			assertThat(context).hasFailed();
-			if (named) {
+			if (variable != null) {
 				assertThat(context.getStartupFailure()).rootCause()
-					.hasMessage("CONTACT_CLIENT_IP_POSITION must be a whole number of 1 or more, such as 1");
+					.hasMessageStartingWith(variable + " must be a whole number of 1 or more, such as ");
 			}
 		});
 	}
 
 	/** The values of application.yaml when the variables are unset; skipped if this shell sets them. */
 	@Test
-	void theClientIpSettingsDefaultToTheConnectionAndRank1() {
-		assumeTrue(System.getenv("CONTACT_CLIENT_IP_HEADER") == null && System.getenv("CONTACT_CLIENT_IP_POSITION") == null,
-				"CONTACT_CLIENT_IP_HEADER or CONTACT_CLIENT_IP_POSITION is set in this shell");
+	void theFilterSettingsDefaultToTheConnectionRank1And5PerHour() {
+		assumeTrue(System.getenv("CONTACT_CLIENT_IP_HEADER") == null && System.getenv("CONTACT_CLIENT_IP_POSITION") == null
+				&& System.getenv("CONTACT_IP_LIMIT_PER_HOUR") == null, "A variable of the filters is set in this shell");
 		new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class)
 			.withInitializer(new ConfigDataApplicationContextInitializer())
 			.run((context) -> {
 				assertThat(context.getBean(ContactProperties.class).clientIpHeader()).isEmpty();
 				assertThat(context.getBean(ContactProperties.class).clientIpPosition()).isEqualTo(1);
+				assertThat(context.getBean(ContactProperties.class).ipLimitPerHour()).isEqualTo(5);
 			});
 	}
 

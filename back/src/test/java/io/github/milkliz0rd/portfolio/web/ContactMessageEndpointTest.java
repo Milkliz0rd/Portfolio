@@ -73,7 +73,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
  * handler, contact service, filter chain and FormTokenService, whose tokens are issued under a clock
  * the tests move; only the message sender is simulated (PB-07).
  */
-@WebMvcTest(properties = "contact.allowed-origins=https://www.site.example")
+@WebMvcTest(properties = { "contact.allowed-origins=https://www.site.example",
+		"contact.client-ip-header=X-Forwarded-For" })
 @Import(ContactChainConfiguration.class)
 class ContactMessageEndpointTest {
 
@@ -108,8 +109,10 @@ class ContactMessageEndpointTest {
 		registry.add("contact.token-secret", () -> SECRET);
 	}
 
+	/** A new day, so that the counters of the slice are back at zero, and a token. */
 	@BeforeEach
 	void issueAValidToken() {
+		this.clock.advance(Duration.ofDays(1));
 		token = this.formTokenService.issue();
 		this.clock.advance(Duration.ofSeconds(3));
 	}
@@ -164,6 +167,32 @@ class ContactMessageEndpointTest {
 		bodies.add(unavailable(send(body())));
 		assertThat(bodies).hasSize(8).containsOnly(bodies.getFirst());
 		verify(this.messageSender, never()).send(any());
+	}
+
+	/** The sixth message of the hour of an address, whatever is forged on the left, gets the 503; not another's. */
+	@Test
+	void theSixthMessageOfTheHourFromOneAddressGetsTheSingle503() throws Exception {
+		for (int i = 0; i < 5; i++) {
+			send(body(), "198.51.100.9" + i + ", 203.0.113.10").andExpect(status().isAccepted());
+		}
+		unavailable(send(body(), "198.51.100.99, 203.0.113.10"));
+		send(body(), "203.0.113.11").andExpect(status().isAccepted());
+		verify(this.messageSender, times(6)).send(any());
+	}
+
+	/** Refused by the validation, the honeypot or the token: a message counts for nothing (PB-03). */
+	@Test
+	void aMessageRefusedBeforeTheLimitDoesNotCount() throws Exception {
+		for (int i = 0; i < 5; i++) {
+			send(body("subject", ""), "203.0.113.10").andExpect(status().isBadRequest());
+			send(body("website", "x"), "203.0.113.10").andExpect(status().isAccepted());
+			unavailable(send(body("formToken", ABSENT), "203.0.113.10"));
+		}
+		for (int i = 0; i < 5; i++) {
+			send(body(), "203.0.113.10").andExpect(status().isAccepted());
+		}
+		unavailable(send(body(), "203.0.113.10"));
+		verify(this.messageSender, times(5)).send(any());
 	}
 
 	@Test
@@ -323,6 +352,12 @@ class ContactMessageEndpointTest {
 
 	ResultActions send(String body) throws Exception {
 		return this.mockMvc.perform(e02().contentType(APPLICATION_JSON).content(body));
+	}
+
+	/** From the visitor's address, the last of the list the proxy appends to. */
+	ResultActions send(String body, String forwardedFor) throws Exception {
+		return this.mockMvc
+			.perform(e02().header("X-Forwarded-For", forwardedFor).contentType(APPLICATION_JSON).content(body));
 	}
 
 	static MockHttpServletRequestBuilder e02() {

@@ -81,7 +81,7 @@ class ContactServiceTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(names = { "TOKEN_MISSING", "TOKEN_FORGED", "TOKEN_TOO_RECENT", "TOKEN_EXPIRED" })
+	@EnumSource(names = { "TOKEN_MISSING", "TOKEN_FORGED", "TOKEN_TOO_RECENT", "TOKEN_EXPIRED", "IP_LIMIT" })
 	void aRefusedMessageIsNotSentAndGivesBackThePlacesInTheReverseOrder(ContactOutcome outcome) {
 		given(this.third.check(this.submission)).willReturn(FilterVerdict.refuse(outcome));
 		assertThatExceptionOfType(ContactUnavailableException.class).isThrownBy(() -> this.service.send(this.submission));
