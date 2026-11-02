@@ -12,7 +12,8 @@ import { ORIGINE } from './site';
 // Chromium et WebKit, pas Firefox, écrivent cette erreur de console pour une réponse en erreur,
 // document principal compris. Elle n'est excusée que rattachée, ligne et colonne 0, à l'adresse
 // exacte d'une réponse que le test attend avec ce code : le document d'une page d'erreur en 404,
-// ou une erreur que le back simulé rend lui-même. Aucune autre ligne n'est excusée.
+// ou l'erreur d'un scénario du back simulé (400, 503). Aucune autre ligne n'est excusée, pas même
+// le 405 que le back simulé rend à une requête hors contrat.
 const REPONSE_EN_ERREUR =
   /^Failed to load resource: the server responded with a status of (\d{3}) \([^)]*\)$/;
 const VIOLATION = 'violation de la politique de sécurité :';
@@ -73,6 +74,11 @@ export class Surveillance {
     );
   }
 
+  /** Inscrit un problème relevé hors de la page, comme une requête hors contrat du back simulé. */
+  signaler(probleme: string): void {
+    this.erreurs.push(probleme);
+  }
+
   problemes(): string[] {
     return [...this.requetes.values(), ...this.erreurs];
   }
@@ -96,11 +102,7 @@ export const test = base.extend<Fixtures>({
     { auto: true },
   ],
   backSimule: async ({ page, surveillance }, use) => {
-    await use((scenario, reglages) =>
-      simulerBack(page, scenario, reglages, (adresse, statut) =>
-        surveillance.attendreReponseEnErreur(adresse, statut),
-      ),
-    );
+    await use((scenario, reglages) => simulerBack(page, scenario, reglages ?? {}, surveillance));
   },
 });
 

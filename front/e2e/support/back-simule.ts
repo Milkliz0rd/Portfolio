@@ -32,6 +32,14 @@ export interface RequeteRecue {
   corps: string | null;
 }
 
+/** Ce que le back simulé dit à la surveillance de banc.ts. */
+export interface Declarations {
+  /** Une erreur que rend un scénario, déclarée avant d'être rendue. */
+  attendreReponseEnErreur(adresse: string, statut: number): void;
+  /** Un problème qui fait échouer le test. */
+  signaler(probleme: string): void;
+}
+
 /** Un code, un corps éventuel et un délai ; ou « aucune » : la requête reste sans réponse. */
 type Reponse = { statut: number; corps?: unknown; delaiMs?: number } | 'aucune';
 
@@ -81,14 +89,15 @@ function reponses(scenario: Scenario, reglages: Reglages): { jeton: Reponse; env
 }
 
 /**
- * Intercepte E-01 et E-02 sur la page ; attendreErreur déclare chaque réponse en erreur à la
- * surveillance de banc.ts, avant de la rendre. Rend le journal des requêtes reçues.
+ * Intercepte E-01 et E-02 sur la page ; chaque erreur qu'un scénario rend est déclarée à la
+ * surveillance avant d'être rendue, et toute requête hors contrat lui est signalée. Rend le journal
+ * des requêtes reçues.
  */
 export async function simulerBack(
   page: Page,
   scenario: Scenario,
-  reglages: Reglages = {},
-  attendreErreur: (adresse: string, statut: number) => void = () => undefined,
+  reglages: Reglages,
+  surveillance: Declarations,
 ): Promise<RequeteRecue[]> {
   const recues: RequeteRecue[] = [];
   const { jeton, envoi } = reponses(scenario, reglages);
@@ -100,28 +109,34 @@ export async function simulerBack(
       const requete = interception.request();
       const enTetes = await requete.allHeaders();
       recues.push({ route, methode: requete.method(), enTetes, corps: requete.postData() });
-      // Le contrat ne connaît que POST sur ces routes ; le back rend 405 à toute autre méthode.
-      const rendue =
-        requete.method() === 'POST'
-          ? reponse
-          : erreur(405, 'Method Not Allowed', 'The request method is not supported.', route);
-      await repondre(page, interception, rendue, attendreErreur);
+      if (requete.method() === 'POST') {
+        await repondre(page, interception, reponse, surveillance);
+        return;
+      }
+      // Le contrat ne connaît que POST sur ces routes : une autre méthode reçoit le 405 du back,
+      // non déclaré, et le test échoue dans les trois moteurs, Firefox compris.
+      surveillance.signaler(`requête hors contrat : ${requete.method()} ${route}`);
+      const refus = 'The request method is not supported.';
+      await repondre(page, interception, erreur(405, 'Method Not Allowed', refus, route));
     });
   }
   return recues;
 }
 
+/** Rend la réponse ; une erreur n'est déclarée que si la surveillance est passée. */
 async function repondre(
   page: Page,
   interception: Route,
   reponse: Reponse,
-  attendreErreur: (adresse: string, statut: number) => void,
+  surveillance?: Declarations,
 ): Promise<void> {
   // Sans réponse, la requête reste en attente : c'est le délai que la page se donne qui la borne.
   if (reponse === 'aucune') return;
   if (reponse.delaiMs) await new Promise((fin) => setTimeout(fin, reponse.delaiMs));
   if (page.isClosed()) return;
-  if (reponse.statut >= 400) attendreErreur(interception.request().url(), reponse.statut);
+  if (reponse.statut >= 400) {
+    surveillance?.attendreReponseEnErreur(interception.request().url(), reponse.statut);
+  }
   const corps = reponse.corps === undefined ? '' : JSON.stringify(reponse.corps);
   const type: Record<string, string> = corps ? { 'content-type': 'application/json' } : {};
   await interception.fulfill({
