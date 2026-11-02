@@ -24,8 +24,8 @@ import org.slf4j.LoggerFactory;
  * address; that of an IPv6 address, its /64 prefix, which a subscriber receives whole. Without header
  * setting (development), the key is the connection's address; so it is when the header is missing,
  * the list too short or the element not an address, which a warning without value tells once per
- * startup: a setting to look at again. Not a bean, so that the web slices that load the code using it
- * need nothing more. No text of this class shows an address.
+ * startup: a setting to look at again. Not a bean: the controller of E-02 builds it, so that the web
+ * slices that load the controller need nothing more. No text of this class shows an address.
  */
 public final class ClientIpResolver {
 
