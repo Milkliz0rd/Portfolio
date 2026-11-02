@@ -62,6 +62,9 @@ contact:
   # Messages per visitor's address in a fixed window of one hour, opened by its first counted
   # message (PB-03): a whole number of 1 or more.
   ip-limit-per-hour: ${CONTACT_IP_LIMIT_PER_HOUR:5}
+  # Messages for all visitors in a fixed window of 24 hours, opened by its first counted message: a
+  # whole number of 1 or more. In memory, as the limit: both start again at each sleep and restart.
+  daily-cap: ${CONTACT_DAILY_CAP:50}
   # The header to which the host's proxy appends the visitor's address, and the rank of that address
   # in its list, counted from the right (PB-03): a header name, or empty, for the connection's
   # address (development); a whole number of 1 or more. Set at the host after the survey of TK-24.

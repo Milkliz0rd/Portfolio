@@ -125,7 +125,7 @@ class IpRateLimitFilterTest {
 
 	static ContactProperties properties(int ipLimitPerHour) {
 		return new ContactProperties(List.of(), Duration.ofSeconds(3), Duration.ofHours(2), Duration.ofSeconds(10),
-				"https://api.brevo.com/v3", "", 1, ipLimitPerHour);
+				"https://api.brevo.com/v3", "", 1, ipLimitPerHour, 50);
 	}
 
 	static ContactSubmission from(String clientIpKey) {
