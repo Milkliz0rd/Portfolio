@@ -15,7 +15,9 @@ import org.springframework.boot.convert.DurationUnit;
 /**
  * The "contact" properties, mapped from environment variables in application.yaml and checked at
  * startup (PB-04): a wrong value stops the back from starting, with a message that names the
- * variable, never its value. Durations take their unit ({@code 3s}, {@code 2h}, {@code 1500ms}); a
+ * variable, never its value; but a duration or a whole number that cannot be read at all, such as
+ * {@code abc}, fails Spring's conversion, whose report shows that value, not secret, and names the
+ * variable as its origin. Durations take their unit ({@code 3s}, {@code 2h}, {@code 1500ms}); a
  * duration without unit is read in seconds, not in Spring Boot's default milliseconds. The secret, the
  * key and the addresses are not here: the classes that use them check them, since the failure report
  * of this binding shows the value refused.

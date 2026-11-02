@@ -3,8 +3,8 @@
 L'API du portfolio, en Spring Boot 4.1 sur Java 25, construite par Maven. Elle expose son
 indicateur de santé, la demande du jeton de formulaire et l'envoi d'un message du formulaire de
 contact, ces deux derniers derrière le socle HTTP commun aux routes du formulaire, sous `/api/v1/`.
-Le message part chez le prestataire d'envoi, Brevo, par son API HTTPS. Les filtres contre les
-messages indésirables (TK-22), qui vérifieront le jeton, s'y brancheront.
+Le message passe les filtres contre les messages indésirables (champ piège, jeton, limite par
+adresse IP, plafond), puis part chez le prestataire d'envoi, Brevo, par son API HTTPS.
 
 ## Prérequis
 
@@ -117,10 +117,15 @@ versionné.
 | `CONTACT_MAIL_FROM` | adresse d'expédition, sur le domaine du site ; jamais dans le dépôt | aucune : exigée avec `brevo` |
 | `CONTACT_MAIL_TO` | adresse de destination, la boîte d'Alexandre ; jamais dans le dépôt ni dans un document | aucune : exigée avec `brevo` |
 | `CONTACT_BREVO_BASE_URL` | adresse de base de l'API de Brevo : une adresse `https` absolue, sans utilisateur, paramètre ni fragment | `https://api.brevo.com/v3`, l'adresse publique de l'API v3 de Brevo |
+| `CONTACT_IP_LIMIT_PER_HOUR` | messages comptés par adresse IP du visiteur dans sa fenêtre d'une heure (voir « Filtres ») : un entier, 1 au moins | `5` |
+| `CONTACT_DAILY_CAP` | messages comptés, tous visiteurs confondus, dans la fenêtre de 24 heures : un entier, 1 au moins | `50` |
+| `CONTACT_CLIENT_IP_HEADER` | nom de l'en-tête où le proxy de l'hébergeur ajoute l'adresse IP du visiteur (voir « Adresse IP du visiteur »), ou vide | vide : l'adresse de la connexion |
+| `CONTACT_CLIENT_IP_POSITION` | rang de l'adresse du visiteur dans la liste de cet en-tête, compté depuis la droite : un entier, 1 au moins | `1`, le dernier élément |
 
 Une valeur mal formée empêche le back de démarrer ; le message nomme la variable, jamais la
-valeur reçue, sauf pour une durée illisible, comme `abc` : le rapport d'échec de Spring montre alors
-cette valeur, qui n'est pas secrète, et nomme la variable par son origine (`Origin`). Le secret,
+valeur reçue, sauf pour une durée ou un nombre illisibles, comme `abc` ou `cinq` : le rapport
+d'échec de Spring montre alors cette valeur, qui n'est pas secrète, et nomme la variable par son
+origine (`Origin`). Le secret,
 la clé et les adresses, eux, ne sont jamais montrés. Avec `brevo`, valeur par défaut, une clé ou
 une adresse absente, ou une adresse mal formée, empêche aussi le démarrage : un oubli de réglage ne
 fait jamais répondre `202` à des messages qui ne partiraient pas. En développement, avec le serveur
@@ -137,9 +142,9 @@ de développement du front, dans le terminal où le secret est tiré :
   et aux redémarrages : un jeton délivré avant la mise en veille reste valable au réveil.
 - **Rotation** : remplacer la valeur de `CONTACT_TOKEN_SECRET` dans les variables d'environnement
   du service chez l'hébergeur par un nouveau secret, tiré comme en développement ; le changement
-  redéploie le service. Les jetons en circulation deviennent falsifiés : dès que les filtres
-  vérifient le jeton (TK-22), un visiteur qui avait déjà ouvert le formulaire voit une fois l'échec
-  réessayable, et « Réessayer » demande un jeton neuf. Rien d'autre à faire : l'hébergeur ne tire
+  redéploie le service. Les jetons en circulation deviennent falsifiés : un visiteur qui avait déjà
+  ouvert le formulaire voit une fois l'échec réessayable (`token-forged` au journal), et
+  « Réessayer » demande un jeton neuf. Rien d'autre à faire : l'hébergeur ne tire
   un secret que pour une variable absente, et ne remplace donc jamais un secret changé à la main.
 
 ## Ce que le back expose
@@ -152,7 +157,9 @@ Côté Actuator, seul l'indicateur de santé : `GET /actuator/health` répond `2
 - Toute erreur suit le format d'erreur du contrat d'API (section 4), en `application/json`.
 - Sous `/api/v1/`, avant tout autre traitement : un en-tête `Origin` hors de
   `CONTACT_ALLOWED_ORIGINS` reçoit `403`, requête préalable comprise ; une requête sans `Origin`
-  est traitée ; un corps de plus de 64 Kio, annoncé ou non, reçoit `400`.
+  est traitée ; un corps annoncé de plus de 64 Kio reçoit `400`. Un corps sans longueur annoncée
+  n'est borné qu'à sa lecture : sur l'envoi d'un message, au-delà de 64 Kio, il reçoit aussi `400` ;
+  la demande de jeton, qui ne lit aucun corps, l'ignore.
 
 ## Jeton de formulaire
 
@@ -186,8 +193,8 @@ fait foi (sections 2 à 4).
   unités UTF-16, un émoji comptant pour deux (100, 100, 254, 100 et 5000) ; aucun retour à la
   ligne dans le nom, le prénom et le sujet ; adresse de la syntaxe de la norme HTML, avec un point
   après l'arobase, en ASCII seulement.
-- Message valide : `202` sans corps, une fois le message accepté par Brevo, à qui il passe une
-  seule fois (avec `CONTACT_MAIL_SENDER=none`, rien ne part). Brevo en échec ou plus lent que
+- Message valide, que les filtres laissent passer : `202` sans corps, une fois le message accepté
+  par Brevo, à qui il passe une seule fois (avec `CONTACT_MAIL_SENDER=none`, rien ne part). Brevo en échec ou plus lent que
   `CONTACT_PROVIDER_TIMEOUT` : `503` au format d'erreur du contrat ; rien n'est gardé ni réessayé.
 - Champ en cause : `400` avec `validationErrors`, une clé par champ, dans l'ordre du formulaire, et
   une seule raison, la première de `required`, `too-long`, `line-break`, `invalid-email` ; rien
@@ -195,8 +202,8 @@ fait foi (sections 2 à 4).
 - Corps illisible (JSON mal formé, corps vide, valeur ni chaîne ni `null`, corps qui n'est pas un
   objet, plus de 64 Kio) : `400` avec `validationErrors` à `null`. Autre type de contenu : `415` ;
   `Accept` sans JSON : `406`.
-- Le champ piège et le jeton sont lus, mais ne changent encore rien : un message valide reçoit
-  `202` même piège rempli ou sans jeton, jusqu'aux filtres (TK-22), qui vérifieront le jeton.
+- Un message valide passe ensuite les filtres (voir « Filtres ») : le champ piège rempli reçoit
+  le `202` d'un envoi, sans que rien parte ; un jeton refusé, la limite ou le plafond, `503`.
 
 En local, le back lancé par `CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run`, secret tiré :
 
@@ -207,7 +214,68 @@ curl -i http://localhost:8080/api/v1/contact-messages -H 'Content-Type: applicat
 
 Tel quel, l'exemple reçoit `400` et `{"email":"invalid-email"}` : comme dans le contrat, l'adresse
 est écrite sans arobase, pour qu'aucune adresse n'entre dans le dépôt public. Avec une arobase à
-la place de `(at)`, il reçoit `202`.
+la place de `(at)`, il reçoit `503` (`token-forged` au journal) : `jeton` n'est pas un jeton du
+back. Pour un `202`, l'adresse écrite avec son arobase, demander d'abord un jeton, attendre le
+délai minimal, puis l'envoyer :
+
+```sh
+JETON=$(curl -s -X POST http://localhost:8080/api/v1/form-tokens | sed -E 's/.*"formToken":"([^"]*)".*/\1/')
+sleep 3
+curl -i http://localhost:8080/api/v1/contact-messages -H 'Content-Type: application/json' \
+  -d '{"lastName":"Nom","firstName":"Prénom","email":"visiteur(at)exemple.fr","subject":"Sujet","message":"Bonjour","website":"","formToken":"'"$JETON"'"}'
+```
+
+Avec `"website":"x"`, le même envoi reçoit `202` et le journal écrit `outcome=honeypot`, sans
+appeler l'adaptateur ; lancé avec `CONTACT_IP_LIMIT_PER_HOUR=1`, le back répond `503` au deuxième
+message, et le journal écrit `outcome=ip-limit`.
+
+### Filtres
+
+Après la validation, quatre filtres, dans cet ordre ; le premier qui arrête le message met fin à la
+chaîne, et rien ne part chez Brevo :
+
+| Filtre | Arrête le message quand | Le visiteur reçoit | Journal |
+| --- | --- | --- | --- |
+| champ piège | `website` n'est pas vide, espaces de bord retirés | `202` sans corps, comme un envoi réussi | `honeypot` |
+| jeton | `formToken` absent ou vide, falsifié, plus récent que `CONTACT_TOKEN_MIN_AGE` ou plus vieux que `CONTACT_TOKEN_MAX_AGE` | `503` | `token-missing`, `token-forged`, `token-too-recent`, `token-expired` |
+| limite par adresse IP | l'adresse a déjà `CONTACT_IP_LIMIT_PER_HOUR` messages comptés dans sa fenêtre d'une heure | `503` | `ip-limit` |
+| plafond | `CONTACT_DAILY_CAP` messages sont déjà comptés dans la fenêtre de 24 heures | `503` | `daily-cap` |
+
+- Le `202` du champ piège a les mêmes en-têtes que celui d'un envoi ; les `503` ont le même corps,
+  horodatage mis à part, quelle qu'en soit la cause, prestataire en échec compris : la réponse ne
+  dit jamais quel filtre a refusé. Seul le journal le dit.
+- Comptent, pour la limite et pour le plafond, les messages confiés à Brevo, que l'envoi réussisse
+  ou non. Un message refusé par la validation, le champ piège, le jeton, la limite ou le plafond
+  ne compte pour rien : quand le plafond refuse, la place prise dans la limite est rendue.
+- Chaque fenêtre est fixe, ouverte au premier message compté : au départ, le 6e message d'une
+  adresse dans l'heure qui suit son premier reçoit `503`, comme le 51e des 24 heures.
+- Les compteurs vivent dans la mémoire de l'unique instance : la mise en veille, après 15 minutes
+  sans trafic, et chaque redémarrage les remettent à zéro. Le plafond vaut donc par période
+  d'éveil, et le vrai filet reste le quota de Brevo : risque assumé par la conception technique
+  (CT-08).
+- Une tâche interne efface toutes les 60 secondes les fenêtres expirées : une adresse IP reste en
+  mémoire une heure et une minute au plus, et n'entre jamais dans un journal. Cette tâche ne
+  reçoit aucun trafic et ne garde pas le back éveillé.
+- Une couche de plus, comme ALTCHA, s'ajoute en un composant de plus dans `antispam/`, placé entre
+  le jeton et la limite par adresse IP, sans toucher au reste.
+
+### Adresse IP du visiteur
+
+- Elle est lue dans l'en-tête que nomme `CONTACT_CLIENT_IP_HEADER`, auquel le proxy de l'hébergeur
+  ajoute l'adresse du visiteur : l'adresse retenue est l'élément de rang
+  `CONTACT_CLIENT_IP_POSITION` compté depuis la droite (1, le dernier), le premier que le visiteur
+  ne peut pas forger ; ce qu'il écrit lui-même, à gauche, est ignoré. Plusieurs lignes du même
+  en-tête forment une seule liste, dans leur ordre.
+- Une adresse IPv4 compte telle quelle ; une adresse IPv6, par son préfixe /64, qu'un même abonné
+  reçoit en entier.
+- `CONTACT_CLIENT_IP_HEADER` vide, en développement : l'adresse de la connexion. En-tête absent,
+  liste trop courte ou élément qui n'est pas une adresse : l'adresse de la connexion aussi, avec un
+  avertissement sans valeur, une fois par démarrage, signe d'un réglage à reprendre ; derrière le
+  proxy de l'hébergeur, tous les visiteurs partageraient alors la même limite.
+- Aucun autre en-tête de proxy n'est cru (`server.forward-headers-strategy: none`), et aucun nom
+  n'est résolu.
+- L'en-tête et le rang de l'hébergeur ne sont pas encore réglés : ils se constatent sur le service
+  de préproduction (TK-24), qui les écrit dans la description du service.
 
 ## Envoi par Brevo
 
@@ -239,11 +307,12 @@ contact-message outcome=validation-refused durationMs=12 fields=lastName:require
 
 - `outcome` nomme la vraie issue : `sent`, `validation-refused` (avec `fields`, les champs en cause
   et leurs raisons, jamais leurs valeurs), `unreadable-body`, `unsupported-media-type`,
-  `not-acceptable`, `origin-refused`, `provider-failure` (avec `providerStatus`, le code de la
-  réponse de Brevo, s'il a répondu), `provider-timeout` ou `internal-error` ; celles des filtres
-  viendront avec eux (TK-22). `durationMs` est la durée de traitement.
-- `provider-failure` et `provider-timeout` s'écrivent au niveau WARN ; `internal-error` au niveau
-  ERROR, avec la trace d'exécution ; les autres au niveau INFO.
+  `not-acceptable`, `origin-refused`, celles des filtres (`honeypot`, `token-missing`,
+  `token-forged`, `token-too-recent`, `token-expired`, `ip-limit`, `daily-cap`), `provider-failure`
+  (avec `providerStatus`, le code de la réponse de Brevo, s'il a répondu), `provider-timeout` ou
+  `internal-error`. `durationMs` est la durée de traitement.
+- `daily-cap`, `provider-failure` et `provider-timeout` s'écrivent au niveau WARN ;
+  `internal-error` au niveau ERROR, avec la trace d'exécution ; les autres au niveau INFO.
 - Une requête préalable `OPTIONS`, une autre méthode ou une autre route, la demande de jeton
   comprise, n'écrivent aucune ligne, même refusées.
 - Jamais dans un journal : un champ du formulaire, une adresse e-mail, une adresse IP, la valeur
