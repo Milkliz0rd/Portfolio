@@ -24,10 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.net.URI;
+import java.time.Clock;
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Stream;
 
+import io.github.milkliz0rd.portfolio.config.ClockConfig;
 import io.github.milkliz0rd.portfolio.config.ContactProperties;
 import io.github.milkliz0rd.portfolio.service.ContactService;
 import io.github.milkliz0rd.portfolio.service.FormTokenService;
@@ -52,7 +54,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 /** The allowed origin (TK-67), on a test controller under /api/v1/: contract, section 1; PB-06. */
 @WebMvcTest(properties = "contact.allowed-origins=http://localhost:4200, https://www.site.example")
-@Import(ApiTestController.class)
+@Import({ ApiTestController.class, ClockConfig.class })
 class AllowedOriginTest {
 
 	private static final String ALLOWED = "http://localhost:4200";
@@ -137,7 +139,7 @@ class AllowedOriginTest {
 		AllowedOriginFilter filter = new AllowedOriginFilter(
 				new ContactProperties(List.of(), Duration.ofSeconds(3), Duration.ofHours(2), Duration.ofSeconds(10),
 						"https://api.brevo.com/v3", "", 1, 5, 50),
-				this.jsonMapper);
+				this.jsonMapper, Clock.systemUTC());
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", OK);
 		request.addHeader(ORIGIN, ALLOWED);
 		MockHttpServletResponse response = new MockHttpServletResponse();

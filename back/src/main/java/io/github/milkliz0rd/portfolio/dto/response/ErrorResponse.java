@@ -1,5 +1,6 @@
 package io.github.milkliz0rd.portfolio.dto.response;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -14,7 +15,8 @@ import org.springframework.http.HttpStatus;
 
 /**
  * The single error format of the contract (section 4): exactly six properties, always written,
- * {@code validationErrors} included when it is {@code null}.
+ * {@code validationErrors} included when it is {@code null}; the timestamp is the instant of the
+ * back's clock, truncated to the second (PB-06).
  */
 @JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({ "status", "error", "message", "timestamp", "path", "validationErrors" })
@@ -27,15 +29,15 @@ public record ErrorResponse(int status, String error, String message, Instant ti
 	}
 
 	/** The error for {@code status} on {@code path}, with the generic message the plan fixes for it. */
-	public static ErrorResponse of(HttpStatus status, String path) {
+	public static ErrorResponse of(HttpStatus status, String path, Clock clock) {
 		return new ErrorResponse(status.value(), status.getReasonPhrase(), messageFor(status),
-				Instant.now().truncatedTo(ChronoUnit.SECONDS), path, null);
+				clock.instant().truncatedTo(ChronoUnit.SECONDS), path, null);
 	}
 
 	/** The validation refusal of E-02: the reason of each field in question, in the order of the form. */
-	public static ErrorResponse invalidFields(String path, Map<String, String> validationErrors) {
+	public static ErrorResponse invalidFields(String path, Map<String, String> validationErrors, Clock clock) {
 		return new ErrorResponse(400, HttpStatus.BAD_REQUEST.getReasonPhrase(), "One or more fields are invalid.",
-				Instant.now().truncatedTo(ChronoUnit.SECONDS), path, validationErrors);
+				clock.instant().truncatedTo(ChronoUnit.SECONDS), path, validationErrors);
 	}
 
 	private static String messageFor(HttpStatus status) {

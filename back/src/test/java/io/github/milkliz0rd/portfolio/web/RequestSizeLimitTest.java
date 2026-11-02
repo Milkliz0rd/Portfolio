@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
+import io.github.milkliz0rd.portfolio.config.ClockConfig;
 import io.github.milkliz0rd.portfolio.service.ContactService;
 import io.github.milkliz0rd.portfolio.service.FormTokenService;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 
 /** The request body bounded to 64 KiB (TK-67), on a test controller under /api/v1/: PB-06. */
 @WebMvcTest
-@Import(ApiTestController.class)
+@Import({ ApiTestController.class, ClockConfig.class })
 class RequestSizeLimitTest {
 
 	private static final String UNREADABLE = "The request body could not be read.";

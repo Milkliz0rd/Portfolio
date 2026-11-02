@@ -1,6 +1,7 @@
 package io.github.milkliz0rd.portfolio.web;
 
 import java.io.IOException;
+import java.time.Clock;
 import java.util.List;
 
 import io.github.milkliz0rd.portfolio.config.ContactProperties;
@@ -39,9 +40,9 @@ public class AllowedOriginFilter extends OncePerRequestFilter {
 
 	private final ErrorResponseWriter errorResponseWriter;
 
-	public AllowedOriginFilter(ContactProperties properties, JsonMapper jsonMapper) {
+	public AllowedOriginFilter(ContactProperties properties, JsonMapper jsonMapper, Clock clock) {
 		this.allowedOrigins = properties.allowedOrigins();
-		this.errorResponseWriter = new ErrorResponseWriter(jsonMapper);
+		this.errorResponseWriter = new ErrorResponseWriter(jsonMapper, clock);
 		LOGGER.info("Allowed origins for browser calls: {}", this.allowedOrigins.size());
 	}
 
