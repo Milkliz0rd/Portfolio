@@ -59,6 +59,9 @@ contact:
   brevo-api-key: ${CONTACT_BREVO_API_KEY:}
   mail-from: ${CONTACT_MAIL_FROM:}
   mail-to: ${CONTACT_MAIL_TO:}
+  # Messages per visitor's address in a fixed window of one hour, opened by its first counted
+  # message (PB-03): a whole number of 1 or more.
+  ip-limit-per-hour: ${CONTACT_IP_LIMIT_PER_HOUR:5}
   # The header to which the host's proxy appends the visitor's address, and the rank of that address
   # in its list, counted from the right (PB-03): a header name, or empty, for the connection's
   # address (development); a whole number of 1 or more. Set at the host after the survey of TK-24.

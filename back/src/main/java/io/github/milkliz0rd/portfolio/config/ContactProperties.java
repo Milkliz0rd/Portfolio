@@ -35,11 +35,13 @@ import org.springframework.boot.convert.DurationUnit;
  * ({@code CONTACT_CLIENT_IP_HEADER}): a header name, or empty, for the connection's address
  * @param clientIpPosition the rank of the visitor's address in the list of that header, counted from
  * the right ({@code CONTACT_CLIENT_IP_POSITION}): a whole number of 1 or more
+ * @param ipLimitPerHour messages per visitor's address in its window of one hour
+ * ({@code CONTACT_IP_LIMIT_PER_HOUR}): a whole number of 1 or more
  */
 @ConfigurationProperties("contact")
 public record ContactProperties(List<String> allowedOrigins, @DurationUnit(ChronoUnit.SECONDS) Duration tokenMinAge,
 		@DurationUnit(ChronoUnit.SECONDS) Duration tokenMaxAge, @DurationUnit(ChronoUnit.SECONDS) Duration providerTimeout,
-		String brevoBaseUrl, String clientIpHeader, Integer clientIpPosition) {
+		String brevoBaseUrl, String clientIpHeader, Integer clientIpPosition, Integer ipLimitPerHour) {
 
 	/** A serialized origin: scheme http or https, host, optional port; no path, slash or wildcard. */
 	private static final Pattern ORIGIN = Pattern.compile("https?://([a-z0-9-]+\\.)*[a-z0-9-]+(:[0-9]{1,5})?");
@@ -87,6 +89,9 @@ public record ContactProperties(List<String> allowedOrigins, @DurationUnit(Chron
 		}
 		if (clientIpPosition == null || clientIpPosition < 1) {
 			throw new IllegalArgumentException("CONTACT_CLIENT_IP_POSITION must be a whole number of 1 or more, such as 1");
+		}
+		if (ipLimitPerHour == null || ipLimitPerHour < 1) {
+			throw new IllegalArgumentException("CONTACT_IP_LIMIT_PER_HOUR must be a whole number of 1 or more, such as 5");
 		}
 	}
 

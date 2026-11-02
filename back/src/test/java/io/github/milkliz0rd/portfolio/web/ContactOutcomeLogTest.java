@@ -88,8 +88,10 @@ class ContactOutcomeLogTest {
 		registry.add("contact.token-secret", () -> SECRET);
 	}
 
+	/** A new day, so that the counters of the slice are back at zero, and a token. */
 	@BeforeEach
 	void issueAValidToken() {
+		this.clock.advance(Duration.ofDays(1));
 		token = this.formTokenService.issue();
 		this.clock.advance(Duration.ofSeconds(3));
 	}

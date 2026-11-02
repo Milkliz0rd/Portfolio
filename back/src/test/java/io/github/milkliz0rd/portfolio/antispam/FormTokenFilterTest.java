@@ -24,7 +24,7 @@ class FormTokenFilterTest {
 
 	private final FormTokenService service = new FormTokenService(TestSecrets.draw(32),
 			new ContactProperties(List.of(), Duration.ofSeconds(3), Duration.ofHours(2), Duration.ofSeconds(10),
-					"https://api.brevo.com/v3", "", 1),
+					"https://api.brevo.com/v3", "", 1, 5),
 			this.clock);
 
 	private final FormTokenFilter filter = new FormTokenFilter(this.service);
