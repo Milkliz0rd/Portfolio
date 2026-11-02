@@ -178,11 +178,13 @@ class ContactOutcomeLogTest {
 		this.mockMvc.perform(e02(marked()));
 		this.mockMvc.perform(e02(marked(), "marqueur-ip, 198.51.100.77"));
 		this.mockMvc.perform(e02(marked(), "marqueur-ip, 192.0.2.77"));
+		// The cap reached, the limit per address still comes first.
+		this.mockMvc.perform(e02(marked()));
 		this.clock.advance(Duration.ofHours(2));
 		this.mockMvc.perform(e02(marked()));
-		assertThat(lines(output)).hasSize(9)
+		assertThat(lines(output)).hasSize(10)
 			.zipSatisfy(List.of("INFO honeypot", "INFO token-missing", "INFO token-forged", "INFO token-too-recent",
-					"INFO sent", "INFO ip-limit", "INFO sent", "WARN daily-cap", "INFO token-expired"),
+					"INFO sent", "INFO ip-limit", "INFO sent", "WARN daily-cap", "INFO ip-limit", "INFO token-expired"),
 					(line, issue) -> assertThat(line).matches(".* " + issue.replace(" ", " .* contact-message outcome=")
 							+ " durationMs=\\d+"));
 		assertNoValue(output);
