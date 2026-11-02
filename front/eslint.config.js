@@ -1,6 +1,6 @@
 // @ts-check
 const eslint = require('@eslint/js');
-const { defineConfig } = require('eslint/config');
+const { defineConfig, globalIgnores } = require('eslint/config');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
 
@@ -26,6 +26,8 @@ const importsInterdits = [
 ];
 
 module.exports = defineConfig([
+  // Sorties du banc de bout en bout (Playwright), jamais analysées.
+  globalIgnores(['test-results/', 'playwright-report/', 'blob-report/']),
   {
     files: ['**/*.ts'],
     extends: [

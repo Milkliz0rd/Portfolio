@@ -12,6 +12,11 @@
 .env.local
 # État local de wrangler dev (PF-08)
 /.wrangler/
+# Sorties du banc de bout en bout (Playwright)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
 # Node
 /node_modules

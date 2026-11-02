@@ -8,8 +8,10 @@
     "watch": "node outils/ecrire-configuration.mjs && node outils/generer-index-contenu.mjs && ng build --watch --configuration development",
     "test": "node outils/ecrire-configuration.mjs --tests && node outils/generer-index-contenu.mjs && npm run test:outils && ng test",
     "test:outils": "vitest run --config outils/vitest.config.mjs",
-    "lint": "node outils/ecrire-configuration.mjs && node outils/generer-index-contenu.mjs && ng lint && stylelint \"src/**/*.scss\" --max-warnings 0 && prettier --check .",
-    "i18n:verifier": "node outils/ecrire-configuration.mjs && node outils/generer-index-contenu.mjs && ng extract-i18n --format xlf2 --output-path tmp/i18n && node outils/verifier-libelles.mjs tmp/i18n/messages.xlf"
+    "lint": "node outils/ecrire-configuration.mjs && node outils/generer-index-contenu.mjs && ng lint && tsc -p tsconfig.e2e.json && stylelint \"src/**/*.scss\" --max-warnings 0 && prettier --check .",
+    "i18n:verifier": "node outils/ecrire-configuration.mjs && node outils/generer-index-contenu.mjs && ng extract-i18n --format xlf2 --output-path tmp/i18n && node outils/verifier-libelles.mjs tmp/i18n/messages.xlf",
+    "serveur-local": "WRANGLER_SEND_METRICS=false WRANGLER_HIDE_BANNER=true wrangler dev --port 8787 --ip localhost --local --show-interactive-dev-session=false",
+    "e2e": "PORTFOLIO_ENVIRONNEMENT=test npm run build && playwright test -c e2e/playwright.config.ts"
   },
   "private": true,
   "engines": {
@@ -33,7 +35,9 @@
     "@angular/cli": "^22.2.5",
     "@angular/compiler-cli": "^22.2.4",
     "@angular/localize": "^22.2.4",
+    "@axe-core/playwright": "4.14.0",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.64.1",
     "@types/node": "^22.12.0",
     "angular-eslint": "22.6.0",
     "eslint": "^10.12.0",

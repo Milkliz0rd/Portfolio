@@ -1,0 +1,10 @@
+/* Vérification de types du banc de bout en bout (Playwright), lancée par « npm run lint ». */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["e2e/**/*.ts"]
+}
