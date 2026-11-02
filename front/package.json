@@ -11,7 +11,7 @@
     "lint": "node outils/ecrire-configuration.mjs && node outils/generer-index-contenu.mjs && ng lint && tsc -p tsconfig.e2e.json && stylelint \"src/**/*.scss\" --max-warnings 0 && prettier --check .",
     "i18n:verifier": "node outils/ecrire-configuration.mjs && node outils/generer-index-contenu.mjs && ng extract-i18n --format xlf2 --output-path tmp/i18n && node outils/verifier-libelles.mjs tmp/i18n/messages.xlf",
     "serveur-local": "WRANGLER_SEND_METRICS=false WRANGLER_HIDE_BANNER=true wrangler dev --port 8787 --ip localhost --local --show-interactive-dev-session=false",
-    "e2e": "PORTFOLIO_ENVIRONNEMENT=test npm run build && playwright test"
+    "e2e": "PORTFOLIO_ENVIRONNEMENT=test npm run build && playwright test -c e2e/playwright.config.ts"
   },
   "private": true,
   "engines": {

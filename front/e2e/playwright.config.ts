@@ -1,11 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
-import { ORIGINE } from './e2e/support/site';
+import { ORIGINE } from './support/site';
 
 // Banc de bout en bout et d'accessibilité (TK-21, Étape 12) : le build de test pré-rendu, servi
 // par wrangler dev avec les règles de l'hébergeur (PF-08), dans les trois moteurs, en profil
 // ordinateur et en profil téléphone. « npm run e2e » construit ce build puis lance ce banc.
 export default defineConfig({
-  testDir: './e2e',
+  // Les chemins relatifs se lisent depuis e2e/, le dossier de cette configuration. Les sorties,
+  // test-results/ et playwright-report/, restent à la racine de front/ : Playwright les place
+  // près du package.json le plus proche.
+  testDir: '.',
   fullyParallel: true,
   forbidOnly: !!process.env['CI'],
   // Aucune nouvelle tentative, ni en local ni dans la CI : un test instable est un défaut.
@@ -21,6 +24,8 @@ export default defineConfig({
   // le port fait échouer le banc, au lieu de lui faire tester un autre build.
   webServer: {
     command: 'npm run serveur-local',
+    // Lancé depuis front/, où sont package.json et wrangler.jsonc.
+    cwd: '..',
     url: `${ORIGINE}/`,
     reuseExistingServer: false,
     gracefulShutdown: { signal: 'SIGTERM', timeout: 5000 },
