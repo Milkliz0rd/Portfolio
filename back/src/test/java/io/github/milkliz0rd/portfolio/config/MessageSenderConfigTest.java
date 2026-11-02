@@ -38,7 +38,7 @@ class MessageSenderConfigTest {
 	private final ApplicationContextRunner runner = new ApplicationContextRunner()
 		.withUserConfiguration(MessageSenderConfig.class, PropertiesConfiguration.class)
 		.withPropertyValues("contact.token-min-age=3s", "contact.token-max-age=2h", "contact.provider-timeout=10s",
-				"contact.brevo-base-url=https://api.brevo.com/v3");
+				"contact.brevo-base-url=https://api.brevo.com/v3", "contact.client-ip-position=1");
 
 	/** Brevo with all its settings, the listed ones replaced. */
 	private ApplicationContextRunner brevo(String... replacements) {

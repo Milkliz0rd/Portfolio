@@ -200,7 +200,8 @@ class FormTokenServiceTest {
 
 	private FormTokenService service(@Nullable String secret, Duration minAge, Duration maxAge) {
 		return new FormTokenService(secret,
-				new ContactProperties(List.of(), minAge, maxAge, Duration.ofSeconds(10), "https://api.brevo.com/v3"),
+				new ContactProperties(List.of(), minAge, maxAge, Duration.ofSeconds(10), "https://api.brevo.com/v3", "",
+						1),
 				this.clock);
 	}
 

@@ -59,3 +59,8 @@ contact:
   brevo-api-key: ${CONTACT_BREVO_API_KEY:}
   mail-from: ${CONTACT_MAIL_FROM:}
   mail-to: ${CONTACT_MAIL_TO:}
+  # The header to which the host's proxy appends the visitor's address, and the rank of that address
+  # in its list, counted from the right (PB-03): a header name, or empty, for the connection's
+  # address (development); a whole number of 1 or more. Set at the host after the survey of TK-24.
+  client-ip-header: ${CONTACT_CLIENT_IP_HEADER:}
+  client-ip-position: ${CONTACT_CLIENT_IP_POSITION:1}
