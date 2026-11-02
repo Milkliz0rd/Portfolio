@@ -8,6 +8,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
@@ -31,28 +32,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import io.github.milkliz0rd.portfolio.MutableClock;
+import io.github.milkliz0rd.portfolio.TestSecrets;
 import io.github.milkliz0rd.portfolio.exception.ContactUnavailableException;
 import io.github.milkliz0rd.portfolio.sender.ContactMessage;
 import io.github.milkliz0rd.portfolio.sender.MessageSender;
 import io.github.milkliz0rd.portfolio.sender.SendFailedException;
 import io.github.milkliz0rd.portfolio.sender.SendFailedException.Kind;
-import io.github.milkliz0rd.portfolio.service.ContactService;
 import io.github.milkliz0rd.portfolio.service.FormTokenService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -61,10 +70,11 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 /**
  * E-02 through the HTTP foundation, in a web slice: the real controller, filters, validation, error
- * handler and contact service; only the message sender is simulated (PB-07).
+ * handler, contact service, filter chain and FormTokenService, whose tokens are issued under a clock
+ * the tests move; only the message sender is simulated (PB-07).
  */
 @WebMvcTest(properties = "contact.allowed-origins=https://www.site.example")
-@Import(ContactService.class)
+@Import(ContactChainConfiguration.class)
 class ContactMessageEndpointTest {
 
 	static final String ALLOWED = "https://www.site.example";
@@ -76,15 +86,33 @@ class ContactMessageEndpointTest {
 
 	private static final JsonMapper JSON = JsonMapper.builder().build();
 
+	private static final String SECRET = TestSecrets.draw(32);
+
+	/** The token of the current test, issued by the back, of the minimal age: valid; {@link #body} sends it. */
+	private static String token = "";
+
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockitoBean
 	private MessageSender messageSender;
 
-	/** Needed by the controller of E-01, which the slice loads too; unused here. */
-	@MockitoBean
+	@Autowired
 	private FormTokenService formTokenService;
+
+	@Autowired
+	private MutableClock clock;
+
+	@DynamicPropertySource
+	static void tokenSecret(DynamicPropertyRegistry registry) {
+		registry.add("contact.token-secret", () -> SECRET);
+	}
+
+	@BeforeEach
+	void issueAValidToken() {
+		token = this.formTokenService.issue();
+		this.clock.advance(Duration.ofSeconds(3));
+	}
 
 	@Test
 	void aValidMessageGets202AndIsHandedOnceToTheSenderWithoutItsEdgeSpaces() throws Exception {
@@ -99,17 +127,43 @@ class ContactMessageEndpointTest {
 		verifyNoMoreInteractions(this.messageSender);
 	}
 
-	/** The honeypot and the token are read, and judged by the filter chain only (TK-18, TK-22). */
-	static Stream<Arguments> honeypotsAndTokens() {
-		return Stream.of(arguments("website", "http://robot.example"), arguments("website", null),
-				arguments("formToken", null), arguments("formToken", ABSENT), arguments("formToken", ""));
+	/** Null, absent, or made of edge spaces: an empty honeypot. */
+	@ParameterizedTest
+	@MethodSource("emptyHoneypots")
+	void aMessageWithAnEmptyHoneypotIsSent(Object website) throws Exception {
+		send(body("website", website)).andExpect(status().isAccepted());
+		verify(this.messageSender).send(any());
 	}
 
+	static Stream<Object> emptyHoneypots() {
+		return Stream.of(ABSENT, null, "", " \u3000\t");
+	}
+
+	/** The 202 of a sending, the same headers, and nothing leaves (CT-08); the token is not even looked at. */
 	@ParameterizedTest
-	@MethodSource("honeypotsAndTokens")
-	void theHoneypotAndTheTokenDoNotYetChangeTheAnswer(String property, Object value) throws Exception {
-		send(body(property, value)).andExpect(status().isAccepted());
-		verify(this.messageSender).send(any());
+	@ValueSource(strings = { "http://robot.example", " x " })
+	void aFilledHoneypotGetsThe202OfASendingAndNothingIsHandedOver(String website) throws Exception {
+		MockHttpServletResponse sent = send(body()).andReturn().getResponse();
+		send(body("website", website, "formToken", ABSENT)).andExpect(status().isAccepted())
+			.andExpect(content().string(""))
+			.andExpect(header().doesNotExist(CONTENT_TYPE))
+			.andExpect((result) -> assertThat(headers(result.getResponse())).isEqualTo(headers(sent)));
+		verify(this.messageSender, times(1)).send(any());
+	}
+
+	/** Missing, forged, too recent or expired: the single 503, identical whatever the cause, and nothing leaves. */
+	@Test
+	void aRefusedTokenGetsTheSingle503AndNothingIsHandedOver() throws Exception {
+		List<String> bodies = new ArrayList<>();
+		String forged = token.substring(0, 36) + ((token.charAt(36) == 'A') ? 'B' : 'A') + token.substring(37);
+		for (Object refused : new Object[] { ABSENT, null, "", " \t", "jeton-opaque", forged,
+				this.formTokenService.issue() }) {
+			bodies.add(unavailable(send(body("formToken", refused))));
+		}
+		this.clock.advance(Duration.ofHours(2).minusSeconds(3).plusMillis(1));
+		bodies.add(unavailable(send(body())));
+		assertThat(bodies).hasSize(8).containsOnly(bodies.getFirst());
+		verify(this.messageSender, never()).send(any());
 	}
 
 	@Test
@@ -246,7 +300,7 @@ class ContactMessageEndpointTest {
 	/** A valid body, whose listed properties are replaced, {@link #ABSENT} removing one. */
 	static String body(Object... replacements) {
 		Map<String, Object> body = map("lastName", "Nom", "firstName", "Prénom", "email", ADDRESS, "subject", "Sujet",
-				"message", "Bonjour,\nmerci.", "website", "", "formToken", "jeton-opaque");
+				"message", "Bonjour,\nmerci.", "website", "", "formToken", token);
 		for (int i = 0; i < replacements.length; i += 2) {
 			if (replacements[i + 1] == ABSENT) {
 				body.remove((String) replacements[i]);
@@ -279,6 +333,23 @@ class ContactMessageEndpointTest {
 		return options(ROUTE).header(ORIGIN, origin)
 			.header(ACCESS_CONTROL_REQUEST_METHOD, "POST")
 			.header(ACCESS_CONTROL_REQUEST_HEADERS, "content-type");
+	}
+
+	/** The single 503 of E-02, with the security headers; its body, without the timestamp. */
+	static String unavailable(ResultActions sending) throws Exception {
+		return sending.andExpect(error(503, "The service is temporarily unavailable."))
+			.andExpect(SECURITY_HEADERS)
+			.andReturn()
+			.getResponse()
+			.getContentAsString()
+			.replaceFirst("\"timestamp\":\"[^\"]*\"", "");
+	}
+
+	/** Every header of a response, with all its values. */
+	static Map<String, List<String>> headers(MockHttpServletResponse response) {
+		Map<String, List<String>> headers = new LinkedHashMap<>();
+		response.getHeaderNames().forEach((name) -> headers.put(name, response.getHeaders(name)));
+		return headers;
 	}
 
 	/** The contract's error, with validationErrors at null, as the response's code and in its body. */

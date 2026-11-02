@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.github.milkliz0rd.portfolio.antispam.ContactSubmission;
 import io.github.milkliz0rd.portfolio.sender.ContactMessage;
 import io.github.milkliz0rd.portfolio.validation.ContactField;
 import io.github.milkliz0rd.portfolio.validation.ContactField.Kind;
@@ -15,7 +16,7 @@ import tools.jackson.databind.annotation.JsonDeserialize;
  * The body of E-02 (contract, section 3): seven properties, each a string or {@code null}, an absent
  * one being {@code null}; any other property is ignored. The constructor removes the edge spaces of
  * the five fields and of the honeypot, and keeps the token as received. Each field carries a single
- * constraint; the honeypot and the token are left to the filter chain (TK-22).
+ * constraint; the honeypot and the token are left to the filter chain.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ContactMessageRequest(
@@ -44,11 +45,12 @@ public record ContactMessageRequest(
 		website = Whitespace.strip(website);
 	}
 
-	/** The five fields, once validated: none of them is null then. */
-	public ContactMessage toContactMessage() {
-		return new ContactMessage(Objects.requireNonNull(this.lastName), Objects.requireNonNull(this.firstName),
-				Objects.requireNonNull(this.email), Objects.requireNonNull(this.subject),
-				Objects.requireNonNull(this.message));
+	/** What the filter chain judges, once validated: none of the five fields is null then. */
+	public ContactSubmission toSubmission(String clientIpKey) {
+		return new ContactSubmission(new ContactMessage(Objects.requireNonNull(this.lastName),
+				Objects.requireNonNull(this.firstName), Objects.requireNonNull(this.email),
+				Objects.requireNonNull(this.subject), Objects.requireNonNull(this.message)), this.website, this.formToken,
+				clientIpKey);
 	}
 
 	/** Never the values: an address, the fields of the form and the token stay out of any text. */

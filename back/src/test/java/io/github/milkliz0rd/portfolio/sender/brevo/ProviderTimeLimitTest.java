@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 
+import io.github.milkliz0rd.portfolio.antispam.ContactSubmission;
 import io.github.milkliz0rd.portfolio.controller.ContactMessageController;
 import io.github.milkliz0rd.portfolio.exception.ContactUnavailableException;
 import io.github.milkliz0rd.portfolio.sender.ContactMessage;
@@ -30,8 +32,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @ExtendWith(OutputCaptureExtension.class)
 class ProviderTimeLimitTest {
 
-	private static final ContactMessage MESSAGE = new ContactMessage("MarqueurNom", "MarqueurPrénom",
-			"marqueur.visiteur" + "@" + "exemple.fr", "MarqueurSujet", "MarqueurMessage");
+	/** Past the filter chain, empty here. */
+	private static final ContactSubmission MESSAGE = new ContactSubmission(new ContactMessage("MarqueurNom",
+			"MarqueurPrénom", "marqueur.visiteur" + "@" + "exemple.fr", "MarqueurSujet", "MarqueurMessage"), "",
+			"marqueur-jeton", "192.0.2.1");
 
 	@AfterEach
 	void forgetTheRequest() {
@@ -44,7 +48,7 @@ class ProviderTimeLimitTest {
 		ContactOutcomeLog.markArrival(request);
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 		try (LocalHttpServer server = new LocalHttpServer(201, Duration.ofSeconds(2))) {
-			ContactService service = new ContactService(new BrevoMessageSender(
+			ContactService service = new ContactService(List.of(), new BrevoMessageSender(
 					BrevoRestClientFactory.builder(server.baseUrl(), Duration.ofSeconds(1)),
 					"cle-factice-" + UUID.randomUUID(), "marqueur.expedition" + "@" + "exemple.fr",
 					"marqueur.destination" + "@" + "exemple.fr"));

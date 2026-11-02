@@ -18,17 +18,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import io.github.milkliz0rd.portfolio.MutableClock;
+import io.github.milkliz0rd.portfolio.TestSecrets;
 import io.github.milkliz0rd.portfolio.sender.MessageSender;
 import io.github.milkliz0rd.portfolio.sender.SendFailedException;
 import io.github.milkliz0rd.portfolio.sender.SendFailedException.Kind;
 import io.github.milkliz0rd.portfolio.service.ContactOutcomeLog;
-import io.github.milkliz0rd.portfolio.service.ContactService;
 import io.github.milkliz0rd.portfolio.service.FormTokenService;
 import jakarta.servlet.RequestDispatcher;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,17 +44,21 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 /**
  * The log line of E-02 (PB-05, PB-07): exactly one per POST on its route, with its true issue, and
- * never a value of the request. Every field, the honeypot, the token and the Origin header carry a
- * marked value, which no line of the captured output may show, at the default INFO level.
+ * never a value of the request. Every field, the honeypot and the Origin header carry a marked
+ * value, which no line of the captured output may show, at the default INFO level; nor the valid
+ * token the back issued.
  */
 @WebMvcTest(properties = "contact.allowed-origins=https://www.site.example")
-@Import(ContactService.class)
+@Import(ContactChainConfiguration.class)
 @ExtendWith(OutputCaptureExtension.class)
 class ContactOutcomeLogTest {
 
@@ -59,20 +66,38 @@ class ContactOutcomeLogTest {
 
 	private static final Pattern LINE = Pattern.compile("contact-message outcome=.*");
 
+	private static final String SECRET = TestSecrets.draw(32);
+
+	/** The token of the current test, issued by the back, of the minimal age: valid. */
+	private static String token = "";
+
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockitoBean
 	private MessageSender messageSender;
 
-	/** Needed by the controller of E-01, which the slice loads too; unused here. */
-	@MockitoBean
+	@Autowired
 	private FormTokenService formTokenService;
 
-	/** A body whose every value is marked, with the given properties replaced. */
+	@Autowired
+	private MutableClock clock;
+
+	@DynamicPropertySource
+	static void tokenSecret(DynamicPropertyRegistry registry) {
+		registry.add("contact.token-secret", () -> SECRET);
+	}
+
+	@BeforeEach
+	void issueAValidToken() {
+		token = this.formTokenService.issue();
+		this.clock.advance(Duration.ofSeconds(3));
+	}
+
+	/** A body whose every value is marked, the token being the valid one, with the given properties replaced. */
 	private static String marked(Object... replacements) {
 		Object[] values = { "lastName", "marqueur-nom", "firstName", "marqueur-prenom", "email", ADDRESS, "subject",
-				"marqueur-sujet", "message", "marqueur-message", "website", "", "formToken", "marqueur-jeton" };
+				"marqueur-sujet", "message", "marqueur-message", "website", "", "formToken", token };
 		Object[] all = new Object[values.length + replacements.length];
 		System.arraycopy(values, 0, all, 0, values.length);
 		System.arraycopy(replacements, 0, all, values.length, replacements.length);
@@ -83,10 +108,15 @@ class ContactOutcomeLogTest {
 		return post(ROUTE).header(ORIGIN, ALLOWED).contentType(APPLICATION_JSON).content(body);
 	}
 
+	/** The request with a marked body and the token of the test, built only when performed. */
+	private static RequestBuilder sending(MockHttpServletRequestBuilder request) {
+		return (servletContext) -> request.content(marked()).buildRequest(servletContext);
+	}
+
 	static Stream<Arguments> requests() {
-		return Stream.of(arguments(e02(marked()), "INFO", "sent"),
-				arguments(post(URI.create(ROUTE + ";x=marqueur")).contentType(APPLICATION_JSON).content(marked()), "INFO",
-						"sent"),
+		return Stream.of(arguments(sending(post(ROUTE).header(ORIGIN, ALLOWED).contentType(APPLICATION_JSON)), "INFO",
+				"sent"),
+				arguments(sending(post(URI.create(ROUTE + ";x=marqueur")).contentType(APPLICATION_JSON)), "INFO", "sent"),
 				arguments(e02(marked("lastName", "", "email", "marqueur-sans-arobase")), "INFO",
 						"validation-refused durationMs=\\d+ fields=lastName:required,email:invalid-email"),
 				arguments(e02("{\"lastName\": \"marqueur-nom\","), "INFO", "unreadable-body"),
@@ -119,7 +149,7 @@ class ContactOutcomeLogTest {
 			.asString()
 			.matches(".* " + level + " .* contact-message outcome=" + issue
 					+ (issue.contains("durationMs") ? "" : " durationMs=\\d+"));
-		assertThat(output.getAll()).doesNotContainIgnoringCase("marqueur");
+		assertThat(output.getAll()).doesNotContainIgnoringCase("marqueur").doesNotContain(token);
 	}
 
 	@Test
