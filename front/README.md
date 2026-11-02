@@ -21,8 +21,10 @@ Toutes se lancent depuis `front/`.
 | `npm run build`         | construit le site pré-rendu dans `dist/front/browser/`, place les pages d'erreur et écrit `_headers`             |
 | `npm test`              | lance `test:outils`, puis les tests unitaires (Vitest, par `ng test`) ; avec `CI=true`, un seul passage          |
 | `npm run test:outils`   | lance une fois les tests de `outils/tests/` (Vitest), dont ceux des jetons et des polices                        |
-| `npm run lint`          | lance l'analyse statique : ESLint, Stylelint, puis Prettier en vérification                                      |
+| `npm run lint`          | lance l'analyse statique : ESLint, les types du banc de bout en bout (`tsc`), Stylelint, puis Prettier           |
 | `npm run i18n:verifier` | extrait les libellés dans `tmp/i18n/` (non versionné) et échoue si l'un d'eux n'a pas d'identifiant personnalisé |
+| `npm run serveur-local` | sert `dist/front/browser/` avec les règles de l'hébergeur, sur `http://localhost:8787` (voir « Hébergement »)    |
+| `npm run e2e`           | construit le build de test, puis lance le banc de bout en bout (voir « Tests de bout en bout »)                  |
 
 `npm start`, `npm run build`, `npm test`, `npm run lint` et `npm run i18n:verifier` écrivent
 d'abord la configuration de l'environnement (voir « Environnements ») et l'index des projets (voir
@@ -304,12 +306,91 @@ ou une adresse `javascript:`, qu'aucune empreinte n'autorise, ou si une ligne de
 
 ```sh
 PORTFOLIO_ENVIRONNEMENT=test npm run build
-npx wrangler dev
+npm run serveur-local
 ```
 
 Le site répond sur `http://localhost:8787`, avec la page 404 la plus proche, les redirections de
-barre finale et les en-têtes de `_headers`, appliqués aussi aux réponses 404 (constaté avec
-Wrangler 4.155.0). L'état local de `wrangler dev` va dans `.wrangler/`, non versionné.
+barre finale et les en-têtes de `_headers`, appliqués aussi aux réponses 404 : la spécification de
+conformité du banc le vérifie (voir « Tests de bout en bout »). `serveur-local` lance `wrangler dev`
+sans télémétrie (`WRANGLER_SEND_METRICS=false`) ni bandeau, dont la recherche de mise à jour
+appellerait le registre de npm. L'état local de `wrangler dev` va dans `.wrangler/`, non versionné.
+
+## Tests de bout en bout
+
+Playwright contrôle le build de test pré-rendu, servi par `npm run serveur-local` sur
+`http://localhost:8787`, l'origine que le build de test donne au site et au back (voir
+« Environnements »). La configuration (`e2e/playwright.config.ts`) et les tests sont dans `e2e/`.
+
+**Installer les navigateurs** de la version de Playwright du lockfile, à chaque montée de version :
+`npx playwright install chromium firefox webkit`, avec `--with-deps` sur Linux pour les
+bibliothèques système.
+
+**Lancer le banc.** `npm run e2e` construit le build en environnement test, puis lance Playwright,
+qui démarre et arrête lui-même le serveur local, sans jamais construire. Le port 8787 doit être
+libre : un serveur déjà présent fait échouer le banc, au lieu de lui faire tester un autre build.
+Les options de Playwright suivent `--`, par exemple `npm run e2e -- --project chromium-ordinateur`
+ou `npm run e2e -- --grep "contrôle commun /parcours"` ; sur un build de test déjà fait,
+`npx playwright test -c e2e/playwright.config.ts` suffit. Aucune nouvelle tentative : un test
+instable est un défaut. Le rapport va dans `playwright-report/` (`npx playwright show-report`), les
+traces des échecs dans `test-results/`, non versionnés.
+
+| Profil                | Navigateur et appareil                                       | Fenêtre    |
+| --------------------- | ------------------------------------------------------------ | ---------- |
+| `chromium-ordinateur` | Chromium, Desktop Chrome                                     | 1280 × 720 |
+| `firefox-ordinateur`  | Firefox, Desktop Firefox                                     | 1280 × 720 |
+| `webkit-ordinateur`   | WebKit, Desktop Safari                                       | 1280 × 720 |
+| `chromium-telephone`  | Chromium, émulation du Pixel 7                               | 412 × 839  |
+| `webkit-telephone`    | WebKit, émulation de l'iPhone 15                             | 393 × 659  |
+| `firefox-telephone`   | Firefox, taille de fenêtre seule : il n'émule pas l'appareil | 390 × 844  |
+
+**Ce qui fait échouer le banc** :
+
+- `conformite.spec.ts`, la spécification de conformité du serveur local : `/parcours` en 200 sans
+  redirection, `/parcours/` en 307 vers `/parcours`, une adresse inconnue, un projet inconnu et le
+  fichier du CV absent en 404 avec le contenu de leur `404.html`, et les en-têtes de la règle `/*`
+  de `_headers`, politique de sécurité comprise, sur une page en 200 comme sur une 404. Elle passe
+  sous Wrangler 4.155.0 : le serveur de repli prévu par le plan n'a pas lieu d'être.
+- `controle-commun.spec.ts`, un test par adresse : chaque `index.html` du build, relevé à
+  l'exécution (une page ajoutée est contrôlée sans rien écrire), et les trois pages d'erreur. Toute
+  violation axe-core des règles A et AA (`wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa`),
+  nommée par sa règle et ses cibles ; tout défilement horizontal du document à 320, 600, 900, 1200,
+  1600 ou 2560 px, dans chaque profil.
+- La surveillance de `e2e/support/banc.ts`, sur chaque test qui ouvre une page : toute requête hors
+  de `http://localhost:8787` (bloquée : aucun test ne sort sur le réseau), toute erreur de console,
+  toute erreur non rattrapée, toute violation de la politique de sécurité. Seule ligne excusée : le
+  « Failed to load resource » que Chromium et WebKit écrivent pour une réponse que le test attend
+  en erreur, à son adresse exacte et avec ce code (`surveillance.attendreReponseEnErreur`), comme
+  le document d'une page d'erreur en 404.
+- Un build qui n'est pas un build de test complet : sans build, `wrangler dev` ne démarre pas et le
+  banc échoue sur son message ; sur un build sans aucune page, `/` répond 404 et le banc échoue au
+  bout des 60 s d'attente du serveur ; sur le build d'un autre environnement que test, il échoue au
+  chargement des fichiers de test (`exigerBuildDeTest`, dans `e2e/support/site.ts`).
+
+**Le back simulé** (`e2e/support/back-simule.ts`) intercepte dans le navigateur
+`POST /api/v1/form-tokens` (E-01) et `POST /api/v1/contact-messages` (E-02), et répond selon le
+contrat d'API, en-têtes et corps compris ; aucune requête n'atteint un serveur. Scénarios :
+`jeton-a-l-heure`, `jeton-en-retard` (réglage `retardJetonMs`, 2 000 ms par défaut),
+`refus-de-validation` (réglage `validationErrors`), `indisponible` (503) et `absence-de-reponse`
+(E-02 ne répond jamais : la page borne l'attente). `back-simule.spec.ts` éprouve chacun par un
+appel depuis une page du site.
+
+**Les scénarios d'un écran** vont dans `e2e/<écran>.spec.ts`. Ils importent `test` et `expect` de
+`./support/banc`, pour hériter de la surveillance, et posent le back simulé avant la navigation :
+
+```ts
+import { expect, test } from './support/banc';
+
+test('contact : envoi réussi', async ({ page, backSimule }) => {
+  const recues = await backSimule('jeton-a-l-heure');
+  await page.goto('/contact');
+  // Remplir, envoyer, puis vérifier l'état affiché et les requêtes reçues (recues).
+});
+```
+
+**Dans la CI**, le travail `e2e` de `.github/workflows/ci.yml` lance le banc sur chaque PR, sans
+filtre de chemins, comme `front` et `back` : `npm ci`, les navigateurs, `npm run e2e` ; sur échec,
+le rapport de Playwright est gardé en artefact (`playwright-report`, 14 jours). Il est à rendre
+exigé dans la protection de `staging`, réglage de GitHub, après la fusion de la PR qui le crée.
 
 ## Langue
 

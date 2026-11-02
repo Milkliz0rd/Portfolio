@@ -1,7 +1,10 @@
 // Ce que le banc lit du build de test, dist/front/browser, relevé à l'exécution : ses pages, ses
-// pages d'erreur et les en-têtes de son _headers. Un build absent, sans page ou d'un autre
-// environnement que test fait échouer le banc dès le chargement des fichiers de test, au lieu de
-// le laisser passer avec zéro test ou sur une autre politique de sécurité.
+// pages d'erreur et les en-têtes de son _headers. Playwright démarre le serveur local avant de
+// charger les fichiers de test : sans build, wrangler dev ne démarre pas et le banc échoue sur son
+// message ; sur un build sans aucune page, « / » répond 404 et le banc échoue au bout des 60 s
+// d'attente du serveur. Le build d'un autre environnement que test le fait échouer au chargement
+// des fichiers de test (exigerBuildDeTest), au lieu de le laisser passer sur une autre politique
+// de sécurité. Sans serveur, --list échoue au chargement dans les trois cas.
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, sep } from 'node:path';
 
