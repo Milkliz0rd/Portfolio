@@ -53,11 +53,13 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 /**
  * The log line of E-02 (PB-05, PB-07): exactly one per POST on its route, with its true issue, and
- * never a value of the request. Every field, the honeypot and the Origin header carry a marked
- * value, which no line of the captured output may show, at the default INFO level; nor the valid
- * token the back issued.
+ * never a value of the request. Every field, the honeypot, the token, the Origin header and the
+ * header of the visitor's address carry a marked value, which no line of the captured output may
+ * show, at the default INFO level; nor the valid token the back issued, nor an address. A limit of 1
+ * per address and a cap of 2 make their issues quick to reach.
  */
-@WebMvcTest(properties = "contact.allowed-origins=https://www.site.example")
+@WebMvcTest(properties = { "contact.allowed-origins=https://www.site.example",
+		"contact.client-ip-header=X-Forwarded-For", "contact.ip-limit-per-hour=1", "contact.daily-cap=2" })
 @Import(ContactChainConfiguration.class)
 @ExtendWith(OutputCaptureExtension.class)
 class ContactOutcomeLogTest {
@@ -65,6 +67,9 @@ class ContactOutcomeLogTest {
 	private static final String ADDRESS = "marqueur.adresse" + "@" + "exemple.fr";
 
 	private static final Pattern LINE = Pattern.compile("contact-message outcome=.*");
+
+	/** A forged element on the left, then the visitor's address. */
+	private static final String MARKED_IP = "marqueur-ip, 203.0.113.77";
 
 	private static final String SECRET = TestSecrets.draw(32);
 
@@ -107,12 +112,20 @@ class ContactOutcomeLogTest {
 	}
 
 	private static RequestBuilder e02(String body) {
-		return post(ROUTE).header(ORIGIN, ALLOWED).contentType(APPLICATION_JSON).content(body);
+		return e02(body, MARKED_IP);
+	}
+
+	private static RequestBuilder e02(String body, String forwardedFor) {
+		return post(ROUTE).header(ORIGIN, ALLOWED).header("X-Forwarded-For", forwardedFor)
+			.contentType(APPLICATION_JSON)
+			.content(body);
 	}
 
 	/** The request with a marked body and the token of the test, built only when performed. */
 	private static RequestBuilder sending(MockHttpServletRequestBuilder request) {
-		return (servletContext) -> request.content(marked()).buildRequest(servletContext);
+		return (servletContext) -> request.header("X-Forwarded-For", MARKED_IP)
+			.content(marked())
+			.buildRequest(servletContext);
 	}
 
 	static Stream<Arguments> requests() {
@@ -151,7 +164,37 @@ class ContactOutcomeLogTest {
 			.asString()
 			.matches(".* " + level + " .* contact-message outcome=" + issue
 					+ (issue.contains("durationMs") ? "" : " durationMs=\\d+"));
-		assertThat(output.getAll()).doesNotContainIgnoringCase("marqueur").doesNotContain(token);
+		assertNoValue(output);
+	}
+
+	/** Each filter that stops a message is named, at INFO but the cap, at WARN, which Alexandre must notice. */
+	@Test
+	void eachFilterThatStopsAMessageIsNamedAtItsLevel(CapturedOutput output) throws Exception {
+		this.mockMvc.perform(e02(marked("website", "marqueur-piege")));
+		this.mockMvc.perform(e02(marked("formToken", null)));
+		this.mockMvc.perform(e02(marked("formToken", "marqueur-jeton")));
+		this.mockMvc.perform(e02(marked("formToken", this.formTokenService.issue())));
+		this.mockMvc.perform(e02(marked()));
+		this.mockMvc.perform(e02(marked()));
+		this.mockMvc.perform(e02(marked(), "marqueur-ip, 198.51.100.77"));
+		this.mockMvc.perform(e02(marked(), "marqueur-ip, 192.0.2.77"));
+		this.clock.advance(Duration.ofHours(2));
+		this.mockMvc.perform(e02(marked()));
+		assertThat(lines(output)).hasSize(9)
+			.zipSatisfy(List.of("INFO honeypot", "INFO token-missing", "INFO token-forged", "INFO token-too-recent",
+					"INFO sent", "INFO ip-limit", "INFO sent", "WARN daily-cap", "INFO token-expired"),
+					(line, issue) -> assertThat(line).matches(".* " + issue.replace(" ", " .* contact-message outcome=")
+							+ " durationMs=\\d+"));
+		assertNoValue(output);
+	}
+
+	/** No marked value, no valid token, no address. */
+	private static void assertNoValue(CapturedOutput output) {
+		assertThat(output.getAll()).doesNotContainIgnoringCase("marqueur")
+			.doesNotContain(token)
+			.doesNotContain("203.0.113.")
+			.doesNotContain("198.51.100.")
+			.doesNotContain("192.0.2.");
 	}
 
 	@Test
@@ -159,8 +202,8 @@ class ContactOutcomeLogTest {
 		willThrow(new IllegalStateException("Test failure")).given(this.messageSender).send(any());
 		this.mockMvc.perform(e02(marked()));
 		assertThat(lines(output)).singleElement().asString().matches(".* ERROR .* outcome=internal-error durationMs=\\d+");
-		assertThat(output.getAll()).contains("java.lang.IllegalStateException: Test failure")
-			.doesNotContainIgnoringCase("marqueur");
+		assertThat(output.getAll()).contains("java.lang.IllegalStateException: Test failure");
+		assertNoValue(output);
 	}
 
 	static Stream<Arguments> providerFailures() {
@@ -179,7 +222,7 @@ class ContactOutcomeLogTest {
 		willThrow(failure).given(this.messageSender).send(any());
 		this.mockMvc.perform(e02(marked()));
 		assertThat(lines(output)).singleElement().asString().matches(".* WARN .* contact-message outcome=" + issue);
-		assertThat(output.getAll()).doesNotContainIgnoringCase("marqueur");
+		assertNoValue(output);
 	}
 
 	static Stream<RequestBuilder> requestsWithoutLine() {
@@ -196,7 +239,7 @@ class ContactOutcomeLogTest {
 	void anyOtherRequestGetsNoLine(RequestBuilder request, CapturedOutput output) throws Exception {
 		this.mockMvc.perform(request);
 		assertThat(lines(output)).isEmpty();
-		assertThat(output.getAll()).doesNotContainIgnoringCase("marqueur");
+		assertNoValue(output);
 	}
 
 	private static List<String> lines(CapturedOutput output) {
