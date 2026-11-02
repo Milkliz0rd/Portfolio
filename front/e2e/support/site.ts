@@ -2,8 +2,8 @@
 // pages d'erreur et les en-têtes de son _headers. Un build absent, sans page ou d'un autre
 // environnement que test fait échouer le banc dès le chargement des fichiers de test, au lieu de
 // le laisser passer avec zéro test ou sur une autre politique de sécurité.
-import { existsSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join, sep } from 'node:path';
 
 /**
  * L'origine du serveur local de test : ORIGINE_LOCALE_TEST d'outils/ecrire-configuration.mjs, que
@@ -58,4 +58,15 @@ export function exigerBuildDeTest(): void {
       `Le build de ${DOSSIER_BUILD} n'est pas un build de test (connect-src sans ${ORIGINE}) : lancez « npm run e2e »`,
     );
   }
+}
+
+/** Une adresse par index.html du build : « / » pour la racine, « /parcours » pour parcours/. */
+export function pagesDuBuild(): string[] {
+  exigerBuildDeTest();
+  const pages = readdirSync(DOSSIER_BUILD, { recursive: true, encoding: 'utf8' })
+    .filter((fichier) => fichier === 'index.html' || fichier.endsWith(`${sep}index.html`))
+    .map((fichier) => `/${fichier.split(sep).slice(0, -1).join('/')}`)
+    .sort();
+  if (pages.length === 0) throw new Error(`Aucune page dans ${DOSSIER_BUILD}`);
+  return pages;
 }
