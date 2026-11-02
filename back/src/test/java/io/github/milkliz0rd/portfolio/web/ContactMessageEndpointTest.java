@@ -113,6 +113,10 @@ class ContactMessageEndpointTest {
 	@BeforeEach
 	void issueAValidToken() {
 		this.clock.advance(Duration.ofDays(1));
+		newToken();
+	}
+
+	void newToken() {
 		token = this.formTokenService.issue();
 		this.clock.advance(Duration.ofSeconds(3));
 	}
@@ -193,6 +197,59 @@ class ContactMessageEndpointTest {
 		}
 		unavailable(send(body(), "203.0.113.10"));
 		verify(this.messageSender, times(5)).send(any());
+	}
+
+	/** Fifty messages, from ten addresses, reach the cap: the next one gets the 503, from any address. */
+	@Test
+	void theMessageAfterTheCapGetsTheSingle503() throws Exception {
+		fillTheCap();
+		unavailable(send(body(), "203.0.113.200"));
+		verify(this.messageSender, times(50)).send(any());
+	}
+
+	/** Refused by the cap, a message gives back the place it took in the limit per address (PB-03). */
+	@Test
+	void aMessageRefusedByTheCapGivesBackItsPlaceInTheLimit() throws Exception {
+		fillTheCap();
+		this.clock.advance(Duration.ofHours(23).plusMinutes(30));
+		newToken();
+		for (int i = 0; i < 5; i++) {
+			unavailable(send(body(), "203.0.113.200"));
+		}
+		// The cap opens a new window; the address has had no message counted.
+		this.clock.advance(Duration.ofMinutes(30));
+		send(body(), "203.0.113.200").andExpect(status().isAccepted());
+	}
+
+	/** The seven 503 of PB-07, and the provider's timeout: the same body, but for its timestamp (PB-06). */
+	@Test
+	void everyRefusalAndFailureGetsTheSameBody() throws Exception {
+		List<String> bodies = new ArrayList<>();
+		willThrow(new SendFailedException(Kind.FAILURE, 500)).willThrow(new SendFailedException(Kind.TIMEOUT, null))
+			.willDoNothing()
+			.given(this.messageSender)
+			.send(any());
+		bodies.add(unavailable(send(body())));
+		bodies.add(unavailable(send(body())));
+		bodies.add(unavailable(send(body("formToken", ABSENT))));
+		bodies.add(unavailable(send(body("formToken", "jeton-opaque"))));
+		bodies.add(unavailable(send(body("formToken", this.formTokenService.issue()))));
+		this.clock.advance(Duration.ofDays(1));
+		newToken();
+		fillTheCap();
+		// The limit per address comes before the cap.
+		bodies.add(unavailable(send(body(), "198.51.100.1")));
+		bodies.add(unavailable(send(body(), "203.0.113.200")));
+		this.clock.advance(Duration.ofHours(2).minusSeconds(3).plusMillis(1));
+		bodies.add(unavailable(send(body())));
+		assertThat(bodies).hasSize(8).containsOnly(bodies.getFirst());
+	}
+
+	/** Five messages from each of ten addresses: the 50 of the cap. */
+	void fillTheCap() throws Exception {
+		for (int i = 1; i <= 50; i++) {
+			send(body(), "198.51.100." + ((i % 10) + 1)).andExpect(status().isAccepted());
+		}
 	}
 
 	@Test

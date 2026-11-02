@@ -3,6 +3,7 @@ package io.github.milkliz0rd.portfolio.web;
 import java.time.Instant;
 
 import io.github.milkliz0rd.portfolio.MutableClock;
+import io.github.milkliz0rd.portfolio.antispam.DailyCapFilter;
 import io.github.milkliz0rd.portfolio.antispam.FormTokenFilter;
 import io.github.milkliz0rd.portfolio.antispam.HoneypotFilter;
 import io.github.milkliz0rd.portfolio.antispam.IpRateLimitFilter;
@@ -20,7 +21,7 @@ import org.springframework.context.annotation.Import;
  */
 @TestConfiguration(proxyBeanMethods = false)
 @Import({ ContactService.class, FormTokenService.class, HoneypotFilter.class, FormTokenFilter.class,
-		IpRateLimitFilter.class })
+		IpRateLimitFilter.class, DailyCapFilter.class })
 class ContactChainConfiguration {
 
 	@Bean

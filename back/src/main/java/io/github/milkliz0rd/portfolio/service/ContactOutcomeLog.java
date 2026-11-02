@@ -89,7 +89,8 @@ public final class ContactOutcomeLog {
 		if (outcome == ContactOutcome.INTERNAL_ERROR) {
 			LOGGER.error("contact-message outcome={} durationMs={}{}", outcome.code(), durationMs, details, failure);
 		}
-		else if (outcome == ContactOutcome.PROVIDER_FAILURE || outcome == ContactOutcome.PROVIDER_TIMEOUT) {
+		else if (outcome == ContactOutcome.DAILY_CAP || outcome == ContactOutcome.PROVIDER_FAILURE
+				|| outcome == ContactOutcome.PROVIDER_TIMEOUT) {
 			// What Alexandre must notice (CT-14).
 			LOGGER.warn("contact-message outcome={} durationMs={}{}", outcome.code(), durationMs, details);
 		}

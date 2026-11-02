@@ -37,11 +37,14 @@ import org.springframework.boot.convert.DurationUnit;
  * the right ({@code CONTACT_CLIENT_IP_POSITION}): a whole number of 1 or more
  * @param ipLimitPerHour messages per visitor's address in its window of one hour
  * ({@code CONTACT_IP_LIMIT_PER_HOUR}): a whole number of 1 or more
+ * @param dailyCap messages in the window of 24 hours, for all visitors ({@code CONTACT_DAILY_CAP}): a
+ * whole number of 1 or more
  */
 @ConfigurationProperties("contact")
 public record ContactProperties(List<String> allowedOrigins, @DurationUnit(ChronoUnit.SECONDS) Duration tokenMinAge,
 		@DurationUnit(ChronoUnit.SECONDS) Duration tokenMaxAge, @DurationUnit(ChronoUnit.SECONDS) Duration providerTimeout,
-		String brevoBaseUrl, String clientIpHeader, Integer clientIpPosition, Integer ipLimitPerHour) {
+		String brevoBaseUrl, String clientIpHeader, Integer clientIpPosition, Integer ipLimitPerHour,
+		Integer dailyCap) {
 
 	/** A serialized origin: scheme http or https, host, optional port; no path, slash or wildcard. */
 	private static final Pattern ORIGIN = Pattern.compile("https?://([a-z0-9-]+\\.)*[a-z0-9-]+(:[0-9]{1,5})?");
@@ -92,6 +95,9 @@ public record ContactProperties(List<String> allowedOrigins, @DurationUnit(Chron
 		}
 		if (ipLimitPerHour == null || ipLimitPerHour < 1) {
 			throw new IllegalArgumentException("CONTACT_IP_LIMIT_PER_HOUR must be a whole number of 1 or more, such as 5");
+		}
+		if (dailyCap == null || dailyCap < 1) {
+			throw new IllegalArgumentException("CONTACT_DAILY_CAP must be a whole number of 1 or more, such as 50");
 		}
 	}
 

@@ -16,8 +16,8 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
  * Reading of CONTACT_ALLOWED_ORIGINS, CONTACT_TOKEN_MIN_AGE, CONTACT_TOKEN_MAX_AGE, CONTACT_PROVIDER_TIMEOUT,
- * CONTACT_BREVO_BASE_URL, CONTACT_CLIENT_IP_HEADER, CONTACT_CLIENT_IP_POSITION and CONTACT_IP_LIMIT_PER_HOUR at
- * startup (PB-04).
+ * CONTACT_BREVO_BASE_URL, CONTACT_CLIENT_IP_HEADER, CONTACT_CLIENT_IP_POSITION, CONTACT_IP_LIMIT_PER_HOUR and
+ * CONTACT_DAILY_CAP at startup (PB-04).
  */
 class ContactPropertiesTest {
 
@@ -25,7 +25,7 @@ class ContactPropertiesTest {
 		.withUserConfiguration(PropertiesConfiguration.class)
 		.withPropertyValues("contact.token-min-age=3s", "contact.token-max-age=2h", "contact.provider-timeout=10s",
 				"contact.brevo-base-url=https://api.brevo.com/v3", "contact.client-ip-position=1",
-				"contact.ip-limit-per-hour=5");
+				"contact.ip-limit-per-hour=5", "contact.daily-cap=50");
 
 	@ParameterizedTest
 	@ValueSource(strings = { "https://*.site.example", "https://site.example/path", "https://site.example/",
@@ -167,10 +167,13 @@ class ContactPropertiesTest {
 	@ParameterizedTest
 	@ValueSource(ints = { 1, 2, 10 })
 	void theCountsAreRead(int count) {
-		this.runner.withPropertyValues("contact.client-ip-position=" + count, "contact.ip-limit-per-hour=" + count)
+		this.runner
+			.withPropertyValues("contact.client-ip-position=" + count, "contact.ip-limit-per-hour=" + count,
+					"contact.daily-cap=" + count)
 			.run((context) -> {
 				assertThat(context.getBean(ContactProperties.class).clientIpPosition()).isEqualTo(count);
 				assertThat(context.getBean(ContactProperties.class).ipLimitPerHour()).isEqualTo(count);
+				assertThat(context.getBean(ContactProperties.class).dailyCap()).isEqualTo(count);
 			});
 	}
 
@@ -179,7 +182,9 @@ class ContactPropertiesTest {
 	@CsvSource({ "client-ip-position, 0, CONTACT_CLIENT_IP_POSITION", "client-ip-position, -1, CONTACT_CLIENT_IP_POSITION",
 			"client-ip-position, '', CONTACT_CLIENT_IP_POSITION", "client-ip-position, un, ", "client-ip-position, 1.5, ",
 			"ip-limit-per-hour, 0, CONTACT_IP_LIMIT_PER_HOUR", "ip-limit-per-hour, -5, CONTACT_IP_LIMIT_PER_HOUR",
-			"ip-limit-per-hour, '', CONTACT_IP_LIMIT_PER_HOUR", "ip-limit-per-hour, cinq, " })
+			"ip-limit-per-hour, '', CONTACT_IP_LIMIT_PER_HOUR", "ip-limit-per-hour, cinq, ",
+			"daily-cap, 0, CONTACT_DAILY_CAP", "daily-cap, -50, CONTACT_DAILY_CAP", "daily-cap, '', CONTACT_DAILY_CAP",
+			"daily-cap, 50.0, " })
 	void aCountBelow1StopsTheStartup(String property, String count, String variable) {
 		this.runner.withPropertyValues("contact." + property + "=" + count).run((context) -> {
 			assertThat(context).hasFailed();
@@ -192,15 +197,17 @@ class ContactPropertiesTest {
 
 	/** The values of application.yaml when the variables are unset; skipped if this shell sets them. */
 	@Test
-	void theFilterSettingsDefaultToTheConnectionRank1And5PerHour() {
+	void theFilterSettingsDefaultToTheConnectionRank1And5PerHourAnd50() {
 		assumeTrue(System.getenv("CONTACT_CLIENT_IP_HEADER") == null && System.getenv("CONTACT_CLIENT_IP_POSITION") == null
-				&& System.getenv("CONTACT_IP_LIMIT_PER_HOUR") == null, "A variable of the filters is set in this shell");
+				&& System.getenv("CONTACT_IP_LIMIT_PER_HOUR") == null && System.getenv("CONTACT_DAILY_CAP") == null,
+				"A variable of the filters is set in this shell");
 		new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class)
 			.withInitializer(new ConfigDataApplicationContextInitializer())
 			.run((context) -> {
 				assertThat(context.getBean(ContactProperties.class).clientIpHeader()).isEmpty();
 				assertThat(context.getBean(ContactProperties.class).clientIpPosition()).isEqualTo(1);
 				assertThat(context.getBean(ContactProperties.class).ipLimitPerHour()).isEqualTo(5);
+				assertThat(context.getBean(ContactProperties.class).dailyCap()).isEqualTo(50);
 			});
 	}
 

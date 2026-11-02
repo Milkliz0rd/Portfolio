@@ -39,7 +39,7 @@ class MessageSenderConfigTest {
 		.withUserConfiguration(MessageSenderConfig.class, PropertiesConfiguration.class)
 		.withPropertyValues("contact.token-min-age=3s", "contact.token-max-age=2h", "contact.provider-timeout=10s",
 				"contact.brevo-base-url=https://api.brevo.com/v3", "contact.client-ip-position=1",
-				"contact.ip-limit-per-hour=5");
+				"contact.ip-limit-per-hour=5", "contact.daily-cap=50");
 
 	/** Brevo with all its settings, the listed ones replaced. */
 	private ApplicationContextRunner brevo(String... replacements) {
