@@ -103,6 +103,11 @@ module.exports = defineConfig([
     rules: { 'no-restricted-globals': 'off' },
   },
   {
+    // Le banc n'est pas du code du site : il appelle fetch dans la page pour éprouver le back simulé.
+    files: ['e2e/**/*.ts'],
+    rules: { 'no-restricted-globals': 'off' },
+  },
+  {
     files: ['**/*.html'],
     extends: [angular.configs.templateRecommended, angular.configs.templateAccessibility],
     rules: {

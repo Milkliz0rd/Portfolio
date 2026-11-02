@@ -1,8 +1,9 @@
 import { expect, test as base, type ConsoleMessage, type Page } from '@playwright/test';
+import { simulerBack, type Reglages, type RequeteRecue, type Scenario } from './back-simule';
 import { ORIGINE } from './site';
 
-// Point d'entrée des tests qui ouvrent une page (contrôle commun, scénarios des écrans) :
-// import { expect, test } from './support/banc'. Chaque page y est surveillée, et le test
+// Point d'entrée des tests qui ouvrent une page (contrôle commun, back simulé, scénarios des
+// écrans) : import { expect, test } from './support/banc'. Chaque page y est surveillée, et le test
 // échoue sur toute requête hors de l'origine du serveur local (data: et blob: mis à part, requêtes
 // échouées comprises), toute erreur de console, toute erreur de page non rattrapée et toute
 // violation de la politique de sécurité, dans les trois moteurs. Les requêtes vers un autre site
@@ -10,8 +11,8 @@ import { ORIGINE } from './site';
 
 // Chromium et WebKit, pas Firefox, écrivent cette erreur de console pour une réponse en erreur,
 // document principal compris. Elle n'est excusée que rattachée, ligne et colonne 0, à l'adresse
-// exacte d'une réponse que le test attend avec ce code, comme le document d'une page d'erreur en
-// 404. Aucune autre ligne n'est excusée.
+// exacte d'une réponse que le test attend avec ce code : le document d'une page d'erreur en 404,
+// ou une erreur que le back simulé rend lui-même. Aucune autre ligne n'est excusée.
 const REPONSE_EN_ERREUR =
   /^Failed to load resource: the server responded with a status of (\d{3}) \([^)]*\)$/;
 const VIOLATION = 'violation de la politique de sécurité :';
@@ -79,6 +80,8 @@ export class Surveillance {
 
 interface Fixtures {
   surveillance: Surveillance;
+  /** Pose le back simulé sur la page, avant sa navigation ; rend le journal de ce qu'il reçoit. */
+  backSimule: (scenario: Scenario, reglages?: Reglages) => Promise<RequeteRecue[]>;
 }
 
 export const test = base.extend<Fixtures>({
@@ -92,6 +95,13 @@ export const test = base.extend<Fixtures>({
     },
     { auto: true },
   ],
+  backSimule: async ({ page, surveillance }, use) => {
+    await use((scenario, reglages) =>
+      simulerBack(page, scenario, reglages, (adresse, statut) =>
+        surveillance.attendreReponseEnErreur(adresse, statut),
+      ),
+    );
+  },
 });
 
 export { expect };
