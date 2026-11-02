@@ -15,15 +15,15 @@ import org.springframework.boot.test.context.ConfigDataApplicationContextInitial
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
- * Reading of CONTACT_ALLOWED_ORIGINS, CONTACT_TOKEN_MIN_AGE, CONTACT_TOKEN_MAX_AGE, CONTACT_PROVIDER_TIMEOUT and
- * CONTACT_BREVO_BASE_URL at startup (PB-04).
+ * Reading of CONTACT_ALLOWED_ORIGINS, CONTACT_TOKEN_MIN_AGE, CONTACT_TOKEN_MAX_AGE, CONTACT_PROVIDER_TIMEOUT,
+ * CONTACT_BREVO_BASE_URL, CONTACT_CLIENT_IP_HEADER and CONTACT_CLIENT_IP_POSITION at startup (PB-04).
  */
 class ContactPropertiesTest {
 
 	private final ApplicationContextRunner runner = new ApplicationContextRunner()
 		.withUserConfiguration(PropertiesConfiguration.class)
 		.withPropertyValues("contact.token-min-age=3s", "contact.token-max-age=2h", "contact.provider-timeout=10s",
-				"contact.brevo-base-url=https://api.brevo.com/v3");
+				"contact.brevo-base-url=https://api.brevo.com/v3", "contact.client-ip-position=1");
 
 	@ParameterizedTest
 	@ValueSource(strings = { "https://*.site.example", "https://site.example/path", "https://site.example/",
@@ -138,6 +138,60 @@ class ContactPropertiesTest {
 			.run((context) -> {
 				assertThat(context.getBean(ContactProperties.class).providerTimeout()).isEqualTo(Duration.ofSeconds(10));
 				assertThat(context.getBean(ContactProperties.class).brevoBaseUrl()).isEqualTo("https://api.brevo.com/v3");
+			});
+	}
+
+	/** A header name, or nothing: unset or empty, the connection's address. */
+	@ParameterizedTest
+	@CsvSource({ "contact.client-ip-header=X-Forwarded-For, X-Forwarded-For", "contact.client-ip-header=, ''",
+			"contact.other=, ''", "contact.client-ip-header=True-Client-IP, True-Client-IP" })
+	void theClientIpHeaderIsRead(String setting, String header) {
+		this.runner.withPropertyValues(setting)
+			.run((context) -> assertThat(context.getBean(ContactProperties.class).clientIpHeader()).isEqualTo(header));
+	}
+
+	/** A space, a colon, a comma, a parenthesis, a letter outside ASCII: not a header name (RFC 9110, section 5.1). */
+	@ParameterizedTest
+	@ValueSource(strings = { "X Marqueur:For", "X-Marqueur,", "X(Marqueur)", "X-Marqueur-É" })
+	void aClientIpHeaderThatIsNotANameStopsTheStartupWithoutBeingShown(String header) {
+		this.runner.withPropertyValues("contact.client-ip-header=" + header).run((context) -> {
+			assertThat(context).hasFailed();
+			assertThat(context.getStartupFailure()).rootCause()
+				.hasMessageStartingWith("CONTACT_CLIENT_IP_HEADER must be a header name")
+				.hasMessageNotContaining("Marqueur");
+		});
+	}
+
+	@ParameterizedTest
+	@ValueSource(ints = { 1, 2, 10 })
+	void theClientIpPositionIsRead(int position) {
+		this.runner.withPropertyValues("contact.client-ip-position=" + position)
+			.run((context) -> assertThat(context.getBean(ContactProperties.class).clientIpPosition()).isEqualTo(position));
+	}
+
+	/** Zero, negative or empty: refused by name; not a whole number: refused by Spring's conversion. */
+	@ParameterizedTest
+	@CsvSource({ "0, true", "-1, true", "'', true", "un, false", "1.5, false" })
+	void aClientIpPositionBelow1StopsTheStartup(String position, boolean named) {
+		this.runner.withPropertyValues("contact.client-ip-position=" + position).run((context) -> {
+			assertThat(context).hasFailed();
+			if (named) {
+				assertThat(context.getStartupFailure()).rootCause()
+					.hasMessage("CONTACT_CLIENT_IP_POSITION must be a whole number of 1 or more, such as 1");
+			}
+		});
+	}
+
+	/** The values of application.yaml when the variables are unset; skipped if this shell sets them. */
+	@Test
+	void theClientIpSettingsDefaultToTheConnectionAndRank1() {
+		assumeTrue(System.getenv("CONTACT_CLIENT_IP_HEADER") == null && System.getenv("CONTACT_CLIENT_IP_POSITION") == null,
+				"CONTACT_CLIENT_IP_HEADER or CONTACT_CLIENT_IP_POSITION is set in this shell");
+		new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class)
+			.withInitializer(new ConfigDataApplicationContextInitializer())
+			.run((context) -> {
+				assertThat(context.getBean(ContactProperties.class).clientIpHeader()).isEmpty();
+				assertThat(context.getBean(ContactProperties.class).clientIpPosition()).isEqualTo(1);
 			});
 	}
 

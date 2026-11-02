@@ -31,11 +31,15 @@ import org.springframework.boot.convert.DurationUnit;
  * delay and the call fit within the front's 90 seconds
  * @param brevoBaseUrl base address of Brevo's API ({@code CONTACT_BREVO_BASE_URL}): an absolute https
  * address, without user, query or fragment
+ * @param clientIpHeader the header to which the host's proxy appends the visitor's address
+ * ({@code CONTACT_CLIENT_IP_HEADER}): a header name, or empty, for the connection's address
+ * @param clientIpPosition the rank of the visitor's address in the list of that header, counted from
+ * the right ({@code CONTACT_CLIENT_IP_POSITION}): a whole number of 1 or more
  */
 @ConfigurationProperties("contact")
 public record ContactProperties(List<String> allowedOrigins, @DurationUnit(ChronoUnit.SECONDS) Duration tokenMinAge,
 		@DurationUnit(ChronoUnit.SECONDS) Duration tokenMaxAge, @DurationUnit(ChronoUnit.SECONDS) Duration providerTimeout,
-		String brevoBaseUrl) {
+		String brevoBaseUrl, String clientIpHeader, Integer clientIpPosition) {
 
 	/** A serialized origin: scheme http or https, host, optional port; no path, slash or wildcard. */
 	private static final Pattern ORIGIN = Pattern.compile("https?://([a-z0-9-]+\\.)*[a-z0-9-]+(:[0-9]{1,5})?");
@@ -46,6 +50,9 @@ public record ContactProperties(List<String> allowedOrigins, @DurationUnit(Chron
 	private static final Duration MIN_PROVIDER_TIMEOUT = Duration.ofSeconds(1);
 
 	private static final Duration MAX_PROVIDER_TIMEOUT = Duration.ofSeconds(20);
+
+	/** A header name, a token of RFC 9110 (section 5.1). */
+	private static final Pattern HEADER_NAME = Pattern.compile("[!#$%&'*+.^_`|~0-9A-Za-z-]+");
 
 	public ContactProperties {
 		allowedOrigins = (allowedOrigins != null) ? List.copyOf(allowedOrigins) : List.of();
@@ -72,6 +79,14 @@ public record ContactProperties(List<String> allowedOrigins, @DurationUnit(Chron
 		if (!isHttpsAddress(brevoBaseUrl)) {
 			throw new IllegalArgumentException("CONTACT_BREVO_BASE_URL must be an absolute https address,"
 					+ " without user, query or fragment, such as the default value of application.yaml");
+		}
+		clientIpHeader = (clientIpHeader != null) ? clientIpHeader : "";
+		if (!clientIpHeader.isEmpty() && !HEADER_NAME.matcher(clientIpHeader).matches()) {
+			throw new IllegalArgumentException("CONTACT_CLIENT_IP_HEADER must be a header name, made of letters, digits"
+					+ " and !#$%&'*+-.^_`|~ only, or empty");
+		}
+		if (clientIpPosition == null || clientIpPosition < 1) {
+			throw new IllegalArgumentException("CONTACT_CLIENT_IP_POSITION must be a whole number of 1 or more, such as 1");
 		}
 	}
 
