@@ -319,7 +319,7 @@ appellerait le registre de npm. L'état local de `wrangler dev` va dans `.wrangl
 
 Playwright contrôle le build de test pré-rendu, servi par `npm run serveur-local` sur
 `http://localhost:8787`, l'origine que le build de test donne au site et au back (voir
-« Environnements »). La configuration est dans `playwright.config.ts`, les tests dans `e2e/`.
+« Environnements »). La configuration (`e2e/playwright.config.ts`) et les tests sont dans `e2e/`.
 
 **Installer les navigateurs** de la version de Playwright du lockfile, à chaque montée de version :
 `npx playwright install chromium firefox webkit`, avec `--with-deps` sur Linux pour les
@@ -330,9 +330,9 @@ qui démarre et arrête lui-même le serveur local, sans jamais construire. Le p
 libre : un serveur déjà présent fait échouer le banc, au lieu de lui faire tester un autre build.
 Les options de Playwright suivent `--`, par exemple `npm run e2e -- --project chromium-ordinateur`
 ou `npm run e2e -- --grep "contrôle commun /parcours"` ; sur un build de test déjà fait,
-`npx playwright test` suffit. Aucune nouvelle tentative : un test instable est un défaut. Le rapport
-va dans `playwright-report/` (`npx playwright show-report`), les traces des échecs dans
-`test-results/`, non versionnés.
+`npx playwright test -c e2e/playwright.config.ts` suffit. Aucune nouvelle tentative : un test
+instable est un défaut. Le rapport va dans `playwright-report/` (`npx playwright show-report`), les
+traces des échecs dans `test-results/`, non versionnés.
 
 | Profil                | Navigateur et appareil                                       | Fenêtre    |
 | --------------------- | ------------------------------------------------------------ | ---------- |
@@ -361,7 +361,10 @@ va dans `playwright-report/` (`npx playwright show-report`), les traces des éch
   « Failed to load resource » que Chromium et WebKit écrivent pour une réponse que le test attend
   en erreur, à son adresse exacte et avec ce code (`surveillance.attendreReponseEnErreur`), comme
   le document d'une page d'erreur en 404.
-- Un build absent, sans page ou construit hors de l'environnement test, dès le démarrage du banc.
+- Un build qui n'est pas un build de test complet : sans build, `wrangler dev` ne démarre pas et le
+  banc échoue sur son message ; sur un build sans aucune page, `/` répond 404 et le banc échoue au
+  bout des 60 s d'attente du serveur ; sur le build d'un autre environnement que test, il échoue au
+  chargement des fichiers de test (`exigerBuildDeTest`, dans `e2e/support/site.ts`).
 
 **Le back simulé** (`e2e/support/back-simule.ts`) intercepte dans le navigateur
 `POST /api/v1/form-tokens` (E-01) et `POST /api/v1/contact-messages` (E-02), et répond selon le
