@@ -5,6 +5,24 @@
     <title>Front</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Petit script de tête du mouvement (PF-04), synchrone et avant toute feuille de style :
+         mv-actif si le visiteur n'a pas demandé à réduire les animations, retiré après 3 s si
+         l'application n'a pas posé mv-pret ; mv-pause si la pause est mémorisée. Son empreinte
+         entre dans _headers à chaque build (PF-09) : jamais écrite à la main. -->
+    <script>
+      try {
+        const html = document.documentElement;
+        if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+          html.classList.add('mv-actif');
+          setTimeout(() => {
+            if (!html.classList.contains('mv-pret')) html.classList.remove('mv-actif');
+          }, 3000);
+        }
+        try {
+          if (localStorage.getItem('mv-pause') === '1') html.classList.add('mv-pause');
+        } catch {}
+      } catch {}
+    </script>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <!-- Les deux polices du premier écran, demandées avant la feuille de style (PF-01). -->
     <link

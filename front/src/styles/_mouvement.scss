@@ -1,0 +1,35 @@
+// Le mouvement (PF-04, charte section 6) : toutes ses règles vivent ici, sur des classes mv-*,
+// pour relire d'un seul endroit la réduction des animations et le budget. Le petit script de tête
+// (src/index.html) pose mv-actif et mv-pause sur html, MouvementService mv-pret et mv-immediat.
+
+// Animations permises : le défilement doux vers une ancre, puis les états cachés des motifs.
+// Un état caché (opacité 0, translation de départ, trait non tracé…) ne s'écrit que dans ce bloc
+// et sous .mv-actif : sans script, avec les animations réduites ou après le repli des 3 s, il
+// n'existe pas, et tout le contenu reste visible.
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+// Animations réduites : par sûreté, toute transition et toute animation deviennent instantanées.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+// Mode immédiat (retour ou avance dans l'historique, page rendue par le cache du navigateur) :
+// aucune transition ne joue pendant que chaque motif pose son état final.
+.mv-immediat,
+.mv-immediat *,
+.mv-immediat *::before,
+.mv-immediat *::after {
+  transition: none !important;
+}
