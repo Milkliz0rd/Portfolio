@@ -5,7 +5,7 @@
 # nouvelle image et en propose alors l'empreinte (dependabot.yml).
 
 # 1. build : le jar seul. Tests et analyse statique tournent dans la CI, pas ici.
-FROM eclipse-temurin:25-jdk@sha256:3ab7fc8d0b4ade8fef96903fb36767c1dbb4fd1535dcfad85b59c17afbbb5857 AS build
+FROM eclipse-temurin:25-jdk@sha256:83f4a7fc27df94dcc7b8de04d14cbbba8da14406f921e966969c3b09000aa507 AS build
 WORKDIR /build
 # Le wrapper et le pom d'abord : la couche des dépendances ne se refait que si le pom change.
 COPY mvnw pom.xml ./
@@ -15,14 +15,14 @@ COPY src src
 RUN ./mvnw -B -ntp package -DskipTests
 
 # 2. extract : la forme extraite du jar, que demande le cache AOT de Spring Boot.
-FROM eclipse-temurin:25-jdk@sha256:3ab7fc8d0b4ade8fef96903fb36767c1dbb4fd1535dcfad85b59c17afbbb5857 AS extract
+FROM eclipse-temurin:25-jdk@sha256:83f4a7fc27df94dcc7b8de04d14cbbba8da14406f921e966969c3b09000aa507 AS extract
 WORKDIR /extract
 COPY --from=build /build/target/portfolio-back.jar ./
 RUN java -Djarmode=tools -jar portfolio-back.jar extract --layers --destination extracted \
     --application-filename application.jar
 
 # 3. runtime : la JRE, l'application extraite et son cache AOT, sans droits d'administration.
-FROM eclipse-temurin:25-jre@sha256:78f1f183913482ef390c2722f46c3f0ce76ada341d69590e7c482ec943ee72d5 AS runtime
+FROM eclipse-temurin:25-jre@sha256:ecdc0adb37bde1a281c4d245a3cd535004b1fc8322d560f5b09463b248c81df0 AS runtime
 # source relie le paquet du registre de conteneurs de GitHub au dépôt ; titre et description
 # remplacent ceux de l'image d'Ubuntu, dont ils seraient hérités.
 LABEL org.opencontainers.image.source="https://github.com/Milkliz0rd/Portfolio" \
