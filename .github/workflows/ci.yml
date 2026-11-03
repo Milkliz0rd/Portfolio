@@ -6,6 +6,12 @@ name: CI
 on:
   pull_request:
     branches: [staging, main]
+  # Render deploys the back only once the checks of the new commit of its branch have passed, and
+  # never a commit without checks (autoDeployTrigger: checksPass, back/render.yaml): the merge
+  # commit gets its own front, back and e2e here, which pull_request alone does not run. The branch
+  # of a pull request is neither staging nor main, so its checks still run once.
+  push:
+    branches: [staging, main]
 
 permissions:
   contents: read
