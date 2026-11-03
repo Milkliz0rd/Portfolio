@@ -1,0 +1,34 @@
+# Render Blueprint of the preproduction back (TK-24, PB-08): one free web service in Frankfurt,
+# built from back/Dockerfile and deployed from staging. The variables marked sync: false are typed
+# in the Render Dashboard when the Blueprint is created and never enter the repository; Render draws
+# CONTACT_TOKEN_SECRET once, then keeps it. The header that carries the visitor's address, and its
+# rank, come with the second pull request of TK-24, after the survey on the live service. The
+# thresholds of D-07 are not set here: they keep the default values of application.yaml.
+services:
+  - type: web
+    name: portfolio-back-preprod
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: staging
+    # Relative to the repository root, wherever this file lives.
+    dockerfilePath: ./back/Dockerfile
+    dockerContext: ./back
+    # Only a change under back/ starts a build.
+    buildFilter:
+      paths:
+        - back/**
+    # A new commit of staging is deployed only once its checks on GitHub have passed (CT-09).
+    autoDeployTrigger: checksPass
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: CONTACT_TOKEN_SECRET
+        generateValue: true
+      - key: CONTACT_BREVO_API_KEY
+        sync: false
+      - key: CONTACT_MAIL_TO
+        sync: false
+      - key: CONTACT_MAIL_FROM
+        sync: false
+      - key: CONTACT_ALLOWED_ORIGINS
+        sync: false
