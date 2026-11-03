@@ -16,6 +16,10 @@ import { ORIGINE } from './site';
 // le 405 que le back simulé rend à une requête hors contrat.
 const REPONSE_EN_ERREUR =
   /^Failed to load resource: the server responded with a status of (\d{3}) \([^)]*\)$/;
+// Chromium seul écrit cette erreur pour une requête abandonnée (Firefox en fait un avertissement,
+// WebKit une information). Elle n'est excusée que rattachée, ligne et colonne 0, à l'adresse
+// exacte d'une requête que le test abandonne lui-même, et une seule fois par déclaration.
+const REQUETE_ABANDONNEE = 'Failed to load resource: net::ERR_FAILED';
 const VIOLATION = 'violation de la politique de sécurité :';
 
 function exterieure(adresse: string): boolean {
@@ -28,10 +32,22 @@ export class Surveillance {
   private readonly requetes = new Map<string, string>();
   private readonly erreurs: string[] = [];
   private readonly erreursAttendues = new Map<string, number>();
+  private readonly abandonsAttendus = new Set<string>();
+  private readonly erreursDePageAttendues = new Set<string>();
 
   /** Déclare, avant la requête, qu'une adresse répondra avec ce code d'erreur. */
   attendreReponseEnErreur(adresse: string, statut: number): void {
     this.erreursAttendues.set(new URL(adresse, ORIGINE).href, statut);
+  }
+
+  /** Déclare, avant la navigation, une requête que le test abandonne lui-même (route.abort). */
+  attendreRequeteAbandonnee(adresse: string): void {
+    this.abandonsAttendus.add(new URL(adresse, ORIGINE).href);
+  }
+
+  /** Déclare, avant la navigation, l'erreur que le test fait lever à la page : Error et ce message exact. */
+  attendreErreurDePage(message: string): void {
+    this.erreursDePageAttendues.add(message);
   }
 
   async ecouter(page: Page): Promise<void> {
@@ -43,6 +59,7 @@ export class Surveillance {
     });
     page.on('console', (message) => this.lireConsole(message));
     page.on('pageerror', ({ name, message }) => {
+      if (name === 'Error' && this.erreursDePageAttendues.delete(message)) return;
       this.erreurs.push(`erreur de page non rattrapée : ${name}: ${message}`);
     });
     // Tous les moteurs n'écrivent pas une violation en erreur de console : cet écouteur, posé
@@ -68,7 +85,12 @@ export class Surveillance {
       lineNumber === 0 &&
       columnNumber === 0 &&
       this.erreursAttendues.get(url) === Number(code);
-    if (attendue) return;
+    const abandonnee =
+      texte === REQUETE_ABANDONNEE &&
+      lineNumber === 0 &&
+      columnNumber === 0 &&
+      this.abandonsAttendus.delete(url);
+    if (attendue || abandonnee) return;
     this.erreurs.push(
       texte.startsWith(VIOLATION) ? texte : `erreur de console : ${texte}${url ? ` (${url})` : ''}`,
     );
@@ -81,6 +103,11 @@ export class Surveillance {
 
   problemes(): string[] {
     return [...this.requetes.values(), ...this.erreurs];
+  }
+
+  /** Les violations de la politique de sécurité relevées jusqu'ici. */
+  violations(): string[] {
+    return this.erreurs.filter((erreur) => erreur.startsWith(VIOLATION));
   }
 }
 

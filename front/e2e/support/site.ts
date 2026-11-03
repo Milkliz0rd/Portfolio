@@ -63,6 +63,13 @@ export function exigerBuildDeTest(): void {
   }
 }
 
+/** L'adresse du fichier principal de l'application (main-<empreinte>.js), lue dans une page du build. */
+export function scriptPrincipal(page = 'index.html'): string {
+  const [, fichier] = /<script\b[^>]*\ssrc="(main-[\w-]+\.js)"/.exec(lireFichier(page)) ?? [];
+  if (!fichier) throw new Error(`Aucun fichier principal main-*.js dans ${page}`);
+  return `${ORIGINE}/${fichier}`;
+}
+
 /** Une adresse par index.html du build : « / » pour la racine, « /parcours » pour parcours/. */
 export function pagesDuBuild(): string[] {
   exigerBuildDeTest();
