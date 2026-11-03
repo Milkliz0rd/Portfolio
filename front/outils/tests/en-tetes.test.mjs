@@ -1,11 +1,12 @@
 // Fichier d'en-têtes (PF-09) : empreintes calculées sur la sortie, politique selon l'environnement,
-// règle du CV, et échecs du build sur un gestionnaire en ligne ou une ligne trop longue.
+// règle du CV, et échecs du build sur un gestionnaire en ligne, un HTML qui n'a pas exactement un
+// petit script de tête ou une ligne trop longue.
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { lireConfiguration } from '../ecrire-configuration.mjs';
-import { ecrireEnTetes, empreintesScripts, texteEnTetes } from '../en-tetes.mjs';
+import { ecrireEnTetes, empreintesScripts, scriptsDeTete, texteEnTetes } from '../en-tetes.mjs';
 
 const front = join(import.meta.dirname, '..', '..');
 const modele = readFileSync(join(front, 'hebergement', 'en-tetes.modele'), 'utf8');
@@ -20,7 +21,12 @@ const ecrire = (chemin, texte) => {
   mkdirSync(dirname(join(racine, chemin)), { recursive: true });
   writeFileSync(join(racine, chemin), texte);
 };
-const page = (tete) => `<!doctype html><html><head>${tete}</head><body><p>x</p></body></html>`;
+// Le petit script de tête (PF-04), réduit à ce qui le reconnaît : il pose mv-actif sur html.
+const TETE = "<script>document.documentElement.classList.add('mv-actif');</script>";
+const fichierHtml = (tete) =>
+  `<!doctype html><html><head>${tete}</head><body><p>x</p></body></html>`;
+// Une page du build conforme : le petit script de tête, puis ce que le test ajoute au head.
+const page = (tete) => fichierHtml(TETE + tete);
 const produire = (environnement = 'production') =>
   ecrireEnTetes(racine, join(racine, 'dist'), { environnement, baseApi: '' });
 const fichierProduit = () => readFileSync(join(racine, 'dist', '_headers'), 'utf8');
@@ -59,9 +65,9 @@ describe('en-tetes', () => {
       page('<script>alert(1)</script><script>window.x=1</script>'),
     );
     ecrire('dist/404.html', page(''));
-    expect(produire().empreintes).toBe(2);
+    expect(produire().empreintes).toBe(3);
     const scripts = entete(fichierProduit(), 'Content-Security-Policy').split('; ')[1].split(' ');
-    expect(scripts).toHaveLength(4);
+    expect(scripts).toHaveLength(5);
     expect(scripts.slice(0, 2)).toEqual(['script-src', "'self'"]);
     expect(scripts).toContain(alerte);
   });
@@ -73,6 +79,46 @@ describe('en-tetes', () => {
     expect(produire).toThrow(/javascript:/);
     ecrire('dist/index.html', page('<script>el.onclick = () => 1; // <a onclick=x></script>'));
     expect(produire).not.toThrow();
+  });
+
+  it('reconnaît le petit script de tête : en ligne, exécutable, dans le head, et qui pose mv-actif', () => {
+    expect(scriptsDeTete(fichierHtml(TETE))).toBe(1);
+    // Sa mise en forme ne compte pas : espaces, retours à la ligne, guillemets.
+    const autreForme =
+      '<script>\n  try {\n    html.classList\n      .add( "mv-actif" );\n  } catch {}\n</script>';
+    expect(scriptsDeTete(fichierHtml(autreForme))).toBe(1);
+    expect(scriptsDeTete(fichierHtml(TETE + autreForme))).toBe(2);
+    // Un autre script en ligne n'est pas lui : ni un script qui ne pose pas mv-actif, ni un bloc
+    // de données, ni un script externe, ni un script hors du head.
+    for (const autre of [
+      '<script>window.x = 1</script>',
+      "<script>if (html.classList.contains('mv-actif')) html.classList.remove('mv-actif')</script>",
+      `<script type="application/json">{"a":"classList.add('mv-actif')"}</script>`,
+      '<script src="tete.js"></script>',
+    ]) {
+      expect(scriptsDeTete(fichierHtml(autre)), autre).toBe(0);
+    }
+    expect(scriptsDeTete(`<html><head></head><body>${TETE}</body></html>`)).toBe(0);
+  });
+
+  it('fait échouer le build sur un HTML sans petit script de tête, ou qui en a deux', () => {
+    ecrire('dist/index.html', page(''));
+    ecrire('dist/404.html', fichierHtml('<script>window.x = 1</script>'));
+    ecrire('dist/parcours/index.html', page(TETE));
+    expect(produire).toThrow(
+      [
+        'Exactement un petit script de tête par HTML (PF-04, PF-09) :',
+        '404.html : aucun petit script de tête',
+        'parcours/index.html : 2 exemplaires du petit script de tête',
+      ].join('\n'),
+    );
+    expect(() => readFileSync(join(racine, 'dist', '_headers'))).toThrow(/ENOENT/);
+  });
+
+  it('accepte un seul petit script de tête par HTML, à côté d’autres scripts en ligne', () => {
+    ecrire('dist/index.html', page('<script>window.x = 1</script>'));
+    ecrire('dist/404.html', page(''));
+    expect(produire().empreintes).toBe(2);
   });
 
   it('fait échouer le build sur une ligne de plus de 2 000 caractères', () => {

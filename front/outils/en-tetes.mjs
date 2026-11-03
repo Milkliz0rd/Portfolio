@@ -2,7 +2,8 @@
 // dist/front/browser/_headers depuis hebergement/en-tetes.modele : la politique de sécurité du
 // contenu, avec les empreintes des scripts en ligne exécutables de tous les HTML du build et la base
 // de l'API de l'environnement, les autres en-têtes et la mise en cache. Le build échoue sur un
-// gestionnaire d'événement en ligne, une adresse « javascript: » ou une ligne trop longue.
+// gestionnaire d'événement en ligne, une adresse « javascript: », un HTML qui n'a pas exactement un
+// petit script de tête ou une ligne trop longue.
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -10,20 +11,35 @@ import { join, relative } from 'node:path';
 // La longueur maximale d'une ligne de _headers chez l'hébergeur.
 export const LONGUEUR_MAXIMALE = 2000;
 const typesExecutables = [undefined, 'text/javascript', 'module'];
+// Ce qui distingue le petit script de tête (PF-04) des autres scripts : il pose mv-actif sur html.
+const poseMvActif = /classList\s*\.\s*add\s*\(\s*["'`]mv-actif["'`]/;
+
+/** Le texte de chaque élément script sans src d'un HTML que le navigateur exécute. */
+function scriptsExecutables(html) {
+  return [...html.matchAll(/<script(\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
+    .filter(([, attributs = '']) => {
+      const type = /\stype\s*=\s*["']?([^"'\s>]+)/i.exec(attributs)?.[1].toLowerCase();
+      return !/\ssrc\s*=/i.test(attributs) && typesExecutables.includes(type);
+    })
+    .map(([, , texte]) => texte);
+}
 
 /** Les empreintes des éléments script sans src d'un HTML que le navigateur exécute. */
 export function empreintesScripts(html) {
-  const empreintes = [];
-  for (const [, attributs = '', texte] of html.matchAll(
-    /<script(\s[^>]*)?>([\s\S]*?)<\/script>/gi,
-  )) {
-    const type = /\stype\s*=\s*["']?([^"'\s>]+)/i.exec(attributs)?.[1].toLowerCase();
-    if (/\ssrc\s*=/i.test(attributs) || !typesExecutables.includes(type)) continue;
+  return scriptsExecutables(html).map((texte) => {
     // Le navigateur hache le texte après la normalisation des fins de ligne de l'analyse HTML.
     const source = texte.replace(/\r\n?/g, '\n');
-    empreintes.push(`'sha256-${createHash('sha256').update(source, 'utf8').digest('base64')}'`);
-  }
-  return empreintes;
+    return `'sha256-${createHash('sha256').update(source, 'utf8').digest('base64')}'`;
+  });
+}
+
+/**
+ * Le nombre de petits scripts de tête d'un HTML (PF-04) : scripts en ligne exécutables placés dans
+ * le head et qui posent mv-actif (classList.add), quelle que soit leur mise en forme.
+ */
+export function scriptsDeTete(html) {
+  const tete = /<head[\s>][\s\S]*?<\/head\s*>/i.exec(html)?.[0] ?? '';
+  return scriptsExecutables(tete).filter((texte) => poseMvActif.test(texte)).length;
 }
 
 /** Ce qu'aucune empreinte n'autorise : attributs de gestionnaire d'événement, adresses javascript:. */
@@ -96,18 +112,30 @@ function fichiersCv(racine, sortie) {
   );
 }
 
-/** Écrit <sortie>/_headers ; lève une erreur si un HTML contient un script qu'aucune empreinte n'autorise. */
+/**
+ * Écrit <sortie>/_headers ; lève une erreur si un HTML contient un script qu'aucune empreinte
+ * n'autorise, ou s'il n'a pas exactement un petit script de tête.
+ */
 export function ecrireEnTetes(racine, sortie, { environnement, baseApi }) {
   const empreintes = new Set();
   const fautes = [];
+  const tetes = [];
   const pages = readdirSync(sortie, { recursive: true }).filter((nom) => nom.endsWith('.html'));
   for (const page of pages.sort()) {
     const html = readFileSync(join(sortie, page), 'utf8');
     empreintesScripts(html).forEach((empreinte) => empreintes.add(empreinte));
     scriptsInterdits(html).forEach((faute) => fautes.push(`${page} : ${faute}`));
+    const n = scriptsDeTete(html);
+    if (n === 0) tetes.push(`${page} : aucun petit script de tête`);
+    else if (n > 1) tetes.push(`${page} : ${n} exemplaires du petit script de tête`);
   }
   if (fautes.length > 0) {
     throw new Error(`Script en ligne sans empreinte possible (PF-09) :\n${fautes.join('\n')}`);
+  }
+  if (tetes.length > 0) {
+    throw new Error(
+      `Exactement un petit script de tête par HTML (PF-04, PF-09) :\n${tetes.join('\n')}`,
+    );
   }
   const modele = readFileSync(join(racine, 'hebergement', 'en-tetes.modele'), 'utf8');
   const options = {

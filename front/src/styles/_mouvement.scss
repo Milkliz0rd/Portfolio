@@ -2,7 +2,8 @@
 // pour relire d'un seul endroit la réduction des animations et le budget. Le petit script de tête
 // (src/index.html) pose mv-actif et mv-pause sur html, MouvementService mv-pret et mv-immediat.
 
-// Animations permises : le défilement doux vers une ancre, puis les états cachés des motifs.
+// Animations permises : le défilement doux vers une ancre (le retour en haut du routeur, lui, se fait
+// d'un coup : app.config.ts), puis les états cachés des motifs.
 // Un état caché (opacité 0, translation de départ, trait non tracé…) ne s'écrit que dans ce bloc
 // et sous .mv-actif : sans script, avec les animations réduites ou après le repli des 3 s, il
 // n'existe pas, et tout le contenu reste visible.
