@@ -235,11 +235,17 @@ avec les animations réduites ; les motifs (MV-01 à MV-10) s'y branchent. Quatr
 style, est le seul script en ligne du site ; son empreinte SHA-256 entre dans `script-src` de
 `_headers` à chaque build (voir « Hébergement »). **Le repli des 3 s** : si `mv-pret` manque 3 s
 après lui (script principal bloqué, lent ou en erreur), il retire `mv-actif` et tout s'affiche.
+**Le build l'exige** : `outils/en-tetes.mjs` le reconnaît comme le script en ligne exécutable du
+`head` qui pose `mv-actif`, et fait échouer `npm run build`, dans tous les environnements, en
+nommant la page, si un HTML produit, pages d'erreur comprises, n'en a pas exactement un.
 
 **La règle** : un état caché (opacité 0, translation de départ, trait non tracé…) ne s'écrit que
 dans `src/styles/_mouvement.scss`, sous `.mv-actif`, dans le bloc
 `@media (prefers-reduced-motion: no-preference)`, comme le défilement doux vers une ancre. Sous
-`reduce`, toute transition et toute animation sont instantanées.
+`reduce`, toute transition et toute animation sont instantanées. **Le retour en haut** du routeur à
+chaque navigation en avant se fait d'un coup, même sous `no-preference` : `app.config.ts` rend
+instantané le défilement que le routeur demande sans comportement ; le défilement vers une ancre
+reste doux, la restauration au retour arrière instantanée (`app.config.spec.ts`).
 
 **Brancher un motif.** Sa directive injecte `MouvementService` (`src/app/services/mouvement/`) et
 n'agit que dans `afterNextRender`, jamais au pré-rendu, si `actif()` est vrai. Elle lit
@@ -341,8 +347,9 @@ n'entre pas dans le dépôt.
   fichier du CV, quand il est présent.
 
 Le build échoue si une page porte un attribut de gestionnaire d'événement (`onload`, `onclick`…)
-ou une adresse `javascript:`, qu'aucune empreinte n'autorise, ou si une ligne de `_headers` dépasse
-2 000 caractères, la limite de l'hébergeur.
+ou une adresse `javascript:`, qu'aucune empreinte n'autorise, si elle n'a pas exactement un petit
+script de tête (voir « Mouvement »), ou si une ligne de `_headers` dépasse 2 000 caractères, la
+limite de l'hébergeur.
 
 **Servir le build en local**, avec les règles de l'hébergeur :
 
