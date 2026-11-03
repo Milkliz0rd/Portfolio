@@ -102,6 +102,7 @@ d'`angular.json`, un composant écrit `@use 'ruptures';`, puis
 | `_base.scss`        | boîtes, fond de la page, anneau de focus sur `:focus-visible`, cibles de 44 px pour les contrôles natifs                                  |
 | `_typographie.scss` | les dix tailles de texte (`--taille-affiche` à `--taille-etiquette`), appliquées à `body`, `h1` à `h4` et `code` ; classe `affiche`       |
 | `_utilitaires.scss` | `masque-visuellement`, `conteneur-standard` et `conteneur-large` (plus la marge de page de chaque côté), `grille` (4, 8 puis 12 colonnes) |
+| `_mouvement.scss`   | toutes les règles du mouvement, sur des classes `mv-*` (voir « Mouvement »)                                                               |
 
 Les mélanges de couleur et les valeurs propres à un composant, que la charte donne sans les
 nommer, sont des jetons de rôle, en fin de `_jetons.scss` (`--fond-bouton-survol`…).
@@ -217,6 +218,49 @@ l'indicateur et « Envoi en cours… » remplacent son contenu, il porte `aria-d
 annule tout clic, si bien que ni un clic, ni Entrée, ni Espace, ni l'envoi implicite du formulaire
 ne relancent l'envoi. L'indicateur, décoratif, tourne en `duree-rotation` et reste fixe quand le
 visiteur réduit les animations : le texte voisin dit toujours ce qu'on attend.
+
+## Mouvement
+
+Le socle du mouvement garantit qu'aucune animation ne cache jamais le contenu, ni sans script, ni
+avec les animations réduites ; les motifs (MV-01 à MV-10) s'y branchent. Quatre classes sur `html` :
+
+| Classe        | Posée par                                                                                            | Effet                                                 |
+| ------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `mv-actif`    | le petit script de tête, si `(prefers-reduced-motion: no-preference)`                                | les états cachés des motifs existent                  |
+| `mv-pret`     | `MouvementService`, une fois démarré                                                                 | l'application tourne : un motif peut révéler          |
+| `mv-pause`    | le script de tête, si le stockage local `mv-pause` vaut `1` ; `MouvementService.basculerPause()`     | ce qui tourne en boucle est figé (MV-04)              |
+| `mv-immediat` | `MouvementService`, deux images, au retour arrière (`back_forward`, `popstate`, cache du navigateur) | les transitions sont coupées : tout se pose d'un coup |
+
+**Le petit script de tête**, dans le `head` de `src/index.html`, synchrone, avant toute feuille de
+style, est le seul script en ligne du site. Son empreinte SHA-256 entre dans `script-src` de
+`_headers` à chaque build (voir « Hébergement ») : une retouche n'exige qu'un nouveau build. **Le
+repli des 3 s** : si `mv-pret` manque 3 s après lui (script principal bloqué, lent ou en erreur), il
+retire `mv-actif` et tout s'affiche.
+
+**La règle** : un état caché (opacité 0, translation de départ, trait non tracé…) ne s'écrit que
+dans `src/styles/_mouvement.scss`, sous `.mv-actif`, dans le bloc
+`@media (prefers-reduced-motion: no-preference)`, comme le défilement doux vers une ancre. Sous
+`reduce`, toute transition et toute animation sont instantanées.
+
+**Brancher un motif.** Sa directive injecte `MouvementService` (`src/app/services/mouvement/`) et
+n'agit que dans `afterNextRender`, jamais au pré-rendu, et seulement si `actif()` est vrai. Elle lit
+`modeArrivee()` (`immediat` : poser l'état final sans jouer), `enPause()` et `duree('delai-cascade')`
+(jeton lu au démarrage, en ms ou en s ; un autre jeton s'ajoute à `JETONS_DUREE` de `reglages.ts`) ;
+ses délais viennent des fonctions pures de `calculs.ts` (`delaiCascade` : 120 ms, puis 70 ms
+d'écart, six au plus). Pour suivre le défilement, `DefilementService.abonner(appel)` (un seul
+écouteur passif pour tout le site, un appel au plus par image) rend le désabonnement, à appeler à la
+destruction.
+
+**Les tests de bout en bout**, `e2e/mouvement.spec.ts`, dans les six profils : « sans JavaScript »
+et « animations réduites » sur chaque page du build et chaque page d'erreur (`mv-actif` jamais
+posé ; avec `reduce`, `scroll-behavior` à `auto`) ; « script principal bloqué » (`route.abort`) et
+« script principal en erreur » sur `/` (`mv-actif` posé, puis retiré au plus 3 s après l'arrivée,
+une seconde de marge comprise, jamais `mv-pret`) ; « animations permises » sur `/` (`mv-actif` et
+`mv-pret`, gardés après le repli, défilement doux, aucune violation), aussi avec une pause mémorisée
+et avec un stockage local indisponible. Les cinq cas vérifient que **tout le contenu est visible** par
+`contenuCache(page)` (`e2e/support/contenu-visible.ts`), qui rend chaque élément de contenu caché
+avec sa raison (opacité, `visibility`, `display`, boîte rognée à zéro, translation hors de sa
+boîte) ; chaque écran l'emploie : `expect(await contenuCache(page)).toEqual([])`.
 
 ## Polices
 
@@ -357,10 +401,15 @@ traces des échecs dans `test-results/`, non versionnés.
   1600 ou 2560 px, dans chaque profil.
 - La surveillance de `e2e/support/banc.ts`, sur chaque test qui ouvre une page : toute requête hors
   de `http://localhost:8787` (bloquée : aucun test ne sort sur le réseau), toute erreur de console,
-  toute erreur non rattrapée, toute violation de la politique de sécurité. Seule ligne excusée : le
-  « Failed to load resource » que Chromium et WebKit écrivent pour une réponse que le test attend
-  en erreur, à son adresse exacte et avec ce code (`surveillance.attendreReponseEnErreur`), comme
-  le document d'une page d'erreur en 404.
+  toute erreur non rattrapée, toute violation de la politique de sécurité. Seules excuses, chacune
+  déclarée par le test avant la navigation : le « Failed to load resource » que Chromium et WebKit
+  écrivent pour une réponse que le test attend en erreur, à son adresse exacte et avec ce code
+  (`surveillance.attendreReponseEnErreur`), comme le document d'une page d'erreur en 404 ; une
+  fois, la ligne « Failed to load resource: net::ERR_FAILED » de Chromium rattachée à l'adresse
+  exacte d'une requête que le test abandonne (`attendreRequeteAbandonnee` ; Firefox et WebKit n'en
+  font pas une erreur) ; une fois, l'erreur non rattrapée `Error` d'un message exact que le test
+  fait lever (`attendreErreurDePage`).
+- `mouvement.spec.ts`, le socle du mouvement (voir « Mouvement »).
 - Un build qui n'est pas un build de test complet : sans build, `wrangler dev` ne démarre pas et le
   banc échoue sur son message ; sur un build sans aucune page, `/` répond 404 et le banc échoue au
   bout des 60 s d'attente du serveur ; sur le build d'un autre environnement que test, il échoue au
