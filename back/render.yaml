@@ -2,7 +2,7 @@
 # built from back/Dockerfile and deployed from staging. The variables marked sync: false are typed
 # in the Render Dashboard when the Blueprint is created and never enter the repository; Render draws
 # CONTACT_TOKEN_SECRET once, then keeps it. The header that carries the visitor's address, and its
-# rank, come with the second pull request of TK-24, after the survey on the live service. The
+# rank, are written with their values, as the survey on the live service found them. The
 # thresholds of D-07 are not set here: they keep the default values of application.yaml.
 services:
   - type: web
@@ -32,3 +32,12 @@ services:
         sync: false
       - key: CONTACT_ALLOWED_ORIGINS
         sync: false
+      # The visitor's address (PB-03), as the survey of TK-24 found it on the live service: in
+      # X-Forwarded-For, rank 1 changed between messages of one visitor and rank 2 took a value the
+      # visitor wrote; CF-Connecting-IP held for one visitor, ignored a forged X-Forwarded-For or
+      # True-Client-IP, and told two networks apart. Changed here only: the next sync would overwrite
+      # a change made in the Dashboard.
+      - key: CONTACT_CLIENT_IP_HEADER
+        value: CF-Connecting-IP
+      - key: CONTACT_CLIENT_IP_POSITION
+        value: "1"
