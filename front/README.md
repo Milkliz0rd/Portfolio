@@ -231,11 +231,10 @@ avec les animations réduites ; les motifs (MV-01 à MV-10) s'y branchent. Quatr
 | `mv-pause`    | le script de tête, si le stockage local `mv-pause` vaut `1` ; `MouvementService.basculerPause()`     | ce qui tourne en boucle est figé (MV-04)              |
 | `mv-immediat` | `MouvementService`, deux images, au retour arrière (`back_forward`, `popstate`, cache du navigateur) | les transitions sont coupées : tout se pose d'un coup |
 
-**Le petit script de tête**, dans le `head` de `src/index.html`, synchrone, avant toute feuille de
-style, est le seul script en ligne du site. Son empreinte SHA-256 entre dans `script-src` de
-`_headers` à chaque build (voir « Hébergement ») : une retouche n'exige qu'un nouveau build. **Le
-repli des 3 s** : si `mv-pret` manque 3 s après lui (script principal bloqué, lent ou en erreur), il
-retire `mv-actif` et tout s'affiche.
+**Le petit script de tête**, synchrone, dans le `head` de `src/index.html` avant toute feuille de
+style, est le seul script en ligne du site ; son empreinte SHA-256 entre dans `script-src` de
+`_headers` à chaque build (voir « Hébergement »). **Le repli des 3 s** : si `mv-pret` manque 3 s
+après lui (script principal bloqué, lent ou en erreur), il retire `mv-actif` et tout s'affiche.
 
 **La règle** : un état caché (opacité 0, translation de départ, trait non tracé…) ne s'écrit que
 dans `src/styles/_mouvement.scss`, sous `.mv-actif`, dans le bloc
@@ -243,24 +242,23 @@ dans `src/styles/_mouvement.scss`, sous `.mv-actif`, dans le bloc
 `reduce`, toute transition et toute animation sont instantanées.
 
 **Brancher un motif.** Sa directive injecte `MouvementService` (`src/app/services/mouvement/`) et
-n'agit que dans `afterNextRender`, jamais au pré-rendu, et seulement si `actif()` est vrai. Elle lit
+n'agit que dans `afterNextRender`, jamais au pré-rendu, si `actif()` est vrai. Elle lit
 `modeArrivee()` (`immediat` : poser l'état final sans jouer), `enPause()` et `duree('delai-cascade')`
-(jeton lu au démarrage, en ms ou en s ; un autre jeton s'ajoute à `JETONS_DUREE` de `reglages.ts`) ;
-ses délais viennent des fonctions pures de `calculs.ts` (`delaiCascade` : 120 ms, puis 70 ms
-d'écart, six au plus). Pour suivre le défilement, `DefilementService.abonner(appel)` (un seul
-écouteur passif pour tout le site, un appel au plus par image) rend le désabonnement, à appeler à la
-destruction.
+(lu au démarrage ; un autre jeton s'ajoute à `JETONS_DUREE` de `reglages.ts`) ; ses délais viennent
+de `calculs.ts` (`delaiCascade` : 120 ms, puis 70 ms d'écart, six au plus). Pour suivre le
+défilement, `DefilementService.abonner(appel)` (un seul écouteur passif, un appel au plus par
+image) rend le désabonnement, à appeler à la destruction.
 
 **Les tests de bout en bout**, `e2e/mouvement.spec.ts`, dans les six profils : « sans JavaScript »
 et « animations réduites » sur chaque page du build et chaque page d'erreur (`mv-actif` jamais
-posé ; avec `reduce`, `scroll-behavior` à `auto`) ; « script principal bloqué » (`route.abort`) et
-« script principal en erreur » sur `/` (`mv-actif` posé, puis retiré au plus 3 s après l'arrivée,
+posé ; avec `reduce`, `scroll-behavior` à `auto` et tout instantané) ; « script principal bloqué »
+et « script principal en erreur » sur `/` (`mv-actif` posé, retiré au plus 3 s après l'arrivée,
 une seconde de marge comprise, jamais `mv-pret`) ; « animations permises » sur `/` (`mv-actif` et
-`mv-pret`, gardés après le repli, défilement doux, aucune violation), aussi avec une pause mémorisée
-et avec un stockage local indisponible. Les cinq cas vérifient que **tout le contenu est visible** par
-`contenuCache(page)` (`e2e/support/contenu-visible.ts`), qui rend chaque élément de contenu caché
-avec sa raison (opacité, `visibility`, `display`, boîte rognée à zéro, translation hors de sa
-boîte) ; chaque écran l'emploie : `expect(await contenuCache(page)).toEqual([])`.
+`mv-pret` gardés après le repli, défilement doux, aucune violation, `mv-immediat` qui coupe les
+transitions), aussi avec une pause mémorisée et un stockage local indisponible. Les cinq cas
+vérifient que **tout le contenu est visible** : `contenuCache(page)`, de
+`e2e/support/contenu-visible.ts`, rend chaque élément de contenu caché avec sa raison ; chaque écran
+l'emploie : `expect(await contenuCache(page)).toEqual([])`.
 
 ## Polices
 

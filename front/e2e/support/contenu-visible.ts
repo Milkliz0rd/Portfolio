@@ -1,14 +1,11 @@
 import type { Page } from '@playwright/test';
 
-// « Tout le contenu visible » (TK-23) : aucun état caché du mouvement ne reste posé. Sont relevés
-// les titres, paragraphes, liens, boutons, images et éléments de liste, plus tout élément qui porte
-// lui-même du texte (un mot d'un titre révélé, par exemple). Chacun doit avoir une opacité calculée
-// de 1, sur lui et sur chacun de ses ancêtres ; n'être ni en visibility: hidden, ni en
-// display: none (lui ou un ancêtre) ; avoir une boîte non vide, qu'aucun ancêtre qui rogne
-// (overflow: hidden ou clip) n'efface ; n'être sorti de sa boîte par aucune translation, la sienne
-// ou celle d'un ancêtre. Hors du compte, cachés à dessein : ce qui n'est masqué qu'à l'écran pour
-// les lecteurs d'écran (.masque-visuellement) et le décor masqué aux lecteurs d'écran
-// (aria-hidden="true"). Les écrans emploient cette aide dans leurs propres scénarios.
+// « Tout le contenu visible » (TK-23), pour chaque titre, paragraphe, lien, bouton, image, élément
+// de liste, et tout élément qui porte lui-même du texte : opacité calculée de 1 sur lui et ses
+// ancêtres, ni visibility: hidden, ni display: none (lui ou un ancêtre), une boîte non vide
+// qu'aucun ancêtre qui rogne (overflow hidden ou clip) n'efface, aucune translation qui le sort de
+// sa boîte (la sienne ou celle d'un ancêtre). Hors du compte, cachés à dessein : le texte réservé
+// aux lecteurs d'écran (.masque-visuellement) et le décor qui leur est masqué (aria-hidden="true").
 
 const CONTENU = 'h1, h2, h3, h4, h5, h6, p, a, button, img, li, dt, dd';
 const HORS_DU_COMPTE = '.masque-visuellement, [aria-hidden="true"]';

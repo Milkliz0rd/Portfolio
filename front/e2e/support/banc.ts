@@ -12,8 +12,8 @@ import { ORIGINE } from './site';
 // Chromium et WebKit, pas Firefox, écrivent cette erreur de console pour une réponse en erreur,
 // document principal compris. Elle n'est excusée que rattachée, ligne et colonne 0, à l'adresse
 // exacte d'une réponse que le test attend avec ce code : le document d'une page d'erreur en 404,
-// ou l'erreur d'un scénario du back simulé (400, 503). Aucune autre ligne n'est excusée, pas même
-// le 405 que le back simulé rend à une requête hors contrat.
+// ou l'erreur d'un scénario du back simulé (400, 503). Aucune autre réponse en erreur n'est
+// excusée, pas même le 405 que le back simulé rend à une requête hors contrat.
 const REPONSE_EN_ERREUR =
   /^Failed to load resource: the server responded with a status of (\d{3}) \([^)]*\)$/;
 // Chromium seul écrit cette erreur pour une requête abandonnée (Firefox en fait un avertissement,

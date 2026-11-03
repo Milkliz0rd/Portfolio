@@ -4,16 +4,14 @@ import { contenuCache } from './support/contenu-visible';
 import { PAGES_ERREUR, pagesDuBuild, scriptPrincipal } from './support/site';
 
 // Socle du mouvement (TK-23, PF-04) : aucune animation ne cache jamais le contenu. Sans JavaScript
-// et avec les animations réduites, sur chaque page du build et chaque page d'erreur ; script
-// principal bloqué ou en erreur, et animations permises, sur « / ». Joués dans les six profils,
-// sous la surveillance de banc.ts.
+// et animations réduites sur chaque page du build et chaque page d'erreur ; script principal bloqué
+// ou en erreur, et animations permises, sur « / ». Sous la surveillance de banc.ts.
 
 /** Le repli du petit script de tête (src/index.html) : sans mv-pret, mv-actif part après 3 s. */
 const REPLI_MS = 3000;
-// Marge du repli, comptée depuis le début de la navigation : le minuteur ne part qu'à l'exécution
-// du script de tête, la réponse du serveur local reçue, et sous la charge du banc (plusieurs
-// navigateurs à la fois) un minuteur peut partir quelques centaines de ms en retard. Une seconde
-// couvre les deux, loin d'un repli absent ou allongé.
+// Marge comptée depuis le début de la navigation : le minuteur part à l'exécution du script de
+// tête, la réponse du serveur reçue, et la charge du banc (plusieurs navigateurs à la fois) peut le
+// retarder de quelques centaines de ms. Une seconde couvre les deux, loin d'un repli absent.
 const MARGE_MS = 1000;
 const MESSAGE_ERREUR = 'mouvement : erreur levée par le script principal de remplacement';
 
@@ -51,6 +49,15 @@ function defilement(page: Page): Promise<string> {
   return page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior);
 }
 
+/** Durées et délais restants d'une transition et d'une animation de 1 s après 1 s, sur body. */
+function dureesDeclarees(page: Page): Promise<string[]> {
+  return page.evaluate(() => {
+    document.body.style.cssText = 'transition: opacity 1s 1s; animation: none 1s 1s infinite';
+    const s = getComputedStyle(document.body);
+    return [s.transitionDuration, s.transitionDelay, s.animationDuration, s.animationDelay];
+  });
+}
+
 /** Script principal bloqué ou en erreur : mv-actif posé au départ, puis retiré par le repli. */
 async function constaterRepli(page: Page, journal: () => Promise<Journal>): Promise<void> {
   expect((await journal()).poses['mv-actif'], 'mv-actif posé par le script de tête').toBeDefined();
@@ -61,9 +68,7 @@ async function constaterRepli(page: Page, journal: () => Promise<Journal>): Prom
     })
     .not.toBeNull();
   const { retraitActif, poses } = await journal();
-  expect(retraitActif, 'retrait au plus 3 s (et la marge) après l’arrivée').toBeLessThanOrEqual(
-    REPLI_MS + MARGE_MS,
-  );
+  expect(retraitActif, 'retrait 3 s, marge comprise').toBeLessThanOrEqual(REPLI_MS + MARGE_MS);
   expect(poses['mv-pret'], 'mv-pret jamais posé').toBeUndefined();
   await expect(page.locator('html')).not.toHaveClass(/\bmv-(actif|pret)\b/);
   expect(await contenuCache(page), 'contenu caché').toEqual([]);
@@ -117,6 +122,7 @@ for (const { adresse, statut } of adresses) {
     expect((await journal()).poses['mv-actif'], 'mv-actif jamais posé').toBeUndefined();
     expect(await defilement(page), 'défilement doux coupé').toBe('auto');
     expect(await contenuCache(page), 'contenu caché').toEqual([]);
+    expect(await dureesDeclarees(page), 'tout instantané').toEqual(['0s', '0s', '0s', '0s']);
   });
 }
 
@@ -132,6 +138,10 @@ test('mouvement : animations permises', async ({ page, surveillance }) => {
   expect((await journal()).retraitActif, 'mv-actif gardé après le repli').toBeNull();
   expect(await contenuCache(page), 'contenu caché').toEqual([]);
   expect(surveillance.violations(), 'violations de la politique de sécurité').toEqual([]);
+  // mv-immediat coupe les transitions, pas les animations.
+  expect(await dureesDeclarees(page), 'durées déclarées').toEqual(['1s', '1s', '1s', '1s']);
+  await page.evaluate(() => document.documentElement.classList.add('mv-immediat'));
+  expect(await dureesDeclarees(page), 'mv-immediat').toEqual(['0s', '0s', '1s', '1s']);
 });
 
 test('mouvement : animations permises, pause mémorisée', async ({ page }) => {
@@ -141,10 +151,8 @@ test('mouvement : animations permises, pause mémorisée', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('html')).toHaveClass(/\bmv-pret\b/);
   const { poses } = await journal();
-  // Posée par le script de tête, avant le premier affichage, donc avant que l'application démarre.
-  expect(poses['mv-pause'], 'mv-pause posée par le script de tête').toBeLessThan(
-    poses['mv-pret'] ?? 0,
-  );
+  // Posée par le script de tête, donc avant que l'application démarre.
+  expect(poses['mv-pause'], 'mv-pause avant mv-pret').toBeLessThan(poses['mv-pret'] ?? 0);
 });
 
 test('mouvement : animations permises, stockage local indisponible', async ({ page }) => {
