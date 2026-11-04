@@ -250,6 +250,12 @@
   --ecart-points-fenetre: 6px;
   --fond-point-fenetre: color-mix(in srgb, var(--couleur-texte) 18%, transparent);
   --interligne-code-fenetre: 1.65;
+
+  // Pilule de l'adresse factice (maquettes) : couleur-texte à 6 %, marge verticale de 3 px,
+  // largeur de 20rem au plus.
+  --fond-adresse-fenetre: color-mix(in srgb, var(--couleur-texte) 6%, transparent);
+  --marge-verticale-adresse-fenetre: 3px;
+  --largeur-adresse-fenetre: 20rem;
 }
 
 @include ruptures.depuis(moyenne) {

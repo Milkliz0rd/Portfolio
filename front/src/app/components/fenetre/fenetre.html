@@ -10,24 +10,45 @@
         <span class="fenetre__point"></span>
         <span class="fenetre__point"></span>
       </span>
-      @if (titreAffiche(); as titre) {
+      @if (adresseAffichee(); as adresse) {
+        <span class="fenetre__adresse" [id]="identifiant">{{ adresse }}</span>
+      } @else if (titreAffiche(); as titre) {
         <span class="fenetre__titre" [id]="identifiant">{{ titre }}</span>
       }
     </figcaption>
-    <div class="fenetre__contenu">
-      <!-- La copie colorée, masquée aux lecteurs d'écran, qui lisent l'extrait d'un seul tenant. -->
-      <div class="fenetre__code" aria-hidden="true">
-        @for (ligne of lignes(); track $index) {
-          <div class="fenetre__ligne">
-            @for (segment of ligne; track $index) {
-              <span [class]="'fenetre__segment--' + segment.genre">{{ segment.texte }}</span>
+    @switch (variante()) {
+      @case ('code') {
+        <div class="fenetre__contenu">
+          <!-- La copie colorée, masquée aux lecteurs d'écran, qui lisent l'extrait d'un seul tenant. -->
+          <div class="fenetre__code" aria-hidden="true">
+            @for (ligne of lignes(); track $index) {
+              <div class="fenetre__ligne">
+                @for (segment of ligne; track $index) {
+                  <span [class]="'fenetre__segment--' + segment.genre">{{ segment.texte }}</span>
+                }
+              </div>
             }
           </div>
-        }
-      </div>
-      @if (!decorative()) {
-        <span class="masque-visuellement">{{ extrait() }}</span>
+          @if (!decorative()) {
+            <span class="masque-visuellement">{{ extrait() }}</span>
+          }
+        </div>
       }
-    </div>
+      @case ('capture') {
+        @if (image(); as image) {
+          <img
+            class="fenetre__image"
+            [ngSrc]="image.source"
+            [width]="image.largeur"
+            [height]="image.hauteur"
+            [attr.alt]="image.alternatif"
+          />
+        }
+      }
+      @case ('navigateur') {
+        <!-- Aucun blanc autour de l'emplacement : sans contenu projeté, il reste vide (:empty). -->
+        <div class="fenetre__contenu"><ng-content /></div>
+      }
+    }
   </figure>
 }
