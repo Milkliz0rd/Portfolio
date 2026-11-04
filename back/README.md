@@ -142,7 +142,7 @@ versionné.
 | `CONTACT_BREVO_BASE_URL` | adresse de base de l'API de Brevo : une adresse `https` absolue, sans utilisateur, paramètre ni fragment | `https://api.brevo.com/v3`, l'adresse publique de l'API v3 de Brevo |
 | `CONTACT_IP_LIMIT_PER_HOUR` | messages comptés par adresse IP du visiteur dans sa fenêtre d'une heure (voir « Filtres ») : un entier, 1 au moins | `5` |
 | `CONTACT_DAILY_CAP` | messages comptés, tous visiteurs confondus, dans la fenêtre de 24 heures : un entier, 1 au moins | `50` |
-| `CONTACT_CLIENT_IP_HEADER` | nom de l'en-tête où le proxy de l'hébergeur ajoute l'adresse IP du visiteur (voir « Adresse IP du visiteur »), ou vide | vide : l'adresse de la connexion |
+| `CONTACT_CLIENT_IP_HEADER` | nom de l'en-tête où un proxy placé devant le back écrit l'adresse IP du visiteur (voir « Adresse IP du visiteur »), ou vide | vide : l'adresse de la connexion |
 | `CONTACT_CLIENT_IP_POSITION` | rang de l'adresse du visiteur dans la liste de cet en-tête, compté depuis la droite : un entier, 1 au moins | `1`, le dernier élément |
 
 Une valeur mal formée empêche le back de démarrer ; le message nomme la variable, jamais la
@@ -154,6 +154,13 @@ une adresse absente, ou une adresse mal formée, empêche aussi le démarrage : 
 fait jamais répondre `202` à des messages qui ne partiraient pas. En développement, avec le serveur
 de développement du front, dans le terminal où le secret est tiré :
 `CONTACT_ALLOWED_ORIGINS=http://localhost:4200 CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run`.
+
+En préproduction, le service `portfolio-back-preprod` (`render.yaml`) répond à l'adresse technique
+que l'hébergeur lui attribue, sans domaine personnalisé ; cette adresse n'est jamais écrite dans le
+dépôt et se lit sur la page du service, dans la console de l'hébergeur. Le front de préproduction
+la reçoit par sa variable de build `PORTFOLIO_BASE_API_PREPRODUCTION` (voir `front/README.md`,
+« Environnements ») ; le back reçoit l'origine du front par `CONTACT_ALLOWED_ORIGINS`, saisie dans
+la console.
 
 ### Secret du jeton
 
@@ -284,8 +291,9 @@ chaîne, et rien ne part chez Brevo :
 
 ### Adresse IP du visiteur
 
-- Elle est lue dans l'en-tête que nomme `CONTACT_CLIENT_IP_HEADER`, auquel le proxy de l'hébergeur
-  ajoute l'adresse du visiteur : l'adresse retenue est l'élément de rang
+- Elle est lue dans l'en-tête que nomme `CONTACT_CLIENT_IP_HEADER`, où un proxy placé devant le
+  back écrit l'adresse du visiteur, ajoutée à une liste (`X-Forwarded-For`) ou seule
+  (`CF-Connecting-IP`, que pose Cloudflare) : l'adresse retenue est l'élément de rang
   `CONTACT_CLIENT_IP_POSITION` compté depuis la droite (1, le dernier), le premier que le visiteur
   ne peut pas forger ; ce qu'il écrit lui-même, à gauche, est ignoré. Plusieurs lignes du même
   en-tête forment une seule liste, dans leur ordre.
