@@ -46,3 +46,84 @@
   margin-top: auto;
   padding-top: var(--espace-2);
 }
+
+// Carte interactive : un seul lien, celui du titre, dont la zone de clic, posée sur le contenu,
+// s'étend à toute la carte. La carte isole son empilement : ses calques passent au-dessus de son
+// fond et sous son contenu.
+:host(.carte--interactive) {
+  isolation: isolate;
+  transition: border-color var(--duree-courte) var(--courbe-standard);
+}
+
+.carte__lien {
+  color: inherit;
+  text-decoration: none;
+}
+
+.carte__lien::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+// Focus au clavier : l'anneau entoure toute la carte, pas le seul titre (charte, section 8). Un
+// navigateur sans :has() garde l'anneau sur le titre.
+@supports selector(:has(*)) {
+  :host(:has(.carte__lien:focus-visible)) {
+    outline: var(--anneau-focus);
+    outline-offset: var(--focus-decalage);
+  }
+
+  .carte__lien:focus-visible {
+    outline: none;
+  }
+}
+
+// Survol à la souris : le filet passe à couleur-accent à 45 %. Le soulèvement, l'ombre et la
+// lueur viennent avec le mouvement (MV-06).
+@media (hover: hover) and (pointer: fine) {
+  :host(.carte--interactive:hover) {
+    border-color: var(--filet-carte-survol);
+  }
+}
+
+// Calques du survol, prêts pour le mouvement (MV-06) : sous le contenu, sans capter le clic.
+.carte__ombre,
+.carte__lueur {
+  position: absolute;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+// L'ombre flottante, autour de la carte, invisible au repos : le survol la fera paraître par
+// l'opacité du calque, jamais en animant l'ombre.
+.carte__ombre {
+  inset: calc(-1 * var(--bordure-epaisseur));
+  box-shadow: var(--ombre-flottante);
+  opacity: 0;
+}
+
+// La lueur reste à l'intérieur de la carte, rognée par son arrondi.
+.carte__lueur {
+  inset: 0;
+  overflow: hidden;
+}
+
+// L'action du pied, dessinée par la carte : l'aspect du lien d'action (CO-02), sans lien ni clic
+// propre ; le clic y atteint le lien du titre.
+.carte__action {
+  display: inline-flex;
+  gap: var(--espace-2);
+  align-items: center;
+  min-height: var(--cible-tactile);
+  color: var(--couleur-accent);
+  font-weight: var(--graisse-appuyee);
+}
+
+// Mouvement réduit : les couleurs changent d'un coup.
+@media (prefers-reduced-motion: reduce) {
+  :host(.carte--interactive) {
+    transition: none;
+  }
+}
