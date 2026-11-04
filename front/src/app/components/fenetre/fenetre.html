@@ -1,0 +1,33 @@
+@if (affichee()) {
+  <figure
+    class="fenetre__cadre"
+    [attr.aria-hidden]="decorative() ? 'true' : null"
+    [attr.aria-labelledby]="nommeePar()"
+  >
+    <figcaption class="fenetre__barre">
+      <span class="fenetre__points" aria-hidden="true">
+        <span class="fenetre__point"></span>
+        <span class="fenetre__point"></span>
+        <span class="fenetre__point"></span>
+      </span>
+      @if (titreAffiche(); as titre) {
+        <span class="fenetre__titre" [id]="identifiant">{{ titre }}</span>
+      }
+    </figcaption>
+    <div class="fenetre__contenu">
+      <!-- La copie colorée, masquée aux lecteurs d'écran, qui lisent l'extrait d'un seul tenant. -->
+      <div class="fenetre__code" aria-hidden="true">
+        @for (ligne of lignes(); track $index) {
+          <div class="fenetre__ligne">
+            @for (segment of ligne; track $index) {
+              <span [class]="'fenetre__segment--' + segment.genre">{{ segment.texte }}</span>
+            }
+          </div>
+        }
+      </div>
+      @if (!decorative()) {
+        <span class="masque-visuellement">{{ extrait() }}</span>
+      }
+    </div>
+  </figure>
+}

@@ -1,0 +1,87 @@
+// Fenêtre factice de la charte (CO-12) : fond couleur-surface à 92 %, filet verre-bordure,
+// ombre-fenetre, arrondi-grand. L'hôte se comporte en bloc ; sans contenu, il est vide et n'occupe
+// aucune place.
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.fenetre__cadre {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: var(--bordure-epaisseur) solid var(--verre-bordure);
+  border-radius: var(--arrondi-grand);
+  background: var(--fond-fenetre);
+  box-shadow: var(--ombre-fenetre);
+  color: var(--couleur-texte-secondaire);
+}
+
+// La barre : trois points neutres de 9 px, puis le titre en chasse fixe, coupé d'une ellipse
+// plutôt que de déborder (maquettes).
+.fenetre__barre {
+  display: flex;
+  gap: var(--espace-3);
+  align-items: center;
+  min-height: var(--hauteur-barre-fenetre);
+  padding-inline: var(--espace-4);
+  border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure);
+}
+
+.fenetre__points {
+  display: flex;
+  flex: none;
+  gap: var(--ecart-points-fenetre);
+}
+
+.fenetre__point {
+  width: var(--taille-point-fenetre);
+  height: var(--taille-point-fenetre);
+  border-radius: var(--arrondi-cercle);
+  background: var(--fond-point-fenetre);
+}
+
+.fenetre__titre {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--couleur-texte-discret);
+  font-family: var(--police-mono);
+  font-size: var(--taille-etiquette);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fenetre__contenu {
+  min-width: 0;
+  padding: var(--espace-5);
+}
+
+// Le code : chasse fixe sans ligatures, les espaces gardés ; une ligne trop longue, même sans
+// espace, passe à la ligne au lieu de défiler. Une ligne vide garde sa hauteur.
+.fenetre__code {
+  font-family: var(--police-mono);
+  font-size: var(--taille-code);
+  font-variant-ligatures: none;
+  line-height: var(--interligne-code-fenetre);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.fenetre__ligne {
+  min-height: calc(var(--interligne-code-fenetre) * 1em);
+}
+
+// Le texte ordinaire garde couleur-texte-secondaire, celle du cadre.
+.fenetre__segment--mot-cle {
+  color: var(--couleur-accent);
+}
+
+.fenetre__segment--chaine {
+  color: var(--couleur-accent-secondaire);
+}
+
+.fenetre__segment--commentaire {
+  color: var(--couleur-texte-discret);
+}
