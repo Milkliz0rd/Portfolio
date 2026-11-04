@@ -1,0 +1,18 @@
+<ng-content select="app-etiquette" />
+<!-- Le titre, rendu une seule fois, dans le h2, le h3 ou le h4 du niveau demandé. -->
+<ng-template #contenuTitre>{{ titreAffiche() }}</ng-template>
+@switch (niveauTitre()) {
+  @case (2) {
+    <h2 class="carte__titre"><ng-container [ngTemplateOutlet]="contenuTitre" /></h2>
+  }
+  @case (4) {
+    <h4 class="carte__titre"><ng-container [ngTemplateOutlet]="contenuTitre" /></h4>
+  }
+  @default {
+    <h3 class="carte__titre"><ng-container [ngTemplateOutlet]="contenuTitre" /></h3>
+  }
+}
+<div class="carte__texte"><ng-content /></div>
+@if (pastilles().length) {
+  <div class="carte__pied"><ng-content select="app-pastille" /></div>
+}

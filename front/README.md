@@ -136,7 +136,11 @@ vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$
 
 **Pastille sur le verre.** Sur du verre (carte CO-05) et sur le halo d'un arrière-plan d'ambiance
 (CO-13), seule la variante `contour` est permise ; la neutre et les teintées se posent sur un fond
-uni, `couleur-fond` ou `couleur-surface` (sur le verre, une teintée tomberait à 3.60:1). Le trait
+uni, `couleur-fond` ou `couleur-surface` (sur le verre, une teintée tomberait à 3.60:1). La carte en
+verre l'impose d'office : toute pastille qu'elle contient, au pied comme dans le texte, se rend en
+`contour`, quelle que soit sa variante (jeton `SURFACE_EN_VERRE`, fourni par la carte) ; dans une
+carte pleine, la pastille garde sa variante. Sur le halo d'une ambiance, la règle reste à tenir par
+la page, qui n'y pose que des pastilles `contour`. Le trait
 de l'étiquette numérotée est un élément à part, `etiquette__trait`, que le mouvement étirera
 (MV-05).
 
