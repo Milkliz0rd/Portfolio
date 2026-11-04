@@ -212,6 +212,10 @@
   // CO-05 Carte : filet de la carte interactive au survol, couleur-accent à 45 %.
   --filet-carte-survol: color-mix(in srgb, var(--couleur-accent) 45%, transparent);
 
+  // CO-13 Arrière-plan d'ambiance : débord d'un calque de halo de chaque côté de sa section, en
+  // part de la section (10 %, PF-04, comme le prototype des maquettes).
+  --debord-halo: 0.1;
+
   // CO-17 Liste clé-valeur : approche d'une valeur de date ou de période (maquettes, choix C6).
   --approche-date: 0.02em;
 

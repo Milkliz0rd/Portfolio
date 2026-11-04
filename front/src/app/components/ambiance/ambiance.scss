@@ -1,0 +1,48 @@
+// Arrière-plan d'ambiance de la charte (CO-13). L'hôte est la boîte de la section : il isole son
+// empilement (ses calques passent au-dessus de son fond et sous son contenu) et rogne les halos qui
+// débordent, sans devenir un conteneur de défilement : un contenu collant y colle encore, et aucun
+// calque ne fait défiler la page.
+:host {
+  position: relative;
+  display: block;
+  isolation: isolate;
+  overflow: clip;
+}
+
+// Un calque par jeton, sur toute la section, sous le contenu, sans interaction ; peint une fois.
+.ambiance__calque {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.ambiance__trame {
+  background-image: var(--trame-points);
+  background-size: var(--pas-trame) var(--pas-trame);
+}
+
+// Un halo déborde de debord-halo de chaque côté de la section, comme le prototype (PF-04) : la place
+// que prendra sa respiration (MV-04). Son jeton est peint sur la seule boîte de la section, au
+// centre du calque : la tache garde la place et la taille que lui donne la charte.
+.ambiance__halo {
+  inset: calc(-100% * var(--debord-halo));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: calc(100% / (1 + 2 * var(--debord-halo)))
+    calc(100% / (1 + 2 * var(--debord-halo)));
+}
+
+// L'accent en haut à droite ; le secondaire, en coin opposé, en bas à gauche (charte, 3.6).
+.ambiance__halo--accent {
+  background-image: var(--halo-accent);
+}
+
+.ambiance__halo--secondaire {
+  background-image: var(--halo-secondaire);
+}
+
+// Le voile couvre exactement la section : son bas, couleur-fond pleine, est le bord bas.
+.ambiance__voile {
+  background-image: var(--voile-bas);
+}
