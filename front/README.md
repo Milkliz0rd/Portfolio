@@ -219,6 +219,37 @@ annule tout clic, si bien que ni un clic, ni Entrée, ni Espace, ni l'envoi impl
 ne relancent l'envoi. L'indicateur, décoratif, tourne en `duree-rotation` et reste fixe quand le
 visiteur réduit les animations : le texte voisin dit toujours ce qu'on attend.
 
+La fenêtre factice (CO-12) met en scène un extrait de code, une interface abstraite ou une capture
+dans un cadre d'application : une barre à trois points décoratifs, puis le titre en chasse fixe, ou
+l'adresse factice du navigateur sur sa pilule. Elle n'a aucun texte propre : titre, adresse, lignes
+de code, image et texte alternatif viennent de la page, qui les marque pour la traduction. Toutes
+les variantes prennent `titre` et `decorative` (faux par défaut).
+
+| Variante           | Se pose                                                                                                                          | Entrées                                                 |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `code`, par défaut | `<app-fenetre titre="exemple.ts" [lignes]="lignes" />`                                                                           | `lignes`                                                |
+| `navigateur`       | `<app-fenetre variante="navigateur" adresse="exemple.fr"><div>…</div></app-fenetre>`                                             | `adresse`, à la place du titre ; le contenu est projeté |
+| `capture`          | `<app-fenetre variante="capture" titre="capture-01" source="/images/…" [largeur]="1600" [hauteur]="1000" texteAlternatif="…" />` | `source`, `largeur`, `hauteur`, `texteAlternatif`       |
+
+**Code et capture.** Chaque ligne est une liste de `SegmentCode` (type exporté avec `LigneCode`) :
+`texte`, en texte brut, et `genre`, qui dit sa couleur : `mot-cle` (accent), `chaine` (accent
+secondaire), `commentaire` (texte discret) ou `texte` (texte secondaire). L'extrait passe à la
+ligne, même un mot sans espace, sans jamais défiler en largeur, et reste sélectionnable. La capture
+passe par `NgOptimizedImage`, chargée à la demande, au format 16:10 à toutes les largeurs (recadrée
+si l'image n'y est pas).
+
+**Décorative ou non.** Une fenêtre qui ne fait que répéter des informations déjà affichées sur la
+page est décorative : `aria-hidden="true"` sur son cadre, et une capture y a un texte alternatif
+vide ; la page n'y projette rien de focalisable. Sinon, c'est une figure nommée par sa légende (le
+titre, ou l'adresse) ; l'extrait de code y est lu d'un seul tenant, dans un texte masqué
+visuellement, et sa copie colorée est masquée aux lecteurs d'écran. La fenêtre n'est jamais un
+lien, sans survol ni focus.
+
+**Jamais de cadre vide.** Rien n'est rendu pour un code sans ligne, ou dont les lignes sont vides,
+ni pour une capture sans source ; un navigateur sans contenu projeté est masqué par la feuille de
+style, même sans script. Une capture non décorative sans texte alternatif, ou toute capture sans
+`largeur` ou sans `hauteur`, lève une erreur au rendu : au pré-rendu, le build échoue.
+
 ## Mouvement
 
 Le socle du mouvement garantit qu'aucune animation ne cache jamais le contenu, ni sans script, ni
