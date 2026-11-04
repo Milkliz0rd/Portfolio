@@ -82,8 +82,7 @@ entre `docker run` et le premier `200` de `GET /actuator/health`.
 | sans le cache (`java -jar application.jar`)   | 127.798 s    | 148.131 s     |
 
 Mesuré le 29/10/2026 sur un Mac Apple M1 Pro (arm64), Docker 29.8.2 (OrbStack). L'hébergeur
-tourne en x86-64 : la mesure chez lui, réveil après la mise en veille compris, vient avec le
-service de préproduction (TK-24).
+tourne en x86-64 : sa mesure, réveil après la mise en veille compris, suit (« Chez l'hébergeur »).
 
 Pour refaire une mesure, depuis l'image construite ci-dessus :
 
@@ -99,6 +98,30 @@ docker rm -f mesure
 Sans le cache, `portfolio-back` devient, dans la commande `docker run`,
 `--entrypoint java portfolio-back -jar application.jar` : mêmes options de la JVM, sans
 `-XX:AOTCache`.
+
+**Chez l'hébergeur**, sur le service de préproduction (instance gratuite, région Francfort), le
+03/11/2026 :
+
+- **Démarrage** : `Started PortfolioBackApplication in 26.304 seconds (process running for
+  29.615)`, lu dans le journal du déploiement de 14:43 UTC ; un seul relevé.
+- **Réveil après la mise en veille** : `GET /actuator/health` envoyé par `curl` depuis le Mac
+  d'Alexandre, après 16 minutes sans aucune visite ; chaque réponse est un `200`, et son premier
+  octet arrive avec la fin de la réponse.
+
+| Visite (heure UTC)                    | Premier octet |
+| ------------------------------------- | ------------- |
+| service éveillé, au départ (16:34:58) | 0,2 s         |
+| réveil 1 (16:50:59)                   | 56,5 s        |
+| réveil 2 (17:07:55)                   | 54,5 s        |
+| réveil 3 (17:24:50)                   | 45,5 s        |
+
+Le premier visiteur qui arrive après la mise en veille attend donc de 45,5 à 56,5 secondes la
+première réponse du back, contre 0,2 seconde une fois le back éveillé. Les trois réveils restent
+sous les 60 secondes au-delà desquelles l'instance payante sans veille revient à la décision
+d'Alexandre (D-04, A-15), mais près de ce seuil ; la mesure se refait en TK-58. La conception
+technique y répond côté front (sections 3 et 4) : le jeton est demandé à la première interaction
+avec le formulaire, ce qui réveille le back pendant que le visiteur écrit, et le front attend au
+plus 90 secondes après le clic d'envoi (D-07).
 
 ## Configuration
 
@@ -119,7 +142,7 @@ versionné.
 | `CONTACT_BREVO_BASE_URL` | adresse de base de l'API de Brevo : une adresse `https` absolue, sans utilisateur, paramètre ni fragment | `https://api.brevo.com/v3`, l'adresse publique de l'API v3 de Brevo |
 | `CONTACT_IP_LIMIT_PER_HOUR` | messages comptés par adresse IP du visiteur dans sa fenêtre d'une heure (voir « Filtres ») : un entier, 1 au moins | `5` |
 | `CONTACT_DAILY_CAP` | messages comptés, tous visiteurs confondus, dans la fenêtre de 24 heures : un entier, 1 au moins | `50` |
-| `CONTACT_CLIENT_IP_HEADER` | nom de l'en-tête où le proxy de l'hébergeur ajoute l'adresse IP du visiteur (voir « Adresse IP du visiteur »), ou vide | vide : l'adresse de la connexion |
+| `CONTACT_CLIENT_IP_HEADER` | nom de l'en-tête où un proxy placé devant le back écrit l'adresse IP du visiteur (voir « Adresse IP du visiteur »), ou vide | vide : l'adresse de la connexion |
 | `CONTACT_CLIENT_IP_POSITION` | rang de l'adresse du visiteur dans la liste de cet en-tête, compté depuis la droite : un entier, 1 au moins | `1`, le dernier élément |
 
 Une valeur mal formée empêche le back de démarrer ; le message nomme la variable, jamais la
@@ -131,6 +154,13 @@ une adresse absente, ou une adresse mal formée, empêche aussi le démarrage : 
 fait jamais répondre `202` à des messages qui ne partiraient pas. En développement, avec le serveur
 de développement du front, dans le terminal où le secret est tiré :
 `CONTACT_ALLOWED_ORIGINS=http://localhost:4200 CONTACT_MAIL_SENDER=none ./mvnw spring-boot:run`.
+
+En préproduction, le service `portfolio-back-preprod` (`render.yaml`) répond à l'adresse technique
+que l'hébergeur lui attribue, sans domaine personnalisé ; cette adresse n'est jamais écrite dans le
+dépôt et se lit sur la page du service, dans la console de l'hébergeur. Le front de préproduction
+la reçoit par sa variable de build `PORTFOLIO_BASE_API_PREPRODUCTION` (voir `front/README.md`,
+« Environnements ») ; le back reçoit l'origine du front par `CONTACT_ALLOWED_ORIGINS`, saisie dans
+la console.
 
 ### Secret du jeton
 
@@ -261,8 +291,9 @@ chaîne, et rien ne part chez Brevo :
 
 ### Adresse IP du visiteur
 
-- Elle est lue dans l'en-tête que nomme `CONTACT_CLIENT_IP_HEADER`, auquel le proxy de l'hébergeur
-  ajoute l'adresse du visiteur : l'adresse retenue est l'élément de rang
+- Elle est lue dans l'en-tête que nomme `CONTACT_CLIENT_IP_HEADER`, où un proxy placé devant le
+  back écrit l'adresse du visiteur, ajoutée à une liste (`X-Forwarded-For`) ou seule
+  (`CF-Connecting-IP`, que pose Cloudflare) : l'adresse retenue est l'élément de rang
   `CONTACT_CLIENT_IP_POSITION` compté depuis la droite (1, le dernier), le premier que le visiteur
   ne peut pas forger ; ce qu'il écrit lui-même, à gauche, est ignoré. Plusieurs lignes du même
   en-tête forment une seule liste, dans leur ordre.
@@ -274,8 +305,34 @@ chaîne, et rien ne part chez Brevo :
   proxy de l'hébergeur, tous les visiteurs partageraient alors la même limite.
 - Aucun autre en-tête de proxy n'est cru (`server.forward-headers-strategy: none`), et aucun nom
   n'est résolu.
-- L'en-tête et le rang de l'hébergeur ne sont pas encore réglés : ils se constatent sur le service
-  de préproduction (TK-24), qui les écrit dans la description du service.
+- Un en-tête `Forwarded` (RFC 7239) n'est pas lu : ses éléments s'écrivent `for=…`, qui ne sont
+  pas des adresses ; nommé dans `CONTACT_CLIENT_IP_HEADER`, il retombe donc sur l'adresse de la
+  connexion, avec l'avertissement ci-dessus.
+
+**Réglage chez l'hébergeur** : `CONTACT_CLIENT_IP_HEADER=CF-Connecting-IP` et
+`CONTACT_CLIENT_IP_POSITION=1`, retenus par un constat sur le service de préproduction, le
+03/11/2026. Pour l'essai, la limite était réglée à un message par heure et l'envoi coupé : un
+message accepté (`202`) montre que le back lit une adresse qu'il n'avait pas encore comptée, un
+message refusé (`503`), qu'il lit la même qu'avant. Les messages partaient du Mac d'Alexandre, avec
+un jeton demandé depuis l'origine autorisée.
+
+- `X-Forwarded-For`, rang 1 : sur six messages, sans rien forger, trois acceptés puis trois
+  refusés ; la valeur lue, celle d'un relais de l'hébergeur, change entre quelques valeurs pour un
+  même visiteur. Écarté.
+- `X-Forwarded-For`, rang 2 : sans rien forger, un message accepté puis trois refusés, donc stable ;
+  mais un message qui écrit lui-même une adresse dans cet en-tête est accepté juste après : une
+  valeur écrite par le visiteur prend la place lue. Forgeable, écarté.
+- `CF-Connecting-IP`, rang 1 : sans rien forger, un message accepté puis trois refusés ; un message
+  qui forge `X-Forwarded-For`, seul ou avec `True-Client-IP`, reste refusé : la clé ne change pas.
+  Un message qui envoie lui-même `CF-Connecting-IP` est refusé par Cloudflare (`403`, « Error
+  1000 ») avant d'atteindre le back. Ces essais partaient tous du même réseau, le partage de
+  connexion du téléphone d'Alexandre ; depuis un autre réseau, un message est accepté, puis le
+  suivant refusé : deux réseaux ne partagent pas la même limite. Retenu.
+
+Ce réglage tient tant que le service reste derrière le relais de l'hébergeur et Cloudflare : un
+changement d'hébergeur ou d'offre se refait par le même constat. Les deux valeurs vivent dans
+`render.yaml` : elles ne se changent pas dans la console de l'hébergeur, où la synchronisation
+suivante du Blueprint écraserait le changement.
 
 ## Envoi par Brevo
 
@@ -319,6 +376,8 @@ contact-message outcome=validation-refused durationMs=12 fields=lastName:require
   d'un en-tête (`Origin` compris), le jeton, le secret du jeton, la clé de Brevo, un extrait du
   corps, le corps d'une réponse de Brevo. Au niveau DEBUG, le client de Spring écrit le corps qu'il
   envoie : son texte cache toutes les valeurs.
+- Ne jamais mettre `org.springframework.web` au niveau DEBUG en production : ce niveau écrit la
+  valeur refusée d'un champ, une saisie du visiteur, contre la règle ci-dessus.
 
 Au démarrage, le back écrit le nombre d'origines autorisées et l'adaptateur d'envoi, jamais leur
 valeur, avec un avertissement si l'adaptateur est `none`.
