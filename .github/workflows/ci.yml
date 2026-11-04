@@ -1,15 +1,15 @@
-# Contrôles de chaque PR vers staging et main (TK-07). Les travaux tournent sur chaque PR,
-# sans filtre de chemins : un contrôle exigé avant fusion, mais sauté, resterait en attente.
-# Aucun secret : le déploiement passe par l'intégration Git des hébergeurs (CT-09).
+# Contrôles de chaque PR et de chaque push vers staging et main (TK-07). Les travaux tournent à
+# chaque fois, sans filtre de chemins : un contrôle exigé avant fusion, mais sauté, resterait en
+# attente. Aucun secret : le déploiement passe par l'intégration Git des hébergeurs (CT-09).
 name: CI
 
 on:
   pull_request:
     branches: [staging, main]
-  # Render deploys the back only once the checks of the new commit of its branch have passed, and
-  # never a commit without checks (autoDeployTrigger: checksPass, back/render.yaml): the merge
-  # commit gets its own front, back and e2e here, which pull_request alone does not run. The branch
-  # of a pull request is neither staging nor main, so its checks still run once.
+  # Render ne déploie le back qu'une fois passés les contrôles du nouveau commit de sa branche, et
+  # jamais un commit sans contrôles (autoDeployTrigger: checksPass, back/render.yaml) : le commit
+  # de fusion reçoit ici ses propres front, back et e2e, que pull_request seul ne lance pas. La
+  # branche d'une PR n'est ni staging ni main : ses contrôles tournent toujours une seule fois.
   push:
     branches: [staging, main]
 
