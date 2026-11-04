@@ -171,6 +171,58 @@ forme par la page) et `date`, vrai pour une date ou une période, écrite en pol
 dont la valeur manque, est nulle ou vide une fois les espaces retirés disparaît entière ; sans
 aucune paire, aucune liste n'est rendue.
 
+La carte regroupe un contenu autonome ; l'arrière-plan d'ambiance donne sa lumière à une section.
+Le titre de la carte et le libellé de son action viennent de la page, marqués pour la traduction
+(`i18n-titre`, `i18n-action`).
+
+| Composant                       | Se pose                                             | Entrées                                                                                                                                                                                                                                    |
+| ------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Carte (CO-05)                   | voir ci-dessous                                     | `variante` (`verre`, par défaut, `pleine`), `titre`, `niveauTitre` (`2`, `3` ou `4` : le titre est un `h2`, un `h3` ou un `h4`, à la taille titre-3), `lien` (une adresse du site : la carte devient interactive), `action` (exige `lien`) |
+| Arrière-plan d'ambiance (CO-13) | `<app-ambiance variante="section">…</app-ambiance>` | `variante` (`accueil`, `section`, `sobre`), exigée                                                                                                                                                                                         |
+
+**Carte.** En verre sur un fond d'ambiance, pleine sur un fond uni. La page projette une étiquette
+(`app-etiquette`), facultative, rangée au-dessus du titre ; le texte, de préférence en ligne, rangé
+sous le titre ; des pastilles (`app-pastille`), facultatives, posées au premier niveau, qui forment
+le pied. Sans étiquette ni pastille, rien n'est rendu à leur place : la carte se resserre. Une
+pastille d'une carte en verre se rend en `contour` (voir « Pastille sur le verre »). Une carte sans
+titre et une action sans lien lèvent une erreur au rendu.
+
+**Carte interactive.** Avec `lien`, posé par `routerLink`, la carte n'a qu'un lien : celui du titre,
+dont le texte est le titre et dont la zone de clic s'étend à toute la carte. L'action du pied
+(`action` et sa flèche) est dessinée par la carte, décorative : masquée aux lecteurs d'écran, sans
+lien ni clic propre, pour ne pas annoncer deux fois la même destination. Au focus clavier, l'anneau
+entoure toute la carte ; au survol à la souris, son filet passe à `couleur-accent` à 45 %
+(`--filet-carte-survol`) ; sans animation, la couleur change d'un coup. Le soulèvement, l'ombre et
+la lueur (MV-06) prendront place dans les calques `carte__ombre` et `carte__lueur`, vides et
+décoratifs. **La règle :** une carte interactive ne se pose jamais sur un halo. Même hors de son
+pic, un halo sous la lueur ferait tomber le texte discret sous 4.5:1 (charte, section 8) ; la règle
+se vérifie à la relecture des écrans.
+
+```html
+<app-carte
+  variante="pleine"
+  titre="Parcours"
+  i18n-titre="@@accueil.parcours-titre"
+  [niveauTitre]="3"
+  [lien]="'/parcours'"
+  action="Voir la section"
+  i18n-action="@@accueil.voir-section"
+>
+  <app-etiquette variante="numerotee" numero="01" i18n="@@accueil.section">Section</app-etiquette>
+  <ng-container i18n="@@accueil.parcours-texte">La phrase d'orientation.</ng-container>
+</app-carte>
+```
+
+**Arrière-plan d'ambiance.** L'hôte est la boîte de la section qu'il éclaire : la page y projette sa
+section, posée au-dessus des calques. Chaque calque est un élément décoratif (`aria-hidden`) qui
+porte un seul jeton : la trame (`trame-points`, tous les `pas-trame`), le halo d'accent (accueil et
+section), le halo secondaire en coin opposé (accueil), puis le voile bas, qui couvre la section et
+atteint `couleur-fond` pleine à son bord bas. Les halos débordent de 10 % de chaque côté
+(`--debord-halo`) ; l'hôte les rogne (`overflow: clip` : un contenu collant y colle encore), si bien
+qu'aucun ne fait défiler la page, et rien n'est fixé à la fenêtre. Les halos restent fixes : leur
+respiration viendra avec MV-04. Sur un halo, la page ne pose que des pastilles `contour`, et aucune
+carte interactive.
+
 Les composants de formulaire et d'état servent au formulaire de contact et au CV indisponible. Leurs
 seuls textes propres sont ceux que la charte leur donne, marqués pour la traduction : « Envoi en
 cours… » (`@@commun.envoi-en-cours`), « Votre adresse e-mail » (`@@champ.indicatif-email`), « Ce
