@@ -420,7 +420,7 @@
         <div><dt>En-têtes de section</dt><dd>chaque section s’ouvre sur une étiquette numérotée, de 01 à 05, et un titre de niveau 2 à la grande taille des anciens titres de page (titre-1) ; les blocs intérieurs gardent leur taille, un niveau de titre plus bas ; l’accueil n’a ni numéro ni ancre, et aucune page à part n’a de numéro (choix d’Alexandre du 10/11/2026).</dd></div>
         <div><dt>Navigation</dt><dd>une entrée du menu fait défiler la page jusqu’à sa section, sous l’en-tête ; le nom et l’entrée « Accueil » ramènent en haut de la page. L’entrée de la section lue porte le trait de l’ancienne page courante et l’attribut <code>aria-current="location"</code>, et change avec la lecture : celle dont le haut a passé 40 % de la hauteur de la fenêtre ; en haut de la page, c’est l’entrée « Accueil ». Le menu replié porte les mêmes entrées et le même signal ; le refermer ne déplace pas la lecture.</dd></div>
         <div><dt>Adresse pendant la lecture</dt><dd>l’adresse suit la section lue, par remplacement : ni le défilement ni le menu n’ajoutent d’étape au retour arrière ; en haut de la page, l’adresse redevient <code>/</code> (choix d’Alexandre du 10/11/2026).</dd></div>
-        <div><dt>Section inconnue</dt><dd>une ancre qui ne nomme aucune section, par exemple <code>/#competence</code>, ouvre la page principale en haut, sur l’accueil, sans message d’erreur, et l’adresse redevient <code>/</code> (V-11).</dd></div>
+        <div><dt>Section inconnue</dt><dd>une ancre qui ne nomme aucun élément de la page, par exemple <code>/#competence</code>, ouvre la page principale en haut, sur l’accueil, sans message d’erreur, et l’adresse redevient <code>/</code> (V-11) ; une ancre qui nomme un autre élément de la page, un titre par exemple, ouvre la page sur cet élément, puis l’adresse suit la section lue.</dd></div>
         <div><dt>Fin de la page</dt><dd>la section des projets, puis le pied de page commun, sans bloc de plus (V-10).</dd></div>
         <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-02, MV-03, MV-04, MV-05, MV-06, MV-07, MV-08, MV-10</span>. Chaque section garde le mouvement de son ancien écran, détaillé ci-dessous. Passer d’une section à l’autre ne joue aucune transition de page : la page entre et sort en fondu seulement quand on la quitte pour une page à part (fiche d’un projet, contact, mentions légales) et quand on y revient.</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’accueil puis les cinq sections</li><li><a class="lien" href="#etat-categorie-vide">categorie-vide</a> : compétences, une catégorie sans compétence n’est pas affichée</li><li><a class="lien" href="#etat-renvoi-projet-absent">renvoi-projet-absent</a> : méthode, la fiche visée n’existe plus : le renvoi est retiré</li><li><a class="lien" href="#etat-plusieurs-projets">plusieurs-projets</a> : projets, un projet ajouté apparaît sans changer les autres</li><li><a class="lien" href="#etat-liste-vide">liste-vide</a> : projets, message, mention conservée</li></ul></dd></div>
@@ -638,7 +638,8 @@
    - Une entrée de section, une carte de l'accueil, le nom ou « Accueil » font défiler la page sans étape de plus :
      location.replace vers l'ancre garde le défilement, la marge sous l'en-tête et le point de départ du clavier d'un
      lien d'ancre ordinaire.
-   - Une ancre qui ne nomme aucune section ouvre la page en haut, sans message (V-11). */
+   - Une autre ancre qui nomme un élément de la page (un état d'annotation, un titre) ouvre la page sur lui.
+   - Une ancre qui ne nomme aucun élément de la page ouvre la page en haut, sans message (V-11). */
 (function () {
   var ids = ["parcours", "competences", "experience", "methode", "projets"];
   var sections = ids.map(function (id) { return document.getElementById(id); });
@@ -683,11 +684,26 @@
     window.requestAnimationFrame(function () { prevu = false; suivre(); });
   }
 
-  /* À l'ouverture : une ancre de section est gardée, le navigateur fait défiler jusqu'à elle ; une ancre inconnue est retirée. */
+  /* À l'ouverture : une ancre de section est gardée, le navigateur fait défiler jusqu'à elle. Une autre ancre qui nomme un
+     élément de la page (état d'annotation, titre) : le script y fait défiler lui-même AVANT que le suivi réécrive
+     l'adresse, et ne la réécrit qu'une fois la page lue jusqu'au bout, car le navigateur, à la fin de la lecture du
+     document, défile vers l'ancre que porte alors l'adresse (réécrite plus tôt, il partirait vers la section lue).
+     Une ancre qui ne nomme rien est retirée, la page s'ouvre en haut. */
   var ancre = window.location.hash.slice(1);
+  var vise = null;
+  if (ancre) {
+    vise = document.getElementById(ancre);
+    if (!vise) { try { vise = document.getElementById(decodeURIComponent(ancre)); } catch (e) { vise = null; } }
+  }
   if (ids.indexOf(ancre) >= 0) {
     courante = ancre;
     signaler(ancre);
+  } else if (vise) {
+    vise.scrollIntoView({ block: "start", behavior: "instant" });
+    courante = lue();
+    signaler(courante);
+    var plusTard = function () { window.setTimeout(function () { adresser(courante); }, 0); };
+    if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", plusTard, { once: true }); } else { plusTard(); }
   } else {
     if (ancre) { history.replaceState(history.state, "", window.location.pathname + window.location.search); window.scrollTo(0, 0); }
     courante = lue();
