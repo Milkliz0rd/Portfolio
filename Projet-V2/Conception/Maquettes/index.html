@@ -14,7 +14,6 @@
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
   <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
   <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
@@ -30,7 +29,7 @@
   <div class="conteneur empile">
     <p class="etiquette etiquette--puce">Maquettes · palette PA-02 Lagune</p>
     <h1 class="titre-1" id="titre-page">Maquettes des écrans</h1>
-    <p class="chapo">Le prototype cliquable du portfolio, sur la charte graphique signée. La page principale réunit l’accueil et les cinq sections, qui défilent ; la fiche d’un projet, le contact, les mentions légales et la page introuvable restent des pages à part. Chaque page montre en haut son état principal, tel qu’un visiteur le verrait ; ses autres états suivent, sous une bande d’annotation. Les textes à fournir sont des emplacements étiquetés, de C-01 à C-10. Les écrans jouent le mouvement retenu : cascades, frise, titre, récit de la méthode, transitions entre la page principale et une page à part ; un bouton du pied de page met les animations en pause, et le réglage « réduire les animations » du système les arrête. Le sommaire et l’image de partage n’en ont pas.</p>
+    <p class="chapo">Le prototype cliquable du portfolio, sur la charte graphique signée. La page principale réunit l’accueil et les cinq sections, qui défilent ; la fiche d’un projet, le contact, les mentions légales et la page introuvable restent des pages à part. Chaque page montre en haut son état principal, tel qu’un visiteur le verrait ; ses autres états suivent, sous une bande d’annotation. Les textes à fournir sont des emplacements étiquetés C-01, C-02 et C-04 à C-10. Les écrans jouent le mouvement retenu : cascades, frise, titre, récit de la méthode, transitions entre la page principale et une page à part ; un bouton du pied de page met les animations en pause, et le réglage « réduire les animations » du système les arrête. Le sommaire et l’image de partage n’en ont pas.</p>
     <p class="etiquette">Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 18/10/26 ; révision du 10/11/26 (page principale qui défile, choix de design), approuvée par la fusion de sa PR</p>
     <div class="groupe-actions">
       <a class="bouton bouton--primaire" href="ecran-01-page-principale.html">Ouvrir la page principale<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
@@ -67,12 +66,6 @@
         <ul class="liste-etats"><li><a class="lien" href="ecran-07-projet.html#etat-nominal-complet">nominal-complet</a></li><li><a class="lien" href="ecran-07-projet.html#etat-sans-capture">sans-capture</a></li><li><a class="lien" href="ecran-07-projet.html#etat-sans-lien-code">sans-lien-code</a></li><li><a class="lien" href="ecran-07-projet.html#etat-projet-inexistant">projet-inexistant</a></li></ul>
       </article></li>
       <li><article class="carte carte--pleine">
-        <p class="etiquette">EC-08 · <span>/cv</span></p>
-        <h3 class="titre-3"><a class="lien" href="ecran-08-cv.html">CV</a></h3>
-        <p class="texte-petit">3 états, le premier en haut de page :</p>
-        <ul class="liste-etats"><li><a class="lien" href="ecran-08-cv.html#etat-nominal">nominal</a></li><li><a class="lien" href="ecran-08-cv.html#etat-telechargement-en-cours">telechargement-en-cours</a></li><li><a class="lien" href="ecran-08-cv.html#etat-cv-indisponible">cv-indisponible</a></li></ul>
-      </article></li>
-      <li><article class="carte carte--pleine">
         <p class="etiquette">EC-09 · <span>/contact</span></p>
         <h3 class="titre-3"><a class="lien" href="ecran-09-contact.html">Contact</a></h3>
         <p class="texte-petit">6 états, le premier en haut de page :</p>
@@ -103,9 +96,9 @@
     <ul class="parcours-types">
         <li>
           <p class="titre-4">PT-01 — Le recruteur pressé</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li><li><a class="lien" href="ecran-08-cv.html">CV</a></li></ol>
-          <p class="texte-petit">Variante : de l’accueil au contact, puis les états du formulaire.</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-09-contact.html#etat-envoi-reussi">Envoi réussi</a></li></ol>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li><li><a class="lien" href="ecran-01-page-principale.html#parcours">Une section</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-09-contact.html#etat-envoi-reussi">Envoi réussi</a></li></ol>
+          <p class="texte-petit">Une section atteinte en faisant défiler ou par le menu, puis le contact en un clic et les états du formulaire. Variante : de l’accueil au contact, sans quitter l’accueil.</p>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li></ol>
         </li>
         <li>
           <p class="titre-4">PT-02 — Le responsable technique</p>
@@ -115,7 +108,7 @@
         </li>
         <li>
           <p class="titre-4">PT-03 — L’arrivée par un lien direct</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html#competences">Compétences</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche du portfolio</a></li><li><a class="lien" href="ecran-08-cv.html">CV</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-01-page-principale.html#methode">Méthode</a></li><li><a class="lien" href="ecran-11-introuvable.html#etat-projet-inexistant">Projet inexistant</a></li><li><a class="lien" href="ecran-11-introuvable.html">Adresse inconnue</a></li><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li></ol>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html#competences">Compétences</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche du portfolio</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-01-page-principale.html#methode">Méthode</a></li><li><a class="lien" href="ecran-11-introuvable.html#etat-projet-inexistant">Projet inexistant</a></li><li><a class="lien" href="ecran-11-introuvable.html">Adresse inconnue</a></li><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li></ol>
         </li>
         <li>
           <p class="titre-4">PT-04 — Le visiteur sur téléphone</p>

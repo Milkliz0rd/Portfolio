@@ -597,7 +597,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .cles dd.cles__date { font-family: var(--police-mono); font-weight: var(--graisse-moyenne); letter-spacing: 0.02em; }
 /* C7 : le lien de retour porte sa flèche à gauche, pointée vers la gauche ; au survol, elle recule. */
 .lien--action.lien--retour:hover .icone, .lien--action.lien--retour.est-survol .icone { transform: translateX(calc(-1 * var(--distance-soulevement))); }
-/* C9 : le repère de page courante vaut aussi pour les boutons CV et Contact de l'en-tête : attribut et trait d'accent sous le bouton. */
+/* C9 : le repère de page courante vaut aussi pour le bouton Contact de l'en-tête : attribut et trait d'accent sous le bouton. */
 .entete__actions .bouton[aria-current="page"] { position: relative; }
 .entete__actions .bouton[aria-current="page"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: -7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); pointer-events: none; }
 

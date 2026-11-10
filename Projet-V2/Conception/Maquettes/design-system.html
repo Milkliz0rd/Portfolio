@@ -273,8 +273,8 @@ svg { display: block; }
 }
 .lien-navigation:hover, .lien-navigation.est-survol { color: var(--couleur-texte); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); }
 .lien-navigation.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
-.lien-navigation[aria-current="page"] { color: var(--couleur-texte); }
-.lien-navigation[aria-current="page"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
+.lien-navigation[aria-current="page"], .lien-navigation[aria-current="location"] { color: var(--couleur-texte); }
+.lien-navigation[aria-current="page"]::after, .lien-navigation[aria-current="location"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
 
 /* CO-03 Pastille */
 .pastille {
@@ -376,8 +376,8 @@ svg { display: block; }
 }
 .menu-replie__panneau ul { display: grid; gap: 2px; list-style: none; }
 .menu-replie__panneau .lien-navigation { display: flex; width: 100%; padding-inline: var(--espace-4); }
-.menu-replie__panneau .lien-navigation[aria-current="page"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
-.menu-replie__panneau .lien-navigation[aria-current="page"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
+.menu-replie__panneau .lien-navigation[aria-current="page"], .menu-replie__panneau .lien-navigation[aria-current="location"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
+.menu-replie__panneau .lien-navigation[aria-current="page"]::after, .menu-replie__panneau .lien-navigation[aria-current="location"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
 .menu-replie--en-place .menu-replie__panneau { position: static; margin-top: var(--espace-3); }
 @media (min-width: 600px) { .entete:not(.entete--compacte) .menu-replie__panneau { left: auto; width: 20rem; } }
 @media (min-width: 900px) {
@@ -1176,13 +1176,13 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 
     <!-- CO-06 -->
     <article class="specimen" aria-labelledby="co-06">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-06">CO-06 — En-tête et navigation</h3><p class="texte-petit">Présent sur chaque page. Navigation complète à partir de 1200 px ; en dessous, menu replié (CO-07). Les deux actions permanentes restent toujours visibles, hors du menu. Démonstration adaptative : réduisez la fenêtre pour voir la version compacte.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-06">CO-06 — En-tête et navigation</h3><p class="texte-petit">Présent sur chaque page. Navigation complète à partir de 1200 px ; en dessous, menu replié (CO-07). L’action permanente, « Contact », reste toujours visible, hors du menu. Sur la page principale, l’entrée de la section lue porte le trait de la page courante et l’attribut aria-current="location". Démonstration adaptative : réduisez la fenêtre pour voir la version compacte.</p></header>
       <div class="cadre-demo cadre-demo--entete">
         <header class="entete entete--demo">
           <a class="entete__marque" href="#co-06"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
           <nav class="entete__navigation" aria-label="Sections (exemple)">
             <ul>
-              <li><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></li>
+              <li><a class="lien-navigation" href="#co-06" aria-current="location">Parcours</a></li>
               <li><a class="lien-navigation" href="#co-06">Compétences</a></li>
               <li><a class="lien-navigation" href="#co-06">Expérience</a></li>
               <li><a class="lien-navigation" href="#co-06">Méthode</a></li>
@@ -1190,13 +1190,12 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             </ul>
           </nav>
           <div class="entete__actions">
-            <a class="bouton bouton--secondaire bouton--compact" href="#co-06"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
             <a class="bouton bouton--primaire bouton--compact" href="#co-06">Contact</a>
             <details class="menu-replie">
               <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
               <div class="menu-replie__panneau">
                 <ul>
-                  <li><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></li>
+                  <li><a class="lien-navigation" href="#co-06" aria-current="location">Parcours</a></li>
                   <li><a class="lien-navigation" href="#co-06">Compétences</a></li>
                   <li><a class="lien-navigation" href="#co-06">Expérience</a></li>
                   <li><a class="lien-navigation" href="#co-06">Méthode</a></li>
@@ -1212,26 +1211,25 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
         <div class="etat"><p class="etat__nom">Lien de section · repos</p><a class="lien-navigation" href="#co-06">Projets</a></div>
         <div class="etat"><p class="etat__nom">Lien de section · survol</p><a class="lien-navigation est-survol" href="#co-06">Projets</a></div>
         <div class="etat"><p class="etat__nom">Lien de section · focus</p><a class="lien-navigation est-focus" href="#co-06">Projets</a></div>
-        <div class="etat"><p class="etat__nom">Section courante</p><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></div>
+        <div class="etat"><p class="etat__nom">Section lue</p><a class="lien-navigation" href="#co-06" aria-current="location">Parcours</a></div>
       </div>
     </article>
 
     <!-- CO-07 -->
     <article class="specimen" aria-labelledby="co-07">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-07">CO-07 — Menu replié</h3><p class="texte-petit">Version téléphone de la navigation : un bouton ouvre la liste des sections. Le CV et le contact restent hors du menu. Le premier cadre est manipulable, même sans script.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-07">CO-07 — Menu replié</h3><p class="texte-petit">Version téléphone de la navigation : un bouton ouvre la liste des sections. Le contact reste hors du menu. Le premier cadre est manipulable, même sans script.</p></header>
       <div class="grille-2">
         <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Téléphone 360 px · manipulable</span>
           <div class="cadre-telephone">
             <header class="entete entete--demo entete--compacte">
               <a class="entete__marque" href="#co-07"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
               <div class="entete__actions">
-                <a class="bouton bouton--secondaire bouton--compact" href="#co-07"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
                 <a class="bouton bouton--primaire bouton--compact" href="#co-07">Contact</a>
                 <details class="menu-replie">
                   <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
                   <div class="menu-replie__panneau">
                     <ul>
-                      <li><a class="lien-navigation" href="#co-07" aria-current="page">Parcours</a></li>
+                      <li><a class="lien-navigation" href="#co-07" aria-current="location">Parcours</a></li>
                       <li><a class="lien-navigation" href="#co-07">Compétences</a></li>
                       <li><a class="lien-navigation" href="#co-07">Expérience</a></li>
                       <li><a class="lien-navigation" href="#co-07">Méthode</a></li>
@@ -1253,13 +1251,12 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             <header class="entete entete--demo entete--compacte">
               <a class="entete__marque" href="#co-07"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
               <div class="entete__actions">
-                <a class="bouton bouton--secondaire bouton--compact" href="#co-07"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
                 <a class="bouton bouton--primaire bouton--compact" href="#co-07">Contact</a>
                 <details class="menu-replie" open>
                   <summary class="bouton bouton--discret bouton--icone est-focus"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
                   <div class="menu-replie__panneau">
                     <ul>
-                      <li><a class="lien-navigation" href="#co-07" aria-current="page">Parcours</a></li>
+                      <li><a class="lien-navigation" href="#co-07" aria-current="location">Parcours</a></li>
                       <li><a class="lien-navigation est-survol" href="#co-07">Compétences</a></li>
                       <li><a class="lien-navigation" href="#co-07">Expérience</a></li>
                       <li><a class="lien-navigation" href="#co-07">Méthode</a></li>
@@ -1483,8 +1480,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             <p class="texte-affiche apparition" style="--rang:1">Prénom Nom</p>
             <p class="chapo apparition" style="--rang:2">Intitulé du profil, puis une présentation en deux phrases au plus. [texte fourni par Alexandre]</p>
             <div class="groupe-actions apparition" style="--rang:3">
-              <a class="bouton bouton--primaire" href="#mise-en-scene"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>Télécharger le CV</a>
-              <a class="bouton bouton--secondaire" href="#mise-en-scene">Écrire un message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+              <a class="bouton bouton--primaire" href="#mise-en-scene">Écrire un message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
             </div>
             <dl class="cles cles--en-ligne apparition" style="--rang:4">
               <div class="cles__ligne"><dt class="etiquette">Clé</dt><dd>[texte fourni par Alexandre]</dd></div>
