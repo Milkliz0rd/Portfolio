@@ -13,7 +13,7 @@ Le 10/11/2026, Alexandre a décidé que le site ne propose plus de CV, et que l'
 | En-tête | Approuvé le 15/10/26 | Mentionne cette révision, approuvée par la fusion de sa PR | Garder la trace de la révision |
 | MF-02 | Titre : CV et contact accessibles en permanence. Le CV et le contact s'atteignent en un clic depuis n'importe quelle page, sans étape préalable ; le clic unique restait à valider | Titre : Contact accessible en permanence. Le contact s'atteint en un clic depuis n'importe quelle page, sans étape préalable ; la source du clic unique est ajoutée | Plus de CV ; le clic unique a été validé par Alexandre le 15/10/2026 dans le parcours d'écrans |
 | MF-03 | La navigation mène au parcours, aux compétences, au rôle chez OSOL, à la méthode, aux projets, au CV et au contact | Elle mène à chacune de ces sections et au contact ; plus au CV | Plus de CV ; le contact reste à part, il n'est pas une section |
-| MF-04 | Titre : Liens directs vers les pages. Le recruteur ouvre la page qu'on lui a transmise. Recharger une page garde la même page affichée | Titre : Liens directs vers les sections et les fiches projet. Il ouvre le contenu qu'on lui a transmis. Un rechargement garde le même contenu affiché | Les sections s'enchaînent sur une même page ; le besoin dit ce qui s'affiche, pas la forme |
+| MF-04 | Titre : Liens directs vers les pages. Le recruteur ouvre la page qu'on lui a transmise. Recharger une page garde la même page affichée | Titre : Liens directs vers les sections et les pages. Il ouvre le contenu qu'on lui a transmis (une section, la fiche d'un projet, le contact ou les mentions légales). Règle ajoutée après celle de la fiche d'un projet : Un lien direct vers le contact ou vers les mentions légales affiche cette page. Règle du rechargement : Un rechargement garde le même contenu affiché : la même section, la même fiche ou la même page. | Les sections s'enchaînent sur une même page ; le besoin dit ce qui s'affiche, pas la forme ; le contact et les mentions légales restent des pages à part, chacune avec son adresse ; la garantie signée le 15/10 (un lien direct et un rechargement gardent le contenu) les couvre toujours |
 | Titre de la macro-fonction qui regroupe le contact et les liens | CV, contact et liens | Contact et liens | Plus de CV |
 | MF-15 | Consulter et télécharger le CV, avec un message si le CV est indisponible | Retirée, sans renumérotation | Plus de CV : ni page, ni fichier |
 | Hors périmètre | Aucun parcours ludique ne conditionne l'accès au CV ou au contact | Aucun parcours ludique ne conditionne l'accès au contact ; la citation de la fiche de base reste telle quelle | Plus de CV |
@@ -59,15 +59,16 @@ Règles métier :
 
 Scénarios liés : SC-2.0-04
 
-### MF-04 — Micro-fonction : Liens directs vers les sections et les fiches projet
+### MF-04 — Micro-fonction : Liens directs vers les sections et les pages
 Priorité : high     Périmètre : MVP v2.0.0
 Source : Contexte « liens directs cassés »
-En tant que recruteur, je veux ouvrir directement le contenu qu'on m'a transmis (une section ou la fiche d'un projet) à partir de son lien, afin d'arriver sur le bon contenu sans repasser par l'accueil.
+En tant que recruteur, je veux ouvrir directement le contenu qu'on m'a transmis (une section, la fiche d'un projet, le contact ou les mentions légales) à partir de son lien, afin d'arriver sur le bon contenu sans repasser par l'accueil.
 
 Règles métier :
 - Un lien direct vers une section affiche cette section.
 - Un lien direct vers la fiche d'un projet existant affiche cette fiche.
-- Un rechargement garde le même contenu affiché : la même section ou la même fiche.
+- Un lien direct vers le contact ou vers les mentions légales affiche cette page.
+- Un rechargement garde le même contenu affiché : la même section, la même fiche ou la même page.
 - Un lien direct vers un projet qui n'existe pas mène à la page décrite en MF-05.
 
 Scénarios liés : SC-2.0-05, SC-2.0-06, SC-2.0-07

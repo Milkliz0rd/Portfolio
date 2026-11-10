@@ -11,7 +11,7 @@ Le 10/11/2026, Alexandre a décidé que le site ne propose plus de CV, et que l'
 | SC-2.0-02 | CV et contact atteints depuis l'accueil, chacun en un clic, le clic unique restant à valider | Contact atteint depuis l'accueil, en un clic | Plus de CV ; le clic unique a été validé par Alexandre le 15/10/2026 dans le parcours d'écrans |
 | SC-2.0-03 | CV et contact atteints depuis une fiche projet, chacun en un clic, le clic unique restant à valider | Contact atteint depuis une fiche projet, en un clic | Plus de CV ; le clic unique a été validé par Alexandre le 15/10/2026 dans le parcours d'écrans |
 | SC-2.0-04 | Une entrée pour chaque section ; en la choisissant, on arrive sur la section | Une entrée pour chaque section et une pour le contact ; en choisissant l'entrée d'une section, on arrive à cette section | Le contact reste à part, il n'est pas une section (MF-03) ; le scénario ne dit pas la forme |
-| SC-2.0-05 | Si le recruteur recharge la page, la même section reste affichée | Après un rechargement, la même section reste affichée | Les sections s'enchaînent sur une même page ; le scénario ne dit pas la forme |
+| SC-2.0-05 | Titre : lien direct vers une section. Étant donné un lien direct vers une section du site, transmis à un recruteur ; Alors la section visée s'affiche directement, sans passer par l'accueil ; Et si le recruteur recharge la page, la même section reste affichée | Titre : lien direct vers une section, le contact ou les mentions légales. Étant donné un lien direct vers une section du site, vers le contact ou vers les mentions légales, transmis à un recruteur ; Alors le contenu visé s'affiche directement, sans passer par l'accueil ; Et après un rechargement, le même contenu reste affiché | Les sections s'enchaînent sur une même page ; le scénario ne dit pas la forme ; le contact et les mentions légales restent des pages à part, chacune avec son adresse ; la garantie signée le 15/10 (un lien direct et un rechargement gardent le contenu) les couvre toujours |
 | SC-2.0-21 | Téléchargement du CV | Retiré, sans renumérotation | Plus de CV : ni page, ni fichier |
 | SC-2.0-22 | Message quand le CV est indisponible | Retiré, sans renumérotation | Plus de CV : ni page, ni fichier |
 
@@ -45,12 +45,12 @@ Micro-fonction : MF-03
 - Et en choisissant l'entrée d'une section, il arrive à la section correspondante
 - Et la navigation est la même sur toutes les pages
 
-## SC-2.0-05 — Scénario : lien direct vers une section
+## SC-2.0-05 — Scénario : lien direct vers une section, le contact ou les mentions légales
 Micro-fonction : MF-04
-- Étant donné un lien direct vers une section du site, transmis à un recruteur
+- Étant donné un lien direct vers une section du site, vers le contact ou vers les mentions légales, transmis à un recruteur
 - Quand il l'ouvre dans une fenêtre où le site n'a jamais été ouvert
-- Alors la section visée s'affiche directement, sans passer par l'accueil
-- Et après un rechargement, la même section reste affichée
+- Alors le contenu visé s'affiche directement, sans passer par l'accueil
+- Et après un rechargement, le même contenu reste affiché
 
 ## SC-2.0-06 — Scénario : lien direct vers la fiche d'un projet
 Micro-fonction : MF-04
