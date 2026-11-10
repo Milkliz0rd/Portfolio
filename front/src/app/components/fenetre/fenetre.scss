@@ -1,9 +1,17 @@
 // Fenêtre factice de la charte (CO-12) : fond couleur-surface à 92 %, filet verre-bordure,
-// ombre-fenetre, arrondi-grand. L'hôte se comporte en bloc ; sans contenu, il est vide et n'occupe
-// aucune place.
+// ombre-fenetre, arrondi-grand. L'hôte se comporte en bloc.
 :host {
   display: block;
   min-width: 0;
+}
+
+// Sans contenu, l'hôte sort de la mise en page, sans place ni écart de grille ou de boîte
+// flexible, même sans script. Un code ou une capture sans contenu ne laissent dans l'hôte que
+// l'ancre du @if, un commentaire que :empty ignore ; un navigateur sans contenu projeté y garde son
+// cadre masqué, à l'emplacement vide.
+:host:empty,
+:host:has(> .fenetre__cadre > .fenetre__contenu:empty) {
+  display: none;
 }
 
 .fenetre__cadre {
@@ -19,8 +27,14 @@
   color: var(--couleur-texte-secondaire);
 }
 
-// La barre : trois points neutres de 9 px, puis le titre en chasse fixe, coupé d'une ellipse
-// plutôt que de déborder (maquettes).
+// Navigateur sans contenu projeté : ni cadre ni barre, même dans la page pré-rendue lue sans
+// script. Angular retire les blancs des modèles : l'emplacement vide n'a aucun nœud de texte.
+.fenetre__cadre:has(> .fenetre__contenu:empty) {
+  display: none;
+}
+
+// La barre : trois points neutres de 9 px, puis le titre ou l'adresse en chasse fixe, coupés d'une
+// ellipse plutôt que de déborder (maquettes).
 .fenetre__barre {
   display: flex;
   gap: var(--espace-3);
@@ -43,7 +57,8 @@
   background: var(--fond-point-fenetre);
 }
 
-.fenetre__titre {
+.fenetre__titre,
+.fenetre__adresse {
   min-width: 0;
   overflow: hidden;
   color: var(--couleur-texte-discret);
@@ -51,6 +66,27 @@
   font-size: var(--taille-etiquette);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+// L'adresse factice, centrée sur sa pilule.
+.fenetre__adresse {
+  flex: 1;
+  max-width: var(--largeur-adresse-fenetre);
+  margin-inline: auto;
+  padding: var(--marge-verticale-adresse-fenetre) var(--espace-3);
+  border-radius: var(--arrondi-pilule);
+  background: var(--fond-adresse-fenetre);
+  text-align: center;
+}
+
+// La capture remplit la fenêtre sous la barre, au format 16:10 (CO-12) à toutes les largeurs,
+// recadrée si l'image n'y est pas.
+.fenetre__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
 }
 
 .fenetre__contenu {
@@ -71,6 +107,12 @@
 
 .fenetre__ligne {
   min-height: calc(var(--interligne-code-fenetre) * 1em);
+}
+
+// L'extrait lu par les lecteurs d'écran ne se sélectionne pas : copier la fenêtre donne le code une
+// seule fois, celui de la copie colorée, ligne par ligne. Il reste lu d'un seul tenant (PF-05).
+.fenetre__contenu > .masque-visuellement {
+  user-select: none;
 }
 
 // Le texte ordinaire garde couleur-texte-secondaire, celle du cadre.

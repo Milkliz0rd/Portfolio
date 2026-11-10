@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Fenetre, LigneCode } from './fenetre';
 
@@ -36,6 +36,58 @@ function rendre(lignes: readonly LigneCode[] = PROFIL, decorative = false, titre
   fixture.componentInstance.lignes.set(lignes);
   fixture.componentInstance.decorative.set(decorative);
   fixture.componentInstance.titre.set(titre || undefined);
+  fixture.detectChanges();
+  const hote = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('app-fenetre')!;
+  return { hote, cadre: hote.querySelector<HTMLElement>('.fenetre__cadre') };
+}
+
+@Component({
+  imports: [Fenetre],
+  template: `
+    <app-fenetre
+      variante="navigateur"
+      [titre]="titre()"
+      [adresse]="adresse()"
+      [decorative]="decorative()"
+    >
+      @if (contenu()) {
+        <p>Contenu projeté</p>
+      }
+    </app-fenetre>
+  `,
+})
+class HoteNavigateur {
+  readonly titre = signal<string | undefined>('scene.ts');
+  readonly adresse = signal<string | undefined>('exemple.fr/projets');
+  readonly decorative = signal(false);
+  readonly contenu = signal(true);
+}
+
+@Component({
+  imports: [Fenetre],
+  template: `
+    <app-fenetre
+      variante="capture"
+      titre="capture-01"
+      [decorative]="decorative()"
+      [source]="source()"
+      [largeur]="largeur()"
+      [hauteur]="hauteur()"
+      [texteAlternatif]="alternatif()"
+    />
+  `,
+})
+class HoteCapture {
+  readonly decorative = signal(false);
+  readonly source = signal<string | undefined>('/images/essai.png');
+  readonly largeur = signal<number | undefined>(1600);
+  readonly hauteur = signal<number | undefined>(1000);
+  readonly alternatif = signal<string | undefined>('La page d’accueil');
+}
+
+function monter<T>(type: Type<T>, regler: (hote: T) => void = () => undefined) {
+  const fixture = TestBed.createComponent(type);
+  regler(fixture.componentInstance);
   fixture.detectChanges();
   const hote = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('app-fenetre')!;
   return { hote, cadre: hote.querySelector<HTMLElement>('.fenetre__cadre') };
@@ -97,6 +149,21 @@ describe('Fenetre', () => {
     expect(cadre?.querySelector('.fenetre__code')?.getAttribute('aria-hidden')).toBe('true');
   });
 
+  // jsdom ne sélectionne rien à la souris : il dit seulement quel texte se sélectionne. La copie
+  // elle-même (l'extrait une seule fois) se vérifie dans un navigateur.
+  it('non décorative : seule la copie colorée se sélectionne, pas l’extrait lu', () => {
+    const { hote, cadre } = rendre();
+    const selection = (element: Element) => getComputedStyle(element).userSelect;
+    expect(selection(cadre!.querySelector('.masque-visuellement')!)).toBe('none');
+    const segment = cadre!.querySelector('.fenetre__segment--mot-cle');
+    const chaine: string[] = [];
+    for (let e = segment; e && e !== hote.parentElement; e = e.parentElement) {
+      chaine.push(selection(e));
+    }
+    expect(chaine).toHaveLength(6);
+    expect(chaine).not.toContain('none');
+  });
+
   it('décorative : aria-hidden sur le cadre, sans extrait exposé ni élément focalisable', () => {
     const { hote, cadre } = rendre(PROFIL, true);
     expect(hote.firstElementChild).toBe(cadre);
@@ -121,5 +188,109 @@ describe('Fenetre', () => {
     const { hote } = rendre(lignes);
     expect(hote.childElementCount).toBe(0);
     expect(hote.textContent).toBe('');
+  });
+});
+
+describe('Fenetre navigateur', () => {
+  it('pose l’adresse factice à la place du titre, et le contenu projeté', () => {
+    const { cadre } = monter(HoteNavigateur);
+    const adresse = cadre?.querySelector('.fenetre__barre .fenetre__adresse');
+    expect(adresse?.textContent).toBe('exemple.fr/projets');
+    expect(cadre?.querySelector('.fenetre__titre')).toBeNull();
+    expect(cadre?.querySelectorAll('.fenetre__point')).toHaveLength(3);
+    expect(cadre?.getAttribute('aria-labelledby')).toBe(adresse?.id);
+    const contenu = cadre?.querySelector('.fenetre__contenu');
+    expect(contenu?.querySelector('p')?.textContent).toBe('Contenu projeté');
+    expect(contenu?.matches(':empty')).toBe(false);
+  });
+
+  it('garde le titre dans la barre sans adresse', () => {
+    const { cadre } = monter(HoteNavigateur, (hote) => hote.adresse.set(' '));
+    expect(cadre?.querySelector('.fenetre__adresse')).toBeNull();
+    expect(cadre?.querySelector('.fenetre__titre')?.textContent).toBe('scene.ts');
+  });
+
+  it('décorative : aria-hidden sur le cadre, contenu projeté compris', () => {
+    const { cadre } = monter(HoteNavigateur, (hote) => hote.decorative.set(true));
+    expect(cadre?.getAttribute('aria-hidden')).toBe('true');
+    expect(cadre?.hasAttribute('aria-labelledby')).toBe(false);
+    expect(cadre?.querySelector('p')?.closest('[aria-hidden="true"]')).toBe(cadre);
+  });
+
+  it('sans contenu projeté, laisse vide l’emplacement que la feuille de style masque', () => {
+    const { cadre } = monter(HoteNavigateur, (hote) => hote.contenu.set(false));
+    const contenu = cadre?.querySelector('.fenetre__contenu');
+    expect(contenu?.children).toHaveLength(0);
+    expect(contenu?.textContent).toBe('');
+    expect(contenu?.matches(':empty')).toBe(true);
+    expect(cadre?.matches(':has(> .fenetre__contenu:empty)')).toBe(true);
+  });
+});
+
+describe('Fenetre capture', () => {
+  it('pose l’image aux dimensions déclarées, avec son texte alternatif', () => {
+    const { cadre } = monter(HoteCapture);
+    expect(cadre?.getAttribute('aria-labelledby')).toBe(
+      cadre?.querySelector('.fenetre__titre')?.id,
+    );
+    const image = cadre?.querySelector('img');
+    expect(image?.classList).toContain('fenetre__image');
+    expect(image?.previousElementSibling?.localName).toBe('figcaption');
+    expect(image?.getAttribute('src')).toBe('/images/essai.png');
+    expect(image?.getAttribute('width')).toBe('1600');
+    expect(image?.getAttribute('height')).toBe('1000');
+    expect(image?.getAttribute('alt')).toBe('La page d’accueil');
+    expect(image?.getAttribute('loading')).toBe('lazy');
+  });
+
+  it('décorative : aria-hidden sur le cadre et texte alternatif vide', () => {
+    const { cadre } = monter(HoteCapture, (hote) => hote.decorative.set(true));
+    expect(cadre?.getAttribute('aria-hidden')).toBe('true');
+    expect(cadre?.querySelector('img')?.getAttribute('alt')).toBe('');
+    expect(focalisables(cadre!)).toHaveLength(0);
+  });
+
+  it('décorative, se passe de texte alternatif', () => {
+    const { cadre } = monter(HoteCapture, (hote) => {
+      hote.decorative.set(true);
+      hote.alternatif.set(undefined);
+    });
+    expect(cadre?.querySelector('img')?.getAttribute('alt')).toBe('');
+  });
+
+  it.each([undefined, '', '  '])('ne rend rien sans source (%j) : aucun cadre', (source) => {
+    const { hote } = monter(HoteCapture, (hote) => hote.source.set(source));
+    expect(hote.childElementCount).toBe(0);
+  });
+
+  it.each([undefined, ' '])(
+    'refuse une capture non décorative sans texte alternatif (%j)',
+    (alt) => {
+      expect(() => monter(HoteCapture, (hote) => hote.alternatif.set(alt))).toThrow(
+        /texteAlternatif/,
+      );
+    },
+  );
+
+  it('refuse une capture sans dimensions', () => {
+    expect(() => monter(HoteCapture, (hote) => hote.hauteur.set(undefined))).toThrow(/dimensions/);
+  });
+});
+
+// jsdom ne calcule pas la mise en page, mais il applique la feuille du composant : l'affichage
+// calculé de l'hôte dit s'il prend une place, ou un écart de grille ou de boîte flexible.
+describe('Fenetre dans la mise en page', () => {
+  const affichage = (hote: HTMLElement) => getComputedStyle(hote).display;
+
+  it('sans contenu, sort l’hôte de la mise en page, quelle que soit la variante', () => {
+    expect(affichage(rendre([]).hote)).toBe('none');
+    expect(affichage(monter(HoteCapture, (hote) => hote.source.set(undefined)).hote)).toBe('none');
+    expect(affichage(monter(HoteNavigateur, (hote) => hote.contenu.set(false)).hote)).toBe('none');
+  });
+
+  it('avec un contenu, garde l’hôte en bloc', () => {
+    expect(affichage(rendre().hote)).toBe('block');
+    expect(affichage(monter(HoteCapture).hote)).toBe('block');
+    expect(affichage(monter(HoteNavigateur).hote)).toBe('block');
   });
 });
