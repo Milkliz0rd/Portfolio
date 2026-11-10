@@ -1,0 +1,48 @@
+// Carte de la charte (CO-05) : conteneur arrondi-grand, intérieur espace-6, éléments espacés de
+// espace-3. En verre (verre-fond, filet verre-bordure) par défaut ; pleine (couleur-surface, filet
+// couleur-bordure) sur un fond uni. L'hôte est la boîte de la carte.
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espace-3);
+  min-width: 0;
+  padding: var(--espace-6);
+  border: var(--bordure-epaisseur) solid var(--verre-bordure);
+  border-radius: var(--arrondi-grand);
+  background: var(--verre-fond);
+}
+
+:host(.carte--pleine) {
+  border-color: var(--couleur-bordure);
+  background: var(--couleur-surface);
+}
+
+// Le titre à la taille titre-3, qu'il soit un h2, un h3 ou un h4.
+.carte__titre {
+  color: var(--couleur-texte);
+  font-size: var(--taille-titre-3);
+  font-weight: var(--graisse-forte);
+  line-height: var(--interligne-sous-titre);
+  letter-spacing: var(--approche-sous-titre);
+}
+
+.carte__texte {
+  color: var(--couleur-texte-secondaire);
+}
+
+// Sans texte projeté, rien ne prend sa place dans l'écart de la carte.
+.carte__texte:empty {
+  display: none;
+}
+
+// Le pied, poussé en bas de la carte (une grille de cartes de même hauteur), espacé de espace-2
+// (maquettes) ; les pastilles passent à la ligne plutôt que de déborder.
+.carte__pied {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-2);
+  align-items: center;
+  margin-top: auto;
+  padding-top: var(--espace-2);
+}
