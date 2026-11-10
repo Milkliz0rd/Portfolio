@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Pastille, VariantePastille } from './pastille';
+import { Pastille, SURFACE_EN_VERRE, VariantePastille } from './pastille';
 
 const VARIANTES: VariantePastille[] = [
   'neutre',
@@ -71,5 +71,36 @@ describe('Pastille', () => {
   it('refuse une pastille muette', () => {
     const fixture = TestBed.createComponent(Pastille);
     expect(() => fixture.detectChanges()).toThrow(/pastille muette/);
+  });
+
+  describe('sur une surface en verre', () => {
+    const surVerre = signal(true);
+
+    beforeEach(() => {
+      surVerre.set(true);
+      TestBed.configureTestingModule({
+        providers: [{ provide: SURFACE_EN_VERRE, useValue: surVerre }],
+      });
+    });
+
+    it.each(VARIANTES)('rend la variante « %s » en contour, point lumineux gardé', (variante) => {
+      const pastille = rendre(variante, true);
+      expect(variantesPortees(pastille)).toEqual(['pastille--contour']);
+      expect(pastille.classList).toContain('pastille--lumineuse');
+      expect(pastille.textContent?.trim()).toBe('Validé');
+    });
+
+    it('rend sa variante dès que la surface n’est plus du verre', () => {
+      const fixture = TestBed.createComponent(Hote);
+      fixture.componentInstance.variante.set('succes');
+      fixture.detectChanges();
+      const pastille = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+        'app-pastille',
+      )!;
+      expect(variantesPortees(pastille)).toEqual(['pastille--contour']);
+      surVerre.set(false);
+      fixture.detectChanges();
+      expect(variantesPortees(pastille)).toEqual(['pastille--succes']);
+    });
   });
 });
