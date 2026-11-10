@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Accueil — maquette EC-01 · Alexandre Morozoff</title>
-<meta name="description" content="Maquette de l’écran d’accueil du portfolio d’Alexandre Morozoff.">
+<title>Page principale — maquette EC-01 à EC-06 · Alexandre Morozoff</title>
+<meta name="description" content="Maquette de la page principale du portfolio d’Alexandre Morozoff : l’accueil, puis les sections parcours, compétences, expérience, méthode de travail et projets, sur une page qui défile.">
 <script>
 /* Mouvement : le contenu reste visible par défaut. Les états cachés n’existent que sous « mv-actif », posé ici avant le premier affichage et seulement sans demande de réduction des animations ; sans « mv-pret » 3 s après, tout s’affiche. Le choix de pause mémorisé s’applique ici aussi. */
 (function () {
@@ -43,15 +43,15 @@
 
 <div class="ecran" id="etat-nominal" data-etat="nominal">
 <header class="entete" data-commun="entete">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <nav class="entete__navigation" aria-label="Sections du site">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html" aria-current="page">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="#projets">Projets</a></li>
     </ul>
   </nav>
   <div class="entete__actions">
@@ -61,12 +61,12 @@
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html" aria-current="page">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="#projets">Projets</a></li>
         </ul>
       </nav>
     </details>
@@ -74,6 +74,7 @@
 </header>
 
 <main id="contenu">
+<!-- EC-01 · Accueil : en haut de la page principale, sans ancre ni numéro. -->
 <section class="section section--accueil ambiance ambiance--accueil ambiance--calques" aria-labelledby="titre-page">
   <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
   <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
@@ -113,36 +114,281 @@
     <ul class="grille-cartes">
       <li data-mv="MV-01"><article class="carte carte--pleine carte--interactive" data-mv-survol>
         <p class="etiquette"><span class="etiquette__numero">01</span>Section</p>
-        <h3 class="titre-3"><a class="carte__lien" href="ecran-02-parcours.html">Parcours</a></h3>
+        <h3 class="titre-3"><a class="carte__lien" href="#parcours">Parcours</a></h3>
         <p class="carte__texte">[C-10 — phrase d’orientation vers le parcours]</p>
         <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la section<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
       </article></li>
       <li data-mv="MV-01"><article class="carte carte--pleine carte--interactive" data-mv-survol>
         <p class="etiquette"><span class="etiquette__numero">02</span>Section</p>
-        <h3 class="titre-3"><a class="carte__lien" href="ecran-03-competences.html">Compétences</a></h3>
+        <h3 class="titre-3"><a class="carte__lien" href="#competences">Compétences</a></h3>
         <p class="carte__texte">[C-10 — phrase d’orientation vers les compétences]</p>
         <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la section<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
       </article></li>
       <li data-mv="MV-01"><article class="carte carte--pleine carte--interactive" data-mv-survol>
         <p class="etiquette"><span class="etiquette__numero">03</span>Section</p>
-        <h3 class="titre-3"><a class="carte__lien" href="ecran-04-experience.html">Expérience</a></h3>
+        <h3 class="titre-3"><a class="carte__lien" href="#experience">Expérience</a></h3>
         <p class="carte__texte"><strong>Alternance chez OSOL, 2025–2028.</strong> [C-10 — phrase d’orientation vers l’expérience]</p>
         <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la section<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
       </article></li>
       <li data-mv="MV-01"><article class="carte carte--pleine carte--interactive" data-mv-survol>
         <p class="etiquette"><span class="etiquette__numero">04</span>Section</p>
-        <h3 class="titre-3"><a class="carte__lien" href="ecran-05-methode.html">Méthode de travail</a></h3>
+        <h3 class="titre-3"><a class="carte__lien" href="#methode">Méthode de travail</a></h3>
         <p class="carte__texte">[C-10 — phrase d’orientation vers la méthode de travail]</p>
         <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la section<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
       </article></li>
       <li data-mv="MV-01"><article class="carte carte--pleine carte--interactive" data-mv-survol>
         <p class="etiquette"><span class="etiquette__numero">05</span>Section</p>
-        <h3 class="titre-3"><a class="carte__lien" href="ecran-06-projets.html">Projets</a></h3>
+        <h3 class="titre-3"><a class="carte__lien" href="#projets">Projets</a></h3>
         <p class="carte__texte">[C-10 — phrase d’orientation vers les projets]</p>
         <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la section<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
       </article></li>
     </ul>
   </div>
+</section>
+
+<!-- EC-02 · Parcours : /#parcours -->
+<section id="parcours" aria-labelledby="titre-parcours">
+<div class="section ambiance ambiance--section ambiance--calques">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+  <div class="conteneur empile empile--large empile--etire">
+    <header class="entete-section" data-mv-bloc>
+      <p class="etiquette" data-mv="MV-01"><span class="etiquette__numero" data-mv="MV-05">01</span>Parcours</p>
+      <h2 class="titre-1" id="titre-parcours" data-mv="MV-01">Parcours</h2>
+      <p class="chapo" data-mv="MV-01">[C-10 — phrase d’introduction du parcours]</p>
+    </header>
+    <div class="bloc-titre" data-mv-bloc>
+      <p class="etiquette etiquette--accent" data-mv="MV-01">Orientation</p>
+      <p class="texte" data-mv="MV-01">[C-09 — texte d’orientation vers l’architecture logicielle, qui cite le master en architecture durable du logiciel comme étape]</p>
+    </div>
+    <ol class="frise frise--adaptative" data-mv="MV-02" style="--etape-avant:3" aria-label="Étapes du parcours">
+      <li class="frise__etape frise__etape--accomplie"><span class="frise__point" data-mv="MV-02" aria-hidden="true"></span><span class="frise__periode">[C-01 — début] – [C-01 — fin]</span><span class="frise__intitule">Reconversion depuis la restauration</span></li>
+      <li class="frise__etape frise__etape--accomplie"><span class="frise__point" data-mv="MV-02" aria-hidden="true"></span><span class="frise__periode">[C-01 — début] – [C-01 — fin]</span><span class="frise__intitule">[C-01 — intitulé du bac+3]</span><span class="frise__detail">Bac+3 · [C-01 — établissement]</span></li>
+      <li class="frise__etape frise__etape--avant"><span class="frise__point" data-mv="MV-02" aria-hidden="true"></span><span class="frise__periode">[C-01 — début du master] – 2028</span><span class="frise__intitule">Master en architecture durable du logiciel<span class="masque-visuellement"> (étape mise en avant)</span></span></li>
+    </ol>
+  </div>
+</div>
+</section>
+
+<!-- EC-03 · Compétences : /#competences -->
+<section id="competences" aria-labelledby="titre-competences">
+<div class="section section--ouverture ambiance ambiance--section ambiance--calques">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+  <div class="conteneur">
+    <header class="entete-section" data-mv-bloc>
+      <p class="etiquette" data-mv="MV-01"><span class="etiquette__numero" data-mv="MV-05">02</span>Compétences</p>
+      <h2 class="titre-1" id="titre-competences" data-mv="MV-01">Compétences</h2>
+    </header>
+  </div>
+</div>
+
+<div class="section section--suite">
+  <div class="conteneur empile empile--etire" data-mv-bloc>
+    <div class="bloc-titre" data-mv="MV-01"><h3 class="titre-2" id="titre-techniques">Compétences techniques</h3></div>
+    <ul class="grille-cartes">
+      <li data-mv="MV-01"><article class="carte carte--pleine">
+        <p class="etiquette">Catégorie</p>
+        <h4 class="titre-3">[C-02 — catégorie 1]</h4>
+        <ul class="liste-pastilles"><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li></ul>
+      </article></li>
+      <li data-mv="MV-01"><article class="carte carte--pleine">
+        <p class="etiquette">Catégorie</p>
+        <h4 class="titre-3">[C-02 — catégorie 2]</h4>
+        <ul class="liste-pastilles"><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li></ul>
+      </article></li>
+      <li data-mv="MV-01"><article class="carte carte--pleine">
+        <p class="etiquette">Catégorie</p>
+        <h4 class="titre-3">[C-02 — catégorie 3]</h4>
+        <ul class="liste-pastilles"><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li></ul>
+      </article></li>
+    </ul>
+  </div>
+</div>
+
+<div class="section section--suite">
+  <div class="conteneur empile empile--etire" data-mv-bloc>
+    <div class="bloc-titre" data-mv="MV-01"><h3 class="titre-2" id="titre-humaines">Compétences humaines</h3></div>
+    <div class="deux-colonnes">
+      <article class="carte carte--pleine" data-mv="MV-01">
+        <p class="etiquette">Compétences humaines</p>
+        <ul class="liste-pastilles"><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li></ul>
+      </article>
+      <article class="carte carte--pleine" data-mv="MV-01">
+        <p class="etiquette etiquette--accent">Reconversion</p>
+        <h4 class="titre-3">Depuis la restauration</h4>
+        <p class="carte__texte">[C-07 — récit de la reconversion depuis la restauration, et ce qu’il montre des compétences humaines]</p>
+      </article>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EC-04 · Expérience : /#experience -->
+<section id="experience" aria-labelledby="titre-experience">
+<div class="section section--ouverture ambiance ambiance--section ambiance--calques">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+  <div class="conteneur">
+    <header class="entete-section" data-mv-bloc>
+      <p class="etiquette" data-mv="MV-01"><span class="etiquette__numero" data-mv="MV-05">03</span>Expérience</p>
+      <h2 class="titre-1" id="titre-experience" data-mv="MV-01">Expérience</h2>
+      <dl class="cles cles--en-ligne" data-mv="MV-01">
+        <div class="cles__ligne"><dt class="etiquette">Alternance</dt><dd>OSOL</dd></div>
+        <div class="cles__ligne"><dt class="etiquette">Période</dt><dd class="cles__date">2025–2028</dd></div>
+      </dl>
+    </header>
+  </div>
+</div>
+
+<div class="section section--suite">
+  <div class="conteneur empile empile--large empile--etire">
+    <div class="empile empile--etire" data-mv-bloc>
+      <div class="bloc-titre" data-mv="MV-01"><h3 class="titre-2" id="titre-role">Le rôle, en trois volets</h3></div>
+      <ul class="grille-cartes">
+      <li data-mv="MV-01"><article class="carte carte--pleine">
+        <p class="etiquette"><span class="etiquette__numero">01</span>Volet</p>
+        <h4 class="titre-3">Application</h4>
+        <p class="carte__texte">[C-08 — description du volet application]</p>
+      </article></li>
+      <li data-mv="MV-01"><article class="carte carte--pleine">
+        <p class="etiquette"><span class="etiquette__numero">02</span>Volet</p>
+        <h4 class="titre-3">Backend</h4>
+        <p class="carte__texte">[C-08 — description du volet backend]</p>
+      </article></li>
+      <li data-mv="MV-01"><article class="carte carte--pleine">
+        <p class="etiquette"><span class="etiquette__numero">03</span>Volet</p>
+        <h4 class="titre-3">Appui DevOps, sur certaines tâches</h4>
+        <p class="carte__texte">[C-08 — description de l’appui DevOps, sur certaines tâches]</p>
+      </article></li>
+      </ul>
+    </div>
+    <div class="message message--bloc" role="note" data-mv-bloc data-mv="MV-01"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>
+  </div>
+</div>
+</section>
+
+<!-- EC-05 · Méthode de travail : /#methode -->
+<section id="methode" aria-labelledby="titre-methode">
+<div class="section section--ouverture ambiance ambiance--section ambiance--calques">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+  <div class="conteneur">
+    <header class="entete-section" data-mv-bloc>
+      <p class="etiquette" data-mv="MV-01"><span class="etiquette__numero" data-mv="MV-05">04</span>Méthode</p>
+      <h2 class="titre-1" id="titre-methode" data-mv="MV-01">Méthode de travail</h2>
+    </header>
+  </div>
+</div>
+
+<div class="section section--suite">
+  <div class="conteneur empile empile--large">
+    <div class="recit" data-mv-recit>
+      <div class="recit__fenetre fenetre" aria-hidden="true">
+        <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__titre">methode · illustration de démonstration</span></div>
+        <div class="recit__scene"></div>
+        <div class="recit__progression"><span class="recit__barre"></span></div>
+      </div>
+      <ol class="recit__etapes">
+        <li class="recit__etape" data-mv-bloc>
+          <p class="etiquette etiquette--accent" data-mv="MV-01">Étape 1 · exemple de démonstration</p>
+          <h3 class="titre-3" data-mv="MV-01">[C-04 — étape 1 de la méthode : son intitulé]</h3>
+          <p class="texte" data-mv="MV-01">[C-04 — étape 1 : le texte de la méthodologie de travail, découpé en étapes]</p>
+          <figure class="recit__illustration" data-mv-etape aria-hidden="true">
+            <svg viewBox="0 0 320 180" focusable="false">
+              <path class="recit__boite recit__piece" style="--i:0" d="M24 64h72v52H24z"/>
+              <path class="recit__boite recit__piece" style="--i:1" d="M124 24h72v52h-72z"/>
+              <path class="recit__boite recit__piece" style="--i:2" d="M124 104h72v52h-72z"/>
+              <path class="recit__boite recit__piece" style="--i:3" d="M224 64h72v52h-72z"/>
+              <path class="recit__trait recit__piece recit__piece--trace" pathLength="1" style="--i:4" d="M96 90h14V50h14M96 90h14v40h14M196 50h14v40h14M196 130h14V90h14"/>
+            </svg>
+            <figcaption class="recit__legende">Illustration de démonstration</figcaption>
+          </figure>
+        </li>
+        <li class="recit__etape" data-mv-bloc>
+          <p class="etiquette etiquette--accent" data-mv="MV-01">Étape 2 · exemple de démonstration</p>
+          <h3 class="titre-3" data-mv="MV-01">[C-04 — étape 2 de la méthode : son intitulé]</h3>
+          <p class="texte" data-mv="MV-01">[C-04 — étape 2 : le texte de la méthodologie de travail, découpé en étapes]</p>
+          <figure class="recit__illustration" data-mv-etape aria-hidden="true">
+            <svg viewBox="0 0 320 180" focusable="false">
+              <path class="recit__barre-dessin recit__piece recit__piece--barre" style="--i:0" d="M24 26h250v18H24z"/>
+              <path class="recit__barre-dessin--neutre recit__piece recit__piece--barre" style="--i:1" d="M24 62h160v18H24z"/>
+              <path class="recit__barre-dessin recit__piece recit__piece--barre" style="--i:2" d="M24 98h210v18H24z"/>
+              <path class="recit__barre-dessin--neutre recit__piece recit__piece--barre" style="--i:3" d="M24 134h120v18H24z"/>
+            </svg>
+            <figcaption class="recit__legende">Illustration de démonstration</figcaption>
+          </figure>
+        </li>
+        <li class="recit__etape" data-mv-bloc>
+          <p class="etiquette etiquette--accent" data-mv="MV-01">Étape 3 · exemple de démonstration</p>
+          <h3 class="titre-3" data-mv="MV-01">[C-04 — étape 3 de la méthode : son intitulé]</h3>
+          <p class="texte" data-mv="MV-01">[C-04 — étape 3 : le texte de la méthodologie de travail, découpé en étapes]</p>
+          <figure class="recit__illustration" data-mv-etape aria-hidden="true">
+            <svg viewBox="0 0 320 180" focusable="false">
+              <path class="recit__boite recit__piece" style="--i:0" d="M40 18h240v36H40z"/>
+              <path class="recit__boite recit__piece" style="--i:1" d="M40 72h240v36H40z"/>
+              <path class="recit__boite recit__piece" style="--i:2" d="M40 126h240v36H40z"/>
+              <path class="recit__trait recit__trait--secondaire recit__piece recit__piece--trace" pathLength="1" style="--i:3" d="M160 54v18M160 108v18"/>
+            </svg>
+            <figcaption class="recit__legende">Illustration de démonstration</figcaption>
+          </figure>
+        </li>
+        <li class="recit__etape" data-mv-bloc>
+          <p class="etiquette etiquette--accent" data-mv="MV-01">Étape 4 · exemple de démonstration</p>
+          <h3 class="titre-3" data-mv="MV-01">[C-04 — étape 4 de la méthode : son intitulé]</h3>
+          <p class="texte" data-mv="MV-01">[C-04 — étape 4 : le texte de la méthodologie de travail, découpé en étapes]</p>
+          <figure class="recit__illustration" data-mv-etape aria-hidden="true">
+            <svg viewBox="0 0 320 180" focusable="false">
+              <path class="recit__trait recit__piece recit__piece--trace" pathLength="1" style="--i:0" d="M40 90a50 50 0 1 0 100 0a50 50 0 1 0-100 0"/>
+              <path class="recit__trait recit__piece recit__piece--trace" pathLength="1" style="--i:1" d="M68 92l16 16 30-34"/>
+              <path class="recit__barre-dessin recit__piece recit__piece--barre" style="--i:2" d="M170 62h120v14H170z"/>
+              <path class="recit__barre-dessin--neutre recit__piece recit__piece--barre" style="--i:3" d="M170 88h96v14h-96z"/>
+              <path class="recit__barre-dessin--neutre recit__piece recit__piece--barre" style="--i:4" d="M170 114h108v14H170z"/>
+            </svg>
+            <figcaption class="recit__legende">Illustration de démonstration</figcaption>
+          </figure>
+        </li>
+      </ol>
+    </div>
+    <div class="largeur-texte" data-mv-bloc data-mv="MV-01">
+    <article class="carte carte--pleine carte--interactive" data-mv-survol>
+      <p class="etiquette etiquette--accent">La méthode appliquée</p>
+      <h3 class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></h3>
+      <p class="carte__texte">La fiche du projet portfolio illustre cette méthode : la démarche, l’architecture et le code source du site.</p>
+      <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+    </article>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EC-06 · Liste des projets : /#projets -->
+<section id="projets" aria-labelledby="titre-projets">
+<div class="section section--ouverture ambiance ambiance--section ambiance--calques">
+  <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
+  <div class="conteneur">
+    <header class="entete-section" data-mv-bloc>
+      <p class="etiquette" data-mv="MV-01"><span class="etiquette__numero" data-mv="MV-05">05</span>Projets</p>
+      <h2 class="titre-1" id="titre-projets" data-mv="MV-01">Projets</h2>
+    </header>
+  </div>
+</div>
+
+<div class="section section--suite">
+  <div class="conteneur empile empile--large empile--etire">
+    <ul class="liste-projets" data-mv-bloc>
+      <li data-mv="MV-01"><article class="carte carte--pleine carte--interactive" data-mv-survol>
+        <div class="carte__corps">
+          <p class="etiquette">Projet</p>
+          <h3 class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></h3>
+          <p class="carte__texte">[C-05 — description courte du projet]</p>
+          <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        </div>
+        <div class="fenetre carte__vignette" aria-hidden="true">
+          <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__adresse">alexandre-morozoff-dev.fr</span></div>
+          <div class="fenetre__contenu"><div class="maquette"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+        </div>
+      </article></li>
+    </ul>
+    <div class="message message--bloc" role="note" data-mv-bloc data-mv="MV-01"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>
+  </div>
+</div>
 </section>
 </main>
 
@@ -170,21 +416,196 @@
   <div class="conteneur annotation__interieur">
     <header class="annotation__entete">
       <p class="annotation__marque">Annotation de maquette · hors design</p>
-      <h2 class="annotation__titre" id="annotation-titre">États de l'écran — annotation de maquette</h2>
+      <h2 class="annotation__titre" id="annotation-titre">États de la page — annotation de maquette</h2>
       <dl class="annotation__faits">
-        <div><dt>Écran</dt><dd>EC-01 · Accueil</dd></div>
-        <div><dt>Adresse réelle</dt><dd><code>/</code></dd></div>
-        <div><dt>Micro-fonctions</dt><dd>MF-01, MF-02, MF-18</dd></div>
-        <div><dt>Ordre de lecture</dt><dd>nom et intitulé ; présentation (C-06) ; accès au CV et au contact ; entrées vers les cinq sections, chacune avec sa phrase d’orientation (C-10)</dd></div>
-        <div><dt>Moment fort</dt><dd>la vitrine d’accueil : affiche révélée mot par mot, deux halos qui respirent, trame, fenêtre factice qui s’écrit. Le reste de la page est plus calme, sur fond uni : ses entrées apparaissent en cascade.</dd></div>
-        <div><dt>Téléphone</dt><dd>une seule colonne, l’ordre est conservé ; le CV et le contact sont visibles dès l’arrivée ; la fenêtre factice est masquée sous 600 px (choix C3 d’Alexandre) et passe sous les actions de 600 à 1199 px</dd></div>
-        <div><dt>Fenêtre factice</dt><dd>un décor, masqué aux lecteurs d’écran : « profil.ts » ne fait que répéter le nom et l’intitulé affichés à côté et l’alternance affichée en tête de la carte « Expérience » (choix R1), elle ne cache donc rien d’unique ; masquée sous 600 px (choix C3), elle s’écrit caractère par caractère au-delà, en 3 s environ (choix D5 : sans le bloc des liens) ; son code reste du texte sélectionnable</dd></div>
-        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-03, MV-04, MV-05, MV-06, MV-07, MV-10</span>. Le nom puis l’intitulé montent mot par mot derrière un cache ; la présentation et les boutons suivent en cascade et sont en place avant 2 s. À partir de 600 px, « profil.ts » s’écrit caractère par caractère en 3 s environ, avec un curseur. Les deux halos respirent en opposition de phase. Les cinq entrées apparaissent en cascade à leur arrivée dans la fenêtre et leurs flèches se dessinent ; au survol, une carte se soulève et une lueur suit le pointeur à l’intérieur, sous le texte. La page entre et sort en fondu.</dd></div>
-        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’écran est fait de contenu fixe, sans cas d’échec</li></ul></dd></div>
+        <div><dt>Page</dt><dd>page principale, qui défile : l’accueil (EC-01) en haut, puis cinq sections dans cet ordre, parcours (EC-02), compétences (EC-03), expérience (EC-04), méthode de travail (EC-05) et projets (EC-06) ; décision d’Alexandre du 10/11/2026. Les maquettes signées des écrans 1 à 6 y sont réunies, contenus et états compris.</dd></div>
+        <div><dt>Adresse réelle</dt><dd><code>/</code> pour l’accueil, en haut de la page, sans ancre ; <code>/#parcours</code>, <code>/#competences</code>, <code>/#experience</code>, <code>/#methode</code> et <code>/#projets</code> pour les sections. Un lien vers une section ouvre la page principale à cette section, même après un rechargement.</dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-01, MF-02, MF-04, MF-06, MF-07, MF-08, MF-09, MF-10, MF-11, MF-12, MF-14, MF-18, MF-21, MF-22</dd></div>
+        <div><dt>En-têtes de section</dt><dd>chaque section s’ouvre sur une étiquette numérotée, de 01 à 05, et un titre de niveau 2 à la grande taille des anciens titres de page (titre-1) ; les blocs intérieurs gardent leur taille, un niveau de titre plus bas ; l’accueil n’a ni numéro ni ancre.</dd></div>
+        <div><dt>Navigation</dt><dd>une entrée du menu fait défiler la page jusqu’à sa section, sous l’en-tête ; le nom et l’entrée « Accueil » ramènent en haut de la page. L’entrée de la section lue porte le trait de l’ancienne page courante et l’attribut <code>aria-current="location"</code>, et change avec la lecture : celle dont le haut a passé 40 % de la hauteur de la fenêtre ; en haut de la page, c’est l’entrée « Accueil ». Le menu replié porte les mêmes entrées et le même signal ; le refermer ne déplace pas la lecture.</dd></div>
+        <div><dt>Adresse pendant la lecture</dt><dd>l’adresse suit la section lue, par remplacement : ni le défilement ni le menu n’ajoutent d’étape au retour arrière ; en haut de la page, l’adresse redevient <code>/</code>.</dd></div>
+        <div><dt>Section inconnue</dt><dd>une ancre qui ne nomme aucune section, par exemple <code>/#competence</code>, ouvre la page principale en haut, sur l’accueil, sans message d’erreur, et l’adresse redevient <code>/</code> (V-11).</dd></div>
+        <div><dt>Fin de la page</dt><dd>la section des projets, puis le pied de page commun, sans bloc de plus (V-10).</dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-02, MV-03, MV-04, MV-05, MV-06, MV-07, MV-08, MV-10</span>. Chaque section garde le mouvement de son ancien écran, détaillé ci-dessous. Passer d’une section à l’autre ne joue aucune transition de page : la page entre et sort en fondu seulement quand on la quitte pour une page à part (fiche d’un projet, contact, mentions légales) et quand on y revient.</dd></div>
+        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’accueil puis les cinq sections</li><li><a class="lien" href="#etat-categorie-vide">categorie-vide</a> : compétences, une catégorie sans compétence n’est pas affichée</li><li><a class="lien" href="#etat-renvoi-projet-absent">renvoi-projet-absent</a> : méthode, la fiche visée n’existe plus : le renvoi est retiré</li><li><a class="lien" href="#etat-plusieurs-projets">plusieurs-projets</a> : projets, un projet ajouté apparaît sans changer les autres</li><li><a class="lien" href="#etat-liste-vide">liste-vide</a> : projets, message, mention conservée</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
     </header>
 
+    <section class="annotation__etat" aria-labelledby="titre-note-accueil">
+      <h3 class="annotation__nom" id="titre-note-accueil">Section : accueil (EC-01)</h3>
+      <dl class="annotation__faits">
+        <div><dt>Adresse réelle</dt><dd><code>/</code>, en haut de la page principale, sans ancre</dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-01, MF-02, MF-18</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>nom et intitulé ; présentation (C-06) ; accès au CV et au contact ; entrées vers les cinq sections, chacune avec sa phrase d’orientation (C-10), qui font défiler la page jusqu’à leur section</dd></div>
+        <div><dt>Moment fort</dt><dd>la vitrine d’accueil : affiche révélée mot par mot, deux halos qui respirent, trame, fenêtre factice qui s’écrit. Le reste de l’accueil est plus calme, sur fond uni : ses entrées apparaissent en cascade.</dd></div>
+        <div><dt>Téléphone</dt><dd>une seule colonne, l’ordre est conservé ; le CV et le contact sont visibles dès l’arrivée ; la fenêtre factice est masquée sous 600 px (choix C3 d’Alexandre) et passe sous les actions de 600 à 1199 px</dd></div>
+        <div><dt>Fenêtre factice</dt><dd>un décor, masqué aux lecteurs d’écran : « profil.ts » ne fait que répéter le nom et l’intitulé affichés à côté et l’alternance affichée en tête de la carte « Expérience » (choix R1), elle ne cache donc rien d’unique ; masquée sous 600 px (choix C3), elle s’écrit caractère par caractère au-delà, en 3 s environ (choix D5 : sans le bloc des liens) ; son code reste du texte sélectionnable</dd></div>
+        <div><dt>Mouvement</dt><dd>MV-01, MV-03, MV-04, MV-05, MV-06, MV-10. Le nom puis l’intitulé montent mot par mot derrière un cache ; la présentation et les boutons suivent en cascade et sont en place avant 2 s. À partir de 600 px, « profil.ts » s’écrit caractère par caractère en 3 s environ, avec un curseur. Les deux halos respirent en opposition de phase. Les cinq entrées apparaissent en cascade à leur arrivée dans la fenêtre et leurs flèches se dessinent ; au survol, une carte se soulève et une lueur suit le pointeur à l’intérieur, sous le texte.</dd></div>
+      </dl>
+    </section>
+
+    <section class="annotation__etat" aria-labelledby="titre-note-parcours">
+      <h3 class="annotation__nom" id="titre-note-parcours">Section : parcours (EC-02)</h3>
+      <dl class="annotation__faits">
+        <div><dt>Adresse réelle</dt><dd><code>/#parcours</code></dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-04, MF-07, MF-08, MF-18</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre et introduction (C-10) ; texte d’orientation (C-09) ; trois étapes dans l’ordre reconversion, bac+3, master, chacune avec sa période (C-01)</dd></div>
+        <div><dt>Frise</dt><dd>CO-09 adaptative : horizontale à partir de 900 px, verticale en dessous, période en tête de chaque étape. Le master est l’étape mise en avant : son point est toujours allumé et le trait s’arrête à lui. Chaque période a un début et une fin ; seule la fin du master (2028) est connue.</dd></div>
+        <div><dt>Condition de mise en ligne</dt><dd>aucune date inventée ni laissée vide à l’écran : la section ne part en ligne qu’avec toutes les périodes de C-01 (V-05)</dd></div>
+        <div><dt>Mouvement</dt><dd>MV-01, MV-02, MV-04, MV-05. L’en-tête de section et l’orientation apparaissent en cascade, le filet de l’étiquette s’étire. Quand toute la frise tient dans la fenêtre, le trait se trace d’un coup jusqu’au master (1,2 s) et chaque point s’allume à son passage, sinon il avance et recule avec le défilement (choix D2) ; le texte des étapes garde toujours son plein contraste. Une fois tracé en entier, le trait reste tracé pendant toute la visite, même en remontant, il est posé d’emblée au retour arrière, et chaque point s’allume quand le trait l’atteint réellement, selon la courbe du tracé (choix R2). Le halo respire.</dd></div>
+      </dl>
+    </section>
+
+    <section class="annotation__etat" aria-labelledby="titre-note-competences">
+      <h3 class="annotation__nom" id="titre-note-competences">Section : compétences (EC-03)</h3>
+      <dl class="annotation__faits">
+        <div><dt>Adresse réelle</dt><dd><code>/#competences</code></dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-04, MF-09, MF-10, MF-18</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; compétences techniques regroupées par catégorie (C-02) ; compétences humaines (C-02) ; récit de la reconversion depuis la restauration, rattaché aux compétences humaines (C-07)</dd></div>
+        <div><dt>Règles</dt><dd>seules les compétences et les catégories fournies ; aucun niveau chiffré. Le nombre de catégories et de compétences est celui de C-02 : trois catégories de quatre compétences ne sont qu’un exemple de démonstration.</dd></div>
+        <div><dt>Téléphone</dt><dd>les catégories se lisent l’une sous l’autre ; une compétence longue passe à la ligne et ne dépasse jamais la largeur de l’écran</dd></div>
+        <div><dt>Mouvement</dt><dd>MV-01, MV-04, MV-05. Le titre, puis chaque groupe de cartes, apparaissent en cascade à leur arrivée dans la fenêtre ; le filet de l’étiquette s’étire. Le halo respire.</dd></div>
+      </dl>
+    </section>
+    <section class="annotation__etat" id="etat-categorie-vide" data-etat="categorie-vide" aria-labelledby="titre-etat-categorie-vide">
+      <h3 class="annotation__nom" id="titre-etat-categorie-vide">État : categorie-vide</h3>
+      <p class="annotation__note">Exemple de démonstration : la catégorie 3 ne contient aucune compétence. Elle n’est pas affichée ; les autres catégories se resserrent, aucune zone vide ne la remplace.</p>
+      <div class="annotation__rendu">
+<section class="section section--suite">
+  <div class="conteneur empile empile--etire">
+    <div class="bloc-titre"><p class="titre-2">Compétences techniques</p></div>
+    <ul class="grille-cartes">
+      <li><article class="carte carte--pleine">
+        <p class="etiquette">Catégorie</p>
+        <p class="titre-3">[C-02 — catégorie 1]</p>
+        <ul class="liste-pastilles"><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li></ul>
+      </article></li>
+      <li><article class="carte carte--pleine">
+        <p class="etiquette">Catégorie</p>
+        <p class="titre-3">[C-02 — catégorie 2]</p>
+        <ul class="liste-pastilles"><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li><li><span class="pastille">[C-02 — compétence]</span></li></ul>
+      </article></li>
+    </ul>
+  </div>
+</section>
+      </div>
+    </section>
+
+    <section class="annotation__etat" aria-labelledby="titre-note-experience">
+      <h3 class="annotation__nom" id="titre-note-experience">Section : expérience (EC-04)</h3>
+      <dl class="annotation__faits">
+        <div><dt>Adresse réelle</dt><dd><code>/#experience</code> (jamais le nom de l’employeur)</dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-04, MF-11, MF-18</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre « Expérience » ; alternance chez OSOL et sa période, 2025–2028, en liste clé-valeur (CO-17) ; rôle en trois volets : application, backend, appui DevOps sur certaines tâches (C-08) ; mention des projets d’entreprise non partageables</dd></div>
+        <div><dt>Règles</dt><dd>aucun projet, client, outil interne, dépôt ni collègue nommé ; période datée, jamais au présent ; l’appui DevOps est un appui, pas un poste</dd></div>
+        <div><dt>Téléphone</dt><dd>les trois volets se lisent l’un sous l’autre</dd></div>
+        <div><dt>Mouvement</dt><dd>MV-01, MV-04, MV-05. Le titre et la période de l’alternance, puis les trois volets et la mention, apparaissent en cascade à leur arrivée dans la fenêtre ; le filet de l’étiquette s’étire. Le halo respire.</dd></div>
+      </dl>
+    </section>
+
+    <section class="annotation__etat" aria-labelledby="titre-note-methode">
+      <h3 class="annotation__nom" id="titre-note-methode">Section : méthode de travail (EC-05)</h3>
+      <dl class="annotation__faits">
+        <div><dt>Adresse réelle</dt><dd><code>/#methode</code></dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-04, MF-18, MF-21</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; texte de la méthodologie et de l’attachement aux architectures solides (C-04), découpé en étapes, chacune suivie de son illustration ; renvoi vers la fiche du portfolio, qui mène à <code>/projets/portfolio</code></dd></div>
+        <div><dt>Règles</dt><dd>aucun document interne, client, projet, outil interne ni dépôt d’entreprise nommé</dd></div>
+        <div><dt>Téléphone</dt><dd>le texte se lit en une colonne ; la fenêtre d’illustration se cale en haut, sous l’en-tête, et le texte passe dessous ; le renvoi reste visible à la fin du texte. Sous 900 px, chaque étape mesure au moins 30 % de la hauteur de l’écran (70 % à partir de 900 px, comme sur le prototype approuvé) et, avec « réduire les animations » comme sans script, il n’y a pas de fenêtre collante : chaque illustration suit son étape (choix D3 et D4).</dd></div>
+        <div><dt>Récit</dt><dd>quatre étapes de démonstration, étiquetées comme telles, tant que le texte C-04 n’est pas fourni ; à partir de 900 px, la fenêtre collante est à droite du texte ; sans script ou quand le visiteur a demandé à réduire les animations, pas de fenêtre collante : chaque illustration suit le texte de son étape</dd></div>
+        <div><dt>Mouvement</dt><dd>MV-01, MV-04, MV-05, MV-06, MV-08. Le texte défile à côté d’une fenêtre collante qui montre l’illustration de l’étape active, celle dont le haut a passé 40 % de la hauteur de la fenêtre : changement en fondu et en position, schéma tracé, barres qui s’étirent, barre de progression. L’étape active se signale par un filet d’accent, jamais en grisant les autres. Sous 900 px, la fenêtre se cale en haut, sous l’en-tête. Les étapes et le renvoi apparaissent en cascade ; la flèche du renvoi se dessine et la carte se soulève au survol. Le halo respire.</dd></div>
+      </dl>
+    </section>
+    <section class="annotation__etat" id="etat-renvoi-projet-absent" data-etat="renvoi-projet-absent" aria-labelledby="titre-etat-renvoi-projet-absent">
+      <h3 class="annotation__nom" id="titre-etat-renvoi-projet-absent">État : renvoi-projet-absent</h3>
+      <p class="annotation__note">Si la fiche du portfolio n’existait plus, le renvoi mènerait à la page introuvable : il est retiré de la section plutôt que laissé cassé. Le récit reste affiché seul, avec ses illustrations comme dans l’état nominal (omises dans ce rendu).</p>
+      <div class="annotation__rendu">
+<section class="section section--suite">
+  <div class="conteneur empile empile--large">
+    <ol class="recit__etapes">
+      <li class="recit__etape"><p class="etiquette etiquette--accent">Étape 1 · exemple de démonstration</p><p class="titre-3">[C-04 — étape 1 de la méthode : son intitulé]</p><p class="texte">[C-04 — étape 1 : le texte de la méthodologie de travail, découpé en étapes]</p></li>
+      <li class="recit__etape"><p class="etiquette etiquette--accent">Étape 2 · exemple de démonstration</p><p class="titre-3">[C-04 — étape 2 de la méthode : son intitulé]</p><p class="texte">[C-04 — étape 2 : le texte de la méthodologie de travail, découpé en étapes]</p></li>
+      <li class="recit__etape"><p class="etiquette etiquette--accent">Étape 3 · exemple de démonstration</p><p class="titre-3">[C-04 — étape 3 de la méthode : son intitulé]</p><p class="texte">[C-04 — étape 3 : le texte de la méthodologie de travail, découpé en étapes]</p></li>
+      <li class="recit__etape"><p class="etiquette etiquette--accent">Étape 4 · exemple de démonstration</p><p class="titre-3">[C-04 — étape 4 de la méthode : son intitulé]</p><p class="texte">[C-04 — étape 4 : le texte de la méthodologie de travail, découpé en étapes]</p></li>
+    </ol>
+  </div>
+</section>
+      </div>
+    </section>
+
+    <section class="annotation__etat" aria-labelledby="titre-note-projets">
+      <h3 class="annotation__nom" id="titre-note-projets">Section : liste des projets (EC-06)</h3>
+      <dl class="annotation__faits">
+        <div><dt>Adresse réelle</dt><dd><code>/#projets</code> ; depuis la fiche d’un projet, le retour mène ici</dd></div>
+        <div><dt>Micro-fonctions</dt><dd>MF-04, MF-06, MF-12, MF-14, MF-18, MF-22</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; liste des projets, chacun avec son titre et un accès à sa fiche (au lancement, un seul : le portfolio ; description courte C-05) ; mention des projets d’entreprise non partageables</dd></div>
+        <div><dt>Règles</dt><dd>la liste existe même avec un seul projet ; aucun projet d’école ni d’entreprise ; aucun état de chargement : le contenu est intégré aux pages à la construction du site</dd></div>
+        <div><dt>Téléphone</dt><dd>un projet par ligne ; le titre n’est jamais coupé</dd></div>
+        <div><dt>Cartes</dt><dd>une carte large par projet, à toutes les largeurs (choix C2 d’Alexandre, texte exact de son option du 16/10/2026) : texte à gauche et vignette à droite à partir de 900 px, vignette sous le texte en dessous ; la vignette est une image de plus à fournir par projet ; en attendant, une fenêtre factice (CO-12, variante navigateur : barre d’adresse factice, interface abstraite sans texte), décorative, masquée aux lecteurs d’écran.</dd></div>
+        <div><dt>Mouvement</dt><dd>MV-01, MV-04, MV-05, MV-06. Le titre, la carte du projet et la mention apparaissent en cascade ; la flèche de la carte se dessine ; au survol, la carte se soulève et une lueur suit le pointeur à l’intérieur, sous le texte. Le halo respire.</dd></div>
+      </dl>
+    </section>
+    <section class="annotation__etat" id="etat-plusieurs-projets" data-etat="plusieurs-projets" aria-labelledby="titre-etat-plusieurs-projets">
+      <h3 class="annotation__nom" id="titre-etat-plusieurs-projets">État : plusieurs-projets</h3>
+      <p class="annotation__note">Exemple de démonstration : deux projets ajoutés plus tard apparaissent à la suite du portfolio, sans que le reste change. Chaque projet garde sa carte large, l’une sous l’autre, à toutes les largeurs.</p>
+      <div class="annotation__rendu">
+<section class="section section--suite">
+  <div class="conteneur empile empile--large empile--etire">
+    <ul class="liste-projets">
+      <li><article class="carte carte--pleine carte--interactive" data-mv-survol>
+        <div class="carte__corps">
+          <p class="etiquette">Projet</p>
+          <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Portfolio</a></p>
+          <p class="carte__texte">[C-05 — description courte du projet]</p>
+          <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        </div>
+        <div class="fenetre carte__vignette" aria-hidden="true">
+          <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__adresse">alexandre-morozoff-dev.fr</span></div>
+          <div class="fenetre__contenu"><div class="maquette"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+        </div>
+      </article></li>
+      <li><article class="carte carte--pleine carte--interactive" data-mv-survol>
+        <div class="carte__corps">
+          <p class="etiquette">Projet · exemple de démonstration</p>
+          <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Projet ajouté 1</a></p>
+          <p class="carte__texte">Exemple de démonstration : un projet ajouté prend sa place à la suite, sans changer les autres.</p>
+          <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        </div>
+        <div class="fenetre carte__vignette" aria-hidden="true">
+          <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__adresse">[adresse du projet]</span></div>
+          <div class="fenetre__contenu"><div class="maquette"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+        </div>
+      </article></li>
+      <li><article class="carte carte--pleine carte--interactive" data-mv-survol>
+        <div class="carte__corps">
+          <p class="etiquette">Projet · exemple de démonstration</p>
+          <p class="titre-3"><a class="carte__lien" href="ecran-07-projet.html">Projet ajouté 2</a></p>
+          <p class="carte__texte">Exemple de démonstration : un projet ajouté prend sa place à la suite, sans changer les autres.</p>
+          <div class="carte__pied"><span class="lien lien--action" aria-hidden="true">Voir la fiche<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></span></div>
+        </div>
+        <div class="fenetre carte__vignette" aria-hidden="true">
+          <div class="fenetre__barre"><span class="fenetre__boutons"><i></i><i></i><i></i></span><span class="fenetre__adresse">[adresse du projet]</span></div>
+          <div class="fenetre__contenu"><div class="maquette"><span class="maquette__titre"></span><span></span><span class="maquette__court"></span><span class="maquette__blocs"><span></span><span></span><span></span></span><span class="maquette__accent"></span></div></div>
+        </div>
+      </article></li>
+    </ul>
+    <div class="message message--bloc" role="note"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>
+  </div>
+</section>
+      </div>
+    </section>
+    <section class="annotation__etat" id="etat-liste-vide" data-etat="liste-vide" aria-labelledby="titre-etat-liste-vide">
+      <h3 class="annotation__nom" id="titre-etat-liste-vide">État : liste-vide</h3>
+      <p class="annotation__note">Ne doit pas se produire au lancement : un message indique que la liste est vide ; la mention sur les projets d’entreprise reste affichée.</p>
+      <div class="annotation__rendu">
+<section class="section section--suite">
+  <div class="conteneur empile empile--etire">
+    <div class="message message--bloc" role="status"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Aucun projet à afficher</p><p class="message__texte">La liste des projets est vide.</p></div></div>
+    <div class="message message--bloc" role="note"><svg class="icone" aria-hidden="true"><use href="#i-info"/></svg><div class="message__corps"><p class="message__titre">Projets d’entreprise</p><p class="message__texte">Les projets menés en entreprise ne sont pas partageables.</p></div></div>
+  </div>
+</section>
+      </div>
+    </section>
   </div>
 </aside>
 
@@ -208,6 +629,87 @@
       if (!menu.open) { continue; }
       if (!menu.contains(evenement.target) || evenement.target.closest(".menu-replie__panneau a")) { fermer(menu, false); }
     }
+  });
+})();
+</script>
+<script>
+/* Section lue, propre à la page principale et indépendante de mouvement.js : elle marche aussi quand le visiteur a
+   demandé à réduire les animations.
+   - L'entrée de la section lue (celle dont le haut a passé 40 % de la hauteur de la fenêtre, comme l'étape du récit)
+     porte aria-current="location", donc le trait de l'ancienne page courante ; en haut de la page, c'est « Accueil ».
+   - L'adresse suit la section lue par remplacement (history.replaceState) : le défilement n'ajoute aucune étape au
+     retour arrière ; en haut de la page, l'adresse redevient celle de la page, sans ancre.
+   - Une entrée de section, une carte de l'accueil, le nom ou « Accueil » font défiler la page sans étape de plus :
+     location.replace vers l'ancre garde le défilement, la marge sous l'en-tête et le point de départ du clavier d'un
+     lien d'ancre ordinaire.
+   - Une ancre qui ne nomme aucune section ouvre la page en haut, sans message (V-11). */
+(function () {
+  var ids = ["parcours", "competences", "experience", "methode", "projets"];
+  var sections = ids.map(function (id) { return document.getElementById(id); });
+  if (!window.history || !history.replaceState || sections.some(function (section) { return !section; })) { return; }
+  var liens = Array.prototype.slice.call(document.querySelectorAll(".ecran > .entete .lien-navigation"));
+  var SEUIL = 0.4;
+  var courante = null;
+  var prevu = false;
+
+  /* L'ancre visée par un lien vers cette page ("" pour la page elle-même), ou null pour un lien vers une autre page. */
+  function ancreDe(href) {
+    var url;
+    try { url = new URL(href, window.location.href); } catch (e) { return null; }
+    if (url.protocol !== window.location.protocol || url.host !== window.location.host || url.pathname !== window.location.pathname || url.search !== window.location.search) { return null; }
+    return url.hash.slice(1);
+  }
+  function signaler(id) {
+    liens.forEach(function (lien) {
+      if (ancreDe(lien.getAttribute("href")) === id) { lien.setAttribute("aria-current", "location"); } else { lien.removeAttribute("aria-current"); }
+    });
+  }
+  function adresser(id) {
+    if (window.location.hash === (id ? "#" + id : "")) { return; }
+    history.replaceState(history.state, "", id ? "#" + id : window.location.pathname + window.location.search);
+  }
+  function lue() {
+    var limite = window.innerHeight * SEUIL;
+    var id = "";
+    for (var i = 0; i < sections.length; i++) { if (sections[i].getBoundingClientRect().top <= limite) { id = ids[i]; } }
+    return id;
+  }
+  function suivre() {
+    var id = lue();
+    if (id === courante) { return; }
+    courante = id;
+    signaler(id);
+    adresser(id);
+  }
+  function planifier() {
+    if (prevu) { return; }
+    prevu = true;
+    window.requestAnimationFrame(function () { prevu = false; suivre(); });
+  }
+
+  /* À l'ouverture : une ancre de section est gardée, le navigateur fait défiler jusqu'à elle ; une ancre inconnue est retirée. */
+  var ancre = window.location.hash.slice(1);
+  if (ids.indexOf(ancre) >= 0) {
+    courante = ancre;
+    signaler(ancre);
+  } else {
+    if (ancre) { history.replaceState(history.state, "", window.location.pathname + window.location.search); window.scrollTo(0, 0); }
+    courante = lue();
+    signaler(courante);
+    adresser(courante);
+  }
+
+  window.addEventListener("scroll", planifier, { passive: true });
+  window.addEventListener("resize", planifier, { passive: true });
+  document.addEventListener("click", function (evenement) {
+    if (evenement.defaultPrevented || evenement.button !== 0 || evenement.metaKey || evenement.ctrlKey || evenement.shiftKey || evenement.altKey) { return; }
+    var lien = evenement.target && evenement.target.closest ? evenement.target.closest("a[href]") : null;
+    if (!lien || lien.hasAttribute("target")) { return; }
+    var id = ancreDe(lien.getAttribute("href"));
+    if (id === null || (id && ids.indexOf(id) < 0)) { return; }
+    evenement.preventDefault();
+    if (id) { window.location.replace("#" + id); } else { window.scrollTo({ top: 0 }); }
+    planifier();
   });
 })();
 </script>

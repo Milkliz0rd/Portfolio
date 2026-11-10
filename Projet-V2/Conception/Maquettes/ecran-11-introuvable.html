@@ -43,15 +43,15 @@
 
 <div class="ecran" id="etat-adresse-inconnue" data-etat="adresse-inconnue">
 <header class="entete" data-commun="entete">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <nav class="entete__navigation" aria-label="Sections du site">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
     </ul>
   </nav>
   <div class="entete__actions">
@@ -61,12 +61,12 @@
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
         </ul>
       </nav>
     </details>
@@ -82,7 +82,7 @@
     <h1 class="titre-2" id="titre-page" data-mv="MV-01">Cette page n’existe pas</h1>
     <p class="chapo" data-mv="MV-01">L’adresse demandée ne correspond à aucune page du site.</p>
     <div class="groupe-actions" data-mv="MV-01">
-        <a class="bouton bouton--primaire" href="ecran-01-accueil.html">Revenir à l’accueil<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+        <a class="bouton bouton--primaire" href="ecran-01-page-principale.html">Revenir à l’accueil<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
     </div>
   </div>
 </section>
@@ -115,9 +115,9 @@
       <h2 class="annotation__titre" id="annotation-titre">États de l'écran — annotation de maquette</h2>
       <dl class="annotation__faits">
         <div><dt>Écran</dt><dd>EC-11 · Page introuvable</dd></div>
-        <div><dt>Adresse réelle</dt><dd>toute adresse qui ne correspond à aucun écran, par exemple <code>/une-adresse-inconnue</code> ou <code>/projets/identifiant-inconnu</code> ; réponse 404, page non indexée</dd></div>
+        <div><dt>Adresse réelle</dt><dd>toute autre adresse que celles du plan du site, par exemple <code>/une-adresse-inconnue</code> ou <code>/projets/identifiant-inconnu</code> ; réponse 404, page non indexée. Une ancre qui ne nomme aucune section, comme <code>/#competence</code>, n’est pas une adresse inconnue : elle ouvre la page principale en haut (V-11).</dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-04, MF-05</dd></div>
-        <div><dt>Ordre de lecture</dt><dd>message clair indiquant que la page n’existe pas ; retour à l’accueil ; retour vers la liste des projets quand l’adresse visée était celle d’un projet</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>message clair indiquant que la page n’existe pas ; retour à l’accueil, en haut de la page principale ; retour vers la liste des projets, à la section des projets de la page principale, quand l’adresse visée était celle d’un projet</dd></div>
         <div><dt>Navigation</dt><dd>en-tête, menu replié et pied de page présents ; aucune entrée signalée</dd></div>
         <div><dt>Téléphone</dt><dd>le message et le retour à l’accueil se lisent sans défilement</dd></div>
         <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-07</span>. Le « 404 », le message et le retour à l’accueil apparaissent en cascade. Les deux halos respirent en opposition de phase. La page entre et sort en fondu.</dd></div>
@@ -138,8 +138,8 @@
     <p class="titre-2">Cette page n’existe pas</p>
     <p class="chapo">L’adresse demandée ne correspond à aucune page du site.</p>
     <div class="groupe-actions">
-        <a class="bouton bouton--primaire" href="ecran-01-accueil.html">Revenir à l’accueil<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
-        <a class="bouton bouton--secondaire" href="ecran-06-projets.html">Voir la liste des projets<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+        <a class="bouton bouton--primaire" href="ecran-01-page-principale.html">Revenir à l’accueil<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+        <a class="bouton bouton--secondaire" href="ecran-01-page-principale.html#projets">Voir la liste des projets<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
     </div>
   </div>
 </section>

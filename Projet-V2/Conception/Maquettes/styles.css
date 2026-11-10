@@ -224,8 +224,9 @@ svg { display: block; }
 }
 .lien-navigation:hover, .lien-navigation.est-survol { color: var(--couleur-texte); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); }
 .lien-navigation.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
-.lien-navigation[aria-current="page"] { color: var(--couleur-texte); }
-.lien-navigation[aria-current="page"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
+/* La section lue de la page principale (aria-current="location") porte le même trait que la page courante. */
+.lien-navigation[aria-current="page"], .lien-navigation[aria-current="location"] { color: var(--couleur-texte); }
+.lien-navigation[aria-current="page"]::after, .lien-navigation[aria-current="location"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
 
 /* CO-03 Pastille */
 .pastille {
@@ -324,8 +325,8 @@ svg { display: block; }
 }
 .menu-replie__panneau ul { display: grid; gap: 2px; list-style: none; }
 .menu-replie__panneau .lien-navigation { display: flex; width: 100%; padding-inline: var(--espace-4); }
-.menu-replie__panneau .lien-navigation[aria-current="page"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
-.menu-replie__panneau .lien-navigation[aria-current="page"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
+.menu-replie__panneau .lien-navigation[aria-current="page"], .menu-replie__panneau .lien-navigation[aria-current="location"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
+.menu-replie__panneau .lien-navigation[aria-current="page"]::after, .menu-replie__panneau .lien-navigation[aria-current="location"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
 .menu-replie--en-place .menu-replie__panneau { position: static; margin-top: var(--espace-3); }
 @media (min-width: 600px) { .entete:not(.entete--compacte) .menu-replie__panneau { left: auto; width: 20rem; } }
 @media (min-width: 900px) {
@@ -736,8 +737,9 @@ html:not(.mv-pause) .pause-animations:not(.pause-animations--demo) .icone--lectu
     opacity: 0; transform: translateY(calc(var(--distance-apparition) / -2));
     transition: opacity var(--duree-sortie-page) var(--courbe-standard), transform var(--duree-sortie-page) var(--courbe-standard);
   }
-  /* MV-07 : le repère de page courante glisse de l'ancien lien vers le nouveau. */
-  .mv-actif .entete .lien-navigation[aria-current="page"]::after, .mv-actif .entete__actions .bouton[aria-current="page"]::after { transform-origin: left center; transition: transform var(--duree-longue) var(--courbe-sortie); }
+  /* MV-07 : le repère de page courante glisse de l'ancien lien vers le nouveau, entre la page principale et une page à part ;
+     d'une section à l'autre, il change de lien sans glisser. */
+  .mv-actif .entete .lien-navigation[aria-current="page"]::after, .mv-actif .entete .lien-navigation[aria-current="location"]::after, .mv-actif .entete__actions .bouton[aria-current="page"]::after { transform-origin: left center; transition: transform var(--duree-longue) var(--courbe-sortie); }
   .mv-actif .mv-repere-depart::after { transform: translateX(var(--mv-repere-x, 0px)) scaleX(var(--mv-repere-echelle, 1)); transition: none !important; }
 
   /* MV-01 : apparitions en cascade, une fois, à l'entrée du bloc dans la fenêtre. */

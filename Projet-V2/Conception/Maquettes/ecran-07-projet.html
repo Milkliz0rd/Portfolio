@@ -44,15 +44,15 @@
 
 <div class="ecran" id="etat-nominal-complet" data-etat="nominal-complet">
 <header class="entete" data-commun="entete">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <nav class="entete__navigation" aria-label="Sections du site">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets" aria-current="page">Projets</a></li>
     </ul>
   </nav>
   <div class="entete__actions">
@@ -62,12 +62,12 @@
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets" aria-current="page">Projets</a></li>
         </ul>
       </nav>
     </details>
@@ -107,7 +107,7 @@
     <div class="groupe-actions" data-mv-bloc data-mv="MV-01">
       <a class="bouton bouton--primaire" href="https://github.com/Milkliz0rd/Portfolio" target="_blank" rel="noopener noreferrer">Voir le code source<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a>
     </div>
-    <p data-mv-bloc data-mv="MV-01"><a class="lien lien--action lien--retour" href="ecran-06-projets.html" data-mv-survol><svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche-gauche"/></svg>Retour à la liste des projets</a></p>
+    <p data-mv-bloc data-mv="MV-01"><a class="lien lien--action lien--retour" href="ecran-01-page-principale.html#projets" data-mv-survol><svg class="icone" data-mv="MV-05" aria-hidden="true"><use href="#i-fleche-gauche"/></svg>Retour à la liste des projets</a></p>
   </div>
 </section>
 </main>
@@ -142,7 +142,7 @@
         <div><dt>Adresse réelle</dt><dd><code>/projets/portfolio</code> (au lancement ; forme générale : <code>/projets/</code> suivi de l’identifiant du projet)</dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-04, MF-05, MF-06, MF-13, MF-14, MF-18, MF-22</dd></div>
         <div><dt>Ordre de lecture</dt><dd>titre ; description, pour le portfolio la démarche et l’architecture du site (C-05) ; captures, s’il y en a ; lien vers le code source, s’il existe ; retour vers la liste des projets</dd></div>
-        <div><dt>Liens</dt><dd>le code source s’ouvre dans un nouvel onglet, le site reste ouvert ; le CV et le contact restent à un clic par l’en-tête ; l’entrée « Projets » est la courante</dd></div>
+        <div><dt>Liens</dt><dd>le code source s’ouvre dans un nouvel onglet, le site reste ouvert ; le retour mène à la page principale, à la section des projets (<code>/#projets</code>) ; le CV et le contact restent à un clic par l’en-tête ; l’entrée « Projets » est la courante</dd></div>
         <div><dt>Téléphone</dt><dd>titre, description, captures puis lien en une colonne ; les captures tiennent dans la largeur de l’écran</dd></div>
         <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-04, MV-05, MV-06, MV-07</span>. Le titre, la description, les captures, le bouton du code source et le retour apparaissent en cascade à leur arrivée dans la fenêtre ; la flèche du retour se dessine, puis recule au survol pendant que son soulignement s’étire. Le halo respire. La page entre et sort en fondu.</dd></div>
         <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal-complet">nominal-complet</a> : en haut de page ; titre, description, captures, lien</li><li><a class="lien" href="#etat-sans-capture">sans-capture</a> : aucune zone de capture</li><li><a class="lien" href="#etat-sans-lien-code">sans-lien-code</a> : aucun lien ni bouton de code source</li><li><a class="lien" href="#etat-projet-inexistant">projet-inexistant</a> : renvoi vers la page introuvable (EC-11)</li></ul></dd></div>
@@ -173,7 +173,7 @@
     <div class="groupe-actions">
       <a class="bouton bouton--primaire" href="https://github.com/Milkliz0rd/Portfolio" target="_blank" rel="noopener noreferrer">Voir le code source<svg class="icone" aria-hidden="true"><use href="#i-externe"/></svg><span class="masque-visuellement"> (nouvel onglet)</span></a>
     </div>
-    <a class="lien lien--action lien--retour" href="ecran-06-projets.html" data-mv-survol><svg class="icone" aria-hidden="true"><use href="#i-fleche-gauche"/></svg>Retour à la liste des projets</a>
+    <a class="lien lien--action lien--retour" href="ecran-01-page-principale.html#projets" data-mv-survol><svg class="icone" aria-hidden="true"><use href="#i-fleche-gauche"/></svg>Retour à la liste des projets</a>
   </div>
 </section>
       </div>
@@ -211,7 +211,7 @@
         </figure></li>
       </ul>
     </div>
-    <a class="lien lien--action lien--retour" href="ecran-06-projets.html" data-mv-survol><svg class="icone" aria-hidden="true"><use href="#i-fleche-gauche"/></svg>Retour à la liste des projets</a>
+    <a class="lien lien--action lien--retour" href="ecran-01-page-principale.html#projets" data-mv-survol><svg class="icone" aria-hidden="true"><use href="#i-fleche-gauche"/></svg>Retour à la liste des projets</a>
   </div>
 </section>
       </div>
