@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { Etiquette } from '../etiquette/etiquette';
 import { Pastille, VariantePastille } from '../pastille/pastille';
 import { Carte, NiveauTitreCarte, VarianteCarte } from './carte';
@@ -43,6 +44,32 @@ class Hote {
   `,
 })
 class HoteTexte {}
+
+// Une carte interactive : un lien vers une page du site et l'action décorative du pied.
+@Component({
+  imports: [Carte, Etiquette, Pastille],
+  template: `
+    <app-carte
+      [variante]="variante()"
+      titre="Parcours"
+      [niveauTitre]="3"
+      [lien]="lien()"
+      [action]="action()"
+    >
+      <app-etiquette>Section</app-etiquette>
+      La phrase d’orientation.
+      @if (avecPastille()) {
+        <app-pastille variante="succes">Validé</app-pastille>
+      }
+    </app-carte>
+  `,
+})
+class HoteInteractif {
+  readonly variante = signal<VarianteCarte>('pleine');
+  readonly lien = signal<string | undefined>('/parcours');
+  readonly action = signal<string | undefined>('Voir le parcours');
+  readonly avecPastille = signal(false);
+}
 
 interface Options {
   niveau?: NiveauTitreCarte;
@@ -188,5 +215,99 @@ describe('Carte', () => {
     fixture.componentRef.setInput('titre', '  ');
     fixture.componentRef.setInput('niveauTitre', 3);
     expect(() => fixture.detectChanges()).toThrow(/porte toujours un titre/);
+  });
+});
+
+describe('Carte interactive', () => {
+  beforeEach(() => TestBed.configureTestingModule({ providers: [provideRouter([])] }));
+
+  interface OptionsInteractive {
+    variante?: VarianteCarte;
+    lien?: string;
+    action?: string;
+    avecPastille?: boolean;
+  }
+
+  function rendreInteractive(options: OptionsInteractive = {}): HTMLElement {
+    const fixture = TestBed.createComponent(HoteInteractif);
+    const hote = fixture.componentInstance;
+    hote.variante.set(options.variante ?? 'pleine');
+    hote.lien.set('lien' in options ? options.lien : '/parcours');
+    hote.action.set('action' in options ? options.action : 'Voir le parcours');
+    hote.avecPastille.set(options.avecPastille ?? false);
+    fixture.detectChanges();
+    return (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('app-carte')!;
+  }
+
+  const FOCALISABLES = 'a[href], button, input, select, textarea, [tabindex]';
+
+  it.each(['verre', 'pleine'] as const)(
+    'n’a qu’un lien, dans le titre, dont le texte est le titre (%s)',
+    (variante) => {
+      const carte = rendreInteractive({ variante });
+      const liens = carte.querySelectorAll('a');
+      expect(liens).toHaveLength(1);
+      expect(carte.querySelectorAll(FOCALISABLES)).toHaveLength(1);
+      const [lien] = liens;
+      expect(lien.getAttribute('href')).toBe('/parcours');
+      expect(lien.classList).toContain('carte__lien');
+      expect(lien.parentElement?.localName).toBe('h3');
+      expect(texte(lien)).toBe('Parcours');
+      expect(texte(carte.querySelector(TITRES))).toBe('Parcours');
+      expect(carte.classList).toContain('carte--interactive');
+    },
+  );
+
+  it('dessine l’action du pied, décorative : masquée, sans lien ni bouton', () => {
+    const carte = rendreInteractive();
+    const action = carte.querySelector('.carte__pied > .carte__action')!;
+    expect(action.localName).toBe('span');
+    expect(action.getAttribute('aria-hidden')).toBe('true');
+    expect(texte(action)).toBe('Voir le parcours');
+    expect(action.closest('a, button')).toBeNull();
+    expect(action.querySelector(FOCALISABLES)).toBeNull();
+    expect(action.hasAttribute('tabindex')).toBe(false);
+    expect(action.lastElementChild?.localName).toBe('app-icone');
+    expect(action.querySelector('path')?.getAttribute('d')).toBe('M5 12h14M13 6l6 6-6 6');
+  });
+
+  it('range les pastilles du pied avant l’action', () => {
+    const pied = rendreInteractive({ avecPastille: true }).querySelector('.carte__pied')!;
+    expect([...pied.children].map((enfant) => enfant.localName)).toEqual(['app-pastille', 'span']);
+  });
+
+  it('rend les calques d’ombre et de lueur, vides, décoratifs et sous le contenu', () => {
+    const carte = rendreInteractive();
+    const [ombre, lueur] = [...carte.children];
+    expect(ombre.classList).toContain('carte__ombre');
+    expect(lueur.classList).toContain('carte__lueur');
+    for (const calque of [ombre, lueur]) {
+      expect(calque.getAttribute('aria-hidden')).toBe('true');
+      expect(calque.childNodes).toHaveLength(0);
+    }
+    expect([...carte.children].slice(2).map((enfant) => enfant.localName)).toEqual([
+      'app-etiquette',
+      'h3',
+      'div',
+      'div',
+    ]);
+  });
+
+  it('reste statique sans lien : ni calque, ni action, ni lien', () => {
+    const carte = rendreInteractive({ lien: undefined, action: undefined });
+    expect(carte.classList).not.toContain('carte--interactive');
+    expect(carte.querySelector('a, .carte__ombre, .carte__lueur, .carte__action')).toBeNull();
+    expect(carte.querySelector('.carte__pied')).toBeNull();
+  });
+
+  it('n’ouvre pas de pied pour un lien sans action ni pastille', () => {
+    const carte = rendreInteractive({ action: undefined });
+    expect(carte.querySelectorAll('a')).toHaveLength(1);
+    expect(carte.querySelector('.carte__pied')).toBeNull();
+    expect(vides(carte)).toEqual([]);
+  });
+
+  it('refuse une action sans lien', () => {
+    expect(() => rendreInteractive({ lien: undefined })).toThrow(/exige son lien/);
   });
 });

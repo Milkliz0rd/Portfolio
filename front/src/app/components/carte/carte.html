@@ -1,6 +1,18 @@
+@if (lien()) {
+  <!-- Calques du survol (MV-06), décoratifs et vides : l'ombre, puis la lueur, sous le contenu. -->
+  <span class="carte__ombre" aria-hidden="true"></span>
+  <span class="carte__lueur" aria-hidden="true"></span>
+}
 <ng-content select="app-etiquette" />
-<!-- Le titre, rendu une seule fois, dans le h2, le h3 ou le h4 du niveau demandé. -->
-<ng-template #contenuTitre>{{ titreAffiche() }}</ng-template>
+<!-- Le titre, rendu une seule fois, dans le h2, le h3 ou le h4 du niveau demandé ; le seul lien
+     de la carte interactive y porte le titre pour texte. -->
+<ng-template #contenuTitre>
+  @if (lien(); as adresse) {
+    <a class="carte__lien" [routerLink]="adresse">{{ titreAffiche() }}</a>
+  } @else {
+    {{ titreAffiche() }}
+  }
+</ng-template>
 @switch (niveauTitre()) {
   @case (2) {
     <h2 class="carte__titre"><ng-container [ngTemplateOutlet]="contenuTitre" /></h2>
@@ -13,6 +25,13 @@
   }
 }
 <div class="carte__texte"><ng-content /></div>
-@if (pastilles().length) {
-  <div class="carte__pied"><ng-content select="app-pastille" /></div>
+@if (pastilles().length || actionAffichee()) {
+  <div class="carte__pied">
+    <ng-content select="app-pastille" />
+    @if (actionAffichee(); as action) {
+      <span class="carte__action" aria-hidden="true">
+        {{ action }}<app-icone class="carte__fleche" nom="fleche" />
+      </span>
+    }
+  </div>
 }

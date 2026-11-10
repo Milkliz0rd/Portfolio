@@ -7,6 +7,8 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Icone } from '../icone/icone';
 import { Pastille, SURFACE_EN_VERRE } from '../pastille/pastille';
 
 export type VarianteCarte = 'verre' | 'pleine';
@@ -28,10 +30,17 @@ export type NiveauTitreCarte = 2 | 3 | 4;
  *
  * Toute pastille posée dans une carte en verre, au pied ou dans le texte, se rend en variante
  * contour (CO-03) : la carte fournit SURFACE_EN_VERRE à son contenu.
+ *
+ * Avec un lien, une adresse du site posée par routerLink, la carte devient interactive : un seul
+ * lien, dans le titre, dont le texte est le titre, étendu à toute la carte. L'action du pied
+ * (« Voir la fiche » et sa flèche) est dessinée par la carte, décorative : masquée aux lecteurs
+ * d'écran, sans lien ni clic propre, pour ne pas annoncer deux fois la même destination. Les
+ * calques d'ombre et de lueur, décoratifs et vides, attendent le mouvement (MV-06). Une carte
+ * interactive ne se pose jamais sur un halo (charte, section 8).
  */
 @Component({
   selector: 'app-carte',
-  imports: [NgTemplateOutlet],
+  imports: [Icone, NgTemplateOutlet, RouterLink],
   templateUrl: './carte.html',
   styleUrl: './carte.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,6 +58,7 @@ export type NiveauTitreCarte = 2 | 3 | 4;
     class: 'carte',
     '[class.carte--verre]': "variante() === 'verre'",
     '[class.carte--pleine]': "variante() === 'pleine'",
+    '[class.carte--interactive]': '!!lien()',
   },
 })
 export class Carte {
@@ -57,6 +67,10 @@ export class Carte {
   readonly titre = input.required<string>();
   /** Le niveau du titre dans la hiérarchie de la page : h2, h3 ou h4. */
   readonly niveauTitre = input.required<NiveauTitreCarte>();
+  /** Une adresse du site (« /parcours ») : la carte devient interactive. */
+  readonly lien = input<string>();
+  /** Le libellé de l'action du pied, décorative, écrit et marqué pour la traduction par la page. */
+  readonly action = input<string>();
 
   /** Les pastilles projetées au premier niveau : elles forment le pied. */
   protected readonly pastilles = contentChildren(Pastille);
@@ -68,5 +82,14 @@ export class Carte {
       throw new Error('Une carte porte toujours un titre : entrée « titre » (CO-05).');
     }
     return titre;
+  });
+
+  // Une action sans lien promettrait une destination que rien ne porte : le rendu échoue.
+  protected readonly actionAffichee = computed(() => {
+    const action = this.action()?.trim();
+    if (action && !this.lien()) {
+      throw new Error('Une action de carte exige son lien : entrée « lien » (CO-05).');
+    }
+    return action;
   });
 }
