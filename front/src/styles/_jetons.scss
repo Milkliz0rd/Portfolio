@@ -216,6 +216,32 @@
   // part de la section (10 %, PF-04, comme le prototype des maquettes).
   --debord-halo: 0.1;
 
+  // Halos dessinés pour leur calque, (1 + 2 × debord-halo) fois la section, comme le prototype :
+  // le dégradé de halo-accent et de halo-secondaire (mêmes arrêts de couleur, mêmes opacités), sa
+  // géométrie ramenée au calque. Un rayon de r % de la section y vaut r / (1 + 2 × debord-halo) %,
+  // un centre à p % y vaut (p + 100 × debord-halo) / (1 + 2 × debord-halo) % : à l'échelle 1, la
+  // tache a le centre et les rayons de la charte ; réduit à 0,9 ou porté à 1,08 par la respiration
+  // (MV-04), le dégradé couvre encore toute la section, sans bord net. La géométrie suit celle de
+  // halo-accent et halo-secondaire (section 3.6) : si la charte la change, elle change ici aussi.
+  --halo-accent-calque: radial-gradient(
+    calc(60% / (1 + 2 * var(--debord-halo))) calc(55% / (1 + 2 * var(--debord-halo))) at
+      calc((84% + 100% * var(--debord-halo)) / (1 + 2 * var(--debord-halo)))
+      calc((22% + 100% * var(--debord-halo)) / (1 + 2 * var(--debord-halo))),
+    color-mix(in srgb, var(--couleur-accent) var(--opacite-halo-accent), transparent),
+    transparent 70%
+  );
+  --halo-secondaire-calque: radial-gradient(
+    calc(50% / (1 + 2 * var(--debord-halo))) calc(50% / (1 + 2 * var(--debord-halo))) at
+      calc((6% + 100% * var(--debord-halo)) / (1 + 2 * var(--debord-halo)))
+      calc((96% + 100% * var(--debord-halo)) / (1 + 2 * var(--debord-halo))),
+    color-mix(
+      in srgb,
+      var(--couleur-accent-secondaire) var(--opacite-halo-secondaire),
+      transparent
+    ),
+    transparent 70%
+  );
+
   // CO-17 Liste clé-valeur : approche d'une valeur de date ou de période (maquettes, choix C6).
   --approche-date: 0.02em;
 

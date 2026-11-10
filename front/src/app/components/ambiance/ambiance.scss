@@ -23,23 +23,20 @@
 }
 
 // Un halo déborde de debord-halo de chaque côté de la section, comme le prototype (PF-04) : la place
-// que prendra sa respiration (MV-04). Son jeton est peint sur la seule boîte de la section, au
-// centre du calque : la tache garde la place et la taille que lui donne la charte.
+// que prendra sa respiration (MV-04). Il peint sur tout son calque le jeton dessiné pour lui
+// (halo-accent-calque, halo-secondaire-calque) : à l'échelle 1, la tache a la place et la taille
+// que lui donne la charte ; réduit à 0,9 ou porté à 1,08, le dégradé couvre encore la section.
 .ambiance__halo {
   inset: calc(-100% * var(--debord-halo));
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: calc(100% / (1 + 2 * var(--debord-halo)))
-    calc(100% / (1 + 2 * var(--debord-halo)));
 }
 
 // L'accent en haut à droite ; le secondaire, en coin opposé, en bas à gauche (charte, 3.6).
 .ambiance__halo--accent {
-  background-image: var(--halo-accent);
+  background-image: var(--halo-accent-calque);
 }
 
 .ambiance__halo--secondaire {
-  background-image: var(--halo-secondaire);
+  background-image: var(--halo-secondaire-calque);
 }
 
 // Le voile couvre exactement la section : son bas, couleur-fond pleine, est le bord bas.
