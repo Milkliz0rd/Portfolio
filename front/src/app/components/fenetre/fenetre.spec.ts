@@ -149,6 +149,21 @@ describe('Fenetre', () => {
     expect(cadre?.querySelector('.fenetre__code')?.getAttribute('aria-hidden')).toBe('true');
   });
 
+  // jsdom ne sélectionne rien à la souris : il dit seulement quel texte se sélectionne. La copie
+  // elle-même (l'extrait une seule fois) se vérifie dans un navigateur.
+  it('non décorative : seule la copie colorée se sélectionne, pas l’extrait lu', () => {
+    const { hote, cadre } = rendre();
+    const selection = (element: Element) => getComputedStyle(element).userSelect;
+    expect(selection(cadre!.querySelector('.masque-visuellement')!)).toBe('none');
+    const segment = cadre!.querySelector('.fenetre__segment--mot-cle');
+    const chaine: string[] = [];
+    for (let e = segment; e && e !== hote.parentElement; e = e.parentElement) {
+      chaine.push(selection(e));
+    }
+    expect(chaine).toHaveLength(6);
+    expect(chaine).not.toContain('none');
+  });
+
   it('décorative : aria-hidden sur le cadre, sans extrait exposé ni élément focalisable', () => {
     const { hote, cadre } = rendre(PROFIL, true);
     expect(hote.firstElementChild).toBe(cadre);

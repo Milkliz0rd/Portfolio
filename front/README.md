@@ -242,8 +242,9 @@ si l'image n'y est pas).
 page est décorative : `aria-hidden="true"` sur son cadre, et une capture y a un texte alternatif
 vide ; la page n'y projette rien de focalisable. Sinon, c'est une figure nommée par sa légende (le
 titre, ou l'adresse) ; l'extrait de code y est lu d'un seul tenant, dans un texte masqué
-visuellement, et sa copie colorée est masquée aux lecteurs d'écran. La fenêtre n'est jamais un
-lien, sans survol ni focus.
+visuellement, et sa copie colorée est masquée aux lecteurs d'écran. Copier le code d'une fenêtre
+lisible donne l'extrait une seule fois, celui de la copie colorée, ligne par ligne. La fenêtre
+n'est jamais un lien, sans survol ni focus.
 
 **Jamais de cadre vide.** Rien n'est rendu pour un code sans ligne, ou dont les lignes sont vides,
 ni pour une capture sans source ; un navigateur sans contenu projeté est masqué par la feuille de

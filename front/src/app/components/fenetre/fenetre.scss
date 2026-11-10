@@ -109,6 +109,12 @@
   min-height: calc(var(--interligne-code-fenetre) * 1em);
 }
 
+// L'extrait lu par les lecteurs d'écran ne se sélectionne pas : copier la fenêtre donne le code une
+// seule fois, celui de la copie colorée, ligne par ligne. Il reste lu d'un seul tenant (PF-05).
+.fenetre__contenu > .masque-visuellement {
+  user-select: none;
+}
+
 // Le texte ordinaire garde couleur-texte-secondaire, celle du cadre.
 .fenetre__segment--mot-cle {
   color: var(--couleur-accent);
