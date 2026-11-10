@@ -1,4 +1,19 @@
 # SC-2.0-Portfolio     US liée : US-2.0
+Révision du 10/11/26 (one-pager et retrait du CV), approuvée par la fusion de sa PR.
+
+## Révision du 10/11/2026
+
+Le 10/11/2026, Alexandre a décidé que le site ne propose plus de CV, et que l'accueil, le parcours, les compétences, l'expérience, la méthode et les projets s'enchaînent sur une seule page, la fiche de chaque projet, le contact et les mentions légales restant à part (US-2.0, Q-07 et Q-16).
+
+| Élément | Avant | Après | Raison |
+| --- | --- | --- | --- |
+| En-tête | Aucune mention de révision | Mentionne cette révision, approuvée par la fusion de sa PR | Garder la trace de la révision |
+| SC-2.0-02 | CV et contact atteints depuis l'accueil, chacun en un clic, le clic unique restant à valider | Contact atteint depuis l'accueil, en un clic | Plus de CV ; le clic unique a été validé par Alexandre le 15/10/2026 dans le parcours d'écrans |
+| SC-2.0-03 | CV et contact atteints depuis une fiche projet, chacun en un clic, le clic unique restant à valider | Contact atteint depuis une fiche projet, en un clic | Plus de CV ; le clic unique a été validé par Alexandre le 15/10/2026 dans le parcours d'écrans |
+| SC-2.0-04 | Une entrée pour chaque section ; en la choisissant, on arrive sur la section | Une entrée pour chaque section et une pour le contact ; en choisissant l'entrée d'une section, on arrive à cette section | Le contact reste à part, il n'est pas une section (MF-03) ; le scénario ne dit pas la forme |
+| SC-2.0-05 | Titre : lien direct vers une section. Étant donné un lien direct vers une section du site, transmis à un recruteur ; Alors la section visée s'affiche directement, sans passer par l'accueil ; Et si le recruteur recharge la page, la même section reste affichée | Titre : lien direct vers une section, le contact ou les mentions légales. Étant donné un lien direct vers une section du site, vers le contact ou vers les mentions légales, transmis à un recruteur ; Alors le contenu visé s'affiche directement, sans passer par l'accueil ; Et après un rechargement, le même contenu reste affiché | Les sections s'enchaînent sur une même page ; le scénario ne dit pas la forme ; le contact et les mentions légales restent des pages à part, chacune avec son adresse ; la garantie signée le 15/10 (un lien direct et un rechargement gardent le contenu) les couvre toujours |
+| SC-2.0-21 | Téléchargement du CV | Retiré, sans renumérotation | Plus de CV : ni page, ni fichier |
+| SC-2.0-22 | Message quand le CV est indisponible | Retiré, sans renumérotation | Plus de CV : ni page, ni fichier |
 
 ## SC-2.0-01 — Scénario : arrivée sur la page d'accueil
 Micro-fonction : MF-01
@@ -9,33 +24,33 @@ Micro-fonction : MF-01
 - Et il voit comment accéder aux autres sections du site
 - Et aucun âge n'est affiché
 
-## SC-2.0-02 — Scénario : CV et contact atteints depuis l'accueil
+## SC-2.0-02 — Scénario : contact atteint depuis l'accueil
 Micro-fonction : MF-02
 - Étant donné un recruteur sur la page d'accueil
-- Quand il cherche le CV puis le contact
-- Alors il atteint le CV en un clic et le contact en un clic (proposition, à valider)
+- Quand il cherche le contact
+- Alors il atteint le contact en un clic
 - Et aucune étape préalable (exploration, jeu, saisie) ne lui est demandée
 
-## SC-2.0-03 — Scénario : CV et contact atteints depuis une fiche projet
+## SC-2.0-03 — Scénario : contact atteint depuis une fiche projet
 Micro-fonction : MF-02
 - Étant donné un recruteur sur la fiche d'un projet
-- Quand il cherche le CV puis le contact
-- Alors il atteint le CV en un clic et le contact en un clic (proposition, à valider)
+- Quand il cherche le contact
+- Alors il atteint le contact en un clic
 
 ## SC-2.0-04 — Scénario : navigation entre les sections
 Micro-fonction : MF-03
 - Étant donné un responsable technique sur n'importe quelle page du site
 - Quand il ouvre la navigation
-- Alors il voit une entrée pour chaque section du site
-- Et en choisissant une entrée, il arrive sur la section correspondante
+- Alors il voit une entrée pour chaque section du site et une entrée pour le contact
+- Et en choisissant l'entrée d'une section, il arrive à la section correspondante
 - Et la navigation est la même sur toutes les pages
 
-## SC-2.0-05 — Scénario : lien direct vers une section
+## SC-2.0-05 — Scénario : lien direct vers une section, le contact ou les mentions légales
 Micro-fonction : MF-04
-- Étant donné un lien direct vers une section du site, transmis à un recruteur
+- Étant donné un lien direct vers une section du site, vers le contact ou vers les mentions légales, transmis à un recruteur
 - Quand il l'ouvre dans une fenêtre où le site n'a jamais été ouvert
-- Alors la section visée s'affiche directement, sans passer par l'accueil
-- Et si le recruteur recharge la page, la même section reste affichée
+- Alors le contenu visé s'affiche directement, sans passer par l'accueil
+- Et après un rechargement, le même contenu reste affiché
 
 ## SC-2.0-06 — Scénario : lien direct vers la fiche d'un projet
 Micro-fonction : MF-04
@@ -152,19 +167,11 @@ Micro-fonction : MF-14
 - Quand un visiteur ouvre le lien direct de sa fiche
 - Alors la fiche du nouveau projet s'affiche
 
-## SC-2.0-21 — Scénario : téléchargement du CV
-Micro-fonction : MF-15
-- Étant donné un recruteur sur n'importe quelle page du site
-- Quand il demande le CV
-- Alors il obtient le CV d'Alexandre
-- Et le fichier reçu porte un nom qui ne contient ni date ni mention de situation (proposition, à valider)
+## SC-2.0-21 — Scénario : téléchargement du CV (retiré le 10/11/2026)
+Statut : retiré le 10/11/2026, décision d'Alexandre : plus de CV sur le site, ni page, ni fichier à consulter ou télécharger.
 
-## SC-2.0-22 — Scénario : CV indisponible
-Micro-fonction : MF-15
-- Étant donné que le CV ne peut pas être obtenu
-- Quand un recruteur le demande
-- Alors un message lui indique que le CV est momentanément indisponible
-- Et il voit comment contacter Alexandre
+## SC-2.0-22 — Scénario : CV indisponible (retiré le 10/11/2026)
+Statut : retiré le 10/11/2026, décision d'Alexandre : plus de CV sur le site, ni page, ni fichier à consulter ou télécharger.
 
 ## SC-2.0-23 — Scénario : envoi d'un message de contact
 Micro-fonction : MF-16
