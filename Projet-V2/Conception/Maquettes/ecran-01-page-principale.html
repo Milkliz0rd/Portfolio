@@ -203,12 +203,11 @@
 
 <div class="section section--suite">
   <div class="conteneur empile empile--etire" data-mv-bloc>
-    <div class="bloc-titre" data-mv="MV-01"><h3 class="titre-2" id="titre-humaines">Compétences humaines</h3></div>
+    <div class="bloc-titre" data-mv="MV-01">
+      <h3 class="titre-2" id="titre-humaines">Compétences humaines</h3>
+      <ul class="liste-pastilles"><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li></ul>
+    </div>
     <div class="deux-colonnes">
-      <article class="carte carte--pleine" data-mv="MV-01">
-        <p class="etiquette">Compétences humaines</p>
-        <ul class="liste-pastilles"><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li><li><span class="pastille">[C-02 — compétence humaine]</span></li></ul>
-      </article>
       <article class="carte carte--pleine" data-mv="MV-01">
         <p class="etiquette etiquette--accent">Reconversion</p>
         <h4 class="titre-3">Depuis la restauration</h4>
@@ -418,9 +417,9 @@
         <div><dt>Page</dt><dd>page principale, qui défile : l’accueil (EC-01) en haut, puis cinq sections dans cet ordre, parcours (EC-02), compétences (EC-03), expérience (EC-04), méthode de travail (EC-05) et projets (EC-06) ; décision d’Alexandre du 10/11/2026. Les maquettes signées des écrans 1 à 6 y sont réunies, contenus et états compris.</dd></div>
         <div><dt>Adresse réelle</dt><dd><code>/</code> pour l’accueil, en haut de la page, sans ancre ; <code>/#parcours</code>, <code>/#competences</code>, <code>/#experience</code>, <code>/#methode</code> et <code>/#projets</code> pour les sections. Un lien vers une section ouvre la page principale à cette section, même après un rechargement.</dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-01, MF-02, MF-04, MF-06, MF-07, MF-08, MF-09, MF-10, MF-11, MF-12, MF-14, MF-18, MF-21, MF-22</dd></div>
-        <div><dt>En-têtes de section</dt><dd>chaque section s’ouvre sur une étiquette numérotée, de 01 à 05, et un titre de niveau 2 à la grande taille des anciens titres de page (titre-1) ; les blocs intérieurs gardent leur taille, un niveau de titre plus bas ; l’accueil n’a ni numéro ni ancre.</dd></div>
+        <div><dt>En-têtes de section</dt><dd>chaque section s’ouvre sur une étiquette numérotée, de 01 à 05, et un titre de niveau 2 à la grande taille des anciens titres de page (titre-1) ; les blocs intérieurs gardent leur taille, un niveau de titre plus bas ; l’accueil n’a ni numéro ni ancre, et aucune page à part n’a de numéro (choix d’Alexandre du 10/11/2026).</dd></div>
         <div><dt>Navigation</dt><dd>une entrée du menu fait défiler la page jusqu’à sa section, sous l’en-tête ; le nom et l’entrée « Accueil » ramènent en haut de la page. L’entrée de la section lue porte le trait de l’ancienne page courante et l’attribut <code>aria-current="location"</code>, et change avec la lecture : celle dont le haut a passé 40 % de la hauteur de la fenêtre ; en haut de la page, c’est l’entrée « Accueil ». Le menu replié porte les mêmes entrées et le même signal ; le refermer ne déplace pas la lecture.</dd></div>
-        <div><dt>Adresse pendant la lecture</dt><dd>l’adresse suit la section lue, par remplacement : ni le défilement ni le menu n’ajoutent d’étape au retour arrière ; en haut de la page, l’adresse redevient <code>/</code>.</dd></div>
+        <div><dt>Adresse pendant la lecture</dt><dd>l’adresse suit la section lue, par remplacement : ni le défilement ni le menu n’ajoutent d’étape au retour arrière ; en haut de la page, l’adresse redevient <code>/</code> (choix d’Alexandre du 10/11/2026).</dd></div>
         <div><dt>Section inconnue</dt><dd>une ancre qui ne nomme aucune section, par exemple <code>/#competence</code>, ouvre la page principale en haut, sur l’accueil, sans message d’erreur, et l’adresse redevient <code>/</code> (V-11).</dd></div>
         <div><dt>Fin de la page</dt><dd>la section des projets, puis le pied de page commun, sans bloc de plus (V-10).</dd></div>
         <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-01, MV-02, MV-03, MV-04, MV-05, MV-06, MV-07, MV-08, MV-10</span>. Chaque section garde le mouvement de son ancien écran, détaillé ci-dessous. Passer d’une section à l’autre ne joue aucune transition de page : la page entre et sort en fondu seulement quand on la quitte pour une page à part (fiche d’un projet, contact, mentions légales) et quand on y revient.</dd></div>
@@ -459,7 +458,7 @@
       <dl class="annotation__faits">
         <div><dt>Adresse réelle</dt><dd><code>/#competences</code></dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-04, MF-09, MF-10, MF-18</dd></div>
-        <div><dt>Ordre de lecture</dt><dd>titre ; compétences techniques regroupées par catégorie (C-02) ; compétences humaines (C-02) ; récit de la reconversion depuis la restauration, rattaché aux compétences humaines (C-07)</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; compétences techniques regroupées par catégorie (C-02) ; compétences humaines (C-02), en pastilles directement sous le titre du bloc, sans carte (choix d’Alexandre du 10/11/2026) ; récit de la reconversion depuis la restauration, rattaché aux compétences humaines (C-07)</dd></div>
         <div><dt>Règles</dt><dd>seules les compétences et les catégories fournies ; aucun niveau chiffré. Le nombre de catégories et de compétences est celui de C-02 : trois catégories de quatre compétences ne sont qu’un exemple de démonstration.</dd></div>
         <div><dt>Téléphone</dt><dd>les catégories se lisent l’une sous l’autre ; une compétence longue passe à la ligne et ne dépasse jamais la largeur de l’écran</dd></div>
         <div><dt>Mouvement</dt><dd>MV-01, MV-04, MV-05. Le titre, puis chaque groupe de cartes, apparaissent en cascade à leur arrivée dans la fenêtre ; le filet de l’étiquette s’étire. Le halo respire.</dd></div>

@@ -103,7 +103,7 @@
   --courbe-standard: cubic-bezier(0.2, 0, 0, 1);
   --courbe-sortie: cubic-bezier(0.23, 1, 0.32, 1);
   --courbe-entree-sortie: cubic-bezier(0.77, 0, 0.175, 1);
-  --conteneur-texte: 68ch;
+  --conteneur-texte: 54ch;
   --conteneur-standard: 75rem;
   --conteneur-large: 90rem;
   --marge-page: 16px;
@@ -411,7 +411,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .message--attention { border-color: color-mix(in srgb, var(--couleur-attention) 40%, transparent); background: color-mix(in srgb, var(--couleur-attention) var(--opacite-teinte-message), var(--couleur-surface)); }
 .message--attention > .icone, .message--attention .message__titre { color: var(--couleur-attention); }
 
-/* CO-12 Fenêtre factice */
+/* CO-12 Fenêtre factice. Titre et adresse à 14 px, en minuscules : rien d'utile sous 14 px (choix d'Alexandre du 10/11/2026). */
 .fenetre {
   display: flex; flex-direction: column; min-width: 0; overflow: hidden;
   border-radius: var(--arrondi-grand); border: var(--bordure-epaisseur) solid var(--verre-bordure);
@@ -421,7 +421,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .fenetre__barre { display: flex; align-items: center; gap: var(--espace-3); min-height: 2.375rem; padding: 0 var(--espace-4); border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure); }
 .fenetre__boutons { display: flex; gap: 6px; flex: none; }
 .fenetre__boutons i { width: 9px; height: 9px; border-radius: var(--arrondi-cercle); background: color-mix(in srgb, var(--couleur-texte) 18%, transparent); }
-.fenetre__titre, .fenetre__adresse { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--police-mono); font-size: var(--taille-etiquette); color: var(--couleur-texte-discret); }
+.fenetre__titre, .fenetre__adresse { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--police-mono); font-size: 0.875rem; color: var(--couleur-texte-discret); }
 .fenetre__adresse { flex: 1; max-width: 20rem; margin-inline: auto; padding: 3px 12px; border-radius: var(--arrondi-pilule); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); text-align: center; }
 .fenetre__contenu { padding: var(--espace-5); min-width: 0; }
 .fenetre__code { font-family: var(--police-mono); font-variant-ligatures: none; font-size: var(--taille-code); line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--couleur-texte-secondaire); }
@@ -556,7 +556,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 @media (max-width: 479px) { .entete__marque { min-width: var(--cible-tactile); justify-content: center; } }
 /* K3 : frise horizontale, chaque étape part du haut : les intitulés restent alignés, quel que soit le détail. */
 @media (min-width: 900px) { .frise--adaptative .frise__etape { align-content: start; } }
-/* K4 : un chapô placé directement dans une pile garde son plafond de 68 caractères. */
+/* K4 : un chapô placé directement dans une pile garde son plafond d'environ 68 caractères par ligne (conteneur-texte, 54ch). */
 .empile > .chapo { max-width: var(--conteneur-texte); }
 /* K5 : un lien seul sur sa ligne (titre de carte du sommaire, lien de référence, retour au sommaire) fait au moins 44 × 44 px. */
 .sommaire-ecrans .titre-3 .lien { min-width: var(--cible-tactile); }
