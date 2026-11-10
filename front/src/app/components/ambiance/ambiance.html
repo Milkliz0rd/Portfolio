@@ -1,0 +1,11 @@
+<!-- Les calques, du fond vers le contenu : la trame, les halos (l'accent passe sur le secondaire),
+     puis le voile bas, qui les fond dans couleur-fond au bord bas de la section. -->
+<div class="ambiance__calque ambiance__trame" aria-hidden="true"></div>
+@if (variante() === 'accueil') {
+  <div class="ambiance__calque ambiance__halo ambiance__halo--secondaire" aria-hidden="true"></div>
+}
+@if (variante() !== 'sobre') {
+  <div class="ambiance__calque ambiance__halo ambiance__halo--accent" aria-hidden="true"></div>
+}
+<div class="ambiance__calque ambiance__voile" aria-hidden="true"></div>
+<ng-content />
