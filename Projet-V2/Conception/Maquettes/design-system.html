@@ -32,7 +32,7 @@
   --taille-chapo: clamp(1.125rem, 1.018rem + 0.476vw, 1.375rem);
   --taille-texte: clamp(1rem, 0.973rem + 0.119vw, 1.0625rem);
   --taille-texte-petit: clamp(0.875rem, 0.848rem + 0.119vw, 0.9375rem);
-  --taille-code: clamp(0.8125rem, 0.786rem + 0.119vw, 0.875rem);
+  --taille-code: 0.875rem;
   --taille-etiquette: 0.75rem;
   --interligne-affiche: 0.96;
   --interligne-titre: 1.06;
@@ -530,7 +530,8 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .cles--tableau dd { font-family: var(--police-texte); font-weight: var(--graisse-normale); font-size: var(--taille-texte); color: var(--couleur-texte-secondaire); }
 
 /* ---------- 7. Mise en page du catalogue ---------- */
-.conteneur { width: 100%; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
+/* Règle du site : le contenu ne dépasse pas le conteneur large (marges non comprises), la marge de page en plus de chaque côté. */
+.conteneur { box-sizing: content-box; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
 .catalogue-barre { border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure); background: color-mix(in srgb, var(--couleur-fond) 94%, transparent); }
 .catalogue-barre__interieur { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--espace-2) var(--espace-4); min-height: var(--hauteur-entete); padding-block: var(--espace-2); }
 .catalogue-barre__titre { display: inline-flex; align-items: center; gap: var(--espace-3); font-family: var(--police-titre); font-weight: var(--graisse-titre); font-size: 1.0625rem; letter-spacing: var(--approche-sous-titre); }
@@ -906,9 +907,9 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-titre-3</span><span class="etiquette">28 px → 22 px · 700</span></div><p class="titre-3">Un titre de carte</p></div>
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-titre-4</span><span class="etiquette">20 px → 18 px · 700</span></div><p class="titre-4">Un intitulé d’étape</p></div>
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-chapo</span><span class="etiquette">22 px → 18 px · 400</span></div><p class="chapo">Un texte d’introduction, plus grand que le texte courant, qui résume la section en une ou deux phrases.</p></div>
-      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-texte</span><span class="etiquette">17 px → 16 px · 400</span></div><p class="texte">Le texte courant se lit sur 68 caractères au plus par ligne. Il garde un interligne généreux et une couleur légèrement adoucie, pour que les titres portent la hiérarchie.</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-texte</span><span class="etiquette">17 px → 16 px · 400</span></div><p class="texte">Le texte courant se lit sur environ 68 caractères par ligne. Il garde un interligne généreux et une couleur légèrement adoucie, pour que les titres portent la hiérarchie.</p></div>
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-texte-petit</span><span class="etiquette">15 px → 14 px · 400</span></div><p class="texte-petit">Une aide sous un champ, une légende, une mention secondaire.</p></div>
-      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-code</span><span class="etiquette">14 px → 13 px · 400</span></div><p class="texte-code">const etapes = ["concevoir", "tester", "livrer"];</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-code</span><span class="etiquette">14 px · 400</span></div><p class="texte-code">const etapes = ["concevoir", "tester", "livrer"];</p></div>
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-etiquette</span><span class="etiquette">12 px · 500 · capitales</span></div><p class="etiquette">Une étiquette en capitales espacées</p></div>
     </div>
   </div>
@@ -1448,7 +1449,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
     <article class="specimen" aria-labelledby="co-16">
       <header class="specimen__entete"><h3 class="titre-3" id="co-16">CO-16 — En-tête de section</h3><p class="texte-petit">Ouvre une section : étiquette numérotée, titre, chapô.</p></header>
       <div class="grille-2">
-        <div class="etat"><p class="etat__nom">Aligné à gauche</p><header class="entete-section"><p class="etiquette"><span class="etiquette__numero">03</span>Section</p><p class="titre-2">Titre de section</p><p class="chapo">Un chapô d’une ou deux phrases. [texte fourni par Alexandre]</p></header></div>
+        <div class="etat"><p class="etat__nom">Aligné à gauche</p><header class="entete-section"><p class="etiquette"><span class="etiquette__numero">03</span>Section</p><p class="titre-1">Titre de section</p><p class="chapo">Un chapô d’une ou deux phrases. [texte fourni par Alexandre]</p></header></div>
         <div class="etat"><p class="etat__nom">Centré (fin de page)</p><header class="entete-section entete-section--centre"><p class="etiquette etiquette--accent">Sur-titre</p><p class="titre-2">Un dernier appel</p><a class="bouton bouton--primaire" href="#co-16">Action principale</a></header></div>
       </div>
     </article>

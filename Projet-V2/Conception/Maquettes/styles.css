@@ -36,7 +36,7 @@
   --taille-chapo: clamp(1.125rem, 1.018rem + 0.476vw, 1.375rem);
   --taille-texte: clamp(1rem, 0.973rem + 0.119vw, 1.0625rem);
   --taille-texte-petit: clamp(0.875rem, 0.848rem + 0.119vw, 0.9375rem);
-  --taille-code: clamp(0.8125rem, 0.786rem + 0.119vw, 0.875rem);
+  --taille-code: 0.875rem;
   --taille-etiquette: 0.75rem;
   --interligne-affiche: 0.96;
   --interligne-titre: 1.06;
@@ -475,8 +475,10 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .cles--tableau .cles__ligne { grid-template-columns: minmax(6rem, 10rem) minmax(0, 1fr); gap: var(--espace-4); padding-block: var(--espace-3); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
 .cles--tableau dd { font-family: var(--police-texte); font-weight: var(--graisse-normale); font-size: var(--taille-texte); color: var(--couleur-texte-secondaire); }
 
-/* Mises en scène reprises du catalogue : conteneur, cadres de démonstration, vitrine d'accueil. */
-.conteneur { width: 100%; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
+/* Mises en scène reprises du catalogue : conteneur, cadres de démonstration, vitrine d'accueil.
+   Le conteneur suit la règle du site : le contenu ne dépasse pas le conteneur large (marges non comprises) et garde de
+   chaque côté la marge de page de sa tranche (content-box, sans largeur à 100 %). */
+.conteneur { box-sizing: content-box; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
 .cadre-telephone { position: relative; width: 100%; max-width: 22.5rem; min-height: 31rem; margin-inline: auto; overflow: hidden; border-radius: 26px; border: var(--bordure-epaisseur) solid var(--couleur-bordure); background: var(--couleur-fond); }
 .cadre-telephone__contenu { display: grid; gap: var(--espace-4); padding: var(--espace-6) 16px; }
 .cadre-demo { overflow: hidden; border-radius: var(--arrondi-grand); border: var(--bordure-epaisseur) solid var(--couleur-bordure); }
@@ -500,8 +502,10 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .ecran { display: flex; flex-direction: column; min-height: 100vh; }
 .ecran > main { flex: 1 0 auto; }
 /* En-tête et pied s'alignent sur le conteneur large : même bord gauche que le contenu, à toutes les largeurs. */
-.entete { padding-inline: max(var(--marge-page), calc((100% - var(--conteneur-large)) / 2 + var(--marge-page))); }
-.pied--page { padding-inline: 0; }
+.entete { padding-inline: max(var(--marge-page), calc((100% - var(--conteneur-large)) / 2)); }
+/* Le pied de page n'a qu'un enfant, son conteneur : en bloc, celui-ci prend toute la largeur (dans une grille, ses marges
+   automatiques le réduiraient à son contenu). */
+.pied--page { display: block; padding-inline: 0; }
 .pied--page > .conteneur { display: grid; gap: var(--espace-6); }
 
 /* Rythme vertical : 64 px sur téléphone, 96 px à partir de 900 px (charte, section 5). */
