@@ -219,9 +219,12 @@ porte un seul jeton : la trame (`trame-points`, tous les `pas-trame`), le halo d
 section), le halo secondaire en coin opposé (accueil), puis le voile bas, qui couvre la section et
 atteint `couleur-fond` pleine à son bord bas. Les halos débordent de 10 % de chaque côté
 (`--debord-halo`) ; l'hôte les rogne (`overflow: clip` : un contenu collant y colle encore), si bien
-qu'aucun ne fait défiler la page, et rien n'est fixé à la fenêtre. Les halos restent fixes : leur
-respiration viendra avec MV-04. Sur un halo, la page ne pose que des pastilles `contour`, et aucune
-carte interactive.
+qu'aucun ne fait défiler la page, et rien n'est fixé à la fenêtre. Les halos sont dessinés pour leur
+calque (`--halo-accent-calque`, `--halo-secondaire-calque`, recalculés depuis `--debord-halo`) : à
+l'échelle 1, la tache a la place et la taille que lui donne la charte ; réduit à 0,9 ou porté à 1,08
+par la respiration, le dégradé couvre encore toute la section, sans bord net. Les halos restent
+fixes : leur respiration viendra avec MV-04. Sur un halo, la page ne pose que des pastilles
+`contour`, et aucune carte interactive.
 
 Les composants de formulaire et d'état servent au formulaire de contact et au CV indisponible. Leurs
 seuls textes propres sont ceux que la charte leur donne, marqués pour la traduction : « Envoi en
