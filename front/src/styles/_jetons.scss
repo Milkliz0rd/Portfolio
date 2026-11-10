@@ -240,6 +240,16 @@
   --filet-message-teinte: color-mix(in srgb, currentcolor 40%, transparent);
   --taille-icone-message: 1.375rem;
   --decalage-icone-message: 0.1rem;
+
+  // CO-12 Fenêtre factice : fond, couleur-surface à 92 % ; hauteur de la barre ; trois points de
+  // 9 px, couleur-texte à 18 %, espacés de 6 px ; interligne du code, 1.65, le haut de la plage de
+  // taille-code (section 4) que retiennent les maquettes.
+  --fond-fenetre: color-mix(in srgb, var(--couleur-surface) 92%, transparent);
+  --hauteur-barre-fenetre: 2.375rem;
+  --taille-point-fenetre: 9px;
+  --ecart-points-fenetre: 6px;
+  --fond-point-fenetre: color-mix(in srgb, var(--couleur-texte) 18%, transparent);
+  --interligne-code-fenetre: 1.65;
 }
 
 @include ruptures.depuis(moyenne) {
