@@ -247,8 +247,10 @@ lien, sans survol ni focus.
 
 **Jamais de cadre vide.** Rien n'est rendu pour un code sans ligne, ou dont les lignes sont vides,
 ni pour une capture sans source ; un navigateur sans contenu projeté est masqué par la feuille de
-style, même sans script. Une capture non décorative sans texte alternatif, ou toute capture sans
-`largeur` ou sans `hauteur`, lève une erreur au rendu : au pré-rendu, le build échoue.
+style, même sans script. L'hôte vide ne prend alors aucune place, ni écart de grille ou de boîte
+flexible : la page n'a pas besoin d'un `@if` autour d'une fenêtre facultative. Une capture non
+décorative sans texte alternatif, ou toute capture sans `largeur` ou sans `hauteur`, lève une
+erreur au rendu : au pré-rendu, le build échoue.
 
 ## Mouvement
 

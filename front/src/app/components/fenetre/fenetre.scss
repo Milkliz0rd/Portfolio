@@ -1,9 +1,17 @@
 // Fenêtre factice de la charte (CO-12) : fond couleur-surface à 92 %, filet verre-bordure,
-// ombre-fenetre, arrondi-grand. L'hôte se comporte en bloc ; sans contenu, il est vide et n'occupe
-// aucune place.
+// ombre-fenetre, arrondi-grand. L'hôte se comporte en bloc.
 :host {
   display: block;
   min-width: 0;
+}
+
+// Sans contenu, l'hôte sort de la mise en page, sans place ni écart de grille ou de boîte
+// flexible, même sans script. Un code ou une capture sans contenu ne laissent dans l'hôte que
+// l'ancre du @if, un commentaire que :empty ignore ; un navigateur sans contenu projeté y garde son
+// cadre masqué, à l'emplacement vide.
+:host:empty,
+:host:has(> .fenetre__cadre > .fenetre__contenu:empty) {
+  display: none;
 }
 
 .fenetre__cadre {

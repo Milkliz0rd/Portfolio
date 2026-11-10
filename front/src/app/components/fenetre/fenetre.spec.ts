@@ -261,3 +261,21 @@ describe('Fenetre capture', () => {
     expect(() => monter(HoteCapture, (hote) => hote.hauteur.set(undefined))).toThrow(/dimensions/);
   });
 });
+
+// jsdom ne calcule pas la mise en page, mais il applique la feuille du composant : l'affichage
+// calculé de l'hôte dit s'il prend une place, ou un écart de grille ou de boîte flexible.
+describe('Fenetre dans la mise en page', () => {
+  const affichage = (hote: HTMLElement) => getComputedStyle(hote).display;
+
+  it('sans contenu, sort l’hôte de la mise en page, quelle que soit la variante', () => {
+    expect(affichage(rendre([]).hote)).toBe('none');
+    expect(affichage(monter(HoteCapture, (hote) => hote.source.set(undefined)).hote)).toBe('none');
+    expect(affichage(monter(HoteNavigateur, (hote) => hote.contenu.set(false)).hote)).toBe('none');
+  });
+
+  it('avec un contenu, garde l’hôte en bloc', () => {
+    expect(affichage(rendre().hote)).toBe('block');
+    expect(affichage(monter(HoteCapture).hote)).toBe('block');
+    expect(affichage(monter(HoteNavigateur).hote)).toBe('block');
+  });
+});
