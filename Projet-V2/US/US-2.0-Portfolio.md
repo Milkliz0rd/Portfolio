@@ -1,8 +1,26 @@
 # US-2.0 : MVP Portfolio
-Statut : [ ] à rédiger  [x] à approuver  [x] approuvé par : Alexandre Morozoff le 15/10/26  [ ] terminé
+Statut : [ ] à rédiger  [x] à approuver  [x] approuvé par : Alexandre Morozoff le 15/10/26  [ ] terminé ; révision du 10/11/26 (one-pager et retrait du CV), approuvée par la fusion de sa PR
 Base : Projet-V2/Contexte-Pitch.md, signé par Alexandre Morozoff le 14/10/26.
 
 Les citations se retrouvent mot pour mot dans la fiche de base. Un seuil sans source est suivi de « (proposition, à valider) ». Les textes définitifs du site ne sont pas rédigés ici : ces US disent quel contenu est montré.
+
+## Révision du 10/11/2026
+
+Le 10/11/2026, Alexandre a décidé que le site ne propose plus de CV, et que l'accueil, le parcours, les compétences, l'expérience, la méthode et les projets s'enchaînent sur une seule page, la fiche de chaque projet, le contact et les mentions légales restant à part (Q-07, Q-16).
+
+| Élément | Avant | Après | Raison |
+| --- | --- | --- | --- |
+| En-tête | Approuvé le 15/10/26 | Mentionne cette révision, approuvée par la fusion de sa PR | Garder la trace de la révision |
+| MF-02 | Titre : CV et contact accessibles en permanence. Le CV et le contact s'atteignent en un clic depuis n'importe quelle page, le clic unique restant à valider | Titre : Contact accessible en permanence. Le contact s'atteint en un clic depuis n'importe quelle page ; la source du clic unique est ajoutée | Plus de CV ; le clic unique a été validé par Alexandre le 15/10/2026 dans le parcours d'écrans |
+| MF-03 | La navigation mène au parcours, aux compétences, au rôle chez OSOL, à la méthode, aux projets, au CV et au contact | Elle mène à chacune de ces sections et au contact ; plus au CV | Plus de CV ; le contact reste à part, il n'est pas une section |
+| MF-04 | Titre : Liens directs vers les pages. Recharger une page garde la même page affichée | Titre : Liens directs vers les sections et les fiches projet. Un rechargement garde le même contenu affiché | Les sections s'enchaînent sur une même page ; le besoin dit ce qui s'affiche, pas la forme |
+| Titre de la macro-fonction qui regroupe le contact et les liens | CV, contact et liens | Contact et liens | Plus de CV |
+| MF-15 | Consulter et télécharger le CV, avec un message si le CV est indisponible | Retirée, sans renumérotation | Plus de CV : ni page, ni fichier |
+| Hors périmètre | Aucun parcours ludique ne conditionne l'accès au CV ou au contact | Aucun parcours ludique ne conditionne l'accès au contact ; la citation de la fiche de base reste telle quelle | Plus de CV |
+| Q-07 | Question ouverte : quel CV proposer ? | Question tranchée : plus de CV sur le site | Décision d'Alexandre du 10/11/2026 |
+| Q-16 | N'existait pas | Question tranchée : le site tient-il sur une seule page ? | Décision d'Alexandre du 10/11/2026 |
+| C-03 | Le CV, en fichier, à fournir par Alexandre | Retiré, sans renumérotation | Plus de CV |
+| Matrice de couverture, ligne E-11 | Traitée par MF-02, MF-15 et MF-16 | Traitée par MF-02, MF-16 et Q-07 ; l'extrait de la fiche de base reste mot pour mot | MF-15 est retirée ; la part de l'extrait qui parle du CV est tranchée par Q-07 |
 
 ## Macro-fonction : Présentation et navigation
 
@@ -19,13 +37,13 @@ Règles métier :
 
 Scénarios liés : SC-2.0-01
 
-### MF-02 — Micro-fonction : CV et contact accessibles en permanence
+### MF-02 — Micro-fonction : Contact accessible en permanence
 Priorité : critique     Périmètre : MVP v2.0.0
-Source : Contexte « son concept ludique cache le CV et le contact au lieu de les mettre en avant » ; Contexte « donne envie de recruter Alexandre comme développeur »
-En tant que recruteur, je veux atteindre le CV et le contact depuis n'importe quelle page en un clic (proposition, à valider), afin de ne pas avoir à les chercher.
+Source : Contexte « son concept ludique cache le CV et le contact au lieu de les mettre en avant » ; Contexte « donne envie de recruter Alexandre comme développeur » ; Réponse d'Alexandre du 15/10/2026 dans le parcours d'écrans : le contact s'atteint en un clic
+En tant que recruteur, je veux atteindre le contact depuis n'importe quelle page en un clic, afin de ne pas avoir à le chercher.
 
 Règles métier :
-- Le CV et le contact ne dépendent d'aucune étape préalable : ni exploration du site, ni jeu, ni saisie.
+- Le contact ne dépend d'aucune étape préalable : ni exploration du site, ni jeu, ni saisie.
 - Cette règle vaut pour toutes les pages, y compris la fiche d'un projet.
 
 Scénarios liés : SC-2.0-02, SC-2.0-03
@@ -36,20 +54,20 @@ Source : Contexte « recruteurs et responsables techniques » ; Contexte « qui 
 En tant que responsable technique, je veux parcourir les sections du site depuis une navigation disponible sur chaque page, afin de me faire un avis sur le profil en quelques minutes.
 
 Règles métier :
-- La navigation donne accès à chaque section du site : parcours, compétences, rôle chez OSOL, méthode de travail, projets, CV, contact.
+- La navigation donne accès à chaque section du site (parcours, compétences, rôle chez OSOL, méthode de travail, projets) et au contact.
 - La navigation est la même sur toutes les pages.
 
 Scénarios liés : SC-2.0-04
 
-### MF-04 — Micro-fonction : Liens directs vers les pages
+### MF-04 — Micro-fonction : Liens directs vers les sections et les fiches projet
 Priorité : high     Périmètre : MVP v2.0.0
 Source : Contexte « liens directs cassés »
-En tant que recruteur, je veux ouvrir directement la page qu'on m'a transmise (une section ou la fiche d'un projet) à partir de son lien, afin d'arriver sur le bon contenu sans repasser par l'accueil.
+En tant que recruteur, je veux ouvrir directement le contenu qu'on m'a transmis (une section ou la fiche d'un projet) à partir de son lien, afin d'arriver sur le bon contenu sans repasser par l'accueil.
 
 Règles métier :
 - Un lien direct vers une section affiche cette section.
 - Un lien direct vers la fiche d'un projet existant affiche cette fiche.
-- Recharger une page garde la même page affichée.
+- Un rechargement garde le même contenu affiché : la même section ou la même fiche.
 - Un lien direct vers un projet qui n'existe pas mène à la page décrite en MF-05.
 
 Scénarios liés : SC-2.0-05, SC-2.0-06, SC-2.0-07
@@ -223,19 +241,10 @@ Règles métier :
 
 Scénarios liés : SC-2.0-19, SC-2.0-20
 
-## Macro-fonction : CV, contact et liens
+## Macro-fonction : Contact et liens
 
-### MF-15 — Micro-fonction : Consulter et télécharger le CV
-Priorité : critique     Périmètre : MVP v2.0.0
-Source : Existant v1 (v1.0.0:my-portfolio/src/Components/CV/CV.jsx) ; Contexte « son concept ludique cache le CV et le contact au lieu de les mettre en avant »
-En tant que recruteur, je veux obtenir le CV d'Alexandre, afin de le lire ou de le transmettre.
-
-Règles métier :
-- Le CV est disponible sans condition préalable (MF-02).
-- Le fichier est le contenu C-03, fourni par Alexandre ; son nom ne contient ni date ni mention de situation (proposition, à valider ; Q-07).
-- Si le CV est indisponible, un message l'indique et propose le contact (proposition, à valider).
-
-Scénarios liés : SC-2.0-21, SC-2.0-22
+### MF-15 — Micro-fonction : Consulter et télécharger le CV (retirée le 10/11/2026)
+Statut : retirée le 10/11/2026, décision d'Alexandre : plus de CV sur le site, ni page, ni fichier à consulter ou télécharger.
 
 ### MF-16 — Micro-fonction : Envoyer un message à Alexandre
 Priorité : critique     Périmètre : MVP v2.0.0
@@ -312,7 +321,7 @@ Exclusions décidées :
 - Le lien vers X de l'ancien site n'est pas repris : décision d'Alexandre du 15/10/2026 (Q-08).
 - Aucune reprise du code de l'ancien site, seulement sa matière (textes, captures, liens) : décision d'Alexandre du 13/10/2026.
 - Aucune direction artistique dans ces US : la charte graphique se définit à l'Étape 4 (décision d'Alexandre du 13/10/2026).
-- Aucun parcours ludique qui conditionne l'accès au CV ou au contact : Contexte « son concept ludique cache le CV et le contact au lieu de les mettre en avant ».
+- Aucun parcours ludique qui conditionne l'accès au contact : Contexte « son concept ludique cache le CV et le contact au lieu de les mettre en avant ».
 
 ## Exigences reportées à la conception (Étape 4)
 
@@ -333,7 +342,6 @@ Exclusions décidées :
 ## Questions ouvertes pour Alexandre
 
 - Q-06 — Quelles compétences techniques et humaines afficher, et faut-il un niveau pour chacune ? Hypothèse provisoire : seules les compétences fournies par Alexandre (C-02) sont affichées, sans niveau chiffré. Impacte : MF-09, MF-10.
-- Q-07 — Quel CV proposer ? Le fichier de l'ancien site a un nom daté et porte une mention de recherche d'alternance. Hypothèse provisoire : un seul CV, en français, fourni par Alexandre (C-03), sous un nom sans date ni mention de situation. Impacte : MF-15.
 - Q-10 — Le contact passe-t-il par le formulaire de l'ancien site (nom, prénom, email, sujet, message), ou par un autre moyen ? Dans quelle boîte arrivent les messages ? Hypothèse provisoire : le formulaire de l'ancien site, avec ses cinq champs obligatoires, et les messages arrivent dans une boîte personnelle d'Alexandre. Impacte : MF-16, MF-20.
 - Q-15 — Les technologies pratiquées chez OSOL (langages, frameworks) peuvent-elles être nommées ? Hypothèse provisoire : oui comme compétences ; les outils internes, projets, clients et dépôts ne le sont jamais. Impacte : MF-09, MF-11.
 
@@ -344,18 +352,20 @@ Exclusions décidées :
 - Q-03 — Comment présenter le master, sachant que cette situation a une fin ? Décision d'Alexandre du 15/10/2026 : le master est une étape du parcours présentée comme une période datée, jamais au présent ; les dates sont fournies par Alexandre (C-01). Appliquée dans : MF-07, MF-08, MF-18.
 - Q-04 — Quelles dates, intitulés et établissements afficher pour le parcours ? Décision d'Alexandre du 15/10/2026 : les étapes (reconversion, bac+3 avec son intitulé et son établissement, master) sont des périodes datées, avec début et fin au mois ou à l'année ; elles sont fournies par Alexandre (C-01). Appliquée dans : MF-07, MF-18.
 - Q-05 — Quels projets présenter au lancement ? Décision d'Alexandre du 15/10/2026 : aucun projet d'école ni d'entreprise ; le portfolio lui-même est le projet présenté ; le site dit que les projets menés en entreprise ne sont pas partageables ; une section explique sa méthodologie de travail et son attachement aux architectures solides ; l'ajout d'un projet plus tard reste possible. Appliquée dans : MF-11, MF-12, MF-14, MF-21, MF-22.
+- Q-07 — Quel CV proposer ? Décision d'Alexandre du 10/11/2026 : plus de CV sur le site, ni page, ni fichier à consulter ou télécharger. Appliquée dans : MF-02, MF-03.
 - Q-08 — Quels liens externes garder ? Décision d'Alexandre du 15/10/2026 : GitHub et LinkedIn ; le lien vers X n'est pas repris. Appliquée dans : MF-17.
 - Q-09 — Faut-il une version anglaise du site ? Décision d'Alexandre du 15/10/2026 : oui, en v2.0.1 ; le MVP est en français et la conception prévoit l'ajout. Appliquée dans : MF-23.
 - Q-11 — Faut-il se protéger des messages indésirables ? Décision d'Alexandre du 15/10/2026 : oui, le formulaire est protégé ; le moyen et son test se décident à l'Étape 4. Appliquée dans : MF-16.
 - Q-12 — Que publier dans les mentions légales ? Décision d'Alexandre du 15/10/2026 : le nom d'Alexandre, le contact par le formulaire et l'identité de l'hébergeur ; ni adresse ni téléphone personnels. Appliquée dans : MF-19.
 - Q-13 — Quel intitulé de profil afficher à l'accueil ? Décision d'Alexandre du 15/10/2026 : « Développeur fullstack, orienté architecture logicielle ». Appliquée dans : MF-01.
 - Q-14 — Faut-il relier chaque compétence aux projets qui la démontrent ? Sans objet depuis la décision sur Q-05 (constat du 15/10/2026, à rouvrir si Alexandre le demande).
+- Q-16 — Le site tient-il sur une seule page ? Décision d'Alexandre du 10/11/2026 : l'accueil, le parcours, les compétences, l'expérience, la méthode et les projets s'enchaînent sur une seule page, dans cet ordre ; restent à part la fiche de chaque projet, le contact et les mentions légales, chacun avec sa propre adresse, ainsi que la page introuvable. La forme de cette page se décrit dans le parcours d'écrans. Appliquée dans : MF-03, MF-04.
 
 ## Contenus à fournir par Alexandre
 
 - C-01 — Les périodes datées du parcours : reconversion, bac+3 (avec son intitulé et son établissement), master, alternance chez OSOL. Fourni : alternance chez OSOL 2025–2028 ; fin du master en 2028. Restent à fournir : reconversion, bac+3 (intitulé, établissement, période), début du master. Alimente : MF-07, MF-08, MF-11, MF-18.
 - C-02 — La liste des compétences techniques et humaines, avec leurs catégories. Alimente : MF-09, MF-10.
-- C-03 — Le CV, en fichier. Alimente : MF-15.
+- C-03 — Le CV, en fichier (retiré le 10/11/2026).
 - C-04 — Le texte de la méthodologie de travail et de l'attachement aux architectures solides. Alimente : MF-21.
 - C-05 — La présentation du portfolio comme projet (démarche, architecture, lien vers le code source). Alimente : MF-22.
 - C-06 — La courte présentation de l'accueil, en deux phrases au plus. Alimente : MF-01.
@@ -380,7 +390,7 @@ C-06 à C-10 ajoutés le 16/10/2026 : textes demandés par les micro-fonctions, 
 | E-08 | le portfolio actuel ne représente plus son auteur | Contexte, Problème réel | MF-01, MF-07 |
 | E-09 | daté (recherche d'alternance, rentrée 2025) | Contexte, Problème réel | MF-18, Q-02 |
 | E-10 | ne montre que des projets d'école | Contexte, Problème réel | MF-12, MF-22, Q-05 |
-| E-11 | son concept ludique cache le CV et le contact au lieu de les mettre en avant | Contexte, Problème réel | MF-02, MF-15, MF-16 |
+| E-11 | son concept ludique cache le CV et le contact au lieu de les mettre en avant | Contexte, Problème réel | MF-02, MF-16, Q-07 |
 | E-12 | liens directs cassés | Contexte, Problème réel | MF-04, MF-05, Reporté Étape 4 |
 | E-13 | aucun référencement | Contexte, Problème réel | Reporté Étape 4 |
 | E-14 | aucun test | Contexte, Problème réel | Reporté Étape 4 |
