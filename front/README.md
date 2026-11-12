@@ -396,9 +396,10 @@ Bricolage Grotesque, U+201B chez les trois.
 
 ## Sortie du build
 
-`dist/front/browser/` contient un `index.html` par adresse (`parcours/index.html`,
-`projets/portfolio/index.html`…) et trois pages d'erreur, placées par
-`outils/finaliser-build.mjs` : `404.html`, `projets/404.html` et `cv/404.html`. Ce script y écrit
+`dist/front/browser/` contient un `index.html` par page : `index.html` (la page principale),
+`contact/index.html`, `mentions-legales/index.html` et un `projets/<identifiant>/index.html` par
+projet ; s'y ajoutent les deux pages d'erreur, placées par `outils/finaliser-build.mjs` là où
+l'hébergeur les cherche : `404.html` et `projets/404.html`. Ce script y écrit
 ensuite le fichier d'en-têtes de l'hébergeur, `_headers` (voir « Hébergement »).
 
 ## Hébergement
@@ -406,7 +407,7 @@ ensuite le fichier d'en-têtes de l'hébergeur, `_headers` (voir « Hébergement
 Le front est servi par les ressources statiques des Workers de Cloudflare, sans script Worker.
 `wrangler.jsonc` ne déclare que le dossier `dist/front/browser/`, la page 404 la plus proche
 (`not_found_handling` « 404-page », avec le statut 404) et les adresses sans barre finale
-(`html_handling` « drop-trailing-slash » : `/parcours/` redirige en 307 vers `/parcours`). Wrangler,
+(`html_handling` « drop-trailing-slash » : `/contact/` redirige en 307 vers `/contact`). Wrangler,
 l'outil de l'hébergeur, est une dépendance de développement à version fixe, télémétrie coupée
 (`send_metrics`). Rien de propre à l'hébergeur n'entre dans `src/`.
 
@@ -471,7 +472,7 @@ bibliothèques système.
 qui démarre et arrête lui-même le serveur local, sans jamais construire. Le port 8787 doit être
 libre : un serveur déjà présent fait échouer le banc, au lieu de lui faire tester un autre build.
 Les options de Playwright suivent `--`, par exemple `npm run e2e -- --project chromium-ordinateur`
-ou `npm run e2e -- --grep "contrôle commun /parcours"` ; sur un build de test déjà fait,
+ou `npm run e2e -- --grep "contrôle commun /contact"` ; sur un build de test déjà fait,
 `npx playwright test -c e2e/playwright.config.ts` suffit. Aucune nouvelle tentative : un test
 instable est un défaut. Le rapport va dans `playwright-report/` (`npx playwright show-report`), les
 traces des échecs dans `test-results/`, non versionnés.
@@ -487,9 +488,11 @@ traces des échecs dans `test-results/`, non versionnés.
 
 **Ce qui fait échouer le banc** :
 
-- `conformite.spec.ts`, la spécification de conformité du serveur local : `/parcours` en 200 sans
-  redirection, `/parcours/` en 307 vers `/parcours`, une adresse inconnue, un projet inconnu et le
-  fichier du CV absent en 404 avec le contenu de leur `404.html`, et les en-têtes de la règle `/*`
+- `conformite.spec.ts`, la spécification de conformité du serveur local : `/contact` en 200 sans
+  redirection, `/contact/` en 307 vers `/contact`, une adresse inconnue, un projet inconnu et
+  `/projets` seule en 404 avec le contenu de leur `404.html` (pour `/projets`, celui de la racine,
+  relevé sur le serveur local), chaque page retirée (une par section, et celles de la candidature)
+  en 404 avec le contenu de `404.html`, et les en-têtes de la règle `/*`
   de `_headers`, politique de sécurité comprise, sur une page en 200 comme sur une 404. Elle passe
   sous Wrangler 4.155.0 : le serveur de repli prévu par le plan n'a pas lieu d'être.
 - `controle-commun.spec.ts`, un test par adresse : chaque `index.html` du build, relevé à

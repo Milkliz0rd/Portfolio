@@ -9,7 +9,7 @@
     "directory": "./dist/front/browser",
     // Une adresse sans fichier reçoit le 404.html le plus proche, avec le statut 404 (PF-06).
     "not_found_handling": "404-page",
-    // /parcours sert parcours/index.html ; /parcours/ redirige vers /parcours (PF-08).
+    // /contact sert contact/index.html ; /contact/ redirige vers /contact (PF-08).
     "html_handling": "drop-trailing-slash",
   },
   // Les préversions par branche demandent ce bloc, même vide.
