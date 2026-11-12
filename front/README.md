@@ -226,7 +226,7 @@ par la respiration, le dégradé couvre encore toute la section, sans bord net. 
 fixes : leur respiration viendra avec MV-04. Sur un halo, la page ne pose que des pastilles
 `contour`, et aucune carte interactive.
 
-Les composants de formulaire et d'état servent au formulaire de contact et au CV indisponible. Leurs
+Les composants de formulaire et d'état servent au formulaire de contact. Leurs
 seuls textes propres sont ceux que la charte leur donne, marqués pour la traduction : « Envoi en
 cours… » (`@@commun.envoi-en-cours`), « Votre adresse e-mail » (`@@champ.indicatif-email`), « Ce
 champ est obligatoire. » (`@@champ.erreur-obligatoire`) et « L’adresse e-mail n’est pas valide. »
