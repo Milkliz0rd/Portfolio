@@ -1,15 +1,12 @@
 import { Routes } from '@angular/router';
+import { Principale } from './pages/principale/principale';
 import { Provisoire } from './pages/provisoire/provisoire';
 
-// Une page provisoire par adresse du parcours d'écrans, remplacée écran par écran.
-// data.section désigne l'entrée de navigation signalée ; les routes d'erreur n'en ont pas (PF-06).
+// La page principale provisoire, puis une page provisoire par adresse du parcours d'écrans,
+// remplacée écran par écran. data.section désigne l'entrée de navigation signalée ; la page
+// principale n'en a pas (la section lue la donnera), les routes d'erreur non plus (PF-06).
 export const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: Provisoire,
-    data: { section: 'accueil', ecran: 'EC-01 Accueil' },
-  },
+  { path: '', pathMatch: 'full', component: Principale },
   {
     path: 'parcours',
     component: Provisoire,
