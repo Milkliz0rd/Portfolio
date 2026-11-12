@@ -436,8 +436,8 @@ n'entre pas dans le dépôt.
 - les autres en-têtes : `nosniff`, politique de référent, politique des permissions, interdiction
   du cadre et HTTPS obligatoire (HSTS) ; `X-Robots-Tag: noindex` hors production ; ni
   `upgrade-insecure-requests` ni HSTS en test et en développement, servis en HTTP ;
-- un an de cache immuable pour `/*.js`, `/*.css` et `/polices/*` ; la politique retirée du seul
-  fichier du CV, quand il est présent.
+- un an de cache immuable pour `/*.js`, `/*.css` et `/polices/*` ; aucune règle ne retire la
+  politique, ni aucun autre en-tête.
 
 Le build échoue si une page porte un attribut de gestionnaire d'événement (`onload`, `onclick`…)
 ou une adresse `javascript:`, qu'aucune empreinte n'autorise, si elle n'a pas exactement un petit
