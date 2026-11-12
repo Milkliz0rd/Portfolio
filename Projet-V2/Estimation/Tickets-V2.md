@@ -1547,8 +1547,8 @@ Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par
 | TK-65 | #82 |
 | TK-66 | #83 |
 | TK-67 | #90 |
-| TK-68 | à créer |
-| TK-69 | à créer |
-| TK-70 | à créer |
-| TK-71 | à créer |
-| TK-72 | à créer |
+| TK-68 | #182 |
+| TK-69 | #183 |
+| TK-70 | #184 |
+| TK-71 | #185 |
+| TK-72 | #186 |
