@@ -30,6 +30,33 @@ Le 10/11/2026, Alexandre a décidé que le site tient sur une page principale qu
 | Renvoyé à R4 — TK-65 (plus de CV) | — | Fait : ligne TK-65 ci-dessus | Ligne « Renvoyé à R4 » du plan du front |
 | Étape 27 — TK-38 | « Écran CV (TK-38) », étape retirée du plan du front le 12/11/2026, l'annulation du ticket renvoyée à R4 | Ticket retiré : ligne TK-38 ci-dessus | Plan du front, tableau de révision |
 | Section 7 — Les estimations, après le retrait | 62 tickets, dont 37 à 1 j ; 79,5 j | 61 tickets, dont 36 à 1 j ; 78,5 j, avant l'ajout des tickets de la reprise du code (ligne « Section 7 — Les estimations » plus bas) | TK-38 retiré : 1 j de moins |
+| TK-68 à TK-72 | N'existaient pas | Cinq tickets v2.0.0 qui reprennent le code fusionné jusqu'à 7b93b24, numérotés à la suite, au format des autres : TK-68, page principale provisoire, routes et pages d'erreur (1 j, ≈ 330 lignes) ; TK-69, retrait du fichier de candidature du contenu et des en-têtes (0,5 j, ≈ 160 lignes) ; TK-70, défilement du routeur vers les ancres (2 j, ≈ 380 lignes) ; TK-71, entrée courante du lien et ancre de la carte (1 j, ≈ 220 lignes) ; TK-72, en-tête de section, typographie, largeur du texte et fenêtre factice (1 j, ≈ 220 lignes) ; chacun estimé sous 400 lignes, avec l'écart constaté de W1 à W14 ; leurs issues sont à créer (section 8) | Section « Code déjà fusionné à reprendre » du plan du front, base des tickets de R4 ; aucun ne passe 400 lignes à l'estimation, donc aucun n'est coupé |
+| Renvoyé à R4 — Le ou les tickets de la reprise du code déjà fusionné, avant l'étape 16 | — | Fait : TK-68 à TK-72, tous en W15 à W17, avant l'en-tête (TK-27, étape 16), qui dépend de TK-68, TK-70 et TK-71 | Ligne « Renvoyé à R4 » du plan du front ; ordre de sa section « Code déjà fusionné à reprendre » |
+| Reprise — ligne 1 (app.routes.ts : une route par section) | Code de TK-05 | Portée par TK-68, DoD (1) : page principale provisoire, sections à leurs ancres, plus de route par section | Plan du front, PF-06 ; avant l'étape 16 |
+| Reprise — ligne 2 (routes cv et cv/404) | Code de TK-05 | Portée par TK-68, DoD (2) | Plus de CV ; avant l'étape 16 |
+| Reprise — ligne 3 (app.routes.server.ts) | Code de TK-05 et TK-12 | Portée par TK-68, DoD (3) | PF-06 ; avant l'étape 16 |
+| Reprise — ligne 4 (finaliser-build.mjs : trois pages d'erreur) | Code de TK-05 et TK-13 | Portée par TK-68, DoD (4) : deux pages d'erreur | PF-06 ; avant l'étape 16 |
+| Reprise — ligne 5 (en-têtes du fichier du CV) | Code de TK-13 et TK-23 | Portée par TK-69, DoD (1) | PF-09 ; avant l'étape 16 |
+| Reprise — ligne 6 (cvPresent dans l'index des projets) | Code de TK-12 | Portée par TK-69, DoD (2) | PF-02 ; avant l'étape 16 |
+| Reprise — ligne 7 (champ cv.fichier du profil) | Code de TK-12 | Portée par TK-69, DoD (3) | PF-02 ; avant l'étape 16 |
+| Reprise — ligne 8 (initialiseur du défilement d'app.config.ts) | Code de TK-23 | Portée par TK-70, DoD (1) à (3) et (5) | Conception technique, section 3, « Ancres » ; V-11 ; avant l'étape 16 |
+| Reprise — ligne 9 (scroll-padding-top et commentaire du mouvement) | Code de TK-11 et TK-23 | Portée par TK-70, DoD (4) | PF-06 ; avant l'étape 16 |
+| Reprise — ligne 10 (lien : courant booléen) | Code de TK-15 | Portée par TK-71, DoD (1) | CO-02 et CO-06 révisés, choix 8 ; avant l'étape 16, premier emploi du lien |
+| Reprise — ligne 11 (carte : lien sans ancre) | Code de TK-26 | Portée par TK-71, DoD (2) | PF-06 ; avant l'étape 22 (TK-33) |
+| Reprise — ligne 12 (en-tête de section) | Code de TK-17 | Portée par TK-72, DoD (1) | Choix 4 et 5, CO-16 révisé ; avant l'étape 23 (TK-34) |
+| Reprise — ligne 13 (césure et taille des h2) | Code de TK-11 | Portée par TK-72, DoD (2) | Choix 5 ; avant l'étape 22 |
+| Reprise — ligne 14 (conteneur-texte à 68ch) | Code de TK-10 | Portée par TK-72, DoD (3) | Choix 3 ; avant l'étape 22 |
+| Reprise — ligne 15 (titre de la fenêtre factice à 12 px) | Code de TK-25 | Portée par TK-72, DoD (4) | Choix 1 ; avant l'étape 22, dont la fenêtre « profil.ts » |
+| Reprise — ligne 16 (exemples de test sur /parcours et /cv) | Code de TK-05, TK-13, TK-15 | Avec le fichier qu'elle accompagne : provisoire.spec.ts dans TK-68, DoD (6) ; en-tetes.test.mjs dans TK-69, DoD (4) ; bouton.spec.ts et lien.spec.ts dans TK-71, DoD (3) | Ordre du plan du front : « les lignes 16 à 18, avec le fichier qu'elles accompagnent » |
+| Reprise — ligne 17 (pages d'erreur et conformité du banc) | Code de TK-21 | Portée en entier par TK-68, DoD (5), avec les lignes 2 et 4 qu'elle accompagne | PF-08 |
+| Reprise — ligne 18 (README et wrangler.jsonc) | Code de TK-05 à TK-26 | Avec le code que chaque passage décrit, comme le veut la DoD commune (README à jour) : README 401, 409, 474, 490 à 492 et wrangler.jsonc dans TK-68, DoD (6) ; README 86, 229 et 440 dans TK-69, DoD (4) ; README 121 et 207 dans TK-71, DoD (3) | Ordre du plan du front : avec le fichier qu'elle accompagne |
+| Reprise — ligne 19 (controle-commun.spec.ts et mouvement.spec.ts) | — | Rien à reprendre, cité pour mémoire : la liste des pages suit le build ; seules les pages d'erreur changent (ligne 17, TK-68) | Plan du front, pour mémoire |
+| Reprise — ligne 20 (components/champ sans mention par champ) | — | Rien à reprendre, cité pour mémoire : le formulaire n'a que des champs obligatoires, annoncés par une phrase (choix 7, TK-41) | Plan du front, pour mémoire |
+| Reprise — ligne 21 (taille-code, conteneurs, interligne du code) | — | Rien à reprendre, cité pour mémoire : déjà conformes | Plan du front, pour mémoire |
+| Reprise — ligne 22 (apostrophe typographique dans front/src/) | — | Rien à reprendre, cité pour mémoire : libellés et contenu emploient déjà ’ | Décision d'Alexandre du 12/11/2026 : le code ne change pas |
+| Section 2 — Introduction | Tickets v2.0.0 : TK-01 à TK-59, TK-65, TK-66, TK-67 | Hors le ticket retiré, et TK-68 à TK-72 ajoutés ; un ticket retiré garde son numéro, son titre et une ligne de statut | Retrait de TK-38 ; reprise du code |
+| Section 8 — Nouveaux tickets | — | Une ligne « à créer » par ticket de TK-68 à TK-72 ; le pilote crée les issues et écrit leurs numéros avant d'ouvrir la PR | Le backlog garde la correspondance de chaque ticket actif |
+| Section 5 — CT-01, CT-03 et MF-04 | Sans les tickets de la reprise | CT-01 et MF-04 avec TK-68, MF-04 avec TK-70, CT-03 avec TK-69 | Champ « Couvre » des nouveaux tickets |
 
 ## 1. Conventions
 
@@ -102,7 +129,7 @@ Une DoD de ticket qui commence par « DoD commune » ajoute ses propres critère
 
 ## 2. Tickets
 
-Les tickets sont présentés par numéro. Un numéro ne change plus une fois attribué et ne suit pas toujours l'ordre de réalisation, qui se lit dans le champ « Vague » et dans la section 3. Tickets v2.0.0 : TK-01 à TK-59, puis TK-65 et TK-66, ajoutés à la relecture pour intégrer les contenus d'Alexandre, et TK-67, ajouté par la révision du 28/10/2026 ; tickets après-v2 : TK-60 à TK-64 (section 6).
+Les tickets sont présentés par numéro. Un numéro ne change plus une fois attribué et ne suit pas toujours l'ordre de réalisation, qui se lit dans le champ « Vague » et dans la section 3. Tickets v2.0.0 : TK-01 à TK-59, hors celui retiré le 12/11/2026, puis TK-65 et TK-66, ajoutés à la relecture pour intégrer les contenus d'Alexandre, TK-67, ajouté par la révision du 28/10/2026, et TK-68 à TK-72, ajoutés par la révision du 10/11/2026 pour reprendre le code déjà fusionné ; tickets après-v2 : TK-60 à TK-64 (section 6). Un ticket retiré garde son numéro et son titre, suivi de sa date de retrait, et une ligne de statut.
 
 ### TK-01 — Contrat d'API du formulaire de contact
 
@@ -1098,6 +1125,81 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **DoD** : DoD commune, et : (1) toute réponse d'erreur du back, y compris 404, 405, 406, 415 et 500, suit le format d'erreur du contrat ; (2) chaque réponse porte les en-têtes de sécurité prévus par le plan du back (PB-06) ; (3) une requête venue d'une autre origine que l'origine autorisée, lue dans `CONTACT_ALLOWED_ORIGINS`, reçoit `403` au format du contrat, requête préalable comprise ; une requête préalable de l'origine autorisée reçoit les en-têtes CORS du contrat ; une requête sans `Origin` est traitée ; (4) un corps de plus de 64 Kio, annoncé ou non, est refusé par le `400` de corps illisible du contrat ; (5) le back refuse de démarrer si une origine configurée contient un joker, un chemin ou une barre finale ; (6) des tests par tranche web, avec un contrôleur de test sous `/api/v1/`, couvrent chacun de ces cas.
 - **Résumé** : Pose le socle HTTP du back avant le point d'envoi : un format d'erreur unique pour toutes les réponses d'erreur, des en-têtes de sécurité sur chaque réponse, le refus de toute origine autre que l'origine autorisée et une taille de corps bornée. Le point d'envoi s'y branche ensuite (TK-16).
 
+### TK-68 — Reprise du code : page principale provisoire, routes et pages d'erreur
+
+- **Titre de PR** : `feat(front): serve the sections on a provisional main page`
+- **Type** : feature
+- **Domaine** : front
+- **Priorité** : prio-critique
+- **Estimation** : 1 j
+- **Version** : v2.0.0
+- **Couvre** : CT-01, MF-04 (plan du front : PF-06 ; « Code déjà fusionné à reprendre », lignes 1 à 4 et 17, avec la part des lignes 16 et 18 qui les accompagne)
+- **Dépend de** : TK-05, TK-13, TK-21
+- **Vague** : W15
+- **Taille** : ≈ 330 lignes
+- **DoD** : DoD commune, et : (1) la route vide mène à la page principale provisoire (pages/principale), sans data.section : l'accueil, en haut et sans ancre, puis les cinq sections étiquetées — parcours, compétences, expérience, méthode de travail, projets —, chacune dans un élément section dont l'id est le nom de son ancre (parcours, competences, experience, methode, projets) et assez haute pour que la page défile ; aucune n'est différée ; plus aucune route par section (ligne 1) ; (2) les routes « cv » et « cv/404 », et la variante de la page introuvable qui leur répondait, sont retirées (ligne 2) ; (3) app.routes.server.ts pré-rend la route vide, projets/404, contact, mentions-legales et 404, plus projets/:id par getPrerenderParams ; « ** » reste rendue dans le navigateur (ligne 3) ; (4) finaliser-build.mjs place 404.html et projets/404.html, et eux seuls (ligne 4) ; (5) le banc de bout en bout ne connaît plus que les pages d'erreur de PF-06 : /projets seule y est ajoutée, avec le document que lui sert l'hébergeur, relevé par la spécification de conformité ; la conformité porte sur /contact (200 sans redirection, 307 depuis /contact/) ; /parcours et /cv répondent 404 (ligne 17) ; (6) le test unitaire des pages provisoires prend une adresse du site en exemple (ligne 16 : provisoire.spec.ts) ; le README de front/ et le commentaire de wrangler.jsonc décrivent ces routes, ces pages d'erreur et cette conformité (ligne 18 : README, lignes 401, 409, 474 et 490 à 492 ; wrangler.jsonc, ligne 12) ; (7) npm run build produit un index.html par page (index.html, contact/index.html, mentions-legales/index.html, projets/portfolio/index.html), plus 404.html et projets/404.html ; le contrôle commun du banc passe sur la page principale provisoire.
+- **Résumé** : Reprend le code fusionné de W3 à W14, écrit pour une page par section : les sections deviennent des éléments d'une page principale provisoire, à leurs ancres, et le site ne sert plus que les pages et les deux pages d'erreur de PF-06. Il ouvre la reprise, avant l'en-tête (TK-27), qui a besoin de sections à suivre.
+
+### TK-69 — Reprise du code : retrait du fichier de candidature du contenu et des en-têtes
+
+- **Titre de PR** : `refactor(front): remove the resume file from content and headers`
+- **Type** : chore
+- **Domaine** : front
+- **Priorité** : prio-high
+- **Estimation** : 0,5 j
+- **Version** : v2.0.0
+- **Couvre** : CT-03 (plan du front : PF-02 et PF-09 ; « Code déjà fusionné à reprendre », lignes 5 à 7, avec la part des lignes 16 et 18 qui les accompagne)
+- **Dépend de** : TK-12, TK-13
+- **Vague** : W15
+- **Taille** : ≈ 160 lignes
+- **DoD** : DoD commune, et : (1) la règle d'en-têtes qui servait sans politique de sécurité un fichier présent sous /cv/ disparaît : sa règle dans le modèle d'en-têtes, la fonction fichiersCv, son paramètre et son test ; plus aucun fichier n'est servi sans la politique (ligne 5, PF-09) ; (2) l'index des projets ne porte plus que les projets : cvPresent disparaît du générateur, de contenu-langue.ts et du test du générateur (ligne 6, PF-02) ; (3) profil.json ne porte plus que le nom, l'intitulé et les liens : le champ du fichier et ses mentions dans le type Profil disparaissent (ligne 7, PF-02) ; (4) les pages d'essai du test des en-têtes prennent une adresse du site (ligne 16 : en-tetes.test.mjs) ; le README de front/ ne décrit plus ni cvPresent, ni la règle de ce fichier, ni son usage par les composants de formulaire et d'état (ligne 18 : README, lignes 86, 229 et 440) ; (5) plus aucune mention de public/cv/, de cvPresent ni de cv.fichier dans front/ ; les tests d'outil et unitaires sont verts.
+- **Résumé** : Retire du code fusionné ce que la décision du 10/11/2026 rend sans objet, aucun document n'étant plus proposé au téléchargement : la règle d'en-têtes de ce fichier, la constante de l'index des projets et le champ du profil. Il précède le contrôle du contenu (TK-28), qui n'a plus à le chercher.
+
+### TK-70 — Reprise du code : défilement du routeur vers les ancres
+
+- **Titre de PR** : `feat(front): scroll to anchors below the header`
+- **Type** : feature
+- **Domaine** : front
+- **Priorité** : prio-critique
+- **Estimation** : 2 j
+- **Version** : v2.0.0
+- **Couvre** : MF-04, V-11 (plan du front : PF-06, « Ancres » ; « Code déjà fusionné à reprendre », lignes 8 et 9)
+- **Dépend de** : TK-23, TK-68
+- **Vague** : W16
+- **Taille** : ≈ 380 lignes ; au-delà de 400 à la réalisation, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) l'initialiseur du défilement d'app.config.ts, posé par TK-23, applique le tableau de défilement de PF-06 : il remplace aussi ViewportScroller.scrollToAnchor ; vers un élément, le défilement passe par Element.scrollIntoView({ block: "start" }), puis le focus sur l'élément sans défilement, jamais par les coordonnées de window.scrollTo (ligne 8) ; (2) défilement doux sur la page principale seulement, vers l'une de ses sections ou vers son haut, « sur la page principale » se lisant au chemin de l'adresse avant et après la navigation ; d'un coup vers une autre page, avec ou sans ancre, et quand le visiteur a demandé à réduire les animations ; au retour ou à l'avance dans l'historique, la position mémorisée, d'un coup, comme le fait déjà le routeur ; (3) après une navigation vers une ancre qui ne nomme rien, d'où que l'on vienne : en haut, d'un coup, et l'adresse perd son ancre, réécrite par History.replaceState en gardant history.state, jamais avant la fin du chargement de la page (V-11) ; l'ouverture directe sur une telle ancre vient avec TK-27 ; (4) html porte scroll-padding-top: 5.5rem dans _base.scss : toute ancre s'ouvre sous l'en-tête, à l'ouverture par le navigateur comme après le démarrage ; le commentaire de _mouvement.scss est à jour, scroll-behavior gardé sous no-preference (ligne 9) ; (5) tests unitaires avec le vrai routeur, ses vraies routes et sa configuration, comme app.config.spec.ts : un test par ligne du tableau, sur la page principale et sur les pages à part, animations réduites comprises, dont l'ancre qui ne nomme rien visée depuis une autre page ; plus aucune navigation de test vers /parcours ni /competences ; (6) le README de front/ décrit le défilement de PF-06.
+- **Résumé** : Reprend le défilement du routeur posé par TK-23, qui menait à une ancre par coordonnées, sans décalage sous l'en-tête : une ancre s'ouvre sous l'en-tête, en défilement doux sur la page principale et d'un coup ailleurs, et une ancre qui ne nomme rien ramène en haut. L'en-tête (TK-27) et chaque section s'appuient dessus.
+
+### TK-71 — Reprise du code : entrée courante du lien et ancre de la carte
+
+- **Titre de PR** : `feat(front): add location state to links and anchors to cards`
+- **Type** : feature
+- **Domaine** : front
+- **Priorité** : prio-high
+- **Estimation** : 1 j
+- **Version** : v2.0.0
+- **Couvre** : CO-02, CO-05 (plan du front : PF-06 ; « Code déjà fusionné à reprendre », lignes 10 et 11, avec la part des lignes 16 et 18 qui les accompagne)
+- **Dépend de** : TK-15, TK-26
+- **Vague** : W16
+- **Taille** : ≈ 220 lignes
+- **DoD** : DoD commune, et : (1) le lien (CO-02) : courant prend « page » ou « location » et pose aria-current à cette valeur ; la couleur et le trait d'accent de l'entrée courante valent pour les deux (ligne 10) ; (2) la carte interactive (CO-05) reçoit, en plus de son adresse, l'ancre et le remplacement d'adresse de son lien du routeur (fragment, replaceUrl), pour qu'une carte de l'accueil fasse défiler la page jusqu'à sa section sans étape d'historique (PF-06) ; ses exemples prennent des adresses du site (ligne 11) ; (3) les tests unitaires du lien et du bouton prennent en exemple des adresses du site (/contact, /mentions-legales), sans page retirée ni son libellé (ligne 16 : lien.spec.ts et bouton.spec.ts) ; le README de front/ décrit les deux valeurs de courant et l'exemple de carte (ligne 18 : README, lignes 121 et 207) ; (4) les valeurs brutes que la charte révisée reprend des maquettes et que ces composants emploient — décalage du soulignement et proportions de la flèche externe du lien, taille de l'icône, 1,25 fois le texte — deviennent des jetons de rôle, en fin de _jetons.scss (report du 10/11/2026) ; (5) tests unitaires : aria-current à « page » et à « location », avec le même trait ; carte avec ancre et remplacement d'adresse.
+- **Résumé** : Donne au lien et à la carte ce que la page principale leur demande : le lien signale la section lue comme la page affichée, la carte mène à une ancre sans étape d'historique. L'en-tête (TK-27) et l'accueil (TK-33) s'en servent.
+
+### TK-72 — Reprise du code : en-tête de section, typographie, largeur du texte et fenêtre factice
+
+- **Titre de PR** : `feat(front): apply the one-page design choices to section headers, type and window`
+- **Type** : feature
+- **Domaine** : front
+- **Priorité** : prio-high
+- **Estimation** : 1 j
+- **Version** : v2.0.0
+- **Couvre** : CO-12, CO-16 ; charte, sections 4 et 5, choix 1, 3, 4 et 5 du 10/11/2026 (plan du front : « Code déjà fusionné à reprendre », lignes 12 à 15)
+- **Dépend de** : TK-10, TK-11, TK-17, TK-25
+- **Vague** : W17
+- **Taille** : ≈ 220 lignes
+- **DoD** : DoD commune, et : (1) l'en-tête de section (CO-16) : numero facultatif, et sans lui une étiquette sans numéro ni filet ; niveau 1, 2 ou 3 ; titre à taille-titre-1 pour une section de la page principale ou une page à part, à taille-titre-2 pour un bloc ; commentaire « environ 68 caractères » (ligne 12, choix 4 et 5) ; (2) la césure vaut aussi pour un h2 à taille-titre-1, et la règle globale de h2 laisse passer taille-titre-1 pour un titre de section (ligne 13, choix 5) ; (3) --conteneur-texte vaut 54ch, environ 68 caractères par ligne (ligne 14, choix 3) ; (4) le titre et l'adresse de la fenêtre factice passent à taille-code (14 px), coupés d'une ellipse (ligne 15, choix 1) ; (5) la largeur de 56rem de l'en-tête de section, valeur brute que la charte révisée reprend des maquettes, devient un jeton de rôle, en fin de _jetons.scss (report du 10/11/2026) ; (6) tests unitaires de l'en-tête de section : avec et sans numéro, niveaux 1 à 3, titre de section et titre de bloc ; le README de front/ suit.
+- **Résumé** : Applique au code déjà livré quatre choix de design du 10/11/2026 : un en-tête de section numéroté ou non, au titre de la bonne taille, un texte courant d'environ 68 caractères par ligne et une fenêtre factice dont le titre ne descend plus sous 14 px. Les sections (TK-33 à TK-40), la fiche d'un projet et le contact s'en servent.
+
 ## 3. Vagues de réalisation
 
 | Vague | Tickets | Ce que la vague démontre |
@@ -1183,7 +1285,7 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | MF-01 | Page d'accueil qui présente Alexandre | TK-33, TK-46, TK-65 |
 | MF-02 | CV et contact accessibles en permanence | TK-27, TK-33 |
 | MF-03 | Navigation entre les sections | TK-27, TK-29 |
-| MF-04 | Liens directs vers les pages | TK-13, TK-31, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, TK-41, TK-56 |
+| MF-04 | Liens directs vers les pages | TK-13, TK-31, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, TK-41, TK-56, TK-68, TK-70 |
 | MF-05 | Page introuvable | TK-31 |
 | MF-06 | Consultation sur téléphone | TK-29, TK-39, TK-41 |
 | MF-07 | Parcours d'Alexandre | TK-34, TK-65 |
@@ -1256,9 +1358,9 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 
 ### Choix structurants et décisions de la conception technique
 
-- CT-01 — Mode de rendu du front : TK-04, TK-05, TK-13, TK-37
+- CT-01 — Mode de rendu du front : TK-04, TK-05, TK-13, TK-37, TK-68
 - CT-02 — Versions et fenêtres de support : TK-05, TK-06, TK-09, TK-64 (après-v2)
-- CT-03 — Contenu en fichiers versionnés : TK-04, TK-12, TK-28, TK-65
+- CT-03 — Contenu en fichiers versionnés : TK-04, TK-12, TK-28, TK-65, TK-69
 - CT-04 — Préparation de la version anglaise : TK-04, TK-05, TK-12, TK-32, TK-60 (après-v2)
 - CT-05 — Hébergement du front : TK-13, TK-56, TK-61 (après-v2), A-03
 - CT-06 — Hébergement du back : TK-03, TK-14, TK-24, TK-61 (après-v2), A-04, A-26, A-27
@@ -1321,7 +1423,7 @@ La signature de ce document tranche les points suivants, tous pris faute de réf
 
 ## 8. Correspondance avec les issues GitHub
 
-Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`). Amendement du 28/10/2026 : TK-67 créé (#90). Révision du 10/11/2026 : le ticket retiré le 12/11/2026 quitte cette correspondance, son issue étant fermée comme abandonnée (section « Révision du 10/11/2026 »).
+Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`). Amendement du 28/10/2026 : TK-67 créé (#90). Révision du 10/11/2026 : le ticket retiré le 12/11/2026 quitte cette correspondance, son issue étant fermée comme abandonnée (section « Révision du 10/11/2026 ») ; TK-68 à TK-72, ajoutés pour reprendre le code déjà fusionné, ont leur issue à créer, dont le numéro s'écrit ici avant l'ouverture de la PR de cette révision.
 
 | Ticket | Issue |
 | --- | --- |
@@ -1391,3 +1493,8 @@ Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par
 | TK-65 | #82 |
 | TK-66 | #83 |
 | TK-67 | #90 |
+| TK-68 | à créer |
+| TK-69 | à créer |
+| TK-70 | à créer |
+| TK-71 | à créer |
+| TK-72 | à créer |
