@@ -56,7 +56,7 @@ Le 10/11/2026, Alexandre a décidé que le site tient sur une page principale qu
 | Reprise — ligne 21 (taille-code, conteneurs, interligne du code) | — | Rien à reprendre, cité pour mémoire : déjà conformes | Plan du front, pour mémoire |
 | Reprise — ligne 22 (apostrophe typographique dans front/src/) | — | Rien à reprendre, cité pour mémoire : libellés et contenu emploient déjà ’ | Décision d'Alexandre du 12/11/2026 : le code ne change pas |
 | Section 2 — Introduction | Tickets v2.0.0 : TK-01 à TK-59, TK-65, TK-66, TK-67 | Hors le ticket retiré, et TK-68 à TK-72 ajoutés ; un ticket retiré garde son numéro, son titre et une ligne de statut | Retrait de TK-38 ; reprise du code |
-| Section 8 — Nouveaux tickets | — | Une ligne « à créer » par ticket de TK-68 à TK-72 ; le pilote crée les issues et écrit leurs numéros avant d'ouvrir la PR | Le backlog garde la correspondance de chaque ticket actif |
+| Section 8 — Nouveaux tickets | — | Une ligne par ticket de TK-68 à TK-72, avec son issue (#182 à #186), créée par le pilote avant l'ouverture de la PR, comme TK-67 (#90) le 28/10/2026 | Le backlog garde la correspondance de chaque ticket actif |
 | Section 5 — CT-01, CT-03 et MF-04 | Sans les tickets de la reprise | CT-01 et MF-04 avec TK-68, MF-04 avec TK-70, CT-03 avec TK-69 | Champ « Couvre » des nouveaux tickets |
 | Conventions de lecture | EC-xx un écran ; ni PF-xx, ni « choix 1 » à « choix 8 » | EC-xx une section de la page principale ou un écran ; PF-xx une décision du plan du front ; « choix 1 » à « choix 8 », les choix de design du 10/11/2026 | Les tickets révisés citent PF-06 et ces choix ; EC-01 à EC-06 sont des sections |
 | Section 1 — Taille des PR : ce qui ne compte pas | Lockfiles, fichiers de scaffold commités à part, prose de Projet-V2/, maquettes, PR qui ne fait que supprimer un dossier | Aussi : les textes de licence des polices, comme le lockfile ; un commit qui ne fait que retirer du contenu produit par l'outil de création, la PR se mesurant depuis lui (TK-05 : 701 lignes depuis 273b4b0, 351 depuis 46d0011, mesurées à nouveau le 12/11/2026) ; la commande de mesure le dit | Reports « pour le prochain document signé » |
@@ -1477,7 +1477,7 @@ La signature de ce document tranche les points suivants, tous pris faute de réf
 
 ## 8. Correspondance avec les issues GitHub
 
-Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`). Amendement du 28/10/2026 : TK-67 créé (#90). Révision du 10/11/2026 : le ticket retiré le 12/11/2026 quitte cette correspondance, son issue étant fermée comme abandonnée (section « Révision du 10/11/2026 ») ; TK-68 à TK-72, ajoutés pour reprendre le code déjà fusionné, ont leur issue à créer, dont le numéro s'écrit ici avant l'ouverture de la PR de cette révision.
+Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`). Amendement du 28/10/2026 : TK-67 créé (#90). Révision du 10/11/2026 : le ticket retiré le 12/11/2026 quitte cette correspondance, son issue étant fermée comme abandonnée (section « Révision du 10/11/2026 ») ; TK-68 à TK-72, ajoutés pour reprendre le code déjà fusionné, ont leur issue (#182 à #186), créée avant l'ouverture de la PR de cette révision.
 
 | Ticket | Issue |
 | --- | --- |
