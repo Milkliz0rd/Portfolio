@@ -1,11 +1,35 @@
 # Tickets-V2 — Estimation et découpage de la v2.0.0
-Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 27/10/26 (révision du 28/10/26 : changements et lectures acceptés en signant les plans d'implémentation)
-Base : Contexte-Pitch, signé par Alexandre Morozoff le 14/10/26 ; US-2.0 et SC-2.0, approuvés le 15/10/26 ; Conception-Technique-V2 et Parcours-Ecrans-V2, approuvés le 16/10/26 ; Charte-Graphique-V2, approuvée le 16/10/26 et réapprouvée le 18/10/26 après la révision du mouvement ; maquettes des douze écrans (EC-00 à EC-11) et leur prototype animé, approuvés le 18/10/26.
+Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 27/10/26 (révision du 28/10/26 : changements et lectures acceptés en signant les plans d'implémentation) ; révision du 10/11/26 (one-pager, retrait du CV, reprise du code et reports), approuvée par la fusion de sa PR
+Base : Contexte-Pitch, signé par Alexandre Morozoff le 14/10/26 ; US-2.0 et SC-2.0, approuvés le 15/10/26 ; Conception-Technique-V2 et Parcours-Ecrans-V2, approuvés le 16/10/26 ; Charte-Graphique-V2, approuvée le 16/10/26 et réapprouvée le 18/10/26 après la révision du mouvement ; maquettes des douze écrans (EC-00 à EC-11) et leur prototype animé, approuvés le 18/10/26 ; révision du 10/11/2026 de US-2.0, de SC-2.0, du parcours d'écrans, de la charte et des maquettes (site en une page, huit choix de design), de la conception technique et des plans d'implémentation ; décisions d'Alexandre du 12/11/2026 sur les anciennes adresses, l'apostrophe et la règle « depuis » du contrôle du contenu.
 Révision du 28/10/2026 : changements et lectures acceptés en signant les plans d'implémentation (TK-67 créé ; TK-16, TK-24, TK-28, TK-42, TK-59, TK-65, A-03, A-04, A-12, A-20 et A-26 modifiés ; A-27 créée).
 
 Ce document découpe la v2.0.0 en tickets, estime chacun et les ordonne en vagues de réalisation. Il ne crée rien sur GitHub : les issues, les labels et le board seront créés à partir de lui, une fois signé. Les estimations, les priorités et l'ordre des vagues sont des propositions : la signature d'Alexandre les valide (section 7).
 
 Conventions de lecture : MF-xx désigne une micro-fonction de US-2.0, SC-2.0-xx un scénario de SC-2.0, EC-xx un écran du parcours d'écrans, CT-xx un choix structurant et D-xx une décision de la conception technique, C-xx un contenu et Q-xx une question des US, CO-xx un composant et MV-xx un motif de mouvement de la charte, PN-xx et V-xx un principe et un point validé du parcours d'écrans, P-xx un point validé de la charte, R-xx une exigence reportée à la conception (conception technique, section 11), C1 à C9 les choix d'Alexandre du 16/10/2026 sur les maquettes. TK-xx numérote les tickets, A-xx les tâches qui reviennent à Alexandre.
+
+## Révision du 10/11/2026
+
+Le 10/11/2026, Alexandre a décidé que le site tient sur une page principale qui défile (accueil, parcours, compétences, expérience, méthode de travail, projets), avec des pages à part pour la fiche de chaque projet, le contact, les mentions légales et la page introuvable, et qu'il n'a plus de CV du tout (« oui plus de CV du tout ») ; le 12/11/2026, il a fixé les cibles des anciennes adresses (A-14), la règle de l'apostrophe typographique et la portée de la règle « depuis » du contrôle du contenu. Cette révision fait suivre au backlog les documents révisés et signés : US-2.0, SC-2.0 et le parcours d'écrans (R1), la charte et les maquettes (R2), la conception technique et les plans d'implémentation (R3). Elle retire le ticket et la tâche du CV, révise les tickets que visent la ligne « Renvoyé à R4 » et les étapes révisées du plan du front, ajoute les tickets qui reprennent le code déjà fusionné, replanifie les vagues à partir de W15 et reprend les points laissés « pour le prochain document signé » qui visent le backlog. Les vagues W1 à W14, faites, ne changent pas, et les tickets fermés gardent leur DoD.
+
+| Élément | Avant | Après | Raison |
+| --- | --- | --- | --- |
+| En-tête | Approuvé le 27/10/26, révisé le 28/10/26 ; la base s'arrête aux documents approuvés jusqu'au 18/10/2026 | Mentionne aussi cette révision, approuvée par la fusion de sa PR ; la base cite la révision du 10/11/2026 des documents signés et les décisions d'Alexandre du 12/11/2026 | Garder la trace de la révision |
+| TK-38 — Écran CV | Ticket v2.0.0, W20, 1 j, issue #55 : /cv avec « Consulter le CV » et « Télécharger le CV », un fichier livré sous un nom stable, une page « CV momentanément indisponible » | Retiré, sans renumérotation : son titre suivi de « (retiré le 12/11/2026) » et une ligne de statut ; son texte entier se lit dans le backlog signé (PR #91) ; il quitte la matrice, les dépendances de TK-48 et de TK-65, le tableau des vagues et la correspondance des issues ; l'issue #55 sera fermée comme abandonnée | Décision d'Alexandre du 10/11/2026 : plus de CV, ni page, ni fichier ; MF-15, SC-2.0-21, SC-2.0-22 et EC-08 sont retirés de US-2.0, de SC-2.0 et du parcours d'écrans |
+| A-07 | Répondre à Q-07 (quel CV proposer ?) ; bloque TK-38 ; échéance avant W20 | Retirée, sans renumérotation, sur une seule ligne : son titre, « (retirée le 12/11/2026) » et son statut ; son texte entier se lit dans le backlog signé (PR #91) ; elle quitte l'échéancier | Q-07 tranchée le 10/11/2026 : plus de CV sur le site |
+| A-11 | Contenus C-01 à C-10, dont C-03, le CV en fichier ; C-04 « pour la page Méthode » | C-01, C-02 et C-04 à C-10 ; C-04 pour la section Méthode | C-03 retiré de US-2.0 ; la méthode est une section de la page principale |
+| A-13 | Textes à valider : information sur les données, mentions légales, page introuvable et CV indisponible | Sans le texte du CV indisponible | Plus de CV |
+| TK-19 — Résumé (ticket fermé) | « Crée les composants du formulaire de contact et des messages d'état, réutilisés aussi par le CV indisponible. » | La fin de la phrase est retirée ; la DoD, faite, ne change pas | Plus de CV : le résumé était devenu faux |
+| TK-45 — DoD (4) | « les textes de la page introuvable et du CV indisponible sont finalisés » | Les textes de la page introuvable | Plus de CV ; étape 34 du plan du front |
+| TK-65 — Titre, titre de PR, Couvre, Dépend de, DoD, Taille et Résumé | « textes, CV et images du portfolio » ; couvre MF-15 et SC-2.0-21, contenus C-01 à C-10 ; dépend de TK-38 ; DoD (3) : le CV livré sous le nom fixé par A-07, SC-2.0-21 sur le vrai fichier ; DoD (5) : un emplacement étiqueté ou l'absence du CV bloquent ; taille hors CV | « textes et images du portfolio », titre de PR sans « cv » ; ni MF-15 ni SC-2.0-21 ; contenus C-01, C-02 et C-04 à C-10 ; TK-38 ôté des dépendances ; DoD (3) sans objet, son numéro gardé parce que le plan du front cite la DoD (4) ; DoD (5) : un emplacement étiqueté bloque ; taille hors vignette et captures | Renvoyé à R4 par le plan du front : TK-65, plus de CV ; étape 45 du plan du front |
+| TK-48 — Couvre et Dépend de | EC-08 et TK-38 | Ôtés | TK-38 retiré ; EC-08 retiré du parcours d'écrans |
+| Section 5 — Matrice de couverture | Lignes MF-15, SC-2.0-21, SC-2.0-22 et EC-08 ; TK-38 cité pour MF-04 et SC-2.0-05 | Lignes retirées ; TK-38 ôté ; chaque MF et chaque scénario qui restent ont au moins un ticket | Éléments retirés le 10/11/2026 |
+| Section 7 — Contrôle du contenu en deux modes | « les emplacements étiquetés et l'absence du CV sont signalés sans bloquer » | Les emplacements étiquetés seuls | Décision du 10/11/2026 : le contrôle de TK-28 qui exige un CV est retiré |
+| Section 7 — Intégration des contenus en deux tickets | TK-65 : « textes C-01 à C-10, CV, vignette et captures du portfolio » | Textes C-01, C-02 et C-04 à C-10, vignette et captures du portfolio | Plus de CV |
+| Section 8 — Correspondance avec les issues | La ligne de TK-38 (#55) | Retirée ; une phrase de la révision le dit, sans nommer le ticket | Le ticket est retiré ; l'issue #55 sera fermée comme abandonnée |
+| Renvoyé à R4 — Annulation de TK-38 et d'A-07 | — | Faite : lignes TK-38 et A-07 ci-dessus | Ligne « Renvoyé à R4 » du plan du front et de la conception technique |
+| Renvoyé à R4 — TK-65 (plus de CV) | — | Fait : ligne TK-65 ci-dessus | Ligne « Renvoyé à R4 » du plan du front |
+| Étape 27 — TK-38 | « Écran CV (TK-38) », étape retirée du plan du front le 12/11/2026, l'annulation du ticket renvoyée à R4 | Ticket retiré : ligne TK-38 ci-dessus | Plan du front, tableau de révision |
+| Section 7 — Les estimations, après le retrait | 62 tickets, dont 37 à 1 j ; 79,5 j | 61 tickets, dont 36 à 1 j ; 78,5 j, avant l'ajout des tickets de la reprise du code (ligne « Section 7 — Les estimations » plus bas) | TK-38 retiré : 1 j de moins |
 
 ## 1. Conventions
 
@@ -363,7 +387,7 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Vague** : W11
 - **Taille** : ≈ 330 lignes
 - **DoD** : DoD commune, et : (1) CO-10 champ : libellé visible et lié ; variantes ligne, e-mail (clavier adapté) et zone de texte ; états repos, survol, focus, rempli, champ manquant, e-mail invalide et désactivé pendant l'envoi ; message d'erreur lié au champ, champ marqué invalide ; attribut required ou aria-required sur un champ obligatoire ; (2) CO-11 message d'état : variantes information, envoi en cours, succès, échec réessayable avec « Réessayer », attention avec un lien vers une autre voie ; succès et attente annoncés poliment, échec annoncé immédiatement ; aucune disparition automatique ; (3) CO-15 indicateur d'activité, décoratif pour les lecteurs d'écran, fixe quand le mouvement est réduit ; (4) état « en cours » du bouton CO-01 ; (5) tests unitaires des états et des attributs d'accessibilité.
-- **Résumé** : Crée les composants du formulaire de contact et des messages d'état, réutilisés aussi par le CV indisponible.
+- **Résumé** : Crée les composants du formulaire de contact et des messages d'état.
 
 ### TK-20 — Adaptateur d'envoi Brevo
 
@@ -635,20 +659,9 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **DoD** : DoD commune, et : (1) une fiche est pré-rendue pour chaque projet des fichiers de contenu, à l'adresse /projets/ suivie de son identifiant ; (2) dans l'ordre : titre, description (pour le portfolio, la démarche et l'architecture, C-05), captures seulement s'il y en a (texte alternatif, dimensions déclarées, formats modernes, chargement à la demande), lien vers le code source seulement s'il existe (nouvel onglet), puis « ← Retour à la liste des projets », flèche avant le texte (choix C7) ; (3) sans capture, aucune zone vide ; sans lien, ni lien ni bouton ; (4) tests unitaires avec trois projets de test : complet, sans lien, sans capture (SC-2.0-16, SC-2.0-17, SC-2.0-18) ; (5) bout en bout : /projets/portfolio ouvert directement puis rechargé (SC-2.0-06), lien vers le code source public du portfolio (SC-2.0-32), CV et contact en un clic depuis la fiche (SC-2.0-03) ; (6) « Projets » est signalé comme entrée courante.
 - **Résumé** : Crée la fiche d'un projet, pré-rendue pour chaque fichier de projet ; au lancement, celle du portfolio, qui mène à son code source public.
 
-### TK-38 — Écran CV
+### TK-38 — Écran CV (retiré le 12/11/2026)
 
-- **Titre de PR** : `feat(front): add cv page`
-- **Type** : feature
-- **Domaine** : front
-- **Priorité** : prio-critique
-- **Estimation** : 1 j
-- **Version** : v2.0.0
-- **Couvre** : EC-08, MF-04, MF-15, SC-2.0-05, SC-2.0-21, SC-2.0-22
-- **Dépend de** : TK-15, TK-19, TK-27, A-07
-- **Vague** : W20
-- **Taille** : ≈ 230 lignes
-- **DoD** : DoD commune, et : (1) /cv propose « Consulter le CV », qui ouvre le fichier dans un vrai nouvel onglet en laissant le site sur /cv dans l'onglet d'origine, et « Télécharger le CV », qui le télécharge sans quitter la page ; l'état « téléchargement en cours » empêche un double déclenchement ; (2) le fichier est livré avec le site sous un nom stable, sans date ni mention de situation (Q-07, A-07) ; (3) une page « CV momentanément indisponible », placée à côté du fichier et servie par l'hébergeur comme page 404 la plus proche, affiche le message d'attention et le lien vers /contact, sans les actions du CV ; (4) actions larges et espacées sur téléphone ; (5) bout en bout, avec un fichier de test tant que C-03 manque : SC-2.0-21 (fichier reçu, nom conforme), SC-2.0-22 (fichier absent simulé), /cv ouvert directement puis rechargé (SC-2.0-05).
-- **Résumé** : Crée l'écran du CV, consultable et téléchargeable, avec un repli qui renvoie vers le contact quand le fichier manque.
+Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV sur le site. Son texte entier se lit dans le backlog signé le 28/10/2026 (PR #91).
 
 ### TK-39 — Écran Liste des projets
 
@@ -752,7 +765,7 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Dépend de** : TK-31, TK-41, A-13 (pour finir)
 - **Vague** : W24
 - **Taille** : ≈ 120 lignes
-- **DoD** : DoD commune, et : (1) l'information affichée avant l'envoi dit, sur la base de CT-12 : qui reçoit les données (Alexandre Morozoff), pourquoi (répondre au message), la base légale proposée (intérêt légitime), les prestataires techniques (hébergeurs du front et du back, prestataire d'envoi, fournisseur de la boîte d'Alexandre) et leurs transferts éventuels hors de l'Union européenne, la durée de conservation (au plus trois ans après le dernier échange, D-10), les droits et leur exercice par le formulaire, le droit de réclamation auprès de la CNIL ; (2) avant rédaction, les points « à vérifier » de CT-12 sont vérifiés sur les pages publiques des prestataires, sources citées dans la PR : raison sociale de Render et traitements hors de sa région, durée des journaux chez Brevo, statut du Data Privacy Framework, fournisseur de la boîte d'Alexandre ; (3) les mentions légales nomment l'éditeur, le contact par le formulaire et les hébergeurs, sans adresse ni téléphone personnels ; (4) les textes de la page introuvable et du CV indisponible sont finalisés ; (5) Alexandre valide chaque texte dans la PR (A-13) ; (6) bout en bout : SC-2.0-29 et SC-2.0-30 sur les textes finaux.
+- **DoD** : DoD commune, et : (1) l'information affichée avant l'envoi dit, sur la base de CT-12 : qui reçoit les données (Alexandre Morozoff), pourquoi (répondre au message), la base légale proposée (intérêt légitime), les prestataires techniques (hébergeurs du front et du back, prestataire d'envoi, fournisseur de la boîte d'Alexandre) et leurs transferts éventuels hors de l'Union européenne, la durée de conservation (au plus trois ans après le dernier échange, D-10), les droits et leur exercice par le formulaire, le droit de réclamation auprès de la CNIL ; (2) avant rédaction, les points « à vérifier » de CT-12 sont vérifiés sur les pages publiques des prestataires, sources citées dans la PR : raison sociale de Render et traitements hors de sa région, durée des journaux chez Brevo, statut du Data Privacy Framework, fournisseur de la boîte d'Alexandre ; (3) les mentions légales nomment l'éditeur, le contact par le formulaire et les hébergeurs, sans adresse ni téléphone personnels ; (4) les textes de la page introuvable sont finalisés ; (5) Alexandre valide chaque texte dans la PR (A-13) ; (6) bout en bout : SC-2.0-29 et SC-2.0-30 sur les textes finaux.
 - **Résumé** : Remplace les emplacements des textes légaux par des textes vérifiés et validés par Alexandre. Ce sont les seuls textes du site que le développement rédige, sur la base de la conception technique.
 
 ### TK-46 — Balises de référencement et aperçu au partage
@@ -793,8 +806,8 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Priorité** : prio-medium
 - **Estimation** : 2 j
 - **Version** : v2.0.0
-- **Couvre** : EC-01, EC-02, EC-03, EC-04, EC-05, EC-06, EC-07, EC-08, EC-09, EC-10, EC-11 (MV-01)
-- **Dépend de** : TK-23, TK-31, TK-33, TK-34, TK-35, TK-36, TK-37, TK-38, TK-39, TK-40, TK-41
+- **Couvre** : EC-01, EC-02, EC-03, EC-04, EC-05, EC-06, EC-07, EC-09, EC-10, EC-11 (MV-01)
+- **Dépend de** : TK-23, TK-31, TK-33, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, TK-41
 - **Vague** : W25
 - **Taille** : ≈ 330 lignes
 - **DoD** : DoD commune, et : (1) MV-01 sur chaque bloc de contenu de chaque écran, jamais sur l'en-tête ni sur le pied : opacité de 0 à 1 et montée de 16 px en 700 ms, courbe-sortie, dans l'ordre de lecture, éléments séparés de 70 ms, six au plus par cascade, une seule fois par bloc ; (2) les blocs visibles au premier affichage sont révélés d'emblée par leur cascade, sans attendre l'observateur : un défilement très rapide dès l'arrivée ne laisse aucun bloc caché (test de bout en bout qui défile jusqu'en bas aussitôt la page ouverte) ; (3) au retour arrière, y compris depuis le cache du navigateur, aucune cascade ne rejoue : tout est déjà en place ; jamais non plus en remontant ; (4) aucun décalage de mise en page : chaque élément occupe sa place finale dès le départ ; (5) sans script, avec les animations réduites ou avec le script en erreur, tout est en place (TK-23) ; (6) les actions de l'accueil sont en place avant 2 secondes.
@@ -1040,20 +1053,20 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **DoD** : DoD commune, et : (1) une PR par an : montée de mineure du back et, selon le calendrier, de majeur d'Angular, au plus tard avant la fin de la LTS d'Angular 22 en 06/2028 ; (2) relecture du contenu au regard de MF-18 ; (3) contrôle des liens externes, dont ceux que les réseaux refusent aux robots, vérifiés à la main ; (4) relecture des conditions des offres gratuites utilisées ; (5) CI verte.
 - **Résumé** : Trace l'entretien court que la conception technique prévoit chaque année pour tenir les deux ans visés.
 
-### TK-65 — Intégration des contenus d'Alexandre : textes, CV et images du portfolio
+### TK-65 — Intégration des contenus d'Alexandre : textes et images du portfolio
 
-- **Titre de PR** : `feat(front): integrate final content, cv and portfolio images`
+- **Titre de PR** : `feat(front): integrate final content and portfolio images`
 - **Type** : feature
 - **Domaine** : front
 - **Priorité** : prio-critique
 - **Estimation** : 1 j
 - **Version** : v2.0.0
-- **Couvre** : CT-03, D-12, MF-01, MF-07, MF-08, MF-09, MF-10, MF-11, MF-15, MF-18, MF-21, MF-22, SC-2.0-21, SC-2.0-28 (contenus C-01 à C-10, vignette et captures du portfolio)
-- **Dépend de** : TK-12, TK-28, TK-33, TK-34, TK-35, TK-36, TK-37, TK-38, TK-39, TK-40, A-11, A-12
+- **Couvre** : CT-03, D-12, MF-01, MF-07, MF-08, MF-09, MF-10, MF-11, MF-18, MF-21, MF-22, SC-2.0-28 (contenus C-01, C-02 et C-04 à C-10, vignette et captures du portfolio)
+- **Dépend de** : TK-12, TK-28, TK-33, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, A-11, A-12
 - **Vague** : W29
-- **Taille** : ≈ 300 lignes (hors CV, vignette et captures, fichiers binaires) ; si les textes fournis la portent au-delà de 400 lignes, la vignette et les captures passent dans un ticket à part avant l'ouverture de la PR
-- **DoD** : DoD commune, et : (1) chaque emplacement étiqueté C-01 à C-10 des fichiers de contenu est remplacé par le contenu fourni par Alexandre (A-11), repris tel qu'il l'a fourni : périodes du parcours (C-01), compétences et leurs catégories (C-02), étapes de la méthode avec leurs intitulés, à la place des étapes de démonstration de TK-40 (C-04), présentation du portfolio (C-05), présentation de l'accueil (C-06), récit de reconversion (C-07), trois volets du rôle en alternance (C-08), texte d'orientation (C-09), phrases d'introduction des sections et d'orientation des cartes de l'accueil (C-10) ; (2) il ne reste aucun emplacement étiqueté C-xx, ni dans les fichiers de contenu ni dans les pages construites ; (3) le CV (C-03) est livré avec le site sous le nom fixé par A-07, sans date ni mention de situation, à la place du fichier de test de TK-38 ; bout en bout : SC-2.0-21 sur le vrai fichier ; (4) la vignette et les captures du portfolio (A-12) sont optimisées dans des formats modernes, avec leurs dimensions déclarées ; chaque capture a son texte alternatif ; la vignette, décorative comme le veut la maquette EC-06, n'en a pas ; (5) sur sa branche, le contrôle du contenu de TK-28 passe en mode « staging → main » : un emplacement étiqueté ou l'absence du CV bloquent désormais aussi les PR vers staging, et la CI de la PR est verte dans ce mode (MF-18, SC-2.0-28).
-- **Résumé** : Remplace les emplacements étiquetés par les contenus d'Alexandre, livre le CV et les images du portfolio, puis rend le contrôle du contenu bloquant sur toutes les PR. Les illustrations définitives de la méthode suivent avec TK-66.
+- **Taille** : ≈ 300 lignes (hors vignette et captures, fichiers binaires) ; si les textes fournis la portent au-delà de 400 lignes, la vignette et les captures passent dans un ticket à part avant l'ouverture de la PR
+- **DoD** : DoD commune, et : (1) chaque emplacement étiqueté C-01, C-02 et C-04 à C-10 des fichiers de contenu est remplacé par le contenu fourni par Alexandre (A-11), repris tel qu'il l'a fourni : périodes du parcours (C-01), compétences et leurs catégories (C-02), étapes de la méthode avec leurs intitulés, à la place des étapes de démonstration de TK-40 (C-04), présentation du portfolio (C-05), présentation de l'accueil (C-06), récit de reconversion (C-07), trois volets du rôle en alternance (C-08), texte d'orientation (C-09), phrases d'introduction des sections et d'orientation des cartes de l'accueil (C-10) ; (2) il ne reste aucun emplacement étiqueté C-xx, ni dans les fichiers de contenu ni dans les pages construites ; (3) sans objet depuis la révision du 10/11/2026 (section « Révision du 10/11/2026 ») ; (4) la vignette et les captures du portfolio (A-12) sont optimisées dans des formats modernes, avec leurs dimensions déclarées ; chaque capture a son texte alternatif ; la vignette, décorative comme le veut la maquette EC-06, n'en a pas ; (5) sur sa branche, le contrôle du contenu de TK-28 passe en mode « staging → main » : un emplacement étiqueté bloque désormais aussi les PR vers staging, et la CI de la PR est verte dans ce mode (MF-18, SC-2.0-28).
+- **Résumé** : Remplace les emplacements étiquetés par les contenus d'Alexandre, livre les images du portfolio, puis rend le contrôle du contenu bloquant sur toutes les PR. Les illustrations définitives de la méthode suivent avec TK-66.
 
 ### TK-66 — Intégration des contenus : illustrations de la méthode
 
@@ -1108,7 +1121,7 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 | W17 | TK-31 — Mentions légales et page introuvable ; TK-32 — Composant frise chronologique | Une adresse inconnue mène à une vraie page introuvable ; les mentions légales existent ; la frise est prête. |
 | W18 | TK-33 — Écran Accueil ; TK-34 — Écran Parcours | L'accueil et le parcours se lisent. |
 | W19 | TK-35 — Écran Compétences ; TK-36 — Écran Expérience | Les compétences et l'expérience se lisent. |
-| W20 | TK-37 — Écran Fiche d'un projet ; TK-38 — Écran CV | La fiche du portfolio et le CV sont en ligne en préproduction. |
+| W20 | TK-37 — Écran Fiche d'un projet | La fiche du portfolio est en ligne en préproduction. |
 | W21 | TK-39 — Écran Liste des projets ; TK-40 — Écran Méthode de travail | La liste des projets et la méthode, qui mène à la fiche du portfolio. |
 | W22 | TK-41 — Écran Contact : formulaire et validation ; TK-42 — Client du contrat d'API | Le formulaire se valide dans le navigateur ; le client du contrat est prêt. |
 | W23 | TK-43 — Envoi du formulaire et ses états ; TK-44 — Plan du site, robots.txt et non-indexation des préversions | Un message part du formulaire jusqu'au back de préproduction ; le site est indexable, ses préversions ne le sont pas. |
@@ -1135,13 +1148,13 @@ Ces tâches ne sont pas des tickets : elles demandent ses comptes, ses accès, s
 - **A-04** — Créer le service de préproduction du back en W13, entre les deux PR de TK-24, par un Blueprint de Render relié à staging, qui lit le fichier back/render.yaml de la première PR une fois celle-ci fusionnée : instance gratuite, région Francfort, raccordé au dépôt, branché sur staging, déployé seulement après une CI verte ; y saisir à la création les variables d'environnement — clé d'API de Brevo, adresse de destination, qui est la boîte qu'Alexandre désigne (D-05) et ne figure jamais dans le dépôt, adresse d'expédition du domaine, origine autorisée, qui est l'origine de la préversion staging, relevée dans la console de Cloudflare après le premier build de staging — sans y poser le secret de signature des jetons, que Render tire lui-même, ni les seuils de D-07, qui ne se saisissent que pour changer une valeur de départ ; une fois le service créé, poser son adresse technique chez Cloudflare comme variable de build de préproduction ; activer les notifications d'échec de déploiement et de suspension (CT-14) ; bloque : TK-24, TK-42
 - **A-05** — Ouvrir le compte Brevo, obtenir son approbation pour l'envoi (300 e-mails par jour une fois le compte approuvé) et créer la clé d'API, posée seulement dans les variables d'environnement de Render (CT-07) ; bloque : TK-24
 - **A-06** — Répondre à Q-06 : quelles compétences techniques et humaines afficher, et faut-il un niveau pour chacune ? Hypothèse retenue : celles de C-02, sans niveau ; un niveau ajouterait un champ facultatif ; bloque : TK-35
-- **A-07** — Répondre à Q-07 : quel CV proposer ? Hypothèse retenue : un seul CV, en français, sous un nom sans date ni mention de situation, nom à donner dans la réponse ; bloque : TK-38
+- **A-07** — Répondre à Q-07 : quel CV proposer ? (retirée le 12/11/2026) Statut : retirée le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV sur le site. Son texte entier se lit dans le backlog signé le 28/10/2026 (PR #91).
 - **A-08** — Répondre à Q-15 : les technologies pratiquées en entreprise peuvent-elles être nommées comme compétences ? Hypothèse retenue : oui, jamais les outils internes, projets, clients ni dépôts ; la réponse ne touche que le contenu ; bloque : recette
 - **A-09** — Déplacer la zone DNS du domaine chez Cloudflare, registraire OVH inchangé (D-03), selon la procédure DNSSEC de CT-13, exécutée par Alexandre dans cet ordre : (1) créer la zone chez Cloudflare, y recopier les enregistrements existants et abaisser leur durée de mise en cache, aucune messagerie n'étant à préserver (D-09) ; (2) désactiver DNSSEC chez OVH, ce qui retire l'enregistrement DS, effectif sous 24 heures selon OVH ; (3) vérifier par une requête publique que le domaine ne publie plus de DS, puis attendre encore au moins un TTL du DS, et jusqu'à une fois et demie selon Cloudflare ; (4) changer les serveurs de noms chez OVH pour ceux de Cloudflare, sans en garder d'autres ; (5) attendre que le TTL des anciens enregistrements de serveurs de noms soit écoulé et que Cloudflare voie la zone active, puis vérifier que l'ancien site répond comme avant ; (6) activer DNSSEC chez Cloudflare, qui fournit un nouveau DS, et publier ce DS chez OVH, dans l'onglet des enregistrements DS, qui n'apparaît qu'avec des serveurs DNS externes ; (7) vérifier par une requête publique que le nouveau DS est publié et que le domaine se résout. Entre (2) et (6), le domaine n'est pas protégé par DNSSEC. Retour arrière par le chemin inverse : retirer chez OVH le DS de Cloudflare, attendre au moins un TTL du DS, remettre les serveurs de noms d'OVH, dont la zone doit alors contenir les enregistrements voulus (sous-domaine du back, authentification de l'envoi), attendre que le TTL des serveurs de noms de Cloudflare soit écoulé, puis réactiver DNSSEC chez OVH. Sans cette procédure, le domaine devient injoignable pour les résolveurs qui valident DNSSEC ; bloque : TK-58, TK-59
 - **A-10** — Authentifier le domaine d'envoi chez Brevo selon sa procédure (SPF, DKIM, DMARC), une fois la zone Cloudflare active, après l'étape (5) de A-09 : la politique SPF recopiée d'OVH est remplacée et non doublée, un domaine n'ayant qu'une politique SPF, et l'autorisation d'OVH n'a pas à être gardée (D-09) ; bloque : TK-58
-- **A-11** — Fournir les contenus C-01 à C-10 : C-01, les périodes encore manquantes (reconversion ; bac+3 avec son intitulé, son établissement et sa période ; début du master) ; C-02, les compétences et leurs catégories ; C-03, le CV en fichier ; C-04, la méthode, découpée en étapes avec leurs intitulés pour la page Méthode ; C-05, la présentation du portfolio comme projet ; C-06, la présentation de l'accueil ; C-07, le récit de reconversion ; C-08, les trois volets du rôle en alternance ; C-09, le texte d'orientation ; C-10, les phrases d'introduction des sections et d'orientation des cartes de l'accueil. Un contenu manquant ne bloque pas le développement des écrans, qui avance avec des emplacements étiquetés ; il bloque son intégration (TK-65, TK-66), donc la passe manuelle et la recette ; bloque : TK-65, TK-66
+- **A-11** — Fournir les contenus C-01, C-02 et C-04 à C-10 : C-01, les périodes encore manquantes (reconversion ; bac+3 avec son intitulé, son établissement et sa période ; début du master) ; C-02, les compétences et leurs catégories ; C-04, la méthode, découpée en étapes avec leurs intitulés pour la section Méthode ; C-05, la présentation du portfolio comme projet ; C-06, la présentation de l'accueil ; C-07, le récit de reconversion ; C-08, les trois volets du rôle en alternance ; C-09, le texte d'orientation ; C-10, les phrases d'introduction des sections et d'orientation des cartes de l'accueil. Un contenu manquant ne bloque pas le développement des écrans, qui avance avec des emplacements étiquetés ; il bloque son intégration (TK-65, TK-66), donc la passe manuelle et la recette ; bloque : TK-65, TK-66
 - **A-12** — Fournir la vignette du projet portfolio — une image de plus à fournir par projet (choix C2), sans identifiant C-xx aujourd'hui ; décorative comme le veut la maquette EC-06, elle ne demande pas de texte alternatif — et ses captures éventuelles, chacune avec son texte alternatif (C-05) ; bloque : TK-65
-- **A-13** — Valider dans la PR de TK-45 le texte de l'information sur les données (D-10 : base légale, durée de conservation, transferts hors de l'Union européenne, droits), celui des mentions légales (MF-19) et ceux de la page introuvable et du CV indisponible ; bloque : TK-45
+- **A-13** — Valider dans la PR de TK-45 le texte de l'information sur les données (D-10 : base légale, durée de conservation, transferts hors de l'Union européenne, droits), celui des mentions légales (MF-19) et celui de la page introuvable ; bloque : TK-45
 - **A-14** — Valider les cibles des redirections des anciennes adresses (D-13), que le parcours d'écrans n'a pas fixées, sur la proposition écrite dans TK-56 ; bloque : TK-56
 - **A-15** — Si le délai mesuré entre le réveil du back et sa réponse dépasse 60 secondes (TK-24, puis TK-58), trancher D-04 : garder l'instance gratuite ou passer à l'instance payante sans veille, à 7 $ par mois, hors du budget du 15/10/2026 ; bloque : recette
 - **A-16** — Ouvrir le compte gratuit UptimeRobot (D-14) et créer la sonde externe du front de production, toutes les 5 minutes, avec alerte par e-mail ; aucune sonde sur le back, qui ne doit pas être tenu éveillé (CT-14) ; bloque : TK-59
@@ -1157,7 +1170,7 @@ Ces tâches ne sont pas des tickets : elles demandent ses comptes, ses accès, s
 - **A-26** — Créer chez Render le service de production du back, au moment de la bascule, une fois staging fusionné dans main (section 6 de la conception technique, étape 4 : les déploiements de production ne sont reliés à main qu'à ce moment), par un second Blueprint de Render relié à main, qui lit le fichier back/render-production.yaml : instance gratuite, région Francfort, raccordé au dépôt, branché sur main, déployé seulement après une CI verte ; l'origine autorisée de production et le sous-domaine du back, rattaché au service comme domaine personnalisé, viennent du fichier, et le secret de signature des jetons, distinct de celui de la préproduction, est tiré par Render ; y saisir les variables d'environnement de production que Render demande à la création : clé d'API de Brevo, adresse de destination (D-05), qui ne figure jamais dans le dépôt, et adresse d'expédition du domaine ; les seuils de D-07 ne se saisissent que pour changer une valeur de départ ; activer les notifications d'échec de déploiement et de suspension (CT-14) ; créer l'enregistrement du sous-domaine du back dans la zone Cloudflare, en « DNS seulement » (CT-13), après A-09 ; bloque : TK-59
 - **A-27** — Ouvrir le compte Render, pour une instance gratuite en région Francfort (disponibilité de l'instance gratuite dans cette région à vérifier), avant W13 : le service de préproduction n'est créé qu'en W13, par A-04 ; bloque : TK-24
 
-Échéancier, d'après les dépendances des tickets : avant W1, A-01 ; pendant W5, A-02 ; avant W8, A-03 ; avant W13, A-05 et A-27 ; pendant W13, A-04 (entre les deux PR de TK-24) ; avant W19, A-06 ; avant W20, A-07 ; pendant W24, A-13 ; avant W29, A-11 et A-12 ; avant W30, A-14 ; avant W32, A-09 et A-10 ; avant W33, A-18 ; pendant W33, A-16, A-17, A-19, A-20 et A-26 ; avant la recette, A-08 et A-15 ; après la v2.0.0, A-21, A-22, A-23, A-24 et A-25. A-09 demande plusieurs jours d'attente (24 heures chez OVH, puis au moins un TTL du DS) et précède A-10 : mieux vaut la commencer dès la signature de ce document.
+Échéancier, d'après les dépendances des tickets : avant W1, A-01 ; pendant W5, A-02 ; avant W8, A-03 ; avant W13, A-05 et A-27 ; pendant W13, A-04 (entre les deux PR de TK-24) ; avant W19, A-06 ; pendant W24, A-13 ; avant W29, A-11 et A-12 ; avant W30, A-14 ; avant W32, A-09 et A-10 ; avant W33, A-18 ; pendant W33, A-16, A-17, A-19, A-20 et A-26 ; avant la recette, A-08 et A-15 ; après la v2.0.0, A-21, A-22, A-23, A-24 et A-25. A-09 demande plusieurs jours d'attente (24 heures chez OVH, puis au moins un TTL du DS) et précède A-10 : mieux vaut la commencer dès la signature de ce document.
 
 ## 5. Matrice de couverture
 
@@ -1170,7 +1183,7 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | MF-01 | Page d'accueil qui présente Alexandre | TK-33, TK-46, TK-65 |
 | MF-02 | CV et contact accessibles en permanence | TK-27, TK-33 |
 | MF-03 | Navigation entre les sections | TK-27, TK-29 |
-| MF-04 | Liens directs vers les pages | TK-13, TK-31, TK-34, TK-35, TK-36, TK-37, TK-38, TK-39, TK-40, TK-41, TK-56 |
+| MF-04 | Liens directs vers les pages | TK-13, TK-31, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, TK-41, TK-56 |
 | MF-05 | Page introuvable | TK-31 |
 | MF-06 | Consultation sur téléphone | TK-29, TK-39, TK-41 |
 | MF-07 | Parcours d'Alexandre | TK-34, TK-65 |
@@ -1181,7 +1194,6 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | MF-12 | Liste des projets | TK-39 |
 | MF-13 | Fiche d'un projet | TK-37 |
 | MF-14 | Ajouter un projet sans toucher au reste du site | TK-47 |
-| MF-15 | Consulter et télécharger le CV | TK-38, TK-65 |
 | MF-16 | Envoyer un message à Alexandre | TK-16, TK-20, TK-22, TK-41, TK-42, TK-43, TK-67 |
 | MF-17 | Liens vers les profils externes | TK-15, TK-30, TK-46 |
 | MF-18 | Aucune information qui se périme | TK-28, TK-30, TK-32, TK-33, TK-34, TK-36, TK-65 |
@@ -1199,7 +1211,7 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | SC-2.0-02 | CV et contact atteints depuis l'accueil | TK-27, TK-33 |
 | SC-2.0-03 | CV et contact atteints depuis une fiche projet | TK-27, TK-37 |
 | SC-2.0-04 | Navigation entre les sections | TK-27, TK-29 |
-| SC-2.0-05 | Lien direct vers une section | TK-31, TK-34, TK-35, TK-36, TK-38, TK-39, TK-40, TK-41 |
+| SC-2.0-05 | Lien direct vers une section | TK-31, TK-34, TK-35, TK-36, TK-39, TK-40, TK-41 |
 | SC-2.0-06 | Lien direct vers la fiche d'un projet | TK-37 |
 | SC-2.0-07 | Lien direct vers un projet qui n'existe pas | TK-31 |
 | SC-2.0-08 | Adresse inconnue | TK-31 |
@@ -1215,8 +1227,6 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | SC-2.0-18 | Fiche d'un projet sans capture | TK-37 |
 | SC-2.0-19 | Ajout d'un projet | TK-47 |
 | SC-2.0-20 | Lien direct vers un projet ajouté | TK-47 |
-| SC-2.0-21 | Téléchargement du CV | TK-38, TK-65 |
-| SC-2.0-22 | CV indisponible | TK-38 |
 | SC-2.0-23 | Envoi d'un message de contact | TK-20, TK-43, TK-58 |
 | SC-2.0-24 | Champ obligatoire vide | TK-16, TK-41 |
 | SC-2.0-25 | Email invalide | TK-16, TK-41 |
@@ -1240,7 +1250,6 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | EC-05 | Méthode de travail | TK-40, TK-48, TK-55, TK-66 |
 | EC-06 | Liste des projets | TK-39, TK-48, TK-51 |
 | EC-07 | Fiche d'un projet | TK-37, TK-48 |
-| EC-08 | CV | TK-38, TK-48 |
 | EC-09 | Contact | TK-41, TK-43, TK-48 |
 | EC-10 | Mentions légales | TK-31, TK-48 |
 | EC-11 | Page introuvable | TK-31, TK-48 |
@@ -1291,13 +1300,13 @@ Ces tickets portent le label après-v2. Ils sont créés pour tracer ce qui est 
 
 La signature de ce document tranche les points suivants, tous pris faute de référentiel ou proposés :
 
-- Les estimations : 62 tickets v2.0.0, à raison de 5 tickets à 0,5 j, 37 tickets à 1 j, 20 tickets à 2 j, en jours d'effort d'un développeur. Total des estimations v2.0.0 : 79,5 j. Ce sont des propositions, pas des mesures, et aucune date de livraison n'en découle.
+- Les estimations : 61 tickets v2.0.0, à raison de 5 tickets à 0,5 j, 36 tickets à 1 j, 20 tickets à 2 j, en jours d'effort d'un développeur. Total des estimations v2.0.0 : 78,5 j. Ce sont des propositions, pas des mesures, et aucune date de livraison n'en découle.
 - Les priorités, dont trois choix : TK-02 (points de charte) est en prio-low, mais passe en première vague parce que les jetons et l'en-tête en reprennent les valeurs ; les halos et la pause des animations (TK-50) sont en prio-high, parce que la respiration des halos sans moyen de pause enfreindrait le critère WCAG 2.2.2, de niveau A ; les tracés et survols (TK-51) et les transitions entre pages (TK-52) sont en prio-medium, parce que le budget de performance (TK-57), qui précède la mise en production, les attend : TK-51 est sur le chemin critique.
 - L'ordre des vagues : 33 vagues de deux tickets au plus. La première vague de code (W3) ne contient que la mise en place du front (TK-05) ; le back passe tôt (W4 et W5, puis W8 à W13), pour mesurer dès W13 le réveil réel de l'instance gratuite et trancher D-04 avant les écrans ; les motifs de mouvement passent après les écrans qu'ils animent (W25 à W29), leur socle étant posé dès W13 ; les contenus d'Alexandre sont intégrés en W29 et W30, puis le budget de performance est mesuré sur le site complet (W31) ; la passe manuelle et la bascule ferment la liste.
 - Le contrat d'API (TK-01) attend la réponse à Q-10 (A-01), parce que ses cinq champs en dépendent ; une réponse à la signature de ce document ne retarde rien.
 - Une précision de la règle des 400 lignes, proposée faute de règle écrite : les fichiers binaires ne comptent pas. Le retrait de my-portfolio/ (TK-08, environ 1 780 lignes retirées hors lockfile), PR qui ne fait que supprimer un dossier entier, est hors de la limite par décision d'Alexandre du 27/10/2026 (section 1) : ce point n'est plus à valider.
-- Le contrôle du contenu (TK-28) a deux modes : sur une PR vers staging, les emplacements étiquetés et l'absence du CV sont signalés sans bloquer ; sur la PR de staging vers main, ils bloquent. Sans ce choix, la CI resterait rouge jusqu'à la livraison des contenus. Une fois les contenus intégrés, TK-65 passe le contrôle en mode « staging → main » sur toutes les PR.
-- L'intégration des contenus d'Alexandre est découpée en deux tickets : TK-65 (textes C-01 à C-10, CV, vignette et captures du portfolio, passage du contrôle du contenu en mode « staging → main ») et TK-66 (illustrations de la méthode), parce que les illustrations, dessinées en SVG, sont du texte compté dans la limite des 400 lignes et la feraient dépasser. Si les textes fournis font dépasser 400 lignes à TK-65, la vignette et les captures passent dans un ticket à part avant l'ouverture de sa PR.
+- Le contrôle du contenu (TK-28) a deux modes : sur une PR vers staging, les emplacements étiquetés sont signalés sans bloquer ; sur la PR de staging vers main, ils bloquent. Sans ce choix, la CI resterait rouge jusqu'à la livraison des contenus. Une fois les contenus intégrés, TK-65 passe le contrôle en mode « staging → main » sur toutes les PR.
+- L'intégration des contenus d'Alexandre est découpée en deux tickets : TK-65 (textes C-01, C-02 et C-04 à C-10, vignette et captures du portfolio, passage du contrôle du contenu en mode « staging → main ») et TK-66 (illustrations de la méthode), parce que les illustrations, dessinées en SVG, sont du texte compté dans la limite des 400 lignes et la feraient dépasser. Si les textes fournis font dépasser 400 lignes à TK-65, la vignette et les captures passent dans un ticket à part avant l'ouverture de sa PR.
 - Un ticket docs de l'Étape 6 se ferme à sa fusion signée, puisqu'il ne se déploie pas ; les autres tickets v2.0.0 se ferment à la bascule.
 - Le modèle de contenu (TK-12) ajoute à la section 5 de la conception technique ce que les maquettes ont introduit : la vignette facultative d'un projet (C2) et les étapes de la méthode, avec leurs intitulés (MV-08). Leur forme exacte est fixée par le plan front (TK-04).
 - La mesure du démarrage à froid du back, que la conception technique place « au scaffold », est faite avec l'image Docker (TK-14), puisque le cache AOT vit dans l'image, puis sur l'hébergeur (TK-24).
@@ -1312,7 +1321,7 @@ La signature de ce document tranche les points suivants, tous pris faute de réf
 
 ## 8. Correspondance avec les issues GitHub
 
-Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`). Amendement du 28/10/2026 : TK-67 créé (#90).
+Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par son identifiant entre crochets. Les branches prennent le numéro d'issue (`<préfixe>/<n° d'issue>-<sujet>`). Amendement du 28/10/2026 : TK-67 créé (#90). Révision du 10/11/2026 : le ticket retiré le 12/11/2026 quitte cette correspondance, son issue étant fermée comme abandonnée (section « Révision du 10/11/2026 »).
 
 | Ticket | Issue |
 | --- | --- |
@@ -1353,7 +1362,6 @@ Backlog créé le 27/10/2026 : un ticket = une issue, dont le titre commence par
 | TK-35 | #52 |
 | TK-36 | #53 |
 | TK-37 | #54 |
-| TK-38 | #55 |
 | TK-39 | #56 |
 | TK-40 | #57 |
 | TK-41 | #58 |
