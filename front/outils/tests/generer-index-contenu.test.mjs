@@ -1,6 +1,6 @@
 // Index des projets (PF-02) : un fichier ajouté entre dans l'index, l'ordre ne dépend pas de
-// celui de la création des fichiers, cvPresent suit le fichier du CV, et l'index est écrit dans
-// la forme de Prettier, qui ne le refuse donc pas, même s'il ne le lit pas (fichier non versionné).
+// celui de la création des fichiers, l'index ne porte que les projets, et il est écrit dans la
+// forme de Prettier, qui ne le refuse donc pas, même s'il ne le lit pas (fichier non versionné).
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -14,8 +14,6 @@ const ecrire = (chemin, texte = '{}') => {
   writeFileSync(join(racine, chemin), texte);
 };
 const ajouterProjet = (nom) => ecrire(`src/contenu/fr/projets/${nom}.json`);
-const ecrireProfil = (fichier) =>
-  ecrire('src/contenu/fr/profil.json', JSON.stringify({ cv: { fichier } }));
 const index = () => {
   const [chemin] = genererIndexContenu(racine);
   return readFileSync(chemin, 'utf8');
@@ -23,7 +21,6 @@ const index = () => {
 
 beforeEach(() => {
   racine = mkdtempSync(join(tmpdir(), 'index-contenu-'));
-  ecrireProfil('cv-essai.pdf');
   ajouterProjet('portfolio');
 });
 afterEach(() => rmSync(racine, { recursive: true, force: true }));
@@ -44,10 +41,10 @@ describe('generer-index-contenu', () => {
   });
 
   it('range les fichiers par nom, quel que soit l’ordre où le dossier les donne', () => {
-    const texte = texteIndex(['zeta.json', 'alpha.json', 'portfolio.json'], false);
+    const texte = texteIndex(['zeta.json', 'alpha.json', 'portfolio.json']);
     const positions = ['alpha', 'portfolio', 'zeta'].map((nom) => texte.indexOf(`./${nom}.json`));
     expect(positions).toEqual([...positions].sort((a, b) => a - b));
-    expect(texteIndex(['portfolio.json', 'zeta.json', 'alpha.json'], false)).toBe(texte);
+    expect(texteIndex(['portfolio.json', 'zeta.json', 'alpha.json'])).toBe(texte);
   });
 
   it('écrit le même index à chaque passage', () => {
@@ -56,12 +53,17 @@ describe('generer-index-contenu', () => {
     expect(index()).toBe(index());
   });
 
-  it('donne cvPresent vrai seulement si le fichier du CV est dans public/cv/', () => {
-    expect(index()).toContain('export const cvPresent = false;');
-    ecrire('public/cv/cv-essai.pdf', '');
-    expect(index()).toContain('export const cvPresent = true;');
-    ecrireProfil('[C-03 — le CV]');
-    expect(index()).toContain('export const cvPresent = false;');
+  it('ne porte que les projets : leurs imports, puis leur liste', () => {
+    expect(index()).toBe(
+      [
+        '// Écrit par outils/generer-index-contenu.mjs : ni à modifier, ni à versionner.',
+        "import type { Projet } from '../../../app/interfaces/contenu';",
+        "import projet_portfolio from './portfolio.json';",
+        '',
+        'export const projets: readonly Projet[] = [projet_portfolio satisfies Projet];',
+        '',
+      ].join('\n'),
+    );
   });
 
   it('écrit un index que Prettier accepte tel quel, court ou long', async () => {
@@ -74,7 +76,7 @@ describe('generer-index-contenu', () => {
       ['portfolio.json'],
       ['un.json', 'deux.json', 'trois.json', 'quatre.json'],
     ]) {
-      const texte = texteIndex(fichiers, false);
+      const texte = texteIndex(fichiers);
       expect(await format(texte, options)).toBe(texte);
     }
   });

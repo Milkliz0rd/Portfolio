@@ -83,7 +83,7 @@ texte brut, jamais de HTML ; un contenu encore à fournir est un emplacement ét
 
 `outils/generer-index-contenu.mjs` en tire `src/contenu/fr/projets/index.genere.ts`, non
 versionné : un import par projet, vérifié par `satisfies Projet` (un champ obligatoire manquant
-fait échouer la compilation), et `cvPresent`. La fiche `/projets/<identifiant>` est pré-rendue
+fait échouer la compilation). La fiche `/projets/<identifiant>` est pré-rendue
 depuis cet index.
 
 ## Styles

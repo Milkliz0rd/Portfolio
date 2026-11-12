@@ -1,15 +1,14 @@
 // Écrit l'index des projets de chaque langue (PF-02), src/contenu/<langue>/projets/index.genere.ts :
 // un import par fichier JSON du dossier, vérifié par « satisfies Projet », qui fait échouer la
-// compilation si un champ obligatoire manque, et cvPresent, vrai si le fichier que nomme
-// cv.fichier dans profil.json est dans public/cv/. Lancé avant chaque build, test, analyse,
-// extraction des libellés et serveur de développement ; l'index n'est pas versionné.
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+// compilation si un champ obligatoire manque. Lancé avant chaque build, test, analyse, extraction
+// des libellés et serveur de développement ; l'index n'est pas versionné.
+import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const nomImport = (fichier) => `projet_${fichier.replace(/\.json$/, '').replace(/\W+/g, '_')}`;
 
 /** Le texte de l'index, fichiers rangés par nom, déjà dans la forme de Prettier (printWidth 100). */
-export function texteIndex(fichiersRecus, cvPresent) {
+export function texteIndex(fichiersRecus) {
   // L'ordre de lecture d'un dossier dépend du système de fichiers : l'index, lui, n'en dépend pas.
   const fichiers = [...fichiersRecus].sort();
   const imports = fichiers.map((fichier) => `import ${nomImport(fichier)} from './${fichier}';\n`);
@@ -23,7 +22,6 @@ export function texteIndex(fichiersRecus, cvPresent) {
     "import type { Projet } from '../../../app/interfaces/contenu';",
     imports.join(''),
     liste,
-    `export const cvPresent = ${cvPresent};`,
     '',
   ].join('\n');
 }
@@ -36,12 +34,8 @@ export function genererIndexContenu(racine) {
     const dossier = join(contenu, langue, 'projets');
     mkdirSync(dossier, { recursive: true });
     const fichiers = readdirSync(dossier).filter((nom) => nom.endsWith('.json'));
-    const { cv } = JSON.parse(readFileSync(join(contenu, langue, 'profil.json'), 'utf8'));
-    // Un emplacement étiqueté n'est pas un nom de fichier : le CV est alors absent.
-    const nomDeFichier = /^[\w.-]+$/.test(cv.fichier);
-    const cvPresent = nomDeFichier && existsSync(join(racine, 'public', 'cv', cv.fichier));
     const index = join(dossier, 'index.genere.ts');
-    writeFileSync(index, texteIndex(fichiers, cvPresent));
+    writeFileSync(index, texteIndex(fichiers));
     return index;
   });
 }
