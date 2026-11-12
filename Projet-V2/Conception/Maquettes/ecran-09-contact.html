@@ -27,7 +27,6 @@
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
   <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
   <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
@@ -43,30 +42,29 @@
 
 <div class="ecran" id="etat-nominal" data-etat="nominal">
 <header class="entete" data-commun="entete">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <nav class="entete__navigation" aria-label="Sections du site">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
     </ul>
   </nav>
   <div class="entete__actions">
-    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
     <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html" aria-current="page">Contact</a>
     <details class="menu-replie">
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
         </ul>
       </nav>
     </details>
@@ -134,7 +132,7 @@
         <div><dt>Adresse réelle</dt><dd><code>/contact</code></dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-04, MF-06, MF-16, MF-18, MF-20</dd></div>
         <div><dt>Navigation</dt><dd>le bouton « Contact » de l’en-tête porte l’attribut de page courante et un trait d’accent sous le bouton (choix C9 d’Alexandre) ; aucune entrée de la navigation n’est signalée</dd></div>
-        <div><dt>Ordre de lecture</dt><dd>titre ; information sur l’usage des données, avant le formulaire et donc avant le bouton (MF-20) ; champs nom, prénom, adresse e-mail, sujet, message, tous obligatoires ; bouton d’envoi ; emplacement du message de résultat, juste sous le bouton</dd></div>
+        <div><dt>Ordre de lecture</dt><dd>titre ; information sur l’usage des données, avant le formulaire et donc avant le bouton (MF-20) ; la phrase « Tous les champs sont obligatoires. », avant les champs ; champs nom, prénom, adresse e-mail, sujet, message, tous obligatoires, sans mention par champ (choix d’Alexandre du 10/11/2026 : la mention par champ est réservée aux formulaires qui mêlent champs obligatoires et facultatifs) ; bouton d’envoi ; emplacement du message de résultat, juste sous le bouton</dd></div>
         <div><dt>Information sur les données</dt><dd>texte final à valider (D-10, conception technique CT-12) : qui reçoit, pourquoi, base légale, prestataires et transferts, durée de conservation, droits</dd></div>
         <div><dt>Protection</dt><dd>aucune protection contre les messages indésirables n’est visible (V-06)</dd></div>
         <div><dt>Colonnes</dt><dd>à partir de 1200 px, le titre et l’information sur les données à gauche, collants au défilement sous l’en-tête, et le formulaire à droite ; sous 1200 px, une seule colonne : titre, information, formulaire (choix C1 d’Alexandre, texte exact de son option du 16/10/2026) ; les états du formulaire suivent la même mise en page.</dd></div>

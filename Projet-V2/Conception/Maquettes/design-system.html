@@ -32,7 +32,7 @@
   --taille-chapo: clamp(1.125rem, 1.018rem + 0.476vw, 1.375rem);
   --taille-texte: clamp(1rem, 0.973rem + 0.119vw, 1.0625rem);
   --taille-texte-petit: clamp(0.875rem, 0.848rem + 0.119vw, 0.9375rem);
-  --taille-code: clamp(0.8125rem, 0.786rem + 0.119vw, 0.875rem);
+  --taille-code: 0.875rem;
   --taille-etiquette: 0.75rem;
   --interligne-affiche: 0.96;
   --interligne-titre: 1.06;
@@ -99,7 +99,7 @@
   --courbe-standard: cubic-bezier(0.2, 0, 0, 1);
   --courbe-sortie: cubic-bezier(0.23, 1, 0.32, 1);
   --courbe-entree-sortie: cubic-bezier(0.77, 0, 0.175, 1);
-  --conteneur-texte: 68ch;
+  --conteneur-texte: 54ch;
   --conteneur-standard: 75rem;
   --conteneur-large: 90rem;
   --marge-page: 16px;
@@ -273,8 +273,8 @@ svg { display: block; }
 }
 .lien-navigation:hover, .lien-navigation.est-survol { color: var(--couleur-texte); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); }
 .lien-navigation.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
-.lien-navigation[aria-current="page"] { color: var(--couleur-texte); }
-.lien-navigation[aria-current="page"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
+.lien-navigation[aria-current="page"], .lien-navigation[aria-current="location"] { color: var(--couleur-texte); }
+.lien-navigation[aria-current="page"]::after, .lien-navigation[aria-current="location"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
 
 /* CO-03 Pastille */
 .pastille {
@@ -376,8 +376,8 @@ svg { display: block; }
 }
 .menu-replie__panneau ul { display: grid; gap: 2px; list-style: none; }
 .menu-replie__panneau .lien-navigation { display: flex; width: 100%; padding-inline: var(--espace-4); }
-.menu-replie__panneau .lien-navigation[aria-current="page"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
-.menu-replie__panneau .lien-navigation[aria-current="page"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
+.menu-replie__panneau .lien-navigation[aria-current="page"], .menu-replie__panneau .lien-navigation[aria-current="location"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
+.menu-replie__panneau .lien-navigation[aria-current="page"]::after, .menu-replie__panneau .lien-navigation[aria-current="location"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
 .menu-replie--en-place .menu-replie__panneau { position: static; margin-top: var(--espace-3); }
 @media (min-width: 600px) { .entete:not(.entete--compacte) .menu-replie__panneau { left: auto; width: 20rem; } }
 @media (min-width: 900px) {
@@ -476,7 +476,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .fenetre__barre { display: flex; align-items: center; gap: var(--espace-3); min-height: 2.375rem; padding: 0 var(--espace-4); border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure); }
 .fenetre__boutons { display: flex; gap: 6px; flex: none; }
 .fenetre__boutons i { width: 9px; height: 9px; border-radius: var(--arrondi-cercle); background: color-mix(in srgb, var(--couleur-texte) 18%, transparent); }
-.fenetre__titre, .fenetre__adresse { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--police-mono); font-size: var(--taille-etiquette); color: var(--couleur-texte-discret); }
+.fenetre__titre, .fenetre__adresse { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--police-mono); font-size: 0.875rem; color: var(--couleur-texte-discret); }
 .fenetre__adresse { flex: 1; max-width: 20rem; margin-inline: auto; padding: 3px 12px; border-radius: var(--arrondi-pilule); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); text-align: center; }
 .fenetre__contenu { padding: var(--espace-5); min-width: 0; }
 .fenetre__code { font-family: var(--police-mono); font-variant-ligatures: none; font-size: var(--taille-code); line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--couleur-texte-secondaire); }
@@ -530,7 +530,8 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .cles--tableau dd { font-family: var(--police-texte); font-weight: var(--graisse-normale); font-size: var(--taille-texte); color: var(--couleur-texte-secondaire); }
 
 /* ---------- 7. Mise en page du catalogue ---------- */
-.conteneur { width: 100%; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
+/* Règle du site : le contenu ne dépasse pas le conteneur large (marges non comprises), la marge de page en plus de chaque côté. */
+.conteneur { box-sizing: content-box; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
 .catalogue-barre { border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure); background: color-mix(in srgb, var(--couleur-fond) 94%, transparent); }
 .catalogue-barre__interieur { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--espace-2) var(--espace-4); min-height: var(--hauteur-entete); padding-block: var(--espace-2); }
 .catalogue-barre__titre { display: inline-flex; align-items: center; gap: var(--espace-3); font-family: var(--police-titre); font-weight: var(--graisse-titre); font-size: 1.0625rem; letter-spacing: var(--approche-sous-titre); }
@@ -906,9 +907,9 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-titre-3</span><span class="etiquette">28 px → 22 px · 700</span></div><p class="titre-3">Un titre de carte</p></div>
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-titre-4</span><span class="etiquette">20 px → 18 px · 700</span></div><p class="titre-4">Un intitulé d’étape</p></div>
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-chapo</span><span class="etiquette">22 px → 18 px · 400</span></div><p class="chapo">Un texte d’introduction, plus grand que le texte courant, qui résume la section en une ou deux phrases.</p></div>
-      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-texte</span><span class="etiquette">17 px → 16 px · 400</span></div><p class="texte">Le texte courant se lit sur 68 caractères au plus par ligne. Il garde un interligne généreux et une couleur légèrement adoucie, pour que les titres portent la hiérarchie.</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-texte</span><span class="etiquette">17 px → 16 px · 400</span></div><p class="texte">Le texte courant se lit sur environ 68 caractères par ligne. Il garde un interligne généreux et une couleur légèrement adoucie, pour que les titres portent la hiérarchie.</p></div>
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-texte-petit</span><span class="etiquette">15 px → 14 px · 400</span></div><p class="texte-petit">Une aide sous un champ, une légende, une mention secondaire.</p></div>
-      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-code</span><span class="etiquette">14 px → 13 px · 400</span></div><p class="texte-code">const etapes = ["concevoir", "tester", "livrer"];</p></div>
+      <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-code</span><span class="etiquette">14 px · 400</span></div><p class="texte-code">const etapes = ["concevoir", "tester", "livrer"];</p></div>
       <div class="echelle__ligne"><div class="echelle__meta"><span class="etiquette etiquette--accent">taille-etiquette</span><span class="etiquette">12 px · 500 · capitales</span></div><p class="etiquette">Une étiquette en capitales espacées</p></div>
     </div>
   </div>
@@ -1176,13 +1177,13 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 
     <!-- CO-06 -->
     <article class="specimen" aria-labelledby="co-06">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-06">CO-06 — En-tête et navigation</h3><p class="texte-petit">Présent sur chaque page. Navigation complète à partir de 1200 px ; en dessous, menu replié (CO-07). Les deux actions permanentes restent toujours visibles, hors du menu. Démonstration adaptative : réduisez la fenêtre pour voir la version compacte.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-06">CO-06 — En-tête et navigation</h3><p class="texte-petit">Présent sur chaque page. Navigation complète à partir de 1200 px ; en dessous, menu replié (CO-07). L’action permanente, « Contact », reste toujours visible, hors du menu. Sur la page principale, l’entrée de la section lue porte le trait de la page courante et l’attribut aria-current="location". Démonstration adaptative : réduisez la fenêtre pour voir la version compacte.</p></header>
       <div class="cadre-demo cadre-demo--entete">
         <header class="entete entete--demo">
           <a class="entete__marque" href="#co-06"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
           <nav class="entete__navigation" aria-label="Sections (exemple)">
             <ul>
-              <li><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></li>
+              <li><a class="lien-navigation" href="#co-06" aria-current="location">Parcours</a></li>
               <li><a class="lien-navigation" href="#co-06">Compétences</a></li>
               <li><a class="lien-navigation" href="#co-06">Expérience</a></li>
               <li><a class="lien-navigation" href="#co-06">Méthode</a></li>
@@ -1190,13 +1191,12 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             </ul>
           </nav>
           <div class="entete__actions">
-            <a class="bouton bouton--secondaire bouton--compact" href="#co-06"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
             <a class="bouton bouton--primaire bouton--compact" href="#co-06">Contact</a>
             <details class="menu-replie">
               <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
               <div class="menu-replie__panneau">
                 <ul>
-                  <li><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></li>
+                  <li><a class="lien-navigation" href="#co-06" aria-current="location">Parcours</a></li>
                   <li><a class="lien-navigation" href="#co-06">Compétences</a></li>
                   <li><a class="lien-navigation" href="#co-06">Expérience</a></li>
                   <li><a class="lien-navigation" href="#co-06">Méthode</a></li>
@@ -1212,26 +1212,25 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
         <div class="etat"><p class="etat__nom">Lien de section · repos</p><a class="lien-navigation" href="#co-06">Projets</a></div>
         <div class="etat"><p class="etat__nom">Lien de section · survol</p><a class="lien-navigation est-survol" href="#co-06">Projets</a></div>
         <div class="etat"><p class="etat__nom">Lien de section · focus</p><a class="lien-navigation est-focus" href="#co-06">Projets</a></div>
-        <div class="etat"><p class="etat__nom">Section courante</p><a class="lien-navigation" href="#co-06" aria-current="page">Parcours</a></div>
+        <div class="etat"><p class="etat__nom">Section lue</p><a class="lien-navigation" href="#co-06" aria-current="location">Parcours</a></div>
       </div>
     </article>
 
     <!-- CO-07 -->
     <article class="specimen" aria-labelledby="co-07">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-07">CO-07 — Menu replié</h3><p class="texte-petit">Version téléphone de la navigation : un bouton ouvre la liste des sections. Le CV et le contact restent hors du menu. Le premier cadre est manipulable, même sans script.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-07">CO-07 — Menu replié</h3><p class="texte-petit">Version téléphone de la navigation : un bouton ouvre la liste des sections. Le contact reste hors du menu. Le premier cadre est manipulable, même sans script.</p></header>
       <div class="grille-2">
         <div class="etat-mini" style="justify-items:stretch"><span class="etat__nom">Téléphone 360 px · manipulable</span>
           <div class="cadre-telephone">
             <header class="entete entete--demo entete--compacte">
               <a class="entete__marque" href="#co-07"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
               <div class="entete__actions">
-                <a class="bouton bouton--secondaire bouton--compact" href="#co-07"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
                 <a class="bouton bouton--primaire bouton--compact" href="#co-07">Contact</a>
                 <details class="menu-replie">
                   <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
                   <div class="menu-replie__panneau">
                     <ul>
-                      <li><a class="lien-navigation" href="#co-07" aria-current="page">Parcours</a></li>
+                      <li><a class="lien-navigation" href="#co-07" aria-current="location">Parcours</a></li>
                       <li><a class="lien-navigation" href="#co-07">Compétences</a></li>
                       <li><a class="lien-navigation" href="#co-07">Expérience</a></li>
                       <li><a class="lien-navigation" href="#co-07">Méthode</a></li>
@@ -1253,13 +1252,12 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             <header class="entete entete--demo entete--compacte">
               <a class="entete__marque" href="#co-07"><span class="entete__monogramme" aria-hidden="true">PN</span><span class="entete__nom">Prénom Nom</span></a>
               <div class="entete__actions">
-                <a class="bouton bouton--secondaire bouton--compact" href="#co-07"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
                 <a class="bouton bouton--primaire bouton--compact" href="#co-07">Contact</a>
                 <details class="menu-replie" open>
                   <summary class="bouton bouton--discret bouton--icone est-focus"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
                   <div class="menu-replie__panneau">
                     <ul>
-                      <li><a class="lien-navigation" href="#co-07" aria-current="page">Parcours</a></li>
+                      <li><a class="lien-navigation" href="#co-07" aria-current="location">Parcours</a></li>
                       <li><a class="lien-navigation est-survol" href="#co-07">Compétences</a></li>
                       <li><a class="lien-navigation" href="#co-07">Expérience</a></li>
                       <li><a class="lien-navigation" href="#co-07">Méthode</a></li>
@@ -1350,10 +1348,11 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 
     <!-- Formulaire de contact : composition de CO-10 et CO-11 -->
     <article class="specimen" aria-labelledby="co-form">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-form">Composition — le formulaire de contact, état par état</h3><p class="texte-petit">CO-10 et CO-11 assemblés : cinq champs obligatoires, l’information sur les données avant le bouton, puis les états de l’envoi.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-form">Composition — le formulaire de contact, état par état</h3><p class="texte-petit">CO-10 et CO-11 assemblés : la phrase « Tous les champs sont obligatoires. » avant les cinq champs, sans mention par champ, l’information sur les données avant le bouton, puis les états de l’envoi.</p></header>
       <div class="grille-2">
         <div class="etat"><p class="etat__nom">Repos (formulaire complet)</p>
           <form class="formulaire" action="#co-form" novalidate>
+            <p class="champ__aide">Tous les champs sont obligatoires.</p>
             <div class="formulaire__ligne">
               <div class="champ"><label class="champ__libelle" for="f-nom">Nom</label><input class="champ__saisie" id="f-nom" type="text" autocomplete="family-name"></div>
               <div class="champ"><label class="champ__libelle" for="f-prenom">Prénom</label><input class="champ__saisie" id="f-prenom" type="text" autocomplete="given-name"></div>
@@ -1362,7 +1361,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             <div class="champ"><label class="champ__libelle" for="f-sujet">Sujet</label><input class="champ__saisie" id="f-sujet" type="text"></div>
             <div class="champ"><label class="champ__libelle" for="f-message">Message</label><textarea class="champ__saisie" id="f-message" rows="5"></textarea></div>
             <p class="formulaire__info">[texte fourni par Alexandre] : qui reçoit vos données et pourquoi.</p>
-            <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="button">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button><span class="texte-petit">Tous les champs sont obligatoires.</span></div>
+            <div class="formulaire__envoi"><button class="bouton bouton--primaire" type="button">Envoyer le message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></button></div>
           </form>
         </div>
         <div class="matrice">
@@ -1390,19 +1389,18 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 
     <!-- CO-12 -->
     <article class="specimen" aria-labelledby="co-12">
-      <header class="specimen__entete"><h3 class="titre-3" id="co-12">CO-12 — Fenêtre factice</h3><p class="texte-petit">Met en scène une capture, un extrait de code ou une interface abstraite dans un cadre d’application. Sans contenu à montrer, la fenêtre n’est pas affichée : jamais de cadre vide.</p></header>
+      <header class="specimen__entete"><h3 class="titre-3" id="co-12">CO-12 — Fenêtre factice</h3><p class="texte-petit">Met en scène une capture, un extrait de code ou une interface abstraite dans un cadre d’application. Sans contenu à montrer, la fenêtre n’est pas affichée : jamais de cadre vide. Titre et adresse à 14 px, en minuscules. Une fenêtre qui ne fait que répéter la page est décorative, masquée aux lecteurs d’écran ; celle qui porte une information propre est une figure dont le titre de barre est la légende, son extrait est lu d’un seul tenant et sa copie colorée est masquée aux lecteurs d’écran (PF-05).</p></header>
       <div class="grille-3">
         <div class="etat"><p class="etat__nom">Code · repos</p>
-          <figure class="fenetre"><div class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre">exemple.ts</span></div>
-            <div class="fenetre__contenu"><pre class="fenetre__code"><span class="code-note">// trie des périodes par date de début</span>
+          <figure class="fenetre" aria-labelledby="co-12-code-titre"><figcaption class="fenetre__barre"><span class="fenetre__boutons" aria-hidden="true"><i></i><i></i><i></i></span><span class="fenetre__titre" id="co-12-code-titre">exemple.ts</span></figcaption>
+            <div class="fenetre__contenu"><pre class="fenetre__code" aria-hidden="true"><span class="code-note">// trie des périodes par date de début</span>
 <span class="code-mot">type</span> Periode = { debut: <span class="code-mot">string</span>; fin: <span class="code-mot">string</span> };
 
 <span class="code-mot">export function</span> trier(p: Periode[]) {
   <span class="code-mot">return</span> [...p].sort((a, b) =&gt;
     a.debut.localeCompare(b.debut));
 }
-<span class="code-note">// </span><span class="code-chaine">"AAAA-MM"</span></pre></div>
-            <figcaption class="masque-visuellement">Extrait de code d’exemple</figcaption>
+<span class="code-note">// </span><span class="code-chaine">"AAAA-MM"</span></pre><span class="masque-visuellement">// trie des périodes par date de début type Periode = { debut: string; fin: string }; export function trier(p: Periode[]) { return [...p].sort((a, b) =&gt; a.debut.localeCompare(b.debut)); } // "AAAA-MM"</span></div>
           </figure>
         </div>
         <div class="etat"><p class="etat__nom">Navigateur · survol</p>
@@ -1451,7 +1449,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
     <article class="specimen" aria-labelledby="co-16">
       <header class="specimen__entete"><h3 class="titre-3" id="co-16">CO-16 — En-tête de section</h3><p class="texte-petit">Ouvre une section : étiquette numérotée, titre, chapô.</p></header>
       <div class="grille-2">
-        <div class="etat"><p class="etat__nom">Aligné à gauche</p><header class="entete-section"><p class="etiquette"><span class="etiquette__numero">03</span>Section</p><p class="titre-2">Titre de section</p><p class="chapo">Un chapô d’une ou deux phrases. [texte fourni par Alexandre]</p></header></div>
+        <div class="etat"><p class="etat__nom">Aligné à gauche</p><header class="entete-section"><p class="etiquette"><span class="etiquette__numero">03</span>Section</p><p class="titre-1">Titre de section</p><p class="chapo">Un chapô d’une ou deux phrases. [texte fourni par Alexandre]</p></header></div>
         <div class="etat"><p class="etat__nom">Centré (fin de page)</p><header class="entete-section entete-section--centre"><p class="etiquette etiquette--accent">Sur-titre</p><p class="titre-2">Un dernier appel</p><a class="bouton bouton--primaire" href="#co-16">Action principale</a></header></div>
       </div>
     </article>
@@ -1473,7 +1471,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
     <header class="entete-section">
       <p class="etiquette"><span class="etiquette__numero">06</span>Mise en scène</p>
       <h2 class="titre-2" id="titre-scene">Une section d’accueil et une frise</h2>
-      <p class="texte">Un exemple d’assemblage, pas une maquette d’écran : les maquettes des écrans sont dans le même dossier que cette page, une par écran, sur la palette retenue, approuvées le 18/10/2026.</p>
+      <p class="texte">Un exemple d’assemblage, pas une maquette d’écran : les maquettes sont dans le même dossier que cette page, sur la palette retenue : la page principale, qui réunit l’accueil et les cinq sections, puis une maquette par page à part ; approuvées le 18/10/2026, révisées le 10/11/2026 (page principale qui défile).</p>
     </header>
     <div class="cadre-demo">
       <div class="vitrine ambiance ambiance--accueil">
@@ -1483,8 +1481,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
             <p class="texte-affiche apparition" style="--rang:1">Prénom Nom</p>
             <p class="chapo apparition" style="--rang:2">Intitulé du profil, puis une présentation en deux phrases au plus. [texte fourni par Alexandre]</p>
             <div class="groupe-actions apparition" style="--rang:3">
-              <a class="bouton bouton--primaire" href="#mise-en-scene"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>Télécharger le CV</a>
-              <a class="bouton bouton--secondaire" href="#mise-en-scene">Écrire un message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+              <a class="bouton bouton--primaire" href="#mise-en-scene">Écrire un message<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
             </div>
             <dl class="cles cles--en-ligne apparition" style="--rang:4">
               <div class="cles__ligne"><dt class="etiquette">Clé</dt><dd>[texte fourni par Alexandre]</dd></div>

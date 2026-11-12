@@ -1,7 +1,9 @@
 /* Mouvement des maquettes, selon le cahier du mouvement (choix d'Alexandre Morozoff) :
    MV-01 apparitions en cascade, MV-02 frise tracée au défilement, MV-03 fenêtre de code qui s'écrit,
-   MV-05 tracés qui se dessinent, MV-06 lueur des survols, MV-07 transitions entre pages (simulées : fichiers locaux),
-   MV-08 récit au défilement, MV-10 titre révélé mot par mot, et la pause des animations (MV-04 est en CSS).
+   MV-05 tracés qui se dessinent, MV-06 lueur des survols, MV-07 transitions d'une page à l'autre (simulées : fichiers
+   locaux ; jamais d'une section à l'autre de la page principale), MV-08 récit au défilement de la section méthode,
+   MV-10 titre révélé mot par mot, et la pause des animations (MV-04 est en CSS). Le signal de la section lue et
+   l'adresse qui la suit ne sont pas du mouvement : ils sont dans la page principale, et marchent sans ce fichier.
    Un seul fichier, sans bibliothèque. Il ne fait rien si le visiteur a demandé à réduire les animations,
    et ne lève aucune erreur sur un écran où un composant manque. Les durées viennent des jetons de styles.css. */
 (function () {
@@ -389,10 +391,13 @@
     });
   }
 
-  /* ---------- MV-07 : transitions entre pages, simulées (fichiers ouverts en local) ---------- */
+  /* ---------- MV-07 : transitions entre pages, simulées (fichiers ouverts en local) ----------
+     Une page entre et sort en fondu quand on change de page : de la page principale à une page à part, et retour, ou d'une
+     page à part à une autre. Un lien vers la même page (une section de la page principale, une ancre) n'en joue aucune. Le repère qui glisse est celui de
+     la page courante (aria-current="page") ou de la section lue (aria-current="location"). */
   var CLE_REPERE = "mv-repere";
   function repereCourant() {
-    var candidats = tous('header[data-commun="entete"] .entete__navigation [aria-current="page"], header[data-commun="entete"] .entete__actions [aria-current="page"]');
+    var candidats = tous('header[data-commun="entete"] .entete__navigation [aria-current="page"], header[data-commun="entete"] .entete__navigation [aria-current="location"], header[data-commun="entete"] .entete__actions [aria-current="page"]');
     for (var i = 0; i < candidats.length; i++) { if (rendu(candidats[i])) { return candidats[i]; } }
     return null;
   }
@@ -416,7 +421,7 @@
       try { cible = new URL(lien.getAttribute("href"), window.location.href); } catch (e) { return; }
       if (cible.protocol !== window.location.protocol || cible.host !== window.location.host) { return; }
       if (!/\.html?$/i.test(cible.pathname)) { return; }
-      if (cible.pathname === window.location.pathname && cible.search === window.location.search && cible.hash) { return; }
+      if (cible.pathname === window.location.pathname && cible.search === window.location.search) { return; }
       evenement.preventDefault();
       sortir(cible.href);
     });
@@ -439,7 +444,7 @@
     window.requestAnimationFrame(function () { window.requestAnimationFrame(function () { nouveau.classList.remove("mv-repere-depart"); }); });
   }
 
-  /* ---------- MV-08 : récit au défilement de la page Méthode ---------- */
+  /* ---------- MV-08 : récit au défilement de la section méthode ---------- */
   function initRecit() {
     var recit = document.querySelector("[data-mv-recit]");
     if (!recit) { return; }

@@ -14,7 +14,6 @@
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
   <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
   <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
@@ -30,10 +29,10 @@
   <div class="conteneur empile">
     <p class="etiquette etiquette--puce">Maquettes · palette PA-02 Lagune</p>
     <h1 class="titre-1" id="titre-page">Maquettes des écrans</h1>
-    <p class="chapo">Le prototype cliquable du portfolio, sur la charte graphique signée. Chaque écran montre en haut de page son état principal, tel qu’un visiteur le verrait ; ses autres états suivent, sous une bande d’annotation. Les textes à fournir sont des emplacements étiquetés, de C-01 à C-10. Les écrans jouent le mouvement retenu : cascades, frise, titre, récit de la méthode, transitions entre pages ; un bouton du pied de page met les animations en pause, et le réglage « réduire les animations » du système les arrête. Le sommaire et l’image de partage n’en ont pas.</p>
-    <p class="etiquette">Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 18/10/26</p>
+    <p class="chapo">Le prototype cliquable du portfolio, sur la charte graphique signée. La page principale réunit l’accueil et les cinq sections, qui défilent ; la fiche d’un projet, le contact, les mentions légales et la page introuvable restent des pages à part. Chaque page montre en haut son état principal, tel qu’un visiteur le verrait ; ses autres états suivent, sous une bande d’annotation. Les textes à fournir sont des emplacements étiquetés C-01, C-02 et C-04 à C-10. Les écrans jouent le mouvement retenu : cascades, frise, titre, récit de la méthode, transitions entre la page principale et une page à part ; un bouton du pied de page met les animations en pause, et le réglage « réduire les animations » du système les arrête. Le sommaire et l’image de partage n’en ont pas.</p>
+    <p class="etiquette">Statut : [x] à approuver  [x] approuvé par : Alexandre Morozoff le 18/10/26 ; révision du 10/11/26 (page principale qui défile, choix de design), approuvée par la fusion de sa PR</p>
     <div class="groupe-actions">
-      <a class="bouton bouton--primaire" href="ecran-01-accueil.html">Ouvrir l’accueil<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
+      <a class="bouton bouton--primaire" href="ecran-01-page-principale.html">Ouvrir la page principale<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
       <a class="bouton bouton--secondaire" href="design-system.html">Catalogue du design system<svg class="icone" aria-hidden="true"><use href="#i-fleche"/></svg></a>
     </div>
   </div>
@@ -43,7 +42,7 @@
   <div class="conteneur empile empile--etire">
     <div class="bloc-titre">
       <p class="etiquette"><span class="etiquette__numero">01</span>Écrans</p>
-      <h2 class="titre-2" id="titre-ecrans">Douze écrans et leurs états</h2>
+      <h2 class="titre-2" id="titre-ecrans">La page principale, les pages à part et leurs états</h2>
     </div>
     <ul class="sommaire-ecrans">
       <li><article class="carte carte--pleine">
@@ -53,52 +52,18 @@
         <ul class="liste-etats"><li><a class="lien" href="ecran-00-elements-communs.html#etat-nominal">nominal</a></li><li><a class="lien" href="ecran-00-elements-communs.html#etat-entree-courante">entree-courante</a></li><li><a class="lien" href="ecran-00-elements-communs.html#etat-menu-replie">menu-replie</a></li><li><a class="lien" href="ecran-00-elements-communs.html#etat-menu-deplie">menu-deplie</a></li><li><a class="lien" href="ecran-00-elements-communs.html#etat-sans-section-courante">sans-section-courante</a></li><li><a class="lien" href="ecran-00-elements-communs.html#etat-animations-en-pause">animations-en-pause</a></li></ul>
       </article></li>
       <li><article class="carte carte--pleine">
-        <p class="etiquette">EC-01 · <span>/</span></p>
-        <h3 class="titre-3"><a class="lien" href="ecran-01-accueil.html">Accueil</a></h3>
-        <p class="texte-petit">1 état, en haut de page :</p>
-        <ul class="liste-etats"><li><a class="lien" href="ecran-01-accueil.html#etat-nominal">nominal</a></li></ul>
-      </article></li>
-      <li><article class="carte carte--pleine">
-        <p class="etiquette">EC-02 · <span>/parcours</span></p>
-        <h3 class="titre-3"><a class="lien" href="ecran-02-parcours.html">Parcours</a></h3>
-        <p class="texte-petit">1 état, en haut de page :</p>
-        <ul class="liste-etats"><li><a class="lien" href="ecran-02-parcours.html#etat-nominal">nominal</a></li></ul>
-      </article></li>
-      <li><article class="carte carte--pleine">
-        <p class="etiquette">EC-03 · <span>/competences</span></p>
-        <h3 class="titre-3"><a class="lien" href="ecran-03-competences.html">Compétences</a></h3>
-        <p class="texte-petit">2 états, le premier en haut de page :</p>
-        <ul class="liste-etats"><li><a class="lien" href="ecran-03-competences.html#etat-nominal">nominal</a></li><li><a class="lien" href="ecran-03-competences.html#etat-categorie-vide">categorie-vide</a></li></ul>
-      </article></li>
-      <li><article class="carte carte--pleine">
-        <p class="etiquette">EC-04 · <span>/experience</span></p>
-        <h3 class="titre-3"><a class="lien" href="ecran-04-experience.html">Expérience</a></h3>
-        <p class="texte-petit">1 état, en haut de page :</p>
-        <ul class="liste-etats"><li><a class="lien" href="ecran-04-experience.html#etat-nominal">nominal</a></li></ul>
-      </article></li>
-      <li><article class="carte carte--pleine">
-        <p class="etiquette">EC-05 · <span>/methode</span></p>
-        <h3 class="titre-3"><a class="lien" href="ecran-05-methode.html">Méthode de travail</a></h3>
-        <p class="texte-petit">2 états, le premier en haut de page :</p>
-        <ul class="liste-etats"><li><a class="lien" href="ecran-05-methode.html#etat-nominal">nominal</a></li><li><a class="lien" href="ecran-05-methode.html#etat-renvoi-projet-absent">renvoi-projet-absent</a></li></ul>
-      </article></li>
-      <li><article class="carte carte--pleine">
-        <p class="etiquette">EC-06 · <span>/projets</span></p>
-        <h3 class="titre-3"><a class="lien" href="ecran-06-projets.html">Liste des projets</a></h3>
-        <p class="texte-petit">3 états, le premier en haut de page :</p>
-        <ul class="liste-etats"><li><a class="lien" href="ecran-06-projets.html#etat-nominal">nominal</a></li><li><a class="lien" href="ecran-06-projets.html#etat-plusieurs-projets">plusieurs-projets</a></li><li><a class="lien" href="ecran-06-projets.html#etat-liste-vide">liste-vide</a></li></ul>
+        <p class="etiquette">EC-01 à EC-06 · <span>/ et /#section</span></p>
+        <h3 class="titre-3"><a class="lien" href="ecran-01-page-principale.html">Page principale</a></h3>
+        <p class="texte-petit">L’accueil en haut, puis les cinq sections, sur une page qui défile :</p>
+        <ul class="liste-etats"><li><a class="lien" href="ecran-01-page-principale.html">accueil</a></li><li><a class="lien" href="ecran-01-page-principale.html#parcours">parcours</a></li><li><a class="lien" href="ecran-01-page-principale.html#competences">competences</a></li><li><a class="lien" href="ecran-01-page-principale.html#experience">experience</a></li><li><a class="lien" href="ecran-01-page-principale.html#methode">methode</a></li><li><a class="lien" href="ecran-01-page-principale.html#projets">projets</a></li></ul>
+        <p class="texte-petit">5 états, le premier en haut de page :</p>
+        <ul class="liste-etats"><li><a class="lien" href="ecran-01-page-principale.html#etat-nominal">nominal</a></li><li><a class="lien" href="ecran-01-page-principale.html#etat-categorie-vide">categorie-vide</a></li><li><a class="lien" href="ecran-01-page-principale.html#etat-renvoi-projet-absent">renvoi-projet-absent</a></li><li><a class="lien" href="ecran-01-page-principale.html#etat-plusieurs-projets">plusieurs-projets</a></li><li><a class="lien" href="ecran-01-page-principale.html#etat-liste-vide">liste-vide</a></li></ul>
       </article></li>
       <li><article class="carte carte--pleine">
         <p class="etiquette">EC-07 · <span>/projets/portfolio</span></p>
         <h3 class="titre-3"><a class="lien" href="ecran-07-projet.html">Fiche d’un projet</a></h3>
         <p class="texte-petit">4 états, le premier en haut de page :</p>
         <ul class="liste-etats"><li><a class="lien" href="ecran-07-projet.html#etat-nominal-complet">nominal-complet</a></li><li><a class="lien" href="ecran-07-projet.html#etat-sans-capture">sans-capture</a></li><li><a class="lien" href="ecran-07-projet.html#etat-sans-lien-code">sans-lien-code</a></li><li><a class="lien" href="ecran-07-projet.html#etat-projet-inexistant">projet-inexistant</a></li></ul>
-      </article></li>
-      <li><article class="carte carte--pleine">
-        <p class="etiquette">EC-08 · <span>/cv</span></p>
-        <h3 class="titre-3"><a class="lien" href="ecran-08-cv.html">CV</a></h3>
-        <p class="texte-petit">3 états, le premier en haut de page :</p>
-        <ul class="liste-etats"><li><a class="lien" href="ecran-08-cv.html#etat-nominal">nominal</a></li><li><a class="lien" href="ecran-08-cv.html#etat-telechargement-en-cours">telechargement-en-cours</a></li><li><a class="lien" href="ecran-08-cv.html#etat-cv-indisponible">cv-indisponible</a></li></ul>
       </article></li>
       <li><article class="carte carte--pleine">
         <p class="etiquette">EC-09 · <span>/contact</span></p>
@@ -131,27 +96,27 @@
     <ul class="parcours-types">
         <li>
           <p class="titre-4">PT-01 — Le recruteur pressé</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-accueil.html">Accueil</a></li><li><a class="lien" href="ecran-08-cv.html">CV</a></li></ol>
-          <p class="texte-petit">Variante : de l’accueil au contact, puis les états du formulaire.</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-accueil.html">Accueil</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-09-contact.html#etat-envoi-reussi">Envoi réussi</a></li></ol>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li><li><a class="lien" href="ecran-01-page-principale.html#parcours">Une section</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-09-contact.html#etat-envoi-reussi">Envoi réussi</a></li></ol>
+          <p class="texte-petit">Une section atteinte en faisant défiler ou par le menu, puis le contact en un clic et les états du formulaire. Variante : de l’accueil au contact, sans quitter l’accueil.</p>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li></ol>
         </li>
         <li>
           <p class="titre-4">PT-02 — Le responsable technique</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-accueil.html">Accueil</a></li><li><a class="lien" href="ecran-05-methode.html">Méthode de travail</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche du portfolio</a></li></ol>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li><li><a class="lien" href="ecran-01-page-principale.html#methode">Méthode de travail</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche du portfolio</a></li></ol>
           <p class="texte-petit">Puis le code source, dans un nouvel onglet ; variante par les compétences et la liste des projets.</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-03-competences.html">Compétences</a></li><li><a class="lien" href="ecran-06-projets.html">Projets</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche du portfolio</a></li></ol>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html#competences">Compétences</a></li><li><a class="lien" href="ecran-01-page-principale.html#projets">Projets</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche du portfolio</a></li></ol>
         </li>
         <li>
           <p class="titre-4">PT-03 — L’arrivée par un lien direct</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-03-competences.html">Compétences</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche du portfolio</a></li><li><a class="lien" href="ecran-08-cv.html">CV</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-05-methode.html">Méthode</a></li><li><a class="lien" href="ecran-11-introuvable.html#etat-projet-inexistant">Projet inexistant</a></li><li><a class="lien" href="ecran-11-introuvable.html">Adresse inconnue</a></li><li><a class="lien" href="ecran-01-accueil.html">Accueil</a></li></ol>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html#competences">Compétences</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche du portfolio</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-01-page-principale.html#methode">Méthode</a></li><li><a class="lien" href="ecran-11-introuvable.html#etat-projet-inexistant">Projet inexistant</a></li><li><a class="lien" href="ecran-11-introuvable.html">Adresse inconnue</a></li><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li></ol>
         </li>
         <li>
           <p class="titre-4">PT-04 — Le visiteur sur téléphone</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-accueil.html">Accueil</a></li><li><a class="lien" href="ecran-00-elements-communs.html#etat-menu-deplie">Menu déplié</a></li><li><a class="lien" href="ecran-06-projets.html">Projets</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-10-mentions-legales.html">Mentions légales</a></li></ol>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html">Accueil</a></li><li><a class="lien" href="ecran-00-elements-communs.html#etat-menu-deplie">Menu déplié</a></li><li><a class="lien" href="ecran-01-page-principale.html#projets">Projets</a></li><li><a class="lien" href="ecran-07-projet.html">Fiche</a></li><li><a class="lien" href="ecran-09-contact.html">Contact</a></li><li><a class="lien" href="ecran-10-mentions-legales.html">Mentions légales</a></li></ol>
         </li>
         <li>
           <p class="titre-4">PT-05 — Alexandre ajoute un projet</p>
-          <ol class="suite-ecrans"><li><a class="lien" href="ecran-06-projets.html#etat-plusieurs-projets">Plusieurs projets</a></li><li><a class="lien" href="ecran-07-projet.html">Sa fiche</a></li></ol>
+          <ol class="suite-ecrans"><li><a class="lien" href="ecran-01-page-principale.html#etat-plusieurs-projets">Plusieurs projets</a></li><li><a class="lien" href="ecran-07-projet.html">Sa fiche</a></li></ol>
         </li>
     </ul>
   </div>

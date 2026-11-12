@@ -36,7 +36,7 @@
   --taille-chapo: clamp(1.125rem, 1.018rem + 0.476vw, 1.375rem);
   --taille-texte: clamp(1rem, 0.973rem + 0.119vw, 1.0625rem);
   --taille-texte-petit: clamp(0.875rem, 0.848rem + 0.119vw, 0.9375rem);
-  --taille-code: clamp(0.8125rem, 0.786rem + 0.119vw, 0.875rem);
+  --taille-code: 0.875rem;
   --taille-etiquette: 0.75rem;
   --interligne-affiche: 0.96;
   --interligne-titre: 1.06;
@@ -103,7 +103,7 @@
   --courbe-standard: cubic-bezier(0.2, 0, 0, 1);
   --courbe-sortie: cubic-bezier(0.23, 1, 0.32, 1);
   --courbe-entree-sortie: cubic-bezier(0.77, 0, 0.175, 1);
-  --conteneur-texte: 68ch;
+  --conteneur-texte: 54ch;
   --conteneur-standard: 75rem;
   --conteneur-large: 90rem;
   --marge-page: 16px;
@@ -224,8 +224,9 @@ svg { display: block; }
 }
 .lien-navigation:hover, .lien-navigation.est-survol { color: var(--couleur-texte); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); }
 .lien-navigation.est-focus { outline: var(--anneau-focus); outline-offset: var(--focus-decalage); }
-.lien-navigation[aria-current="page"] { color: var(--couleur-texte); }
-.lien-navigation[aria-current="page"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
+/* La section lue de la page principale (aria-current="location") porte le même trait que la page courante. */
+.lien-navigation[aria-current="page"], .lien-navigation[aria-current="location"] { color: var(--couleur-texte); }
+.lien-navigation[aria-current="page"]::after, .lien-navigation[aria-current="location"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: 7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); }
 
 /* CO-03 Pastille */
 .pastille {
@@ -324,8 +325,8 @@ svg { display: block; }
 }
 .menu-replie__panneau ul { display: grid; gap: 2px; list-style: none; }
 .menu-replie__panneau .lien-navigation { display: flex; width: 100%; padding-inline: var(--espace-4); }
-.menu-replie__panneau .lien-navigation[aria-current="page"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
-.menu-replie__panneau .lien-navigation[aria-current="page"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
+.menu-replie__panneau .lien-navigation[aria-current="page"], .menu-replie__panneau .lien-navigation[aria-current="location"] { background: color-mix(in srgb, var(--couleur-accent) 16%, var(--couleur-surface)); }
+.menu-replie__panneau .lien-navigation[aria-current="page"]::after, .menu-replie__panneau .lien-navigation[aria-current="location"]::after { left: 0; right: auto; top: 10px; bottom: 10px; width: 3px; height: auto; }
 .menu-replie--en-place .menu-replie__panneau { position: static; margin-top: var(--espace-3); }
 @media (min-width: 600px) { .entete:not(.entete--compacte) .menu-replie__panneau { left: auto; width: 20rem; } }
 @media (min-width: 900px) {
@@ -410,7 +411,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .message--attention { border-color: color-mix(in srgb, var(--couleur-attention) 40%, transparent); background: color-mix(in srgb, var(--couleur-attention) var(--opacite-teinte-message), var(--couleur-surface)); }
 .message--attention > .icone, .message--attention .message__titre { color: var(--couleur-attention); }
 
-/* CO-12 Fenêtre factice */
+/* CO-12 Fenêtre factice. Titre et adresse à 14 px, en minuscules : rien d'utile sous 14 px (choix d'Alexandre du 10/11/2026). */
 .fenetre {
   display: flex; flex-direction: column; min-width: 0; overflow: hidden;
   border-radius: var(--arrondi-grand); border: var(--bordure-epaisseur) solid var(--verre-bordure);
@@ -420,7 +421,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .fenetre__barre { display: flex; align-items: center; gap: var(--espace-3); min-height: 2.375rem; padding: 0 var(--espace-4); border-bottom: var(--bordure-epaisseur) solid var(--verre-bordure); }
 .fenetre__boutons { display: flex; gap: 6px; flex: none; }
 .fenetre__boutons i { width: 9px; height: 9px; border-radius: var(--arrondi-cercle); background: color-mix(in srgb, var(--couleur-texte) 18%, transparent); }
-.fenetre__titre, .fenetre__adresse { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--police-mono); font-size: var(--taille-etiquette); color: var(--couleur-texte-discret); }
+.fenetre__titre, .fenetre__adresse { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--police-mono); font-size: 0.875rem; color: var(--couleur-texte-discret); }
 .fenetre__adresse { flex: 1; max-width: 20rem; margin-inline: auto; padding: 3px 12px; border-radius: var(--arrondi-pilule); background: color-mix(in srgb, var(--couleur-texte) 6%, transparent); text-align: center; }
 .fenetre__contenu { padding: var(--espace-5); min-width: 0; }
 .fenetre__code { font-family: var(--police-mono); font-variant-ligatures: none; font-size: var(--taille-code); line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--couleur-texte-secondaire); }
@@ -474,8 +475,10 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .cles--tableau .cles__ligne { grid-template-columns: minmax(6rem, 10rem) minmax(0, 1fr); gap: var(--espace-4); padding-block: var(--espace-3); border-top: var(--bordure-epaisseur) solid var(--couleur-bordure); }
 .cles--tableau dd { font-family: var(--police-texte); font-weight: var(--graisse-normale); font-size: var(--taille-texte); color: var(--couleur-texte-secondaire); }
 
-/* Mises en scène reprises du catalogue : conteneur, cadres de démonstration, vitrine d'accueil. */
-.conteneur { width: 100%; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
+/* Mises en scène reprises du catalogue : conteneur, cadres de démonstration, vitrine d'accueil.
+   Le conteneur suit la règle du site : le contenu ne dépasse pas le conteneur large (marges non comprises) et garde de
+   chaque côté la marge de page de sa tranche (content-box, sans largeur à 100 %). */
+.conteneur { box-sizing: content-box; max-width: var(--conteneur-large); margin-inline: auto; padding-inline: var(--marge-page); }
 .cadre-telephone { position: relative; width: 100%; max-width: 22.5rem; min-height: 31rem; margin-inline: auto; overflow: hidden; border-radius: 26px; border: var(--bordure-epaisseur) solid var(--couleur-bordure); background: var(--couleur-fond); }
 .cadre-telephone__contenu { display: grid; gap: var(--espace-4); padding: var(--espace-6) 16px; }
 .cadre-demo { overflow: hidden; border-radius: var(--arrondi-grand); border: var(--bordure-epaisseur) solid var(--couleur-bordure); }
@@ -499,8 +502,10 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .ecran { display: flex; flex-direction: column; min-height: 100vh; }
 .ecran > main { flex: 1 0 auto; }
 /* En-tête et pied s'alignent sur le conteneur large : même bord gauche que le contenu, à toutes les largeurs. */
-.entete { padding-inline: max(var(--marge-page), calc((100% - var(--conteneur-large)) / 2 + var(--marge-page))); }
-.pied--page { padding-inline: 0; }
+.entete { padding-inline: max(var(--marge-page), calc((100% - var(--conteneur-large)) / 2)); }
+/* Le pied de page n'a qu'un enfant, son conteneur : en bloc, celui-ci prend toute la largeur (dans une grille, ses marges
+   automatiques le réduiraient à son contenu). */
+.pied--page { display: block; padding-inline: 0; }
 .pied--page > .conteneur { display: grid; gap: var(--espace-6); }
 
 /* Rythme vertical : 64 px sur téléphone, 96 px à partir de 900 px (charte, section 5). */
@@ -555,7 +560,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 @media (max-width: 479px) { .entete__marque { min-width: var(--cible-tactile); justify-content: center; } }
 /* K3 : frise horizontale, chaque étape part du haut : les intitulés restent alignés, quel que soit le détail. */
 @media (min-width: 900px) { .frise--adaptative .frise__etape { align-content: start; } }
-/* K4 : un chapô placé directement dans une pile garde son plafond de 68 caractères. */
+/* K4 : un chapô placé directement dans une pile garde son plafond d'environ 68 caractères par ligne (conteneur-texte, 54ch). */
 .empile > .chapo { max-width: var(--conteneur-texte); }
 /* K5 : un lien seul sur sa ligne (titre de carte du sommaire, lien de référence, retour au sommaire) fait au moins 44 × 44 px. */
 .sommaire-ecrans .titre-3 .lien { min-width: var(--cible-tactile); }
@@ -596,7 +601,7 @@ textarea.champ__saisie { min-height: 9rem; resize: vertical; }
 .cles dd.cles__date { font-family: var(--police-mono); font-weight: var(--graisse-moyenne); letter-spacing: 0.02em; }
 /* C7 : le lien de retour porte sa flèche à gauche, pointée vers la gauche ; au survol, elle recule. */
 .lien--action.lien--retour:hover .icone, .lien--action.lien--retour.est-survol .icone { transform: translateX(calc(-1 * var(--distance-soulevement))); }
-/* C9 : le repère de page courante vaut aussi pour les boutons CV et Contact de l'en-tête : attribut et trait d'accent sous le bouton. */
+/* C9 : le repère de page courante vaut aussi pour le bouton Contact de l'en-tête : attribut et trait d'accent sous le bouton. */
 .entete__actions .bouton[aria-current="page"] { position: relative; }
 .entete__actions .bouton[aria-current="page"]::after { content: ""; position: absolute; left: var(--espace-3); right: var(--espace-3); bottom: -7px; height: 2px; border-radius: 2px; background: var(--couleur-accent); pointer-events: none; }
 
@@ -736,8 +741,9 @@ html:not(.mv-pause) .pause-animations:not(.pause-animations--demo) .icone--lectu
     opacity: 0; transform: translateY(calc(var(--distance-apparition) / -2));
     transition: opacity var(--duree-sortie-page) var(--courbe-standard), transform var(--duree-sortie-page) var(--courbe-standard);
   }
-  /* MV-07 : le repère de page courante glisse de l'ancien lien vers le nouveau. */
-  .mv-actif .entete .lien-navigation[aria-current="page"]::after, .mv-actif .entete__actions .bouton[aria-current="page"]::after { transform-origin: left center; transition: transform var(--duree-longue) var(--courbe-sortie); }
+  /* MV-07 : le repère de page courante glisse de l'ancien lien vers le nouveau, entre la page principale et une page à part ;
+     d'une section à l'autre, il change de lien sans glisser. */
+  .mv-actif .entete .lien-navigation[aria-current="page"]::after, .mv-actif .entete .lien-navigation[aria-current="location"]::after, .mv-actif .entete__actions .bouton[aria-current="page"]::after { transform-origin: left center; transition: transform var(--duree-longue) var(--courbe-sortie); }
   .mv-actif .mv-repere-depart::after { transform: translateX(var(--mv-repere-x, 0px)) scaleX(var(--mv-repere-echelle, 1)); transition: none !important; }
 
   /* MV-01 : apparitions en cascade, une fois, à l'entrée du bloc dans la fenêtre. */

@@ -27,7 +27,6 @@
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-telecharger" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
   <symbol id="i-externe" viewBox="0 0 24 24"><path d="M9 5h10v10M19 5 6 18"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
   <symbol id="i-fermer" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
@@ -43,30 +42,29 @@
 
 <div class="ecran" id="etat-nominal" data-etat="nominal">
 <header class="entete" data-commun="entete">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <nav class="entete__navigation" aria-label="Sections du site">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
     </ul>
   </nav>
   <div class="entete__actions">
-    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
     <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
     <details class="menu-replie">
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site, menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
         </ul>
       </nav>
     </details>
@@ -78,11 +76,11 @@
   <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
   <div class="conteneur empile empile--etire">
     <header class="entete-section">
-      <p class="etiquette etiquette--accent">Présents sur chaque écran</p>
+      <p class="etiquette etiquette--accent">Présents sur chaque page</p>
       <h1 class="titre-1" id="titre-page">Éléments communs</h1>
-      <p class="chapo">L’en-tête et le pied de page encadrent chaque écran du site, page introuvable comprise. Le CV et le contact y restent à un clic ; la navigation y est la même partout.</p>
+      <p class="chapo">L’en-tête et le pied de page encadrent chaque page du site, la page principale comme les pages à part, page introuvable comprise. Le contact y reste à un clic ; la navigation y est la même partout.</p>
     </header>
-    <p class="zone-contenu">Contenu de l’écran affiché</p>
+    <p class="zone-contenu">Contenu de la page affichée</p>
   </div>
 </section>
 </main>
@@ -116,136 +114,166 @@
         <div><dt>Écran</dt><dd>EC-00 · Éléments communs</dd></div>
         <div><dt>Adresse réelle</dt><dd>toutes les pages, page introuvable comprise</dd></div>
         <div><dt>Micro-fonctions</dt><dd>MF-02, MF-03, MF-06, MF-17, MF-19</dd></div>
-        <div><dt>En-tête</dt><dd>marque (monogramme « AM » sous 480 px, nom Alexandre Morozoff au-delà), lien vers l’accueil ; navigation complète à partir de 1200 px : Accueil, Parcours, Compétences, Expérience, Méthode, Projets ; « CV » (bouton secondaire) et « Contact » (bouton primaire), toujours visibles, jamais dans le menu</dd></div>
-        <div><dt>Pied de page</dt><dd>GitHub et LinkedIn, ouverts dans un nouvel onglet ; lien vers les mentions légales ; bouton « Mettre les animations en pause » (lien discret, icône pause en trait, cible de 44 px ; place validée par Alexandre le 17/10/2026 (choix D6)), absent sans script et quand le visiteur a demandé à réduire les animations ; aucune année ni mention de droits datée</dd></div>
+        <div><dt>En-tête</dt><dd>marque (monogramme « AM » sous 480 px, nom Alexandre Morozoff au-delà), lien vers le haut de la page principale ; navigation complète à partir de 1200 px : Accueil, Parcours, Compétences, Expérience, Méthode, Projets ; sur la page principale, une entrée fait défiler la page jusqu’à sa section ; depuis une page à part, elle mène à la page principale, à cette section ; « Contact » (bouton primaire), toujours visible, jamais dans le menu</dd></div>
+        <div><dt>Pied de page</dt><dd>GitHub et LinkedIn, ouverts dans un nouvel onglet ; lien vers les mentions légales ; bouton « Mettre les animations en pause » (lien discret, icône pause en trait, cible de 44 px ; place validée par Alexandre le 17/10/2026 (choix D6)), absent sans script et quand le visiteur a demandé à réduire les animations ; aucune année ni mention de droits datée. En bas de la page principale, après la section des projets, rien de plus que le pied de page (V-10).</dd></div>
         <div><dt>Téléphone</dt><dd>menu replié sous 1200 px ; pied de page lu en colonne ; aucune entrée coupée, aucun défilement horizontal</dd></div>
         <div><dt>Composants</dt><dd>CO-06 en-tête, CO-07 menu replié, CO-08 pied de page, CO-14 lien d’évitement (premier élément focalisable, visible à la touche Tab)</dd></div>
-        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-04, MV-07</span>. Le halo de la section respire (cycle de 8 s) et se fige avec le bouton de pause du pied de page. En changeant d’écran, la page s’efface en montant puis la suivante arrive en fondu ; l’en-tête reste fixe et son repère de page courante glisse vers la nouvelle entrée. L’en-tête et le pied de page n’entrent jamais en cascade.</dd></div>
-        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’entrée courante dépend de l’écran</li><li><a class="lien" href="#etat-entree-courante">entree-courante</a> : entrée de l’écran affiché signalée</li><li><a class="lien" href="#etat-menu-replie">menu-replie</a> : téléphone, menu fermé</li><li><a class="lien" href="#etat-menu-deplie">menu-deplie</a> : téléphone, menu ouvert</li><li><a class="lien" href="#etat-sans-section-courante">sans-section-courante</a> : mentions légales, page introuvable</li><li><a class="lien" href="#etat-animations-en-pause">animations-en-pause</a> : bouton de pause pressé, halos figés</li></ul></dd></div>
+        <div><dt>Mouvement</dt><dd><span data-mv-annonce>Mouvement : MV-04, MV-07</span>. Le halo de la section respire (cycle de 8 s) et se fige avec le bouton de pause du pied de page. En changeant de page (de la page principale à une page à part, et retour, ou d’une page à part à une autre), la page s’efface en montant puis la suivante arrive en fondu ; l’en-tête reste fixe et son repère glisse vers la nouvelle entrée. D’une section à l’autre de la page principale, aucune transition : le repère passe à l’entrée de la section lue, sans glisser. L’en-tête et le pied de page n’entrent jamais en cascade.</dd></div>
+        <div><dt>États</dt><dd><ul class="annotation__liste"><li><a class="lien" href="#etat-nominal">nominal</a> : en haut de page ; l’entrée signalée dépend de la page et de la section lue</li><li><a class="lien" href="#etat-entree-courante">entree-courante</a> : section lue sur la page principale, « Projets » sur une fiche, « Contact » sur la page de contact</li><li><a class="lien" href="#etat-menu-replie">menu-replie</a> : téléphone, menu fermé</li><li><a class="lien" href="#etat-menu-deplie">menu-deplie</a> : téléphone, menu ouvert</li><li><a class="lien" href="#etat-sans-section-courante">sans-section-courante</a> : mentions légales, page introuvable</li><li><a class="lien" href="#etat-animations-en-pause">animations-en-pause</a> : bouton de pause pressé, halos figés</li></ul></dd></div>
       </dl>
       <p class="annotation__note annotation__retour"><a class="lien" href="index.html">Retour au sommaire de la maquette</a></p>
     </header>
 
     <section class="annotation__etat" id="etat-entree-courante" data-etat="entree-courante" aria-labelledby="titre-etat-entree-courante">
       <h3 class="annotation__nom" id="titre-etat-entree-courante">État : entree-courante</h3>
-      <p class="annotation__note">L’entrée de l’écran affiché est reconnaissable : trait d’accent sous le lien dans la navigation complète, fond teinté et barre d’accent dans le menu déplié, et attribut de page courante pour les lecteurs d’écran. Sur la fiche d’un projet, l’entrée « Projets » est la courante. Sur les écrans CV et Contact, le bouton correspondant de l’en-tête porte le même attribut et le même trait d’accent, sous le bouton (choix C9 d’Alexandre).</p>
+      <p class="annotation__note">L’entrée signalée est reconnaissable : trait d’accent sous le lien dans la navigation complète, fond teinté et barre d’accent dans le menu déplié, et attribut pour les lecteurs d’écran. Sur la page principale, c’est l’entrée de la section lue (<code>aria-current="location"</code>) : elle change avec la lecture, et c’est « Accueil » en haut de la page. Sur la fiche d’un projet, l’entrée « Projets » est la courante (<code>aria-current="page"</code>). Sur la page de contact, le bouton « Contact » de l’en-tête porte l’attribut de page courante et le même trait d’accent, sous le bouton (choix C9 d’Alexandre).</p>
       <div class="annotation__rendu annotation__rendu--nu">
-        <p class="annotation__note">Sur l’écran Parcours, à partir de 1200 px (en dessous, l’en-tête passe en version compacte) :</p>
+        <p class="annotation__note">Sur la page principale, pendant la lecture de la section Parcours, à partir de 1200 px (en dessous, l’en-tête passe en version compacte) :</p>
         <div class="cadre-demo cadre-demo--entete">
 <header class="entete entete--demo">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <nav class="entete__navigation" aria-label="Sections du site (démonstration)">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html" aria-current="page">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours" aria-current="location">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
     </ul>
   </nav>
   <div class="entete__actions">
-    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
     <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
     <details class="menu-replie">
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html" aria-current="page">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours" aria-current="location">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
         </ul>
       </nav>
     </details>
   </div>
 </header>
-          <div class="cadre-demo__corps ambiance"><p class="zone-contenu">Contenu de l’écran affiché</p></div>
+          <div class="cadre-demo__corps ambiance"><p class="zone-contenu">Contenu de la page affichée</p></div>
         </div>
         <p class="annotation__note">Le même repère dans le menu déplié, sous 1200 px :</p>
 <div class="menu-replie--en-place">
   <nav class="menu-replie__panneau" aria-label="Menu déplié (démonstration)">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html" aria-current="page">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours" aria-current="location">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
     </ul>
   </nav>
 </div>
         <p class="annotation__note">Sur la fiche d’un projet, l’entrée « Projets » est la courante :</p>
         <div class="cadre-demo cadre-demo--entete">
 <header class="entete entete--demo">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <nav class="entete__navigation" aria-label="Sections du site (démonstration)">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets" aria-current="page">Projets</a></li>
     </ul>
   </nav>
   <div class="entete__actions">
-    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
     <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
     <details class="menu-replie">
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets" aria-current="page">Projets</a></li>
         </ul>
       </nav>
     </details>
   </div>
 </header>
-          <div class="cadre-demo__corps ambiance"><p class="zone-contenu">Contenu de l’écran affiché</p></div>
+          <div class="cadre-demo__corps ambiance"><p class="zone-contenu">Contenu de la page affichée</p></div>
         </div>
         <p class="annotation__note">Le même repère dans le menu déplié, sous 1200 px :</p>
 <div class="menu-replie--en-place">
   <nav class="menu-replie__panneau" aria-label="Menu déplié (démonstration)">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html" aria-current="page">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets" aria-current="page">Projets</a></li>
     </ul>
   </nav>
 </div>
+        <p class="annotation__note">Sur la page de contact, le bouton « Contact » est le courant ; aucune entrée de section n’est signalée :</p>
+        <div class="cadre-demo cadre-demo--entete">
+<header class="entete entete--demo">
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <nav class="entete__navigation" aria-label="Sections du site (démonstration de la page de contact)">
+    <ul>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
+    </ul>
+  </nav>
+  <div class="entete__actions">
+    <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html" aria-current="page">Contact</a>
+    <details class="menu-replie">
+      <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
+      <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration de la page de contact), menu">
+        <ul>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+          <div class="cadre-demo__corps ambiance"><p class="zone-contenu">Page de contact</p></div>
+        </div>
       </div>
     </section>
     <section class="annotation__etat" id="etat-menu-replie" data-etat="menu-replie" aria-labelledby="titre-etat-menu-replie">
       <h3 class="annotation__nom" id="titre-etat-menu-replie">État : menu-replie</h3>
-      <p class="annotation__note">Sous 1200 px : un seul bouton de menu ; le CV et le contact restent visibles à côté, hors du menu. Sous 480 px, la marque se réduit au monogramme « AM » ; le nom reste annoncé aux lecteurs d’écran.</p>
+      <p class="annotation__note">Sous 1200 px : un seul bouton de menu ; le contact reste visible à côté, hors du menu. Sous 480 px, la marque se réduit au monogramme « AM » ; le nom reste annoncé aux lecteurs d’écran.</p>
       <div class="annotation__rendu annotation__rendu--nu">
         <div class="cadre-telephone">
 <header class="entete entete--demo entete--compacte">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <div class="entete__actions">
-    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
     <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
     <details class="menu-replie">
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
         </ul>
       </nav>
     </details>
@@ -254,33 +282,32 @@
           <div class="cadre-telephone__contenu ambiance ambiance--accueil ambiance--calques">
   <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
   <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
-            <p class="etiquette etiquette--puce">Écran courant</p>
+            <p class="etiquette etiquette--puce">Section lue</p>
             <p class="titre-2">Parcours</p>
-            <p class="texte-petit">Contenu de l’écran affiché.</p>
+            <p class="texte-petit">Contenu de la page principale.</p>
           </div>
         </div>
       </div>
     </section>
     <section class="annotation__etat" id="etat-menu-deplie" data-etat="menu-deplie" aria-labelledby="titre-etat-menu-deplie">
       <h3 class="annotation__nom" id="titre-etat-menu-deplie">État : menu-deplie</h3>
-      <p class="annotation__note">Le bouton ouvre la liste de toutes les sections ; l’entrée courante y est signalée. Échap, le bouton croix ou le choix d’une section referment le menu : la page ne change pas d’écran tant qu’aucune section n’est choisie. Ce cadre reste ouvert pour la démonstration.</p>
+      <p class="annotation__note">Le bouton ouvre la liste de toutes les sections ; l’entrée signalée y est la même que dans la navigation complète. Échap, le bouton croix ou le choix d’une section referment le menu ; le refermer sans choisir de section ne déplace pas la lecture. Ce cadre reste ouvert pour la démonstration.</p>
       <div class="annotation__rendu annotation__rendu--nu">
         <div class="cadre-telephone">
 <header class="entete entete--demo entete--compacte">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <div class="entete__actions">
-    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
     <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
     <details class="menu-replie" open data-fige>
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html" aria-current="page">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours" aria-current="location">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
         </ul>
       </nav>
     </details>
@@ -289,9 +316,9 @@
           <div class="cadre-telephone__contenu ambiance ambiance--accueil ambiance--calques">
   <span class="halo halo--secondaire" data-mv-halo aria-hidden="true"></span>
   <span class="halo halo--accent" data-mv-halo aria-hidden="true"></span>
-            <p class="etiquette etiquette--puce">Écran courant</p>
+            <p class="etiquette etiquette--puce">Section lue</p>
             <p class="titre-2">Parcours</p>
-            <p class="texte-petit">Contenu de l’écran affiché.</p>
+            <p class="texte-petit">Contenu de la page principale.</p>
           </div>
         </div>
       </div>
@@ -302,30 +329,29 @@
       <div class="annotation__rendu annotation__rendu--nu">
         <div class="cadre-demo cadre-demo--entete">
 <header class="entete entete--demo">
-  <a class="entete__marque" href="ecran-01-accueil.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
+  <a class="entete__marque" href="ecran-01-page-principale.html"><span class="entete__monogramme" aria-hidden="true">AM</span><span class="entete__nom">Alexandre Morozoff</span></a>
   <nav class="entete__navigation" aria-label="Sections du site (démonstration)">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
     </ul>
   </nav>
   <div class="entete__actions">
-    <a class="bouton bouton--secondaire bouton--compact" href="ecran-08-cv.html"><svg class="icone" aria-hidden="true"><use href="#i-telecharger"/></svg>CV</a>
     <a class="bouton bouton--primaire bouton--compact" href="ecran-09-contact.html">Contact</a>
     <details class="menu-replie">
       <summary class="bouton bouton--discret bouton--icone"><svg class="icone icone--menu" aria-hidden="true"><use href="#i-menu"/></svg><svg class="icone icone--fermer" aria-hidden="true"><use href="#i-fermer"/></svg><span class="masque-visuellement">Menu</span></summary>
       <nav class="menu-replie__panneau" aria-label="Sections du site (démonstration), menu">
         <ul>
-          <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-          <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-          <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-          <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-          <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-          <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+          <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
         </ul>
       </nav>
     </details>
@@ -337,12 +363,12 @@
 <div class="menu-replie--en-place">
   <nav class="menu-replie__panneau" aria-label="Menu déplié (démonstration)">
     <ul>
-      <li><a class="lien-navigation" href="ecran-01-accueil.html">Accueil</a></li>
-      <li><a class="lien-navigation" href="ecran-02-parcours.html">Parcours</a></li>
-      <li><a class="lien-navigation" href="ecran-03-competences.html">Compétences</a></li>
-      <li><a class="lien-navigation" href="ecran-04-experience.html">Expérience</a></li>
-      <li><a class="lien-navigation" href="ecran-05-methode.html">Méthode</a></li>
-      <li><a class="lien-navigation" href="ecran-06-projets.html">Projets</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html">Accueil</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#parcours">Parcours</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#competences">Compétences</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#experience">Expérience</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#methode">Méthode</a></li>
+      <li><a class="lien-navigation" href="ecran-01-page-principale.html#projets">Projets</a></li>
     </ul>
   </nav>
 </div>
