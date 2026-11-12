@@ -50,19 +50,19 @@ describe('Défilement du routeur', () => {
   });
 
   it('remonte en haut d’un coup à chaque navigation en avant, puis défile doucement vers une ancre', async () => {
-    expect(await defilementsDe(() => router.navigateByUrl('/parcours'))).toStrictEqual([
+    expect(await defilementsDe(() => router.navigateByUrl('/contact'))).toStrictEqual([
       { behavior: 'instant', left: 0, top: 0 },
     ]);
     // Aucun comportement demandé : celui de la feuille, doux sous no-preference.
-    expect(await defilementsDe(() => router.navigateByUrl('/parcours#suite'))).toStrictEqual([
+    expect(await defilementsDe(() => router.navigateByUrl('/contact#suite'))).toStrictEqual([
       { left: 0, top: 640 },
     ]);
   });
 
   it('restaure d’un coup la position au retour arrière', async () => {
-    await defilementsDe(() => router.navigateByUrl('/parcours'));
+    await defilementsDe(() => router.navigateByUrl('/contact'));
     positionVerticale(480);
-    await defilementsDe(() => router.navigateByUrl('/competences'));
+    await defilementsDe(() => router.navigateByUrl('/mentions-legales'));
     expect(await defilementsDe(() => TestBed.inject(Location).back())).toStrictEqual([
       { behavior: 'instant', left: 0, top: 480 },
     ]);

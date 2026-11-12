@@ -8,15 +8,15 @@ describe('Provisoire', () => {
     TestBed.configureTestingModule({
       providers: [
         provideRouter([
-          { path: 'parcours', component: Provisoire, data: { ecran: 'EC-02 Parcours' } },
+          { path: 'contact', component: Provisoire, data: { ecran: 'EC-09 Contact' } },
         ]),
       ],
     });
     const harness = await RouterTestingHarness.create();
-    await harness.navigateByUrl('/parcours', Provisoire);
+    await harness.navigateByUrl('/contact', Provisoire);
     const titre = harness.routeNativeElement?.querySelector('h1');
-    expect(titre?.textContent?.trim()).toBe('EC-02 Parcours');
-    expect(titre?.querySelector('.provisoire__ecran')?.textContent).toBe('EC-02');
+    expect(titre?.textContent?.trim()).toBe('EC-09 Contact');
+    expect(titre?.querySelector('.provisoire__ecran')?.textContent).toBe('EC-09');
   });
 
   describe('variante de la page introuvable', () => {
