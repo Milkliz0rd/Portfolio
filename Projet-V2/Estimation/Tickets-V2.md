@@ -5,7 +5,7 @@ Révision du 28/10/2026 : changements et lectures acceptés en signant les plans
 
 Ce document découpe la v2.0.0 en tickets, estime chacun et les ordonne en vagues de réalisation. Il ne crée rien sur GitHub : les issues, les labels et le board seront créés à partir de lui, une fois signé. Les estimations, les priorités et l'ordre des vagues sont des propositions : la signature d'Alexandre les valide (section 7).
 
-Conventions de lecture : MF-xx désigne une micro-fonction de US-2.0, SC-2.0-xx un scénario de SC-2.0, EC-xx un écran du parcours d'écrans, CT-xx un choix structurant et D-xx une décision de la conception technique, C-xx un contenu et Q-xx une question des US, CO-xx un composant et MV-xx un motif de mouvement de la charte, PN-xx et V-xx un principe et un point validé du parcours d'écrans, P-xx un point validé de la charte, R-xx une exigence reportée à la conception (conception technique, section 11), C1 à C9 les choix d'Alexandre du 16/10/2026 sur les maquettes. TK-xx numérote les tickets, A-xx les tâches qui reviennent à Alexandre.
+Conventions de lecture : MF-xx désigne une micro-fonction de US-2.0, SC-2.0-xx un scénario de SC-2.0, EC-xx une section de la page principale (EC-01 à EC-06) ou un écran du parcours d'écrans, CT-xx un choix structurant et D-xx une décision de la conception technique, C-xx un contenu et Q-xx une question des US, CO-xx un composant et MV-xx un motif de mouvement de la charte, PN-xx et V-xx un principe et un point validé du parcours d'écrans, P-xx un point validé de la charte, PF-xx une décision du plan du front, R-xx une exigence reportée à la conception (conception technique, section 11), C1 à C9 les choix d'Alexandre du 16/10/2026 sur les maquettes, « choix 1 » à « choix 8 » ses choix de design du 10/11/2026 (charte révisée). TK-xx numérote les tickets, A-xx les tâches qui reviennent à Alexandre.
 
 ## Révision du 10/11/2026
 
@@ -57,6 +57,51 @@ Le 10/11/2026, Alexandre a décidé que le site tient sur une page principale qu
 | Section 2 — Introduction | Tickets v2.0.0 : TK-01 à TK-59, TK-65, TK-66, TK-67 | Hors le ticket retiré, et TK-68 à TK-72 ajoutés ; un ticket retiré garde son numéro, son titre et une ligne de statut | Retrait de TK-38 ; reprise du code |
 | Section 8 — Nouveaux tickets | — | Une ligne « à créer » par ticket de TK-68 à TK-72 ; le pilote crée les issues et écrit leurs numéros avant d'ouvrir la PR | Le backlog garde la correspondance de chaque ticket actif |
 | Section 5 — CT-01, CT-03 et MF-04 | Sans les tickets de la reprise | CT-01 et MF-04 avec TK-68, MF-04 avec TK-70, CT-03 avec TK-69 | Champ « Couvre » des nouveaux tickets |
+| Conventions de lecture | EC-xx un écran ; ni PF-xx, ni « choix 1 » à « choix 8 » | EC-xx une section de la page principale ou un écran ; PF-xx une décision du plan du front ; « choix 1 » à « choix 8 », les choix de design du 10/11/2026 | Les tickets révisés citent PF-06 et ces choix ; EC-01 à EC-06 sont des sections |
+| Section 1 — Taille des PR : ce qui ne compte pas | Lockfiles, fichiers de scaffold commités à part, prose de Projet-V2/, maquettes, PR qui ne fait que supprimer un dossier | Aussi : les textes de licence des polices, comme le lockfile ; un commit qui ne fait que retirer du contenu produit par l'outil de création, la PR se mesurant depuis lui (TK-05 : 701 lignes depuis 273b4b0, 351 depuis 46d0011, mesurées à nouveau le 12/11/2026) ; la commande de mesure le dit | Reports « pour le prochain document signé » |
+| Section 1 — Taille des PR : dépassement | « si la réalisation montre qu'il dépassera 400 lignes, il est découpé avant l'ouverture de la PR » | PR successives sur la même issue, coupées à des frontières nettes, chaque PR verte seule, sans redemander à Alexandre (règle déjà appliquée à TK-10, TK-13, TK-19, TK-20, TK-22, TK-24, TK-25, TK-26 et TK-67) ; les tailles des tickets ajoutés ou révisés tiennent compte de l'écart de W1 à W14, de 2 à 3 fois, les autres restent celles du 27/10/2026 | Report « pour le prochain document signé » ; leçon de W1 à W14 |
+| Section 1 — Branches, commits et PR | « Une seule exception : TK-24 » | Deux exceptions : un ticket de plus de 400 lignes, en PR successives, et TK-24 | Règle de coupe ci-dessus |
+| Section 1 — DoD commune, front | « seulement des jetons de la charte » ; rien sur l'apostrophe | Une valeur brute que la charte reprend des maquettes devient un jeton de rôle dès que le code l'emploie ; tout texte affiché avec l'apostrophe typographique ’ | Report « pour le prochain document signé » (valeurs prises aux seules maquettes, reportées dans la charte révisée) ; décision d'Alexandre du 12/11/2026 sur l'apostrophe |
+| TK-27 — Couvre, Dépend de, Taille, DoD et Résumé | Entrées « CV » et « Contact » hors du menu ; entrée courante d'après la page, dont « CV » sur /cv ; tests « depuis chaque adresse du plan du site » vers /cv et /contact ; ≈ 330 lignes | « Contact » seul hors du menu ; services/navigation : section lue (seuil de 40 %, bout de la page) avec aria-current="location", données de la route avec aria-current="page" sur une page à part ; défilement sans étape d'historique ; adresse qui suit la lecture par History.replaceState après le chargement ; ancre qui ne nomme rien à l'ouverture (V-11) ; lien d'évitement intercepté ; tests unitaires de PF-06 et bout en bout du défilement, de l'historique et des ancres ; couvre aussi MF-04, SC-2.0-05 et V-11 ; dépend aussi de TK-23, TK-68, TK-70 et TK-71 ; ≈ 700 lignes, en PR successives | Renvoyé à R4 : DoD de TK-27 (entrée signalée, défilement, adresse) ; étape 16 du plan du front ; choix 8 ; plus de CV |
+| TK-28 — Dépend de, Taille, DoD et Résumé | « CV présent sous un nom conforme » ; « depuis » refusé partout ; tournures cherchées telles qu'écrites ; « il vérifie aussi qu'aucun code du front n'affiche de valeur calculée depuis la date du jour » ; l'absence du CV signalée en mode staging ; ≈ 300 lignes | Contrôle du CV retiré ; « depuis » refusé seulement suivi d'une date, d'un nombre ou d'une durée, « Reconversion depuis la restauration » passant tel quel ; une tournure trouvée avec l'une ou l'autre apostrophe ; une apostrophe droite dans le contenu est une faute ; la règle de la date du jour, déjà posée par TK-07, constatée ; dépend aussi de TK-69 ; ≈ 550 lignes, en PR successives | Renvoyé à R4 : TK-28 (contrôle du CV retiré, apostrophe) ; décisions d'Alexandre du 12/11/2026 (apostrophe, règle « depuis ») ; report : règle de la date posée par TK-07 (lecture du 28/10/2026) ; étape 17 |
+| TK-29 — Taille, DoD et Résumé | « le CV et le contact restent hors du menu » ; choisir une section ferme le panneau ; section courante signalée ; ≈ 230 lignes | Le contact seul hors du menu ; menu sur details et summary ; mêmes liens et même règle d'historique que la navigation ; un clic hors du panneau le ferme ; choisir une section fait défiler sans étape d'historique ; le refermer sans choisir ne déplace pas la lecture ; entrée courante, la section lue ; ≈ 450 lignes, en PR successives | Renvoyé à R4 : DoD de TK-29 ; CO-07 révisé ; étape 18 |
+| TK-31 — Couvre, Dépend de, Taille, DoD et Résumé | Mentions légales en emplacements ; « retour à la liste des projets » pour un projet inconnu ; tests de l'adresse inconnue et du projet inexistant ; ≈ 280 lignes | Liens internes des textes légaux en liens du routeur ; liste clé-valeur dont une valeur porte un lien, ses colonnes en jetons de rôle ; deux variantes, « Voir la liste des projets » vers /#projets, /projets seule selon le document servi ; tests aussi de /projets seule, de /parcours et de l'ancre qui ne nomme rien visée depuis les mentions légales (V-11) ; couvre aussi CO-17 et V-11 ; dépend aussi de TK-17 ; ≈ 550 lignes, en PR successives | Renvoyé à R4 : TK-31 (deux variantes, ancre qui ne nomme rien depuis une autre page) ; reports : valeur de liste qui porte un lien (EC-10), valeurs brutes en jetons de rôle ; étape 20 |
+| TK-33 — Titre, titre de PR, Couvre, Dépend de, Taille, DoD et Résumé | « Écran Accueil » ; « Voir le CV » en action principale (choix C4) et « Écrire un message » ; chaque carte mène à sa section ; ≈ 340 lignes | « Section Accueil », en haut de la page principale, sans ancre ni numéro ; un seul bouton mis en avant, « Écrire un message » ; des cartes qui font défiler la page sans étape d'historique ; / ouvert puis rechargé ; couvre aussi MF-04 et SC-2.0-05 ; dépend aussi de TK-71 et TK-72 ; ≈ 600 lignes, en PR successives | Renvoyé à R4 : TK-33 à TK-40 (sections) ; EC-01 révisé ; plus de CV ; étape 22 |
+| TK-34, TK-35 et TK-36 — Titres, titres de PR, Dépend de, Taille, DoD et Résumés | « Écran Parcours », « Écran Compétences », « Écran Expérience » ; /parcours, /competences, /experience ouverts puis rechargés ; compétences humaines, puis le récit ; ≈ 200, 220 et 200 lignes | « Section … », chacune à son ancre, en-têtes numérotés 01, 02 et 03, titre de niveau 2 à taille-titre-1 ; /#parcours, /#competences, /#experience ouverts puis rechargés, sous l'en-tête ; compétences humaines en pastilles sans carte, à gauche de la carte du récit (choix 6) ; un emplacement d'action ou de liste dans l'en-tête de section, et TK-36 couvre aussi CO-16 ; dépendent aussi de TK-72 ; ≈ 300, 350 et 350 lignes | Renvoyé à R4 : TK-33 à TK-40 ; choix 4, 5 et 6 ; report : emplacement d'action ou de liste de l'en-tête de section (spécimen centré, EC-04) ; étapes 23 à 25 |
+| TK-37 — Couvre, Dépend de, Taille, DoD et Résumé | Retour « à la liste des projets » ; « CV et contact en un clic depuis la fiche » ; en-tête sans règle ; ≈ 350 lignes | En-tête sans numéro, titre de niveau 1 ; retour vers /#projets, navigation ordinaire, d'un coup ; le contact en un clic ; /projets/portfolio ouvert puis rechargé, aussi pour SC-2.0-05 ; aria-current="page" sur « Projets » ; dépend aussi de TK-72 ; ≈ 550 lignes, en PR successives | Renvoyé à R4 : TK-33 à TK-40 ; EC-07 révisé ; SC-2.0-05 élargi ; plus de CV ; étape 26 |
+| TK-39 et TK-40 — Titres, titres de PR, Couvre, Dépend de, Taille, DoD et Résumés | « Écran Liste des projets », « Écran Méthode de travail » ; /projets et /methode ouverts puis rechargés ; ≈ 250 et 300 lignes | « Section … », à l'ancre projets, la dernière, que suit le seul pied de page (V-10), et à l'ancre methode, en-têtes numérotés 05 et 04 ; /#projets et /#methode ouverts puis rechargés ; « Projets » signalé au bout de la page ; TK-39 couvre aussi V-10 ; dépendent aussi de TK-72 ; ≈ 450 lignes chacun, en PR successives | Renvoyé à R4 : TK-33 à TK-40 ; V-10 ; étapes 28 et 29 |
+| TK-41 — Dépend de, Taille, DoD et Résumé | « Tous les champs sont obligatoires. » sans dire où ; en-tête sans règle ; messages d'erreur sans texte cité ; ≈ 330 lignes | En-tête sans numéro, titre de niveau 1 ; une seule phrase avant le formulaire, sans mention par champ (choix 7) ; « Contact » signalé ; messages cités au caractère près, avec ’ ; dépend aussi de TK-72 ; ≈ 550 lignes, en PR successives | Étape 30 du plan du front ; choix 4, 5 et 7 ; décision du 12/11/2026 sur l'apostrophe |
+| TK-43 — DoD (2) | Message d'attente « au libellé tranché par TK-02 » | Le message cité, avec ’ : « L’envoi peut prendre jusqu’à 90 secondes. Votre saisie est conservée. » | Étape 32 ; décision du 12/11/2026 sur l'apostrophe |
+| TK-44 — Taille, DoD et Résumé | Plan du site « à partir des pages pré-rendues » ; la consigne de non-indexation des préversions produite ici ; ≈ 160 lignes | La page principale, chaque fiche, le contact et les mentions légales, sans ancre ni barre finale ; X-Robots-Tag déjà posé par TK-13, constaté sans être refait ; ≈ 250 lignes | Renvoyé à R4 : TK-44 (X-Robots-Tag déjà posé) ; CT-11 révisée ; étape 33 |
+| TK-45 — Dépend de, Taille et DoD (6) | Bout en bout sur les textes finaux ; ≈ 120 lignes | Aussi : le contrôle du contenu, en mode main, ne relève aucune tournure dans les textes finaux ; dépend aussi de TK-28 ; ≈ 200 lignes | Étape 34 du plan du front |
+| TK-46 — Taille, DoD et Résumé | Balises par page pré-rendue ; « Person » sur l'accueil ; ≈ 250 lignes | Balises une fois par page, aucune par section, inchangées quand l'adresse suit la lecture ; « Person » sur la page principale ; ≈ 450 lignes, en PR successives | CT-11 révisée : référencement par page ; étape 35 |
+| TK-47 — Taille, DoD (2) et (3) | « le projet apparaît dans la liste » ; les autres pages identiques « hormis la liste des projets et le plan du site » ; ≈ 150 lignes | Dans la section des projets ; la page principale ne diffère que par la carte du projet, les autres pages identiques une fois retirées les références aux fichiers de code et de style ; ≈ 250 lignes | La liste des projets est une section ; étape 36 |
+| TK-48 — Taille, DoD (1) et Résumé | « chaque bloc de contenu de chaque écran » ; ≈ 330 lignes | Chaque bloc de chaque section de la page principale et de chaque page à part ; ≈ 600 lignes, en PR successives | Étape 37 |
+| TK-49 — DoD (1) | Une adresse inconnue « avec la page introuvable » | Repérée par son titre « Cette page n’existe pas » | Étape 38 ; décision du 12/11/2026 sur l'apostrophe |
+| TK-52 — Taille, DoD et Résumé | Fondu à chaque navigation interne ; « le repère de page courante glisse » ; une ancre de la même page non interceptée ; ≈ 160 lignes | Fondu entre deux pages, quelles qu'elles soient, jamais d'une section à l'autre (annulé quand le chemin ne change pas) ni au suivi de l'adresse ; le repère de l'entrée courante ; aucune transition au retour ni à l'avance ; tests de ces cas ; ≈ 300 lignes | Renvoyé à R4 : TK-52 (fondu entre pages seulement) ; MV-07 révisé ; étape 41 |
+| TK-53 | — | Rien à changer : sa DoD ne nomme aucune adresse | Étape 42 du plan du front |
+| TK-55 — DoD (1) | MV-08 sans lieu dit | Dans la section méthode de la page principale | Étape 44 ; MV-08 révisé |
+| TK-56 — Taille, DoD et Résumé | Cibles proposées : /about vers /parcours, /arcade vers /projets, /competence/… vers /projets ; ≈ 40 lignes | Cibles décidées : /#parcours, /#projets et /#projets, en 301, avec et sans barre finale ; toute autre ancienne adresse en 404 ; l'ancre testée dans l'en-tête Location ; ≈ 100 lignes | Renvoyé à R4 : TK-56 (cibles avec ancre) ; décision d'Alexandre du 12/11/2026 (A-14) ; étape 46 |
+| TK-57 — DoD (1) | « chaque adresse du plan du site » | Les pages nommées : la page principale, chaque fiche, le contact, les mentions légales | Étape 48 |
+| TK-58 — DoD (1) | Téléphones réels « sur toutes les pages » | Aussi le défilement de la page principale, l'entrée signalée, l'adresse et le retour arrière | Étape 49 |
+| TK-66 — Taille et DoD (1) | Illustrations sans forme dite ; ≈ 280 lignes | Un composant de quatre fichiers par illustration ; la feuille de style et le test partagés des démonstrations partent avec elles ; ≈ 600 lignes, en PR successives | Étape 47 ; lecture de W7 (PF-02) |
+| A-14 | À valider, sur la proposition écrite dans TK-56 | Texte gardé, suivi de la décision d'Alexandre du 12/11/2026 | Décision d'Alexandre du 12/11/2026 |
+| Section 5 — Titres et lignes | MF-02 « CV et contact accessibles en permanence » ; MF-04 « Liens directs vers les pages » ; SC-2.0-02 et SC-2.0-03 « CV et contact atteints… » ; SC-2.0-05 « Lien direct vers une section » ; sous-titre « Écrans » | Les titres des documents révisés ; MF-04 et SC-2.0-05 avec les tickets qui les couvrent maintenant ; sous-titre « Sections et écrans » | US-2.0, SC-2.0 et parcours d'écrans révisés |
+| Section 7 — Cibles des redirections | La proposition du 27/10/2026 | Proposition gardée, suivie de la décision du 12/11/2026 | Décision d'Alexandre |
+| Section 7 — Transitions entre pages | Exception à valider | Point gardé, suivi de la révision : exception nommée par la conception technique révisée ; fondu entre deux pages seulement | Conception technique et charte révisées |
+| Section 7 — Reprise du code | N'existait pas | Nouveau point : cinq tickets, les lignes 16 et 18 avec le ticket qu'elles accompagnent, TK-28 dans la dernière vague de la reprise | La révision |
+| Renvoyé à R4 — DoD de TK-27, TK-29 et TK-52 (entrée signalée, défilement, adresse, fondu entre pages seulement) | — | Fait : lignes TK-27, TK-29 et TK-52 | Ligne « Renvoyé à R4 » du plan du front |
+| Renvoyé à R4 — TK-28 (contrôle du CV retiré, apostrophe) | — | Fait : ligne TK-28 | Ligne « Renvoyé à R4 » du plan du front |
+| Renvoyé à R4 — TK-31 (deux variantes, ancre qui ne nomme rien depuis une autre page) | — | Fait : ligne TK-31 | Ligne « Renvoyé à R4 » du plan du front |
+| Renvoyé à R4 — TK-33 à TK-40 (sections) | — | Fait : lignes TK-33, TK-34 à TK-36, TK-37, TK-39 et TK-40 ; TK-38 retiré | Ligne « Renvoyé à R4 » du plan du front |
+| Renvoyé à R4 — TK-44 (X-Robots-Tag déjà posé) | — | Fait : ligne TK-44 | Ligne « Renvoyé à R4 » du plan du front |
+| Renvoyé à R4 — TK-56 (cibles avec ancre) | — | Fait : ligne TK-56 | Lignes « Renvoyé à R4 » du plan du front et de la conception technique |
+| Renvoyé à R4, conception technique — tests des ancres, de la section lue et de l'adresse dans les tickets qui les portent | — | Fait : TK-27 (section lue, adresse, ancres, V-11 à l'ouverture), TK-70 (tableau de défilement), TK-31 (V-11 depuis une autre page), TK-33 à TK-37, TK-39 et TK-40 (sections et pages ouvertes puis rechargées), TK-56 (redirections avec ancre) | Ligne « Renvoyé à R4 » de la conception technique |
+| Étape 1 — TK-05 ; étapes 6 à 10, 12, 14 et 15 — TK-11, TK-12, TK-13, TK-15, TK-17, TK-21, TK-25 et TK-26 (tickets fermés) | DoD signées et faites, sur l'ancien plan | DoD inchangées : ce que le plan du front révisé change dans leur code est porté par la reprise (TK-68 à TK-72, lignes « Reprise » ci-dessus) ; étape 12 (contrôle commun sur chaque page du build) : rien à reprendre, ligne 19 | Tickets fermés : leur DoD ne se réécrit pas |
+| Reports — la règle de la date du jour (TK-28) | — | Écrite dans la DoD (3) de TK-28 | Report « pour le prochain document signé » : lecture de TK-07 acceptée le 28/10/2026 |
+| Reports — emplacement d'action ou de liste de l'en-tête de section ; valeur de liste qui porte un lien | — | DoD (5) de TK-36 ; DoD (2) de TK-31 | Reports de R2 (EC-04, EC-10) |
+| Reports — valeurs brutes des maquettes en jetons de rôle | — | DoD commune, côté front ; pour le code déjà livré : TK-71 (lien, icône), TK-72 (en-tête de section), TK-31 (liste clé-valeur) | Report de R2 |
+| Reports — section 1 (contenu généré, coupe au-delà de 400 lignes, licences des polices) | — | Lignes « Section 1 » ci-dessus | Reports « pour le prochain document signé » |
 
 ## 1. Conventions
 
@@ -93,21 +138,21 @@ Paliers : 0,5 j ; 1 j ; 2 j ; 1 semaine et +. Une estimation est l'effort d'un d
 
 ### Taille des PR : la règle des 400 lignes
 
-Une PR compte au plus 400 lignes de diff : lignes ajoutées plus lignes retirées, mesurées par rapport à staging. Ne comptent pas : les lockfiles ; les fichiers produits par un outil de scaffold, commités tels quels dans un commit à part de la PR ; la prose de Projet-V2/ ; les maquettes HTML de Projet-V2/Conception/Maquettes/. Ne compte pas non plus, par décision d'Alexandre du 27/10/2026, une PR qui ne fait que supprimer un dossier entier, comme le retrait de l'ancien site my-portfolio/ (TK-08) : elle se relit d'un coup d'œil, sur la liste des fichiers retirés, et ne se découpe pas. Une précision est proposée ici, à valider : un fichier binaire (police, image, PDF) n'a pas de lignes et ne compte pas.
+Une PR compte au plus 400 lignes de diff : lignes ajoutées plus lignes retirées, mesurées par rapport à staging. Ne comptent pas : les lockfiles ; les textes de licence des polices (textes OFL recopiés), comme le lockfile ; les fichiers produits par un outil de scaffold, commités tels quels dans un commit à part de la PR, et un commit qui ne fait que retirer du contenu produit par cet outil, comme la page de démonstration d'Angular : la PR se mesure alors depuis ce commit (première application : TK-05, 701 lignes depuis le commit brut 273b4b0, 351 depuis 46d0011) ; la prose de Projet-V2/ ; les maquettes HTML de Projet-V2/Conception/Maquettes/. Ne compte pas non plus, par décision d'Alexandre du 27/10/2026, une PR qui ne fait que supprimer un dossier entier, comme le retrait de l'ancien site my-portfolio/ (TK-08) : elle se relit d'un coup d'œil, sur la liste des fichiers retirés, et ne se découpe pas. Une précision est proposée ici, à valider : un fichier binaire (police, image, PDF) n'a pas de lignes et ne compte pas.
 
-Mesure, depuis la branche du ticket, en ajoutant au besoin les autres chemins exclus et, pour un scaffold, en partant du commit du générateur au lieu de staging :
+Mesure, depuis la branche du ticket, en ajoutant au besoin les autres chemins exclus (les licences des polices, par ':!*-ofl.txt') et, pour un scaffold, en partant du commit du générateur, ou du commit qui ne fait que retirer son contenu, au lieu de staging :
 
 ```
 git diff --numstat origin/staging...HEAD -- . ':!Projet-V2' ':!*package-lock.json' | awk '$1 != "-" { n += $1 + $2 } END { print n + 0 }'
 ```
 
-Le total mesuré est écrit dans la description de la PR. Chaque ticket donne ci-dessous sa taille estimée ; si la réalisation montre qu'il dépassera 400 lignes, il est découpé avant l'ouverture de la PR.
+Le total mesuré est écrit dans la description de la PR. Chaque ticket donne ci-dessous sa taille estimée. Un ticket qui dépasse 400 lignes se livre en PR successives sur la même issue, coupées à des frontières nettes, chaque PR verte seule, sans redemander à Alexandre ; la règle a déjà servi pour TK-10, TK-13, TK-19, TK-20, TK-22, TK-24, TK-25, TK-26 et TK-67. De W1 à W14, les tailles réelles ont valu 2 à 3 fois les tailles estimées le 27/10/2026 : celles des tickets ajoutés ou dont le travail change à la révision du 10/11/2026 en tiennent compte ; les autres restent celles du 27/10/2026.
 
 ### Branches, commits et PR
 
 - Branche : `<préfixe>/<n° d'issue>-<sujet>`, en anglais, en kebab-case, créée depuis staging ; préfixes feat, fix, chore, docs, ci, test, refactor ; par exemple `feat/31-contact-form`.
 - Commits et titre de PR en Conventional Commits, en anglais ; le titre de PR est celui du ticket.
-- Un ticket = une branche = une PR, vers staging, avec le modèle .github/PULL_REQUEST_TEMPLATE.md (`Closes #<n° d'issue>`), relue et approuvée par quelqu'un qui ne l'a pas écrite. Une seule exception : TK-24, en deux PR sur la même issue, de part et d'autre de la création du service par Alexandre (voir ce ticket).
+- Un ticket = une branche = une PR, vers staging, avec le modèle .github/PULL_REQUEST_TEMPLATE.md (`Closes #<n° d'issue>`), relue et approuvée par quelqu'un qui ne l'a pas écrite. Deux exceptions : un ticket qui dépasse 400 lignes, livré en PR successives sur la même issue (« Taille des PR » ci-dessus) ; TK-24, en deux PR sur la même issue, de part et d'autre de la création du service par Alexandre (voir ce ticket).
 - Les PR du robot de mises à jour gardent leur propre format de branche et n'ont pas d'issue.
 - Aucun secret dans le dépôt : clés et adresses vivent dans les variables d'environnement des hébergeurs. Le dépôt est public, historique compris.
 
@@ -123,7 +168,7 @@ Une DoD de ticket qui commence par « DoD commune » ajoute ses propres critère
 - La PR est relue et approuvée par quelqu'un qui ne l'a pas écrite, la CI est verte, aucune régression ; elle est fusionnée dans staging.
 - Un ticket de code ou de configuration est vérifié sur la préproduction par quelqu'un qui ne l'a pas écrit (avant que la préproduction existe, sur la préversion de sa branche ou en local), puis déployé en production, par le tag v2.0.0 pour un ticket v2.0.0. Un ticket docs est signé par Alexandre ; il ne se déploie pas.
 - Le README de front/ ou de back/ est à jour si une commande ou un comportement change.
-- Front : seulement des jetons de la charte ; libellés d'interface marqués pour la traduction (CT-04) ; aucune valeur affichée calculée depuis la date du jour ; seulement des fonctions de la Baseline « largement disponible », sauf une amélioration facultative avec repli immédiat, qu'un navigateur sans prise en charge ignore sans erreur ni contenu perdu, comme les transitions de vue entre pages (MV-07, TK-52), exception à valider (section 7) ; aucune violation axe-core des niveaux A et AA ; aucun défilement horizontal de 320 à 2560 px ; un texte encore à fournir reste un emplacement étiqueté de son identifiant C-xx.
+- Front : seulement des jetons de la charte, une valeur brute que la charte reprend des maquettes devenant un jeton de rôle dès que le code l'emploie ; tout texte affiché avec l'apostrophe typographique ’ (charte, section 4) ; libellés d'interface marqués pour la traduction (CT-04) ; aucune valeur affichée calculée depuis la date du jour ; seulement des fonctions de la Baseline « largement disponible », sauf une amélioration facultative avec repli immédiat, qu'un navigateur sans prise en charge ignore sans erreur ni contenu perdu, comme les transitions de vue entre pages (MV-07, TK-52), exception à valider (section 7) ; aucune violation axe-core des niveaux A et AA ; aucun défilement horizontal de 320 à 2560 px ; un texte encore à fournir reste un emplacement étiqueté de son identifiant C-xx.
 - Back : réglages et secrets en variables d'environnement ; aucun champ du formulaire ni aucune adresse dans les journaux.
 - Aucun nom de projet, de client, d'outil interne, de dépôt ni de collègue de l'employeur, contrôlé à la relecture du diff complet, qui montre aussi ce qui est retiré.
 
@@ -529,12 +574,12 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Priorité** : prio-critique
 - **Estimation** : 2 j
 - **Version** : v2.0.0
-- **Couvre** : EC-00, MF-02, MF-03, SC-2.0-02, SC-2.0-03, SC-2.0-04, CO-06, CO-14
-- **Dépend de** : TK-02, TK-12, TK-15, TK-21
+- **Couvre** : EC-00, MF-02, MF-03, MF-04, SC-2.0-02, SC-2.0-03, SC-2.0-04, SC-2.0-05, CO-06, CO-14, V-11
+- **Dépend de** : TK-02, TK-12, TK-15, TK-21, TK-23, TK-68, TK-70, TK-71
 - **Vague** : W15
-- **Taille** : ≈ 330 lignes
-- **DoD** : DoD commune, et : (1) sur toutes les pages, page introuvable comprise, l'en-tête collant porte la marque (le nom, lien vers l'accueil ; sous 480 px le monogramme « AM », décoratif, le nom restant annoncé aux lecteurs d'écran, cible de 44 px), la navigation (accueil, parcours, compétences, expérience, « Méthode » selon le choix C8, projets) et les entrées « CV » et « Contact », distinguées et toujours visibles, jamais dans un menu ; (2) l'entrée courante est signalée par un attribut et par le trait d'accent, y compris sous « Contact » et sous « CV » sur /cv (choix C9) ; sur une fiche projet, « Projets » est l'entrée courante ; sur les mentions légales et la page introuvable, aucune ; (3) navigation complète à partir de 1200 px, compacte en dessous ; fond et flou selon la charte révisée par TK-02 ; l'en-tête n'entre jamais dans une animation d'arrivée ; (4) le lien d'évitement est le premier élément focalisable et mène au contenu principal ; régions d'en-tête, de navigation et de contenu nommées ; (5) bout en bout : depuis chaque adresse du plan du site, « CV » et « Contact » mènent en un clic à /cv et à /contact (SC-2.0-02, SC-2.0-03) et la navigation est identique partout (SC-2.0-04).
-- **Résumé** : Crée la partie haute du cadre commun (EC-00) : le CV et le contact deviennent atteignables en un clic depuis toutes les pages. Le menu replié et le pied de page suivent (TK-29, TK-30).
+- **Taille** : ≈ 700 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) sur toutes les pages, page introuvable comprise, l'en-tête collant porte la marque (le nom, lien vers le haut de la page principale ; sous 480 px le monogramme « AM », décoratif, le nom restant annoncé aux lecteurs d'écran, lien élargi à 44 px), la navigation (« Accueil », « Parcours », « Compétences », « Expérience », « Méthode » selon le choix C8, « Projets »), liens du routeur vers / avec l'ancre de leur section, sauf « Accueil », et l'entrée « Contact », bouton primaire compact, distinguée et toujours visible, jamais dans un menu ; (2) services/navigation (PF-06) donne l'entrée signalée : sur la page principale, celle de la section lue — la dernière section dont le haut a passé 40 % de la hauteur de la fenêtre, l'accueil avant la première, la dernière section dont le haut est dans la fenêtre quand la page ne peut plus défiler —, avec aria-current="location", suivie par le DefilementService de TK-23 ; sur une page à part, celle des données de la route, avec aria-current="page" : « Projets » sur une fiche, « Contact » sur la page de contact (choix C9), aucune sur les mentions légales et la page introuvable ; le trait d'accent est un élément rendu dans la seule entrée courante ; (3) sur la page principale, une entrée, le nom ou « Accueil » fait défiler jusqu'à la section ou en haut, sans étape d'historique (replaceUrl) ; depuis une page à part, elle mène à la page principale, à la section, d'un coup ; services/navigation garde le chemin de la dernière navigation finie, et l'initialiseur du défilement posé par TK-70 est complété selon le tableau de PF-06 ; (4) une fois la page chargée, l'adresse affichée est toujours celle de la section lue (/#parcours…, / pour l'accueil), remplacée sans étape d'historique, par History.replaceState en gardant history.state, dès qu'elle diffère, y compris juste après l'ouverture sur un élément intérieur d'une section ; jamais Router.navigate, Location.go, location.hash ni location.replace ; une ancre qui ne nomme rien (V-11), à l'ouverture, laisse la page en haut, sans message d'erreur, et disparaît de l'adresse ; (5) navigation complète à partir de 1200 px, compacte en dessous ; fond à 74 % avec flou à partir de 900 px, à 92 % en dessous et quand le flou n'est pas pris en charge (charte révisée par TK-02) ; l'en-tête n'entre jamais dans une animation d'arrivée ; (6) le lien d'évitement est le premier élément focalisable et mène au contenu principal ; une fois l'application démarrée, son clic est intercepté : le contenu principal défile sous l'en-tête et reçoit le focus, sans changer l'adresse ni l'historique ; régions d'en-tête, de navigation et de contenu nommées ; (7) tests unitaires de PF-06 : section lue, entrée courante et son attribut, remplacement de l'adresse (jamais pushState, rien avant la fin du chargement, rien quand l'adresse est déjà la bonne, rien hors de la page principale), tableau de défilement, replaceUrl sur les liens de la page principale et sur eux seuls ; l'ancre qui ne nomme rien visée depuis une autre page, dont le bout en bout vient avec TK-31 ; (8) bout en bout : sur la page principale, chaque entrée fait défiler jusqu'à sa section, sous l'en-tête, avec aria-current="location", l'adresse /#section et history.length inchangé, et le retour arrière quitte la page principale au lieu de remonter ses sections ; au défilement, l'entrée signalée et l'adresse suivent la lecture, « Accueil » et / en haut, la dernière section signalée au bout de la page sur un écran de 2560 px de haut ; depuis chaque page à part, « Contact » et chaque entrée mènent en un clic à leur cible (SC-2.0-02, SC-2.0-03, SC-2.0-04) ; une section ouverte directement puis rechargée (SC-2.0-05), une ancre d'élément intérieur, une ancre de section visée depuis une autre page et une ancre qui ne nomme rien à l'ouverture, avant et après le démarrage de l'application ; le retour en haut d'un coup prouvé par un vrai lien ; sans script, les liens mènent aux sections et l'accueil reste signalé ; aucune entrée signalée sur /mentions-legales ni sur une adresse inconnue.
+- **Résumé** : Crée la partie haute du cadre commun (EC-00) : le contact à un clic depuis toutes les pages, et une navigation qui fait défiler la page principale, signale la section lue et fait suivre la lecture à l'adresse, sans étape d'historique. Le menu replié et le pied de page suivent (TK-29, TK-30).
 
 ### TK-28 — Contrôle automatique du contenu
 
@@ -545,11 +590,11 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Estimation** : 2 j
 - **Version** : v2.0.0
 - **Couvre** : CT-03, CT-10, MF-18, SC-2.0-28
-- **Dépend de** : TK-07, TK-12
+- **Dépend de** : TK-07, TK-12, TK-69
 - **Vague** : W15
-- **Taille** : ≈ 300 lignes
-- **DoD** : DoD commune, et : (1) un contrôle exécuté sur chaque PR fait échouer la CI quand une règle de la section 5 de la conception technique n'est pas tenue : champs obligatoires, identifiants uniques et bien formés, images présentes, chaque capture avec son texte alternatif, liens en HTTPS, renvoi de la méthode vers un projet existant, ordre du parcours, dates complètes et cohérentes, CV présent sous un nom conforme, tournures qui se périment (âge, « actuellement », « depuis », « il y a », « en ce moment », « aujourd'hui », « cette année ») ; (2) il vérifie aussi qu'aucun code du front n'affiche de valeur calculée depuis la date du jour ; (3) deux modes : sur une PR vers staging, les emplacements étiquetés et l'absence du CV sont signalés sans bloquer ; sur la PR de staging vers main, ils bloquent ; (4) aucune liste de termes interdits liés à l'employeur n'est commitée : cette règle reste à la relecture des PR (section 5) ; (5) tests du contrôle : un contenu fautif par règle, et un contenu correct.
-- **Résumé** : Automatise les règles du contenu, dont « rien qui se périme » (MF-18). Une relecture humaine reste nécessaire, et elle est prévue dans la passe manuelle (TK-58).
+- **Taille** : ≈ 550 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) un contrôle exécuté sur chaque PR fait échouer la CI quand une règle de la section 5 de la conception technique, détaillée par PF-02, n'est pas tenue : champs obligatoires, identifiants uniques et bien formés, images présentes, chaque capture avec son texte alternatif, liens en HTTPS, renvoi de la méthode vers un projet existant, ordre du parcours, dates complètes et cohérentes, tournures qui se périment (âge, « actuellement », « depuis » suivi d'une date, d'un nombre ou d'une durée, comme « depuis 2023 », « depuis 3 ans » ou « depuis peu », « il y a », « en ce moment », « aujourd’hui », « cette année »), chacune trouvée avec l'une ou l'autre apostrophe ; « depuis » suivi d'autre chose passe tel quel, sans exception, comme « Reconversion depuis la restauration » (décision d'Alexandre du 12/11/2026) ; (2) une apostrophe droite dans un texte du contenu est une faute, adresses exclues : tout texte affiché emploie ’ (décision d'Alexandre du 12/11/2026) ; (3) la règle d'analyse statique qui interdit une valeur calculée depuis la date du jour est déjà posée par TK-07 (lecture acceptée le 28/10/2026) : ce ticket la constate sans la refaire ; (4) deux modes : sur une PR vers staging, les emplacements étiquetés sont signalés sans bloquer ; sur la PR de staging vers main, ils bloquent ; (5) aucune liste de termes interdits liés à l'employeur n'est commitée : cette règle reste à la relecture des PR (section 5) ; (6) tests du contrôle : un contenu fautif par règle, dont un par tournure de la liste et « depuis » suivi d'une date, d'un nombre et d'une durée, et un contenu correct, dont « Reconversion depuis la restauration » et un textes-legaux.json qui dit la durée de conservation de D-10 (« au plus trois ans après le dernier échange »), accepté en mode main.
+- **Résumé** : Automatise les règles du contenu, dont « rien qui se périme » (MF-18) et l'apostrophe typographique. Une relecture humaine reste nécessaire, et elle est prévue dans la passe manuelle (TK-58).
 
 ### TK-29 — Menu replié
 
@@ -562,9 +607,9 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Couvre** : EC-00, MF-03, MF-06, SC-2.0-04, SC-2.0-09, CO-07
 - **Dépend de** : TK-27
 - **Vague** : W16
-- **Taille** : ≈ 230 lignes
-- **DoD** : DoD commune, et : (1) sous 1200 px, un bouton « Menu » ouvre un panneau qui liste toutes les sections ; le CV et le contact restent hors du menu, visibles à côté ; (2) le bouton annonce son état et le panneau qu'il commande ; Échap ferme le panneau et rend le focus au bouton ; choisir une section ferme le panneau ; ce n'est pas une fenêtre modale ; (3) panneau pleine largeur sur téléphone, de 320 px aligné à droite à partir de 600 px ; section courante signalée ; (4) présent sur toutes les pages, page introuvable comprise ; (5) bout en bout en émulation de téléphone : menu ouvert, section choisie, arrivée sur la section, aucune entrée coupée ni défilement horizontal (SC-2.0-04, SC-2.0-09).
-- **Résumé** : Rend la navigation utilisable sur téléphone (PN-03) sans jamais cacher le CV ni le contact.
+- **Taille** : ≈ 450 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) sous 1200 px, un bouton icône « Menu », au libellé masqué, ouvre un panneau qui liste les mêmes entrées que la navigation complète, avec les mêmes liens et la même règle d'historique (PF-06) ; le contact reste hors du menu, visible à côté ; (2) le menu repose sur details et summary : il marche avant le démarrage de l'application et sans script ; le bouton annonce son état et le panneau qu'il commande ; Échap ferme le panneau et rend le focus au bouton ; un clic hors du panneau le ferme toujours ; ce n'est pas une fenêtre modale ; (3) choisir une section ferme le panneau et fait défiler la page principale jusqu'à elle, sans étape d'historique, ou y mène depuis une page à part ; fermer le panneau sans rien choisir, par le bouton, par Échap ou par un clic hors du panneau, ne déplace pas la lecture ; (4) panneau pleine largeur sur téléphone, de 320 px aligné à droite à partir de 600 px ; l'entrée courante, la section lue ou celle dont la page dépend, signalée par un fond d'accent à 16 % et une barre de 3 px, sans nom de transition de vue ; (5) présent sur toutes les pages, page introuvable comprise ; (6) tests unitaires de la fermeture ; bout en bout en émulation de téléphone : menu ouvert, section choisie, panneau fermé, arrivée sous l'en-tête, aucune étape d'historique sur la page principale ; un clic hors du panneau le ferme ; le fermer sans choisir laisse la position inchangée ; aucune entrée coupée ni défilement horizontal (SC-2.0-04, SC-2.0-09).
+- **Résumé** : Rend la navigation utilisable sur téléphone (PN-03) sans jamais cacher le contact : choisir une section fait défiler la page principale, refermer le menu ne déplace pas la lecture.
 
 ### TK-30 — Pied de page
 
@@ -589,12 +634,12 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Priorité** : prio-high
 - **Estimation** : 1 j
 - **Version** : v2.0.0
-- **Couvre** : EC-10, EC-11, MF-04, MF-05, MF-19, SC-2.0-05, SC-2.0-07, SC-2.0-08, SC-2.0-29
-- **Dépend de** : TK-13, TK-27
+- **Couvre** : EC-10, EC-11, MF-04, MF-05, MF-19, SC-2.0-05, SC-2.0-07, SC-2.0-08, SC-2.0-29, CO-17, V-11
+- **Dépend de** : TK-13, TK-17, TK-27
 - **Vague** : W17
-- **Taille** : ≈ 280 lignes
-- **DoD** : DoD commune, et : (1) /mentions-legales nomme Alexandre Morozoff comme éditeur, donne le contact par le formulaire (lien vers /contact) et l'identité des hébergeurs du front et du back, sans adresse ni téléphone personnels ; textes en emplacements étiquetés jusqu'à TK-45 ; (2) la page introuvable affiche un message clair, le retour à l'accueil et la navigation ; pour une adresse /projets/ suivie d'un identifiant inconnu, elle propose en plus le retour à la liste des projets, selon la technique du plan front ; (3) elle répond avec le statut 404, porte une consigne de non-indexation et n'est jamais un écran vide ; (4) bout en bout : /mentions-legales ouverte directement puis rechargée (SC-2.0-05, SC-2.0-29), adresse inconnue (SC-2.0-08) et projet inexistant (SC-2.0-07), chacun avec le statut 404, le message, la navigation visible et les retours ; (5) aucune entrée de navigation n'est signalée sur ces deux pages.
-- **Résumé** : Crée les deux pages sans section courante : les mentions légales obligatoires et la page introuvable, servie avec un vrai statut 404.
+- **Taille** : ≈ 550 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) /mentions-legales nomme Alexandre Morozoff comme éditeur, donne le contact par le formulaire (lien vers /contact) et l'identité des hébergeurs du front et du back, sans adresse ni téléphone personnels ; ses textes, lus dans textes-legaux.json, sont des emplacements étiquetés jusqu'à TK-45 ; un segment dont le lien est une adresse interne y devient un lien du routeur, avec son ancre s'il en a une (PF-06) ; (2) la liste clé-valeur (CO-17) accepte une valeur qui porte un lien, comme le contact des mentions légales de la maquette EC-10 ; ses colonnes, de 10rem au moins et de 6 à 10rem pour la clé, valeurs brutes que la charte révisée reprend des maquettes, deviennent des jetons de rôle, en fin de _jetons.scss (reports du 10/11/2026) ; (3) la page introuvable a deux variantes, dans un seul composant : « adresse inconnue » (le « 404 » d'affiche, décoratif, « Cette page n’existe pas », la phrase de la maquette, « Revenir à l’accueil ») et « projet inexistant », pour /projets/ suivi d'un identifiant inconnu, qui ajoute « Voir la liste des projets », vers /#projets ; la variante vient des données de la route, sinon de l'adresse, et /projets seule affiche la variante du document que lui sert l'hébergeur (PF-06) ; (4) elle répond avec le statut 404, porte une consigne de non-indexation, un titre de niveau 1 et le cadre commun complet, et n'est jamais un écran vide ; (5) bout en bout via le serveur local : /mentions-legales ouverte directement puis rechargée (SC-2.0-05, SC-2.0-29), adresse inconnue (SC-2.0-08), projet inexistant (SC-2.0-07), dont le second bouton mène à /#projets, /projets seule et /parcours, ancienne page de la préversion, chacun en 404 avec le message, la navigation visible et les retours, sans erreur d'hydratation ; avec un contenu de test des mentions légales dont un segment mène à /#competence, une ancre qui ne nomme rien, ce lien suivi une fois l'application démarrée ouvre la page principale en haut, à l'adresse /, sans erreur de console (V-11, depuis une autre page) ; (6) aucune entrée de navigation n'est signalée sur ces deux pages.
+- **Résumé** : Crée les deux pages sans section courante : les mentions légales obligatoires, dont les liens internes passent par le routeur, et la page introuvable, servie avec un vrai statut 404, en deux variantes.
 
 ### TK-32 — Composant frise chronologique
 
@@ -611,65 +656,65 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **DoD** : DoD commune, et : (1) CO-09 : liste ordonnée, une étape par période (point, période en chasse fixe « MM/AAAA – MM/AAAA », intitulé, détail facultatif) ; verticale sous 900 px, horizontale au-delà, intitulés alignés selon TK-02 ; (2) états accomplie, mise en avant (annoncée aussi par un texte masqué) et prévue ; aucun texte grisé ; (3) les périodes sont formatées selon la langue, jamais écrites en dur, jamais calculées depuis la date du jour, jamais au présent ; (4) version statique : trait entier jusqu'à l'étape mise en avant et points allumés, le tracé au défilement venant avec TK-53 ; (5) tests unitaires de l'ordre, des formats et des états.
 - **Résumé** : Crée la frise de la charte, qui porte le parcours. Elle reste statique jusqu'au ticket du tracé au défilement.
 
-### TK-33 — Écran Accueil
+### TK-33 — Section Accueil
 
-- **Titre de PR** : `feat(front): add home page`
+- **Titre de PR** : `feat(front): add home section`
 - **Type** : feature
 - **Domaine** : front
 - **Priorité** : prio-critique
 - **Estimation** : 2 j
 - **Version** : v2.0.0
-- **Couvre** : EC-01, MF-01, MF-02, MF-18, SC-2.0-01, SC-2.0-02, SC-2.0-28
-- **Dépend de** : TK-12, TK-17, TK-25, TK-26, TK-27
+- **Couvre** : EC-01, MF-01, MF-02, MF-04, MF-18, SC-2.0-01, SC-2.0-02, SC-2.0-05, SC-2.0-28
+- **Dépend de** : TK-12, TK-17, TK-25, TK-26, TK-27, TK-71, TK-72
 - **Vague** : W18
-- **Taille** : ≈ 340 lignes
-- **DoD** : DoD commune, et : (1) dans l'ordre de lecture : le nom Alexandre Morozoff (seul titre de niveau 1), l'intitulé « Développeur fullstack, orienté architecture logicielle », la courte présentation (C-06), « Voir le CV » en action principale (choix C4) et « Écrire un message », puis une carte par section — parcours, compétences, expérience, méthode, projets — avec sa phrase d'orientation (C-10) ; (2) la carte « Expérience » commence par « Alternance chez OSOL, 2025–2028 » ; (3) la fenêtre « profil.ts » (nom, intitulé, alternance, sans bloc « liens ») est un décor masqué aux lecteurs d'écran, absent sous 600 px (choix C3) ; texte et fenêtre côte à côte à partir de 1200 px, l'un sous l'autre en dessous ; arrière-plan d'ambiance de l'accueil, sans carte interactive sur un halo ; (4) aucun âge ni formulation qui se périme ; (5) bout en bout : SC-2.0-01, SC-2.0-02 depuis les actions de l'accueil, chaque carte qui mène à sa section ; (6) l'accueil est encore sans mouvement : cascade, écriture et titre révélé viennent avec TK-48 et TK-54.
-- **Résumé** : Crée l'accueil qui présente Alexandre et mène au CV, au contact et à chaque section, en une lecture courte.
+- **Taille** : ≈ 600 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) la section accueil de la page principale, en haut, sans ancre ni numéro, dans l'ordre de lecture : le nom Alexandre Morozoff (seul titre de niveau 1 de la page), l'intitulé « Développeur fullstack, orienté architecture logicielle », la courte présentation (C-06), un seul bouton mis en avant, « Écrire un message », vers /contact, puis une carte par section — parcours, compétences, expérience, méthode, projets — avec sa phrase d'orientation (C-10) ; (2) chaque carte est un lien du routeur vers / avec l'ancre de sa section et replaceUrl : elle fait défiler la page jusqu'à la section, sous l'en-tête, sans étape d'historique (PF-06) ; (3) la carte « Expérience » commence par « Alternance chez OSOL, 2025–2028 », tiré de experience.json ; (4) la fenêtre « profil.ts » (nom, intitulé, alternance, sans bloc « liens ») est un décor masqué aux lecteurs d'écran, absent sous 600 px (choix C3) ; texte et fenêtre côte à côte à partir de 1200 px, l'un sous l'autre en dessous ; arrière-plan d'ambiance de l'accueil, cartes sur fond uni, sans carte interactive sur un halo ; (5) aucun âge ni formulation qui se périme ; (6) bout en bout : SC-2.0-01, SC-2.0-02 depuis le bouton de l'accueil, chaque carte qui fait défiler jusqu'à sa section, sous l'en-tête, sans étape d'historique, / ouvert directement puis rechargé (SC-2.0-05), instantané de l'arbre d'accessibilité ; (7) l'accueil est encore sans mouvement : cascade, écriture et titre révélé viennent avec TK-48 et TK-54.
+- **Résumé** : Crée la section d'accueil, en haut de la page principale : elle présente Alexandre et mène au contact et, en faisant défiler la page, à chaque section, en une lecture courte.
 
-### TK-34 — Écran Parcours
+### TK-34 — Section Parcours
 
-- **Titre de PR** : `feat(front): add career path page`
+- **Titre de PR** : `feat(front): add career path section`
 - **Type** : feature
 - **Domaine** : front
 - **Priorité** : prio-high
 - **Estimation** : 1 j
 - **Version** : v2.0.0
 - **Couvre** : EC-02, MF-04, MF-07, MF-08, MF-18, SC-2.0-05, SC-2.0-10, SC-2.0-11
-- **Dépend de** : TK-12, TK-27, TK-32
+- **Dépend de** : TK-12, TK-27, TK-32, TK-72
 - **Vague** : W18
-- **Taille** : ≈ 200 lignes
-- **DoD** : DoD commune, et : (1) le titre et la phrase d'introduction (C-10), puis le texte d'orientation vers l'architecture logicielle, qui cite le master comme étape (C-09) ; (2) la frise des trois étapes dans l'ordre reconversion, bac+3 avec son intitulé et son établissement, master, chacune avec sa période datée (C-01) ; (3) aucune date inventée ni laissée vide : un emplacement étiqueté tant que C-01 manque ; (4) bout en bout : SC-2.0-10, SC-2.0-11, et /parcours ouvert directement puis rechargé (SC-2.0-05).
-- **Résumé** : Crée l'écran du parcours : reconversion, bac+3 et master, en périodes datées, et l'orientation vers l'architecture logicielle.
+- **Taille** : ≈ 300 lignes
+- **DoD** : DoD commune, et : (1) la section parcours de la page principale, à l'ancre parcours : en-tête de section numéroté 01, titre de niveau 2 à taille-titre-1 (choix 4 et 5) et phrase d'introduction (C-10), puis le texte d'orientation vers l'architecture logicielle, qui cite le master comme étape (C-09) ; (2) la frise des trois étapes dans l'ordre reconversion, bac+3 avec son intitulé et son établissement, master, chacune avec sa période datée (C-01) ; (3) aucune date inventée ni laissée vide : un emplacement étiqueté tant que C-01 manque ; (4) bout en bout : SC-2.0-10, SC-2.0-11, et /#parcours ouvert directement puis rechargé, la section sous l'en-tête (SC-2.0-05).
+- **Résumé** : Crée la section du parcours, sur la page principale : reconversion, bac+3 et master, en périodes datées, et l'orientation vers l'architecture logicielle.
 
-### TK-35 — Écran Compétences
+### TK-35 — Section Compétences
 
-- **Titre de PR** : `feat(front): add competences page`
+- **Titre de PR** : `feat(front): add competences section`
 - **Type** : feature
 - **Domaine** : front
 - **Priorité** : prio-critique
 - **Estimation** : 1 j
 - **Version** : v2.0.0
 - **Couvre** : EC-03, MF-04, MF-09, MF-10, SC-2.0-05, SC-2.0-12, SC-2.0-13
-- **Dépend de** : TK-12, TK-17, TK-27, A-06
+- **Dépend de** : TK-12, TK-17, TK-27, TK-72, A-06
 - **Vague** : W19
-- **Taille** : ≈ 220 lignes
-- **DoD** : DoD commune, et : (1) le titre seul, sans phrase d'introduction (choix C5), puis les compétences techniques regroupées par catégorie, dans l'ordre du rang, seulement celles du contenu (C-02) ; (2) les compétences humaines, puis le récit de reconversion (C-07), rattaché aux compétences humaines ; (3) aucun niveau chiffré, sauf réponse contraire à Q-06 (A-06) ; une catégorie sans compétence n'est pas affichée ; une compétence longue passe à la ligne ; (4) bout en bout : SC-2.0-12, SC-2.0-13, /competences ouvert directement puis rechargé (SC-2.0-05), et l'état « catégorie vide » avec un contenu de test.
-- **Résumé** : Crée l'écran des compétences techniques et humaines, avec le récit de reconversion côté humain.
+- **Taille** : ≈ 350 lignes
+- **DoD** : DoD commune, et : (1) la section compétences de la page principale, à l'ancre competences : en-tête de section numéroté 02, titre seul, sans phrase d'introduction (choix C5), puis les compétences techniques regroupées par catégorie, dans l'ordre du rang, seulement celles du contenu (C-02) ; (2) les compétences humaines, en pastilles posées directement sous le titre de leur bloc, sans carte, à gauche de la carte du récit de reconversion (C-07) à partir de 900 px, l'une sous l'autre en dessous (choix 6) ; (3) aucun niveau chiffré, sauf réponse contraire à Q-06 (A-06) ; une catégorie sans compétence n'est pas affichée ; une compétence longue passe à la ligne ; (4) bout en bout : SC-2.0-12, SC-2.0-13, /#competences ouvert directement puis rechargé, la section sous l'en-tête (SC-2.0-05), et l'état « catégorie vide » avec un contenu de test.
+- **Résumé** : Crée la section des compétences techniques et humaines, sur la page principale, avec le récit de reconversion côté humain.
 
-### TK-36 — Écran Expérience
+### TK-36 — Section Expérience
 
-- **Titre de PR** : `feat(front): add experience page`
+- **Titre de PR** : `feat(front): add experience section`
 - **Type** : feature
 - **Domaine** : front
 - **Priorité** : prio-high
 - **Estimation** : 1 j
 - **Version** : v2.0.0
-- **Couvre** : EC-04, MF-04, MF-11, MF-18, SC-2.0-05, SC-2.0-14
-- **Dépend de** : TK-12, TK-17, TK-26, TK-27
+- **Couvre** : EC-04, MF-04, MF-11, MF-18, SC-2.0-05, SC-2.0-14, CO-16
+- **Dépend de** : TK-12, TK-17, TK-26, TK-27, TK-72
 - **Vague** : W19
-- **Taille** : ≈ 200 lignes
-- **DoD** : DoD commune, et : (1) le titre « Expérience », sans phrase d'introduction (choix C5), puis une liste clé-valeur en ligne : « Alternance · OSOL » et « Période · 2025–2028 », la période en chasse fixe (choix C6) ; (2) le rôle en trois volets — application, backend, appui DevOps sur certaines tâches, présenté comme un appui et non comme un poste — avec leurs textes (C-08) ; (3) la mention que les projets menés en entreprise ne sont pas partageables ; (4) aucun projet, client, outil interne, dépôt ni collègue nommé, contrôlé à la relecture du diff ; (5) bout en bout : SC-2.0-14 et /experience ouvert directement puis rechargé (SC-2.0-05).
-- **Résumé** : Crée l'écran du rôle en alternance, décrit en trois volets et en période datée, sans aucun projet d'entreprise.
+- **Taille** : ≈ 350 lignes
+- **DoD** : DoD commune, et : (1) la section expérience de la page principale, à l'ancre experience : en-tête de section numéroté 03, titre « Expérience », sans phrase d'introduction (choix C5), puis une liste clé-valeur en ligne : « Alternance · OSOL » et « Période · 2025–2028 », la période en chasse fixe (choix C6), tout venant d'experience.json ; (2) le rôle en trois volets — application, backend, appui DevOps sur certaines tâches, présenté comme un appui et non comme un poste — avec leurs textes (C-08) ; (3) la mention que les projets menés en entreprise ne sont pas partageables ; (4) aucun projet, client, outil interne, dépôt ni collègue nommé, contrôlé à la relecture du diff ; (5) l'en-tête de section (CO-16) gagne un emplacement d'action ou de liste, sous le titre, comme le spécimen centré du catalogue : la liste clé-valeur de la section y prend place, comme sur la maquette EC-04 ; tests unitaires de cet emplacement (report du 10/11/2026) ; (6) bout en bout : SC-2.0-14 et /#experience ouvert directement puis rechargé, la section sous l'en-tête (SC-2.0-05).
+- **Résumé** : Crée la section du rôle en alternance, sur la page principale, décrit en trois volets et en période datée, sans aucun projet d'entreprise.
 
 ### TK-37 — Écran Fiche d'un projet
 
@@ -679,46 +724,46 @@ Les tickets sont présentés par numéro. Un numéro ne change plus une fois att
 - **Priorité** : prio-high
 - **Estimation** : 2 j
 - **Version** : v2.0.0
-- **Couvre** : EC-07, CT-01, MF-04, MF-13, MF-22, SC-2.0-03, SC-2.0-06, SC-2.0-16, SC-2.0-17, SC-2.0-18, SC-2.0-32
-- **Dépend de** : TK-12, TK-15, TK-25, TK-27
+- **Couvre** : EC-07, CT-01, MF-04, MF-13, MF-22, SC-2.0-03, SC-2.0-05, SC-2.0-06, SC-2.0-16, SC-2.0-17, SC-2.0-18, SC-2.0-32
+- **Dépend de** : TK-12, TK-15, TK-25, TK-27, TK-72
 - **Vague** : W20
-- **Taille** : ≈ 350 lignes
-- **DoD** : DoD commune, et : (1) une fiche est pré-rendue pour chaque projet des fichiers de contenu, à l'adresse /projets/ suivie de son identifiant ; (2) dans l'ordre : titre, description (pour le portfolio, la démarche et l'architecture, C-05), captures seulement s'il y en a (texte alternatif, dimensions déclarées, formats modernes, chargement à la demande), lien vers le code source seulement s'il existe (nouvel onglet), puis « ← Retour à la liste des projets », flèche avant le texte (choix C7) ; (3) sans capture, aucune zone vide ; sans lien, ni lien ni bouton ; (4) tests unitaires avec trois projets de test : complet, sans lien, sans capture (SC-2.0-16, SC-2.0-17, SC-2.0-18) ; (5) bout en bout : /projets/portfolio ouvert directement puis rechargé (SC-2.0-06), lien vers le code source public du portfolio (SC-2.0-32), CV et contact en un clic depuis la fiche (SC-2.0-03) ; (6) « Projets » est signalé comme entrée courante.
-- **Résumé** : Crée la fiche d'un projet, pré-rendue pour chaque fichier de projet ; au lancement, celle du portfolio, qui mène à son code source public.
+- **Taille** : ≈ 550 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) une fiche, page à part, est pré-rendue pour chaque projet des fichiers de contenu, à l'adresse /projets/ suivie de son identifiant ; son en-tête n'a pas de numéro, et son titre est de niveau 1, à taille-titre-1 (choix 4 et 5) ; (2) dans l'ordre : titre, description (pour le portfolio, la démarche et l'architecture, C-05), captures seulement s'il y en a (texte alternatif, dimensions déclarées, formats modernes, chargement à la demande), lien vers le code source seulement s'il existe (nouvel onglet), puis « ← Retour à la liste des projets », flèche avant le texte (choix C7), lien du routeur vers / avec l'ancre projets : une navigation ordinaire, qui ajoute une étape et ouvre la page principale sur la section des projets, sous l'en-tête, d'un coup (PF-06), le fondu venant avec TK-52 ; (3) sans capture, aucune zone vide ; sans lien, ni lien ni bouton ; (4) tests unitaires avec trois projets de test : complet, sans lien, sans capture (SC-2.0-16, SC-2.0-17, SC-2.0-18) ; (5) bout en bout : /projets/portfolio ouvert directement puis rechargé (SC-2.0-05, SC-2.0-06), lien vers le code source public du portfolio (SC-2.0-32), contact en un clic depuis la fiche (SC-2.0-03), retour vers /#projets ; (6) « Projets » est signalé comme entrée courante, avec aria-current="page".
+- **Résumé** : Crée la fiche d'un projet, page à part pré-rendue pour chaque fichier de projet ; au lancement, celle du portfolio, qui mène à son code source public et ramène à la section des projets.
 
 ### TK-38 — Écran CV (retiré le 12/11/2026)
 
 Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV sur le site. Son texte entier se lit dans le backlog signé le 28/10/2026 (PR #91).
 
-### TK-39 — Écran Liste des projets
+### TK-39 — Section Liste des projets
 
-- **Titre de PR** : `feat(front): add project list page`
+- **Titre de PR** : `feat(front): add project list section`
 - **Type** : feature
 - **Domaine** : front
 - **Priorité** : prio-high
 - **Estimation** : 1 j
 - **Version** : v2.0.0
-- **Couvre** : EC-06, MF-04, MF-06, MF-12, MF-22, SC-2.0-05, SC-2.0-15
-- **Dépend de** : TK-25, TK-26, TK-37
+- **Couvre** : EC-06, MF-04, MF-06, MF-12, MF-22, SC-2.0-05, SC-2.0-15, V-10
+- **Dépend de** : TK-25, TK-26, TK-37, TK-72
 - **Vague** : W21
-- **Taille** : ≈ 250 lignes
-- **DoD** : DoD commune, et : (1) le titre seul (choix C5), puis une carte par projet sur toute la largeur : texte à gauche, vignette en fenêtre factice à droite, sous le texte sur téléphone (choix C2) ; au lancement, le seul projet portfolio ; (2) un projet sans vignette n'affiche aucun cadre : la carte se resserre (CO-12, jamais de cadre vide) ; (3) la mention que les projets menés en entreprise ne sont pas partageables, affichée même quand la liste est vide ; liste vide : un message l'indique ; (4) aucune carte sur un halo ; titre jamais coupé ; (5) bout en bout, en profil ordinateur et téléphone : SC-2.0-15 (le portfolio seul, qui mène à sa fiche), /projets ouvert directement puis rechargé (SC-2.0-05), états « plusieurs projets », « sans vignette » et « liste vide » avec des contenus de test.
-- **Résumé** : Crée la liste des projets, qui accueillera les projets ajoutés plus tard sans autre modification.
+- **Taille** : ≈ 450 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) la section projets de la page principale, à l'ancre projets, la dernière, que suit le pied de page sans bloc de plus (V-10) : en-tête de section numéroté 05, titre seul (choix C5), puis une carte interactive par projet sur toute la largeur : texte à gauche, vignette décorative en fenêtre factice à droite, sous le texte sur téléphone (choix C2) ; au lancement, le seul projet portfolio ; (2) un projet sans vignette n'affiche aucun cadre : la carte se resserre (CO-12, jamais de cadre vide) ; (3) la mention que les projets menés en entreprise ne sont pas partageables, affichée même quand la liste est vide ; liste vide : un message l'indique ; (4) aucune carte sur un halo ; titre jamais coupé ; (5) bout en bout, en profil ordinateur et téléphone : SC-2.0-15 (le portfolio seul, qui mène à sa fiche), /#projets ouvert directement puis rechargé, la section sous l'en-tête (SC-2.0-05), l'entrée « Projets » signalée au bout de la page sur un écran haut, états « plusieurs projets », « sans vignette » et « liste vide » avec des contenus de test.
+- **Résumé** : Crée la section des projets, la dernière de la page principale, qui accueillera les projets ajoutés plus tard sans autre modification.
 
-### TK-40 — Écran Méthode de travail
+### TK-40 — Section Méthode de travail
 
-- **Titre de PR** : `feat(front): add method page`
+- **Titre de PR** : `feat(front): add method section`
 - **Type** : feature
 - **Domaine** : front
 - **Priorité** : prio-high
 - **Estimation** : 1 j
 - **Version** : v2.0.0
 - **Couvre** : EC-05, MF-04, MF-21, SC-2.0-05, SC-2.0-31
-- **Dépend de** : TK-25, TK-26, TK-37
+- **Dépend de** : TK-25, TK-26, TK-37, TK-72
 - **Vague** : W21
-- **Taille** : ≈ 300 lignes
-- **DoD** : DoD commune, et : (1) le titre seul (choix C5), puis le texte de la méthode (C-04) découpé en étapes, chacune avec son intitulé et, sous son texte, son illustration en fenêtre factice : c'est la présentation de MV-08 sans script et sans mouvement, avec quatre étapes de démonstration étiquetées tant que C-04 manque ; (2) le renvoi « La méthode appliquée » mène à /projets/portfolio ; si ce projet n'existe plus, le renvoi est retiré au build, jamais laissé cassé (V-09) ; (3) aucun document interne, client, projet, outil interne ni dépôt d'entreprise nommé, contrôlé à la relecture ; (4) bout en bout : SC-2.0-31 (texte, puis renvoi suivi jusqu'à la fiche), /methode ouvert directement puis rechargé (SC-2.0-05), état « renvoi vers un projet absent » avec un contenu de test.
-- **Résumé** : Crée l'écran de la méthode de travail, qui renvoie à la fiche du portfolio. Le récit au défilement s'y ajoute avec TK-55.
+- **Taille** : ≈ 450 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) la section méthode de la page principale, à l'ancre methode : en-tête de section numéroté 04, titre seul (choix C5), puis le texte de la méthode (C-04) découpé en étapes, chacune avec son intitulé et, sous son texte, son illustration en fenêtre factice : c'est la présentation de MV-08 sans script et sans mouvement, avec quatre étapes de démonstration étiquetées tant que C-04 manque ; (2) le renvoi « La méthode appliquée » mène à /projets/portfolio ; si ce projet n'existe plus, le renvoi est retiré au build, jamais laissé cassé (V-09) ; (3) aucun document interne, client, projet, outil interne ni dépôt d'entreprise nommé, contrôlé à la relecture ; (4) bout en bout : SC-2.0-31 (texte, puis renvoi suivi jusqu'à la fiche), /#methode ouvert directement puis rechargé, la section sous l'en-tête (SC-2.0-05), état « renvoi vers un projet absent » avec un contenu de test.
+- **Résumé** : Crée la section de la méthode de travail, sur la page principale, qui renvoie à la fiche du portfolio. Le récit au défilement s'y ajoute avec TK-55.
 
 ### TK-41 — Écran Contact : formulaire et validation
 
@@ -729,11 +774,11 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Estimation** : 2 j
 - **Version** : v2.0.0
 - **Couvre** : EC-09, MF-04, MF-06, MF-16, MF-20, SC-2.0-05, SC-2.0-09, SC-2.0-24, SC-2.0-25, SC-2.0-30
-- **Dépend de** : TK-19, TK-27
+- **Dépend de** : TK-19, TK-27, TK-72
 - **Vague** : W22
-- **Taille** : ≈ 330 lignes
-- **DoD** : DoD commune, et : (1) /contact : le titre, puis les champs nom, prénom, e-mail, sujet et message, tous obligatoires (« Tous les champs sont obligatoires. »), chacun avec required ou aria-required ; nom et prénom côte à côte quand la place le permet ; (2) l'information sur l'usage des données est placée avant le bouton d'envoi (emplacement étiqueté D-10 jusqu'à TK-45) ; (3) à partir de 1200 px, le titre et l'information à gauche, collants au défilement sans passer sous l'en-tête, le formulaire à droite ; une seule colonne en dessous (choix C1) ; (4) à l'envoi, validation dans le navigateur : champ manquant ou e-mail invalide, message près du champ et relié à lui, focus sur le premier champ à corriger, rien n'est envoyé, la saisie est conservée ; le bouton n'est jamais désactivé pour un formulaire incomplet ; (5) le formulaire est un vrai formulaire en POST, qui n'envoie rien tant que TK-43 ne le branche pas ; (6) tests unitaires de la validation ; bout en bout : SC-2.0-24, SC-2.0-25, SC-2.0-30, formulaire rempli sur téléphone (SC-2.0-09), /contact ouvert directement puis rechargé (SC-2.0-05).
-- **Résumé** : Crée l'écran du contact, sa validation dans le navigateur et sa colonne collante. L'envoi se branche avec TK-42 et TK-43.
+- **Taille** : ≈ 550 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) /contact, page à part : en-tête sans numéro, titre de niveau 1 à taille-titre-1 (choix 4 et 5), puis les champs nom, prénom, e-mail, sujet et message, tous obligatoires, chacun avec required ou aria-required, annoncés par une seule phrase avant le formulaire, « Tous les champs sont obligatoires. », sans mention par champ (choix 7) ; nom et prénom côte à côte quand la place le permet ; « Contact » est l'entrée signalée, avec aria-current="page" ; (2) l'information sur l'usage des données est placée avant le bouton d'envoi (emplacement étiqueté D-10 jusqu'à TK-45) ; (3) à partir de 1200 px, le titre et l'information à gauche, collants au défilement sans passer sous l'en-tête, le formulaire à droite ; une seule colonne en dessous (choix C1) ; (4) à l'envoi, validation dans le navigateur, qui applique à l'identique la section 3 du contrat : champ manquant ou e-mail invalide, message près du champ et relié à lui, au caractère près (« Ce champ est obligatoire. », « L’adresse e-mail n’est pas valide. »), focus sur le premier champ à corriger, rien n'est envoyé, la saisie est conservée ; le bouton n'est jamais désactivé pour un formulaire incomplet ; (5) le formulaire est un vrai formulaire en POST, qui n'envoie rien tant que TK-43 ne le branche pas ; (6) tests unitaires de la validation, sur chaque cas limite du contrat ; bout en bout : SC-2.0-24, SC-2.0-25, SC-2.0-30, formulaire rempli sur téléphone (SC-2.0-09), /contact ouvert directement puis rechargé (SC-2.0-05).
+- **Résumé** : Crée la page du contact, à part de la page principale, sa validation dans le navigateur et sa colonne collante. L'envoi se branche avec TK-42 et TK-43.
 
 ### TK-42 — Client du contrat d'API
 
@@ -762,7 +807,7 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Dépend de** : TK-24, TK-41, TK-42
 - **Vague** : W23
 - **Taille** : ≈ 280 lignes
-- **DoD** : DoD commune, et : (1) le jeton est demandé à la première interaction avec le formulaire, ce qui réveille le back ; (2) envoi en cours : bouton inactif avec l'indicateur, champs désactivés et lisibles, message d'attente au libellé tranché par TK-02 ; succès : confirmation et champs vidés (SC-2.0-23) ; échec : message réessayable, saisie conservée, « Réessayer » (SC-2.0-26) ; un refus de la protection affiche ce même échec (V-06) ; le message reste sous le bouton jusqu'à la prochaine action ; (3) le champ piège est invisible, hors de la navigation au clavier et de l'arbre d'accessibilité ; (4) bout en bout avec le back simulé, en profil ordinateur et téléphone : succès, jeton reçu en retard puis confirmation, échec, attente longue (SC-2.0-09) ; (5) depuis la préproduction du front, le formulaire obtient un jeton du back de préproduction, constaté à la main.
+- **DoD** : DoD commune, et : (1) le jeton est demandé à la première interaction avec le formulaire, ce qui réveille le back ; (2) envoi en cours : bouton inactif avec l'indicateur, champs désactivés et lisibles, message d'attente au libellé tranché par TK-02, « L’envoi peut prendre jusqu’à 90 secondes. Votre saisie est conservée. » ; succès : confirmation et champs vidés (SC-2.0-23) ; échec : message réessayable, saisie conservée, « Réessayer » (SC-2.0-26) ; un refus de la protection affiche ce même échec (V-06) ; le message reste sous le bouton jusqu'à la prochaine action ; (3) le champ piège est invisible, hors de la navigation au clavier et de l'arbre d'accessibilité ; (4) bout en bout avec le back simulé, en profil ordinateur et téléphone : succès, jeton reçu en retard puis confirmation, échec, attente longue (SC-2.0-09) ; (5) depuis la préproduction du front, le formulaire obtient un jeton du back de préproduction, constaté à la main.
 - **Résumé** : Branche le formulaire sur le client du contrat et montre ses trois états, jusqu'au back de préproduction.
 
 ### TK-44 — Plan du site, robots.txt et non-indexation des préversions
@@ -776,9 +821,9 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Couvre** : CT-11, D-08
 - **Dépend de** : TK-13, TK-37
 - **Vague** : W23
-- **Taille** : ≈ 160 lignes
-- **DoD** : DoD commune, et : (1) le plan du site est généré au build à partir des pages pré-rendues, fiches projet comprises, sur le nom d'hôte canonique www (D-08) : un projet ajouté y entre seul ; la page introuvable n'y figure pas ; (2) un fichier nommé exactement robots.txt, à la racine, l'annonce ; (3) les préversions portent une consigne de non-indexation, absente de la production ; (4) bout en bout : robots.txt servi en texte, sitemap.xml servi en XML, avec le contenu attendu ; consigne de non-indexation présente sur le build de préversion seulement.
-- **Résumé** : Corrige les défauts constatés sur l'ancien site (fichier robots mal nommé, plan du site non servi) et protège la production de la concurrence des préversions.
+- **Taille** : ≈ 250 lignes
+- **DoD** : DoD commune, et : (1) le plan du site est généré au build à partir des pages construites qui s'indexent — la page principale, chaque fiche projet, le contact et les mentions légales —, en adresses absolues sur le nom d'hôte canonique www (D-08), sans barre finale ni ancre, aucune section n'étant une page (CT-11) : un projet ajouté y entre seul ; les pages d'erreur n'y figurent pas ; (2) un fichier nommé exactement robots.txt, à la racine, l'annonce ; (3) la consigne de non-indexation des préversions (X-Robots-Tag), posée dans le fichier d'en-têtes dès TK-13 (lecture de W8), est constatée ici sans être refaite : présente hors production, absente de la production ; (4) test d'outil : un projet ajouté entre dans le plan, les pages d'erreur n'y sont pas, l'en-tête de non-indexation est absent du build de production ; bout en bout : robots.txt servi en texte, sitemap.xml servi en XML, avec le contenu attendu, consigne de non-indexation présente sur le build de test.
+- **Résumé** : Corrige les défauts constatés sur l'ancien site (fichier robots mal nommé, plan du site non servi) : le plan liste les pages, jamais les sections. La production est déjà protégée de la concurrence des préversions par la consigne posée avec TK-13.
 
 ### TK-45 — Textes légaux et information sur les données
 
@@ -789,10 +834,10 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Estimation** : 1 j
 - **Version** : v2.0.0
 - **Couvre** : CT-12, D-10, MF-19, MF-20, SC-2.0-29, SC-2.0-30
-- **Dépend de** : TK-31, TK-41, A-13 (pour finir)
+- **Dépend de** : TK-28, TK-31, TK-41, A-13 (pour finir)
 - **Vague** : W24
-- **Taille** : ≈ 120 lignes
-- **DoD** : DoD commune, et : (1) l'information affichée avant l'envoi dit, sur la base de CT-12 : qui reçoit les données (Alexandre Morozoff), pourquoi (répondre au message), la base légale proposée (intérêt légitime), les prestataires techniques (hébergeurs du front et du back, prestataire d'envoi, fournisseur de la boîte d'Alexandre) et leurs transferts éventuels hors de l'Union européenne, la durée de conservation (au plus trois ans après le dernier échange, D-10), les droits et leur exercice par le formulaire, le droit de réclamation auprès de la CNIL ; (2) avant rédaction, les points « à vérifier » de CT-12 sont vérifiés sur les pages publiques des prestataires, sources citées dans la PR : raison sociale de Render et traitements hors de sa région, durée des journaux chez Brevo, statut du Data Privacy Framework, fournisseur de la boîte d'Alexandre ; (3) les mentions légales nomment l'éditeur, le contact par le formulaire et les hébergeurs, sans adresse ni téléphone personnels ; (4) les textes de la page introuvable sont finalisés ; (5) Alexandre valide chaque texte dans la PR (A-13) ; (6) bout en bout : SC-2.0-29 et SC-2.0-30 sur les textes finaux.
+- **Taille** : ≈ 200 lignes
+- **DoD** : DoD commune, et : (1) l'information affichée avant l'envoi dit, sur la base de CT-12 : qui reçoit les données (Alexandre Morozoff), pourquoi (répondre au message), la base légale proposée (intérêt légitime), les prestataires techniques (hébergeurs du front et du back, prestataire d'envoi, fournisseur de la boîte d'Alexandre) et leurs transferts éventuels hors de l'Union européenne, la durée de conservation (au plus trois ans après le dernier échange, D-10), les droits et leur exercice par le formulaire, le droit de réclamation auprès de la CNIL ; (2) avant rédaction, les points « à vérifier » de CT-12 sont vérifiés sur les pages publiques des prestataires, sources citées dans la PR : raison sociale de Render et traitements hors de sa région, durée des journaux chez Brevo, statut du Data Privacy Framework, fournisseur de la boîte d'Alexandre ; (3) les mentions légales nomment l'éditeur, le contact par le formulaire et les hébergeurs, sans adresse ni téléphone personnels ; (4) les textes de la page introuvable sont finalisés ; (5) Alexandre valide chaque texte dans la PR (A-13) ; (6) bout en bout : SC-2.0-29 et SC-2.0-30 sur les textes finaux ; le contrôle du contenu de TK-28, en mode main, ne relève aucune tournure de la liste signée dans les textes finaux, durée de conservation de D-10 comprise.
 - **Résumé** : Remplace les emplacements des textes légaux par des textes vérifiés et validés par Alexandre. Ce sont les seuls textes du site que le développement rédige, sur la base de la conception technique.
 
 ### TK-46 — Balises de référencement et aperçu au partage
@@ -806,9 +851,9 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Couvre** : CT-11, D-08, MF-01, MF-17
 - **Dépend de** : TK-33, TK-37
 - **Vague** : W24
-- **Taille** : ≈ 250 lignes (hors image d'aperçu, binaire)
-- **DoD** : DoD commune, et : (1) chaque page pré-rendue porte dans son HTML son titre, sa description, une adresse canonique sur www (D-08), les quatre propriétés Open Graph (titre, type, image, adresse) et une carte d'aperçu ; une fiche projet reprend sa description courte ; (2) l'accueil porte les données structurées schema.org « Person » : nom, intitulé, adresse du site, profils GitHub et LinkedIn ; (3) l'image d'aperçu de 1200 × 630 px suit la maquette apercu-partage (charte, P-09), sans texte sous 24 px ; (4) bout en bout : présence et unicité des balises sur chaque page, données « Person » bien formées ; (5) l'aperçu de partage réel se vérifie à la main dans la passe manuelle (TK-58).
-- **Résumé** : Rend le site lisible par les moteurs et par les robots d'aperçu, qui n'exécutent pas tous JavaScript. Aucune position dans les résultats n'est promise.
+- **Taille** : ≈ 450 lignes (hors image d'aperçu, binaire) ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) chaque page pré-rendue — la page principale, chaque fiche projet, le contact et les mentions légales — porte dans son HTML son titre, sa description, une adresse canonique sur www sans ancre (D-08), les quatre propriétés Open Graph (titre, type, image, adresse) et une carte d'aperçu, une seule fois par page et aucune par section : ils restent ceux de la page pendant toute la lecture, quand l'adresse suit la section lue (CT-11, PF-06) ; le titre de la page principale est le nom et l'intitulé ; une fiche projet reprend sa description courte ; (2) la page principale porte les données structurées schema.org « Person » : nom, intitulé, adresse du site, profils GitHub et LinkedIn, dans un bloc de données qui ne s'exécute pas ; (3) l'image d'aperçu de 1200 × 630 px suit la maquette apercu-partage (charte, P-09), sans texte sous 24 px ; (4) bout en bout : présence et unicité des balises sur chaque page, inchangées après un défilement de la page principale qui change l'adresse, données « Person » bien formées ; (5) l'aperçu de partage réel se vérifie à la main dans la passe manuelle (TK-58).
+- **Résumé** : Rend le site lisible par les moteurs et par les robots d'aperçu, qui n'exécutent pas tous JavaScript : des balises par page, jamais par section. Aucune position dans les résultats n'est promise.
 
 ### TK-47 — Test d'ajout d'un projet
 
@@ -821,8 +866,8 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Couvre** : MF-14, SC-2.0-19, SC-2.0-20
 - **Dépend de** : TK-39, TK-44
 - **Vague** : W25
-- **Taille** : ≈ 150 lignes
-- **DoD** : DoD commune, et : (1) un test de la CI construit le site avec un projet de test ajouté, sous la forme d'un fichier et d'un dossier d'images, rien d'autre ; (2) il vérifie que le projet apparaît dans la liste, que sa fiche affiche les informations fournies et s'ouvre par son lien direct, et qu'il entre dans le plan du site (SC-2.0-19, SC-2.0-20) ; (3) il vérifie que toutes les autres pages pré-rendues sont identiques à celles du build sans ce projet, hormis la liste des projets et le plan du site ; (4) le projet de test n'entre jamais dans le contenu publié ; (5) le README de front/ décrit ce qu'Alexandre fournit pour un projet (titre, description, description courte, captures et textes alternatifs, lien éventuel, rang, vignette) et ce que contient la PR d'ajout.
+- **Taille** : ≈ 250 lignes
+- **DoD** : DoD commune, et : (1) un test de la CI construit le site avec un projet de test ajouté, sous la forme d'un fichier et d'un dossier d'images, rien d'autre ; (2) il vérifie que le projet apparaît dans la section des projets de la page principale, que sa fiche affiche les informations fournies et s'ouvre par son lien direct, et qu'il entre dans le plan du site (SC-2.0-19, SC-2.0-20) ; (3) il vérifie que la page principale ne diffère que par la carte du projet et que toutes les autres pages pré-rendues sont identiques à celles du build sans ce projet, une fois retirées les références aux fichiers de code et de style, dont le nom change avec leur empreinte, hormis le plan du site ; (4) le projet de test n'entre jamais dans le contenu publié ; (5) le README de front/ décrit ce qu'Alexandre fournit pour un projet (titre, description, description courte, captures et textes alternatifs, lien éventuel, rang, vignette) et ce que contient la PR d'ajout.
 - **Résumé** : Prouve, à chaque PR, qu'ajouter un projet ne demande que ses informations et ne modifie aucune autre page (MF-14).
 
 ### TK-48 — Apparitions en cascade
@@ -836,9 +881,9 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Couvre** : EC-01, EC-02, EC-03, EC-04, EC-05, EC-06, EC-07, EC-09, EC-10, EC-11 (MV-01)
 - **Dépend de** : TK-23, TK-31, TK-33, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, TK-41
 - **Vague** : W25
-- **Taille** : ≈ 330 lignes
-- **DoD** : DoD commune, et : (1) MV-01 sur chaque bloc de contenu de chaque écran, jamais sur l'en-tête ni sur le pied : opacité de 0 à 1 et montée de 16 px en 700 ms, courbe-sortie, dans l'ordre de lecture, éléments séparés de 70 ms, six au plus par cascade, une seule fois par bloc ; (2) les blocs visibles au premier affichage sont révélés d'emblée par leur cascade, sans attendre l'observateur : un défilement très rapide dès l'arrivée ne laisse aucun bloc caché (test de bout en bout qui défile jusqu'en bas aussitôt la page ouverte) ; (3) au retour arrière, y compris depuis le cache du navigateur, aucune cascade ne rejoue : tout est déjà en place ; jamais non plus en remontant ; (4) aucun décalage de mise en page : chaque élément occupe sa place finale dès le départ ; (5) sans script, avec les animations réduites ou avec le script en erreur, tout est en place (TK-23) ; (6) les actions de l'accueil sont en place avant 2 secondes.
-- **Résumé** : Fait entrer le contenu de chaque écran dans l'ordre de lecture, sans jamais le retenir ni le cacher.
+- **Taille** : ≈ 600 lignes ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) MV-01 sur chaque bloc de contenu de chaque section de la page principale et de chaque page à part, jamais sur l'en-tête ni sur le pied : opacité de 0 à 1 et montée de 16 px en 700 ms, courbe-sortie, dans l'ordre de lecture, éléments séparés de 70 ms, six au plus par cascade, une seule fois par bloc ; (2) les blocs visibles au premier affichage sont révélés d'emblée par leur cascade, sans attendre l'observateur : un défilement très rapide dès l'arrivée ne laisse aucun bloc caché (test de bout en bout qui défile jusqu'en bas aussitôt la page ouverte) ; (3) au retour arrière, y compris depuis le cache du navigateur, aucune cascade ne rejoue : tout est déjà en place ; jamais non plus en remontant ; (4) aucun décalage de mise en page : chaque élément occupe sa place finale dès le départ ; (5) sans script, avec les animations réduites ou avec le script en erreur, tout est en place (TK-23) ; (6) les actions de l'accueil sont en place avant 2 secondes.
+- **Résumé** : Fait entrer le contenu de chaque section et de chaque page dans l'ordre de lecture, sans jamais le retenir ni le cacher.
 
 ### TK-49 — Contrôles de mise en production et surveillance quotidienne
 
@@ -852,7 +897,7 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Dépend de** : TK-24, TK-31, TK-44
 - **Vague** : W26
 - **Taille** : ≈ 150 lignes
-- **DoD** : DoD commune, et : (1) un contrôle, paramétré par l'adresse du front et celle du back, vérifie : les pages clés en 200, une adresse inconnue en 404 avec la page introuvable, robots.txt servi en texte et le plan du site en XML, l'indicateur de santé du back, l'origine du site acceptée par le back ; (2) il tourne après chaque déploiement de préproduction et, une fois la production branchée, de production ; (3) une tâche planifiée de la CI l'exécute chaque jour sur la production, en un seul appel au back, sans le tenir éveillé ; (4) un échec est notifié à Alexandre par e-mail ; (5) le README documente le risque de désactivation des tâches planifiées après 60 jours sans activité du dépôt, et la question, à vérifier, de savoir si les PR du robot de mises à jour comptent comme activité ; (6) le contrôle passe sur la préproduction.
+- **DoD** : DoD commune, et : (1) un contrôle, paramétré par l'adresse du front et celle du back, vérifie : les pages clés en 200, une adresse inconnue en 404 avec la page introuvable, repérée par son titre « Cette page n’existe pas », robots.txt servi en texte et le plan du site en XML, l'indicateur de santé du back, l'origine du site acceptée par le back ; (2) il tourne après chaque déploiement de préproduction et, une fois la production branchée, de production ; (3) une tâche planifiée de la CI l'exécute chaque jour sur la production, en un seul appel au back, sans le tenir éveillé ; (4) un échec est notifié à Alexandre par e-mail ; (5) le README documente le risque de désactivation des tâches planifiées après 60 jours sans activité du dépôt, et la question, à vérifier, de savoir si les PR du robot de mises à jour comptent comme activité ; (6) le contrôle passe sur la préproduction.
 - **Résumé** : Met en place la partie de CT-14 qui vit dans le dépôt ; la sonde externe du front est une tâche d'Alexandre (A-16).
 
 ### TK-50 — Halos qui respirent et pause des animations
@@ -896,9 +941,9 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Couvre** : EC-00 (MV-07)
 - **Dépend de** : TK-27, TK-48
 - **Vague** : W27
-- **Taille** : ≈ 160 lignes
-- **DoD** : DoD commune, et : (1) MV-07 par les transitions de vue du navigateur, selon la technique fixée au plan front : la page quittée s'efface en montant de 8 px, la nouvelle arrive en fondu, l'en-tête reste fixe, le repère de page courante glisse de l'ancien lien vers le nouveau ; (2) un navigateur sans prise en charge navigue immédiatement, sans erreur ; la prise en charge réelle par Chrome, Edge, Firefox et Safari à la date du ticket est notée dans la PR (R-10) ; (3) au retour arrière, y compris depuis le cache du navigateur, la page est visible d'emblée : aucun fondu ne rejoue et aucune page ne reste effacée ; (4) aucune interception d'un clic avec Cmd, Ctrl, Maj ou Alt, d'un clic milieu, d'un lien externe, d'une ancre de la même page ou d'un téléchargement ; (5) animations réduites ou sans script : navigation immédiate ; (6) bout en bout sur les trois moteurs.
-- **Résumé** : Lie les pages par une transition, amélioration facultative qui ne doit jamais gêner la navigation ni le retour arrière.
+- **Taille** : ≈ 300 lignes
+- **DoD** : DoD commune, et : (1) MV-07 par les transitions de vue du navigateur, selon la technique fixée au plan front (withViewTransitions) : entre deux pages, quelles qu'elles soient — la page principale et une page à part, dans un sens ou dans l'autre, ou deux pages à part —, la page quittée s'efface en montant de 8 px, la nouvelle arrive en fondu, l'en-tête reste fixe, le repère de l'entrée courante glisse de l'ancienne entrée vers la nouvelle ; (2) jamais d'une section à l'autre de la page principale, qui défile sans fondu : la transition est annulée quand le chemin de l'adresse ne change pas, que la navigation vienne de l'en-tête, du menu replié, du nom ou d'une carte de l'accueil, et le suivi de l'adresse pendant la lecture, qui n'est pas une navigation, n'en déclenche aucune ; (3) un navigateur sans prise en charge navigue immédiatement, sans erreur ; la prise en charge réelle par Chrome, Edge, Firefox et Safari à la date du ticket est notée dans la PR (R-10) ; (4) au retour arrière ou à l'avance, y compris depuis le cache du navigateur, aucune transition : la page est visible d'emblée et aucune page ne reste effacée ; (5) aucune interception d'un clic avec Cmd, Ctrl, Maj ou Alt, d'un clic milieu, d'un lien externe ou d'un téléchargement ; (6) animations réduites ou sans script : navigation immédiate ; (7) bout en bout sur les trois moteurs : fondu entre la page principale et une page à part, dans les deux sens, et entre deux pages à part ; aucun fondu d'une section à l'autre, ni pendant le suivi de l'adresse ; retour arrière sans fondu ni page effacée ; clic avec modificateur et lien externe non interceptés.
+- **Résumé** : Lie les pages par un fondu, amélioration facultative qui ne joue qu'entre deux pages, jamais d'une section à l'autre de la page principale, et ne gêne jamais la navigation ni le retour arrière.
 
 ### TK-53 — Frise tracée au défilement
 
@@ -942,7 +987,7 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Dépend de** : TK-23, TK-40
 - **Vague** : W29
 - **Taille** : ≈ 280 lignes
-- **DoD** : DoD commune, et : (1) MV-08 : le texte de la méthode défile à côté d'une fenêtre factice collante ; l'étape active est celle dont le haut a passé 40 % de la hauteur de la fenêtre du navigateur ; l'illustration change en opacité et en position de 14 px ; une barre de progression avance ; l'étape active se signale par un filet d'accent, jamais en grisant les autres ; (2) sous 900 px, la fenêtre se cale en haut, sous l'en-tête collant, et le texte passe dessous ; chaque étape mesure au moins 30 % de la hauteur de la fenêtre sous 900 px, 70 % au-delà ; (3) avec les animations réduites ou sans script : pas de fenêtre collante, chaque illustration sous son étape (présentation de TK-40) ; (4) écouteur passif, une mise à jour par image : ce n'est pas une parallaxe ; (5) bout en bout : changement d'étape au défilement, présentation réduite.
+- **DoD** : DoD commune, et : (1) MV-08, dans la section méthode de la page principale : le texte de la méthode défile à côté d'une fenêtre factice collante ; l'étape active est celle dont le haut a passé 40 % de la hauteur de la fenêtre du navigateur ; l'illustration change en opacité et en position de 14 px ; une barre de progression avance ; l'étape active se signale par un filet d'accent, jamais en grisant les autres ; (2) sous 900 px, la fenêtre se cale en haut, sous l'en-tête collant, et le texte passe dessous ; chaque étape mesure au moins 30 % de la hauteur de la fenêtre sous 900 px, 70 % au-delà ; (3) avec les animations réduites ou sans script : pas de fenêtre collante, chaque illustration sous son étape (présentation de TK-40) ; (4) écouteur passif, une mise à jour par image : ce n'est pas une parallaxe ; (5) bout en bout : changement d'étape au défilement, présentation réduite.
 - **Résumé** : Raconte la méthode pas à pas, l'illustration suivant la lecture.
 
 ### TK-56 — Redirection des anciennes adresses
@@ -956,9 +1001,9 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Couvre** : CT-05, D-13, MF-04
 - **Dépend de** : TK-13, TK-33, TK-34, TK-39, A-14
 - **Vague** : W30
-- **Taille** : ≈ 40 lignes
-- **DoD** : DoD commune, et : (1) le fichier de redirections de l'hébergeur redirige de façon permanente les anciennes adresses vers les cibles validées par Alexandre (A-14), sur cette proposition : /about vers /parcours, /arcade vers /projets, /competence/ suivie d'un identifiant vers /projets, l'accueil restant l'accueil ; (2) toute autre ancienne adresse mène à la page introuvable, en 404 ; (3) bout en bout : chaque ancienne adresse répond par la redirection attendue, puis par la page cible.
-- **Résumé** : Évite qu'un lien vers l'ancien site déjà diffusé mène à une impasse après la bascule (D-13).
+- **Taille** : ≈ 100 lignes
+- **DoD** : DoD commune, et : (1) le fichier de redirections de l'hébergeur (public/_redirects) redirige de façon permanente, en 301, les anciennes adresses vers les cibles décidées par Alexandre le 12/11/2026 (A-14, D-13), chacune écrite avec et sans barre finale : /about vers /#parcours, /arcade vers /#projets, /competence/ suivie d'un identifiant vers /#projets ; l'accueil reste l'accueil ; (2) toute autre ancienne adresse n'a pas de règle et mène à la page introuvable, en 404 ; (3) bout en bout via le serveur local : chaque ancienne adresse répond par une redirection 301 vers sa cible, ancre comprise dans l'en-tête Location, puis la page principale s'ouvre sur la section, sous l'en-tête ; une autre ancienne adresse répond 404 ; la spécification de conformité du serveur local couvre aussi le fichier de redirections ; (4) le fichier de redirections ne contient aucun hôte.
+- **Résumé** : Évite qu'un lien vers l'ancien site déjà diffusé mène à une impasse après la bascule (D-13) : chaque ancienne adresse gardée mène à la section de la page principale qui la remplace.
 
 ### TK-57 — Budget de performance et mesure au lot des écrans
 
@@ -972,7 +1017,7 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Dépend de** : TK-48, TK-50, TK-51, TK-52, TK-53, TK-54, TK-55
 - **Vague** : W31
 - **Taille** : ≈ 100 lignes
-- **DoD** : DoD commune, et : (1) Lighthouse CI mesure, en profil mobile, chaque adresse du plan du site construite avec tout le mouvement, et fait échouer la CI sous ces budgets : score de performance d'au moins 90, plus grand élément affiché en 2,5 secondes au plus, décalage cumulé de 0,1 au plus (D-11) ; (2) la mesure du lot des écrans porte sur le site en Angular, pas sur les maquettes, et ses résultats sont notés dans la PR ; (3) si le titre révélé de l'accueil (MV-10) fait dépasser le seuil, le repli accepté d'avance est appliqué (le nom part sans délai) et la mesure refaite ; (4) tout autre dépassement donne une issue de type bug, corrigée dans sa propre PR, pas dans ce ticket ; (5) le build ne contient aucun script tiers ni aucune bibliothèque d'animation.
+- **DoD** : DoD commune, et : (1) Lighthouse CI mesure, en profil mobile, chaque adresse du plan du site — la page principale, chaque fiche, le contact, les mentions légales — construite avec tout le mouvement, et fait échouer la CI sous ces budgets : score de performance d'au moins 90, plus grand élément affiché en 2,5 secondes au plus, décalage cumulé de 0,1 au plus (D-11) ; (2) la mesure du lot des écrans porte sur le site en Angular, pas sur les maquettes, et ses résultats sont notés dans la PR ; (3) si le titre révélé de l'accueil (MV-10) fait dépasser le seuil, le repli accepté d'avance est appliqué (le nom part sans délai) et la mesure refaite ; (4) tout autre dépassement donne une issue de type bug, corrigée dans sa propre PR, pas dans ce ticket ; (5) le build ne contient aucun script tiers ni aucune bibliothèque d'animation.
 - **Résumé** : Fait respecter le budget de performance par la CI, une fois tout le mouvement en place.
 
 ### TK-58 — Passe manuelle avant la recette
@@ -987,7 +1032,7 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Dépend de** : TK-43, TK-45, TK-46, TK-47, TK-49, TK-56, TK-57, TK-65, TK-66, A-09, A-10
 - **Vague** : W32
 - **Taille** : 0 ligne comptée (compte rendu en prose dans Projet-V2/, hors compte)
-- **DoD** : DoD commune, et : la passe manuelle de la section 8 de la conception technique est faite sur la préproduction et consignée : (1) un iPhone et un téléphone Android réels, sur toutes les pages (SC-2.0-09) ; (2) parcours complet au clavier ; (3) envoi réel depuis le formulaire, réception dans la boîte d'Alexandre, « Répondre » qui écrit au visiteur (SC-2.0-23) ; envoi après une mise en veille, délai mesuré et noté (D-04) ; (4) envois scriptés sans passer par le formulaire — sans jeton, champ piège rempli, rafale — dont aucun n'arrive, et un envoi humain qui arrive (CT-08) ; (5) clic réel sur GitHub et sur LinkedIn (SC-2.0-27) ; (6) aperçu de partage vérifié ; (7) relecture complète des textes avec Alexandre, pour MF-18 (SC-2.0-28) et pour la confidentialité ; (8) chaque défaut trouvé devient une issue de type bug, sur le modèle bug.md, corrigée dans sa propre PR ; (9) CI verte sur staging : la préproduction est prête pour la recette.
+- **DoD** : DoD commune, et : la passe manuelle de la section 8 de la conception technique est faite sur la préproduction et consignée : (1) un iPhone et un téléphone Android réels, sur toutes les pages, avec le défilement de la page principale, l'entrée signalée et l'adresse qui suivent la lecture, et le retour arrière qui quitte la page principale (SC-2.0-09) ; (2) parcours complet au clavier ; (3) envoi réel depuis le formulaire, réception dans la boîte d'Alexandre, « Répondre » qui écrit au visiteur (SC-2.0-23) ; envoi après une mise en veille, délai mesuré et noté (D-04) ; (4) envois scriptés sans passer par le formulaire — sans jeton, champ piège rempli, rafale — dont aucun n'arrive, et un envoi humain qui arrive (CT-08) ; (5) clic réel sur GitHub et sur LinkedIn (SC-2.0-27) ; (6) aperçu de partage vérifié ; (7) relecture complète des textes avec Alexandre, pour MF-18 (SC-2.0-28) et pour la confidentialité ; (8) chaque défaut trouvé devient une issue de type bug, sur le modèle bug.md, corrigée dans sa propre PR ; (9) CI verte sur staging : la préproduction est prête pour la recette.
 - **Résumé** : Fait les contrôles manuels que la conception technique exige avant la recette, sur la préproduction complète, contenus d'Alexandre compris.
 
 ### TK-59 — Production et bascule de la v2.0.0
@@ -1106,8 +1151,8 @@ Statut : retiré le 12/11/2026, décision d'Alexandre du 10/11/2026 : plus de CV
 - **Couvre** : EC-05, MF-21 (illustrations des étapes de la méthode, MV-08)
 - **Dépend de** : TK-40, TK-55, TK-65, A-11 (C-04)
 - **Vague** : W30
-- **Taille** : ≈ 280 lignes (dessins en SVG : du texte, compté dans la limite)
-- **DoD** : DoD commune, et : (1) chaque étape de la méthode (C-04) a son illustration définitive, une par étape, à la place des illustrations de démonstration : dessinée par le développement, abstraite, sur le modèle des maquettes et avec les seuls jetons de la charte, sauf si Alexandre fournit les siennes (section 7) ; (2) chaque illustration reprend la composition des illustrations de démonstration (schéma tracé, barres), pour que le récit au défilement de TK-55 l'anime sans changement (MV-08) ; (3) elle s'affiche dans la fenêtre collante du récit au défilement et, avec les animations réduites ou sans script, sous le texte de son étape (TK-40) ; (4) une illustration qui ne fait que répéter le texte de son étape est déclarée décorative (CO-12), sinon elle porte un texte alternatif ; (5) aucun document interne, client, projet, outil interne ni dépôt d'entreprise n'y figure, contrôlé à la relecture ; (6) bout en bout : une illustration par étape, changement d'illustration au défilement, présentation réduite.
+- **Taille** : ≈ 600 lignes (dessins en SVG : du texte, compté dans la limite) ; au-delà de 400, PR successives sur la même issue (section 1)
+- **DoD** : DoD commune, et : (1) chaque étape de la méthode (C-04) a son illustration définitive, une par étape, à la place des illustrations de démonstration : dessinée par le développement, abstraite, sur le modèle des maquettes et avec les seuls jetons de la charte, sauf si Alexandre fournit les siennes (section 7) ; chacune est un composant de quatre fichiers dans fragments/illustrations-methode/, inscrit dans son registre, et la feuille de style et le test que partagent les illustrations de démonstration partent avec elles (PF-02) ; (2) chaque illustration reprend la composition des illustrations de démonstration (schéma tracé, barres), pour que le récit au défilement de TK-55 l'anime sans changement (MV-08) ; (3) elle s'affiche dans la fenêtre collante du récit au défilement et, avec les animations réduites ou sans script, sous le texte de son étape (TK-40) ; (4) une illustration qui ne fait que répéter le texte de son étape est déclarée décorative (CO-12), sinon elle porte un texte alternatif ; (5) aucun document interne, client, projet, outil interne ni dépôt d'entreprise n'y figure, contrôlé à la relecture ; (6) bout en bout : une illustration par étape, changement d'illustration au défilement, présentation réduite.
 - **Résumé** : Donne à chaque étape de la méthode son illustration définitive, que la section 7 confie au développement. Ticket séparé de TK-65 parce que ses dessins, du texte, sont comptés dans la limite des 400 lignes.
 
 ### TK-67 — Socle HTTP du back : format d'erreur, en-têtes de sécurité, origine autorisée
@@ -1257,7 +1302,7 @@ Ces tâches ne sont pas des tickets : elles demandent ses comptes, ses accès, s
 - **A-11** — Fournir les contenus C-01, C-02 et C-04 à C-10 : C-01, les périodes encore manquantes (reconversion ; bac+3 avec son intitulé, son établissement et sa période ; début du master) ; C-02, les compétences et leurs catégories ; C-04, la méthode, découpée en étapes avec leurs intitulés pour la section Méthode ; C-05, la présentation du portfolio comme projet ; C-06, la présentation de l'accueil ; C-07, le récit de reconversion ; C-08, les trois volets du rôle en alternance ; C-09, le texte d'orientation ; C-10, les phrases d'introduction des sections et d'orientation des cartes de l'accueil. Un contenu manquant ne bloque pas le développement des écrans, qui avance avec des emplacements étiquetés ; il bloque son intégration (TK-65, TK-66), donc la passe manuelle et la recette ; bloque : TK-65, TK-66
 - **A-12** — Fournir la vignette du projet portfolio — une image de plus à fournir par projet (choix C2), sans identifiant C-xx aujourd'hui ; décorative comme le veut la maquette EC-06, elle ne demande pas de texte alternatif — et ses captures éventuelles, chacune avec son texte alternatif (C-05) ; bloque : TK-65
 - **A-13** — Valider dans la PR de TK-45 le texte de l'information sur les données (D-10 : base légale, durée de conservation, transferts hors de l'Union européenne, droits), celui des mentions légales (MF-19) et celui de la page introuvable ; bloque : TK-45
-- **A-14** — Valider les cibles des redirections des anciennes adresses (D-13), que le parcours d'écrans n'a pas fixées, sur la proposition écrite dans TK-56 ; bloque : TK-56
+- **A-14** — Valider les cibles des redirections des anciennes adresses (D-13), que le parcours d'écrans n'a pas fixées, sur la proposition écrite dans TK-56. Tranchée par Alexandre le 12/11/2026 : /about vers /#parcours, /arcade vers /#projets, /competence/… vers /#projets, l'accueil reste l'accueil, toute autre ancienne adresse donne la page introuvable ; bloque : TK-56
 - **A-15** — Si le délai mesuré entre le réveil du back et sa réponse dépasse 60 secondes (TK-24, puis TK-58), trancher D-04 : garder l'instance gratuite ou passer à l'instance payante sans veille, à 7 $ par mois, hors du budget du 15/10/2026 ; bloque : recette
 - **A-16** — Ouvrir le compte gratuit UptimeRobot (D-14) et créer la sonde externe du front de production, toutes les 5 minutes, avec alerte par e-mail ; aucune sonde sur le back, qui ne doit pas être tenu éveillé (CT-14) ; bloque : TK-59
 - **A-17** — Vérifier le domaine dans la Search Console de Google par un enregistrement DNS dans la zone Cloudflare, puis, après la bascule, y soumettre le plan du site (CT-11) ; bloque : TK-59
@@ -1283,9 +1328,9 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | MF | Intitulé | Tickets |
 | --- | --- | --- |
 | MF-01 | Page d'accueil qui présente Alexandre | TK-33, TK-46, TK-65 |
-| MF-02 | CV et contact accessibles en permanence | TK-27, TK-33 |
+| MF-02 | Contact accessible en permanence | TK-27, TK-33 |
 | MF-03 | Navigation entre les sections | TK-27, TK-29 |
-| MF-04 | Liens directs vers les pages | TK-13, TK-31, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, TK-41, TK-56, TK-68, TK-70 |
+| MF-04 | Liens directs vers les sections et les pages | TK-13, TK-27, TK-31, TK-33, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, TK-41, TK-56, TK-68, TK-70 |
 | MF-05 | Page introuvable | TK-31 |
 | MF-06 | Consultation sur téléphone | TK-29, TK-39, TK-41 |
 | MF-07 | Parcours d'Alexandre | TK-34, TK-65 |
@@ -1310,10 +1355,10 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | Scénario | Intitulé | Tickets |
 | --- | --- | --- |
 | SC-2.0-01 | Arrivée sur la page d'accueil | TK-33 |
-| SC-2.0-02 | CV et contact atteints depuis l'accueil | TK-27, TK-33 |
-| SC-2.0-03 | CV et contact atteints depuis une fiche projet | TK-27, TK-37 |
+| SC-2.0-02 | Contact atteint depuis l'accueil | TK-27, TK-33 |
+| SC-2.0-03 | Contact atteint depuis une fiche projet | TK-27, TK-37 |
 | SC-2.0-04 | Navigation entre les sections | TK-27, TK-29 |
-| SC-2.0-05 | Lien direct vers une section | TK-31, TK-34, TK-35, TK-36, TK-39, TK-40, TK-41 |
+| SC-2.0-05 | Lien direct vers une section, le contact ou les mentions légales | TK-27, TK-31, TK-33, TK-34, TK-35, TK-36, TK-37, TK-39, TK-40, TK-41 |
 | SC-2.0-06 | Lien direct vers la fiche d'un projet | TK-37 |
 | SC-2.0-07 | Lien direct vers un projet qui n'existe pas | TK-31 |
 | SC-2.0-08 | Adresse inconnue | TK-31 |
@@ -1340,9 +1385,9 @@ Tickets v2.0.0 qui réalisent chaque élément, d'après leur champ « Couvre »
 | SC-2.0-31 | Méthodologie de travail | TK-40 |
 | SC-2.0-32 | Le portfolio présenté comme projet | TK-37 |
 
-### Écrans
+### Sections et écrans
 
-| Écran | Nom | Tickets |
+| Section ou écran | Nom | Tickets |
 | --- | --- | --- |
 | EC-00 | Éléments communs | TK-27, TK-29, TK-30, TK-50, TK-52 |
 | EC-01 | Accueil | TK-33, TK-48, TK-51, TK-54 |
@@ -1412,14 +1457,15 @@ La signature de ce document tranche les points suivants, tous pris faute de réf
 - Un ticket docs de l'Étape 6 se ferme à sa fusion signée, puisqu'il ne se déploie pas ; les autres tickets v2.0.0 se ferment à la bascule.
 - Le modèle de contenu (TK-12) ajoute à la section 5 de la conception technique ce que les maquettes ont introduit : la vignette facultative d'un projet (C2) et les étapes de la méthode, avec leurs intitulés (MV-08). Leur forme exacte est fixée par le plan front (TK-04).
 - La mesure du démarrage à froid du back, que la conception technique place « au scaffold », est faite avec l'image Docker (TK-14), puisque le cache AOT vit dans l'image, puis sur l'hébergeur (TK-24).
-- Les cibles des redirections des anciennes adresses (TK-56, A-14) : /about vers /parcours, /arcade vers /projets, /competence/<identifiant> vers /projets. D-13 renvoyait leur choix au parcours d'écrans, qui ne les a pas fixées.
+- Les cibles des redirections des anciennes adresses (TK-56, A-14) : /about vers /parcours, /arcade vers /projets, /competence/<identifiant> vers /projets. D-13 renvoyait leur choix au parcours d'écrans, qui ne les a pas fixées. Révision du 10/11/2026 : tranchées par Alexandre le 12/11/2026, pour le site en une page : /about vers /#parcours, /arcade vers /#projets, /competence/<identifiant> vers /#projets, l'accueil reste l'accueil, toute autre ancienne adresse donne la page introuvable (A-14, D-13 de la conception technique révisée).
 - Le comportement d'une frise plus haute que la fenêtre (TK-53) : dès que le trait a atteint l'étape mise en avant en suivant le défilement, il est tenu pour tracé en entier et ne recule plus.
 - Le domaine des tickets : la CI, l'hébergement et la passe manuelle sont du domaine infra ; l'image Docker est du domaine back, puisqu'elle vit dans back/.
 - L'accès au board de GitHub : l'autoriser, ou garder les colonnes en labels de statut (section 1).
 - La lecture de « Dépend de » : une tâche A-xx marquée « (pour finir) » se fait pendant le ticket (protection des branches pendant TK-07, création du service de préproduction du back pendant TK-24, entre ses deux PR, validation des textes pendant TK-45, recette, gestes de la bascule et service de production du back pendant TK-59) ; toute autre dépendance précède le ticket.
 - Les textes légaux (TK-45) sont rédigés par le développement sur la base de CT-12, puis validés par Alexandre dans la PR (A-13) : aucun contenu C-xx ne les couvre.
 - Les illustrations des étapes de la méthode (TK-66) : les maquettes n'en montrent que de démonstration, et aucun contenu C-xx ne les couvre. Le développement les dessinera dans TK-66, abstraites, sur le modèle des maquettes, une par étape de C-04, sauf si Alexandre préfère les fournir.
-- Les transitions entre pages (MV-07, TK-52) reposent sur les transitions de vue du navigateur, que la charte présente comme une amélioration facultative, pas encore disponible dans tous les navigateurs courants, alors que la conception technique écrit que le site n'utilise que des fonctions de la Baseline « largement disponible » (section 3, R-10). La DoD commune admet donc une exception, à valider : une amélioration facultative avec repli immédiat, qu'un navigateur sans prise en charge ignore en naviguant sans transition et sans erreur.
+- Les transitions entre pages (MV-07, TK-52) reposent sur les transitions de vue du navigateur, que la charte présente comme une amélioration facultative, pas encore disponible dans tous les navigateurs courants, alors que la conception technique écrit que le site n'utilise que des fonctions de la Baseline « largement disponible » (section 3, R-10). La DoD commune admet donc une exception, à valider : une amélioration facultative avec repli immédiat, qu'un navigateur sans prise en charge ignore en naviguant sans transition et sans erreur. Révision du 10/11/2026 : la conception technique révisée nomme désormais cette exception (section 3, « Navigateurs ») ; le fondu ne joue qu'entre deux pages, jamais d'une section à l'autre de la page principale (charte révisée, MV-07).
+- La reprise du code déjà fusionné (révision du 10/11/2026) : cinq tickets, TK-68 à TK-72, un par bloc de la section « Code déjà fusionné à reprendre » du plan du front, tous avant l'en-tête (TK-27), estimés chacun sous 400 lignes ; les lignes 16 et 18 de cette section, qui citent les fichiers de plusieurs tickets, vont avec le ticket qui change le code qu'elles accompagnent. Le contrôle du contenu (TK-28) passe dans la dernière vague de la reprise, à côté de TK-72, dont il ne dépend pas.
 
 ## 8. Correspondance avec les issues GitHub
 
