@@ -15,15 +15,16 @@ const PRECISIONS = "(?:plus|moins|près)\\s+d['’e]\\s*|presque|environ|bientô
 
 // Ce qui, après « depuis », fait une date, un nombre ou une durée, et rien d'autre : un chiffre
 // (« depuis 2023 », « depuis 3 ans », « depuis le 3 mars ») ; un nombre en lettres ; un mois ;
-// « peu » ou « longtemps » ; une unité de temps après un article (« un an », « l’an dernier »).
+// « peu » ou « longtemps » ; « hier » ou « avant-hier » ; une unité de temps ou une saison après un
+// article (« un an », « l’an dernier », « l’été », « cet hiver »).
 // Une précision peut les devancer (« depuis plus de dix ans »). Tout le reste passe.
 const unite = `(?:\\s+(?:${UNITES})${fin})?`;
 const SUITES = [
   `(?:le\\s+)?\\d+${unite}`,
   `(?:${NOMBRES})(?:-\\p{L}+)*${fin}${unite}`,
-  `(?:peu|longtemps)${fin}`,
+  `(?:peu|longtemps|(?:avant-)?hier)${fin}`,
   `(?:(?:le|en)\\s+)?(?:${MOIS})${fin}`,
-  `(?:${ARTICLES})(?:${UNITES})${fin}`,
+  `(?:${ARTICLES})(?:${UNITES}|printemps|été|automne|hiver)${fin}`,
 ];
 
 /** La liste signée : le nom de chaque tournure, et son motif, un mot entier. */

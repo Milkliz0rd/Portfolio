@@ -66,7 +66,9 @@ export function images({ documents, racine }) {
       if (!texte(nom) || !texte(identifiant)) return [];
       const signaler = (detail) => [faute(fichier, `${champ}.fichier`, 'image', detail)];
       const dossier = `public/images/projets/${identifiant}/`;
-      if (!/^[\w.-]+\.webp$/.test(nom)) return signaler('un nom de fichier en .webp attendu');
+      // En minuscules : la CI tourne sous Linux, où « Capture-01.webp » n'est pas « capture-01.webp ».
+      if (!/^[a-z0-9._-]+\.webp$/.test(nom))
+        return signaler('un nom en minuscules, en .webp, attendu');
       if (!existsSync(join(racine, dossier, nom))) return signaler(`absente de ${dossier}`);
       const taille = dimensionsWebp(readFileSync(join(racine, dossier, nom)));
       if (!taille) return signaler('pas un fichier WebP');

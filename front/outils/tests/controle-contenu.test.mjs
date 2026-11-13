@@ -37,10 +37,16 @@ describe('controle-contenu : structure et modes', () => {
   it('signale un emplacement étiqueté : avertissement en mode staging, erreur en mode main', () => {
     const etiqueter = (c) => {
       c.accueil.presentation[1] = 'Texte. [C-06 — présentation de l’accueil]';
+      c.accueil.presentation[0] = 'Texte. [texte à valider — D-10]';
       c[P].captures = '[C-05 — captures]';
       c[P].vignette.largeur = '[C-05 — largeur de la vignette]';
     };
-    const champs = ['accueil presentation[1]', `${P} captures`, `${P} vignette.largeur`];
+    const champs = [
+      'accueil presentation[0]',
+      'accueil presentation[1]',
+      `${P} captures`,
+      `${P} vignette.largeur`,
+    ];
     const lignes = (gravite) => champs.map((champ) => `${gravite} ${champ}: emplacement étiqueté`);
     expect(fautes(etiqueter, 'staging')).toEqual(lignes('avertissement'));
     expect(fautes(etiqueter, 'main')).toEqual(lignes('erreur'));

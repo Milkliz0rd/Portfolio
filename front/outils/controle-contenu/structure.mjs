@@ -2,8 +2,11 @@
 // champs obligatoires présents et non vides, aucun champ hors du modèle et des valeurs fermées
 // connues. Le parcours rend aussi chaque texte lu, avec son genre, aux règles des textes.
 
-/** Un contenu encore à fournir, « [C-xx — description] », où qu'il soit dans le texte. */
-export const EMPLACEMENT = /\[C-\d+[^\]]*\]/;
+/**
+ * Un contenu encore à fournir, où qu'il soit dans le texte : « [C-xx — description] », ou toute
+ * autre marque entre crochets autour d'un tiret cadratin (« [texte à valider — D-10] »).
+ */
+export const EMPLACEMENT = /\[(?:C-\d+[^\]]*|[^\][]*\s—\s[^\][]*)\]/;
 
 export const etiquete = (valeur) => typeof valeur === 'string' && EMPLACEMENT.test(valeur);
 

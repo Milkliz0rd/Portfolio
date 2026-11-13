@@ -36,6 +36,7 @@ describe('controle-contenu : règles croisées', () => {
     [`${P} captures[0].fichier: image`, (c) => (c[P].captures[0].fichier = 'capture-09.webp')],
     [`${P} captures[1].fichier: image`, (c) => (c[P].captures[1].fichier = 'texte.webp')],
     [`${P} vignette.fichier: image`, (c) => (c[P].vignette.fichier = 'vignette.png')],
+    [`${P} captures[0].fichier: image`, (c) => (c[P].captures[0].fichier = 'Capture-01.webp')],
     [`${P} captures[0]: image`, (c) => (c[P].captures[0].largeur = 1200)],
     [`${P} vignette: image`, (c) => (c[P].vignette.hauteur = 201)],
     [

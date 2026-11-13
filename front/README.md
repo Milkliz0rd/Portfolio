@@ -72,7 +72,7 @@ technique du back de préproduction n'entre jamais dans le dépôt.
 
 Le contenu vit en JSON dans `src/contenu/fr/`, décrit par `src/app/interfaces/contenu.ts` : du
 texte brut, jamais de HTML ; un contenu encore à fournir est un emplacement étiqueté
-`[C-xx — description]`. Il est lu au build, jamais depuis le back, par les services de
+`[C-xx — description]` (le contrôle traite de même toute marque `[… — …]`). Il est lu au build, jamais depuis le back, par les services de
 `src/app/services/contenu/`, un par fichier.
 
 **Ajouter un projet**, c'est ajouter un fichier JSON et un dossier d'images, rien d'autre :
