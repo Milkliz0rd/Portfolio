@@ -2,7 +2,8 @@
 // chaque test change pour y glisser une seule faute. Ses images sont dans essais-contenu/public/,
 // de vrais WebP produits par cwebp : capture-01 en VP8L (1000 × 600), capture-02 en VP8X
 // (1280 × 3), vignette en VP8 (300 × 200).
-import { join } from 'node:path';
+import { cpSync, mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { controlerDocuments } from '../controle-contenu/controle-contenu.mjs';
 import { MODELE, MODELE_PROJET } from '../controle-contenu/modele.mjs';
 
@@ -102,4 +103,14 @@ export function fautes(changer, mode = 'main') {
   const contenu = contenuCorrect();
   changer?.(contenu);
   return controlerDocuments(documents(contenu), { mode, racine: ESSAIS }).map(court);
+}
+
+/** Écrit le contenu et les images d'essai sous <racine> : <clé>.json, un objet en JSON, une chaîne telle quelle. */
+export function ecrireContenu(racine, contenu) {
+  cpSync(join(ESSAIS, 'public'), join(racine, 'public'), { recursive: true });
+  for (const [cle, valeur] of Object.entries(contenu)) {
+    const chemin = join(racine, 'src', 'contenu', 'fr', `${cle}.json`);
+    mkdirSync(dirname(chemin), { recursive: true });
+    writeFileSync(chemin, typeof valeur === 'string' ? valeur : JSON.stringify(valeur));
+  }
 }
