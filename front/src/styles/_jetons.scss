@@ -166,7 +166,7 @@
 
   // 5. Mise en page. marge-page et gouttiere valent ici leur valeur de la tranche étroite ;
   // elles changent par tranche ci-dessous.
-  --conteneur-texte: 68ch;
+  --conteneur-texte: 54ch; // environ 68 caractères de texte courant par ligne (68ch en donnait 82)
   --conteneur-standard: 75rem;
   --conteneur-large: 90rem;
   --marge-page: 16px;

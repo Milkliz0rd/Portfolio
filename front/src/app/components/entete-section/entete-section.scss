@@ -32,7 +32,7 @@
   hyphens: manual;
 }
 
-// Le chapô tient sur 68 caractères au plus par ligne.
+// Le chapô tient sur environ 68 caractères par ligne (conteneur-texte).
 .entete-section__chapo {
   max-width: var(--conteneur-texte);
   margin: 0;
