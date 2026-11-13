@@ -7,8 +7,14 @@
 <!-- Le titre, rendu une seule fois, dans le h2, le h3 ou le h4 du niveau demandé ; le seul lien
      de la carte interactive y porte le titre pour texte. -->
 <ng-template #contenuTitre>
-  @if (lien(); as adresse) {
-    <a class="carte__lien" [routerLink]="adresse">{{ titreAffiche() }}</a>
+  @if (lienAffiche(); as adresse) {
+    <a
+      class="carte__lien"
+      [routerLink]="adresse"
+      [fragment]="fragment()"
+      [replaceUrl]="replaceUrl()"
+      >{{ titreAffiche() }}</a
+    >
   } @else {
     {{ titreAffiche() }}
   }

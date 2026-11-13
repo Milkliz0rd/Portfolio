@@ -116,9 +116,14 @@ routeur :
 
 | Composant      | Se pose                                                                | Entrées                                                                                                                       |
 | -------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Icône          | `<app-icone nom="fleche" />`                                           | `nom`, l'une des 13 icônes ; décorative, à la couleur et à 1,25 fois la taille du texte                                       |
+| Icône          | `<app-icone nom="fleche" />`                                           | `nom`, l'une des 13 icônes ; décorative, à la couleur et à 1,25 fois la taille du texte (`--taille-icone`)                    |
 | Bouton (CO-01) | `<button appBouton>` pour une action, `<a appBouton>` pour une page    | `variante` (`primaire`, par défaut, `secondaire`, `discret`, `icone`), `compact`, `libelle` (texte masqué, exigé par `icone`) |
-| Lien (CO-02)   | `<a appLien routerLink="/parcours">`, `<a appLien href="…">` hors site | `variante` (`texte`, par défaut, `discret`, `action`, `navigation`, `externe`), `courant` (`aria-current="page"`)             |
+| Lien (CO-02)   | `<a appLien routerLink="/contact">` ; `<a appLien href="…">` hors site | `variante` (`texte`, par défaut, `discret`, `action`, `navigation`, `externe`), `courant` (`page` ou `location`)              |
+
+`courant` fait du lien l'entrée courante et pose `aria-current` à sa valeur : `page` pour la page
+affichée, `location` pour la section lue de la page principale. Un lien de navigation courant passe
+en `couleur-texte` et prend le trait d'accent, le même pour les deux valeurs, et pour elles seules.
+Sans `courant`, le lien ne porte aucun `aria-current`.
 
 Un `button` sans `type` reçoit `type="button"`. Le lien externe s'ouvre dans un nouvel onglet
 (`target="_blank"`, `rel="noopener noreferrer"`) et l'annonce par sa flèche et le texte masqué
@@ -175,20 +180,23 @@ La carte regroupe un contenu autonome ; l'arrière-plan d'ambiance donne sa lumi
 Le titre de la carte et le libellé de son action viennent de la page, marqués pour la traduction
 (`i18n-titre`, `i18n-action`).
 
-| Composant                       | Se pose                                             | Entrées                                                                                                                                                                                                                                    |
-| ------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Carte (CO-05)                   | voir ci-dessous                                     | `variante` (`verre`, par défaut, `pleine`), `titre`, `niveauTitre` (`2`, `3` ou `4` : le titre est un `h2`, un `h3` ou un `h4`, à la taille titre-3), `lien` (une adresse du site : la carte devient interactive), `action` (exige `lien`) |
-| Arrière-plan d'ambiance (CO-13) | `<app-ambiance variante="section">…</app-ambiance>` | `variante` (`accueil`, `section`, `sobre`), exigée                                                                                                                                                                                         |
+| Composant                       | Se pose                                             | Entrées                                                                                                                                                                                                                                                                                                                               |
+| ------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Carte (CO-05)                   | voir ci-dessous                                     | `variante` (`verre`, par défaut, `pleine`), `titre`, `niveauTitre` (`2`, `3` ou `4` : le titre est un `h2`, un `h3` ou un `h4`, à la taille titre-3), `lien` (une adresse du site : la carte devient interactive), `fragment` et `replaceUrl` (l'ancre et le remplacement d'adresse du lien, exigent `lien`), `action` (exige `lien`) |
+| Arrière-plan d'ambiance (CO-13) | `<app-ambiance variante="section">…</app-ambiance>` | `variante` (`accueil`, `section`, `sobre`), exigée                                                                                                                                                                                                                                                                                    |
 
 **Carte.** En verre sur un fond d'ambiance, pleine sur un fond uni. La page projette une étiquette
 (`app-etiquette`), facultative, rangée au-dessus du titre ; le texte, de préférence en ligne, rangé
 sous le titre ; des pastilles (`app-pastille`), facultatives, posées au premier niveau, qui forment
 le pied. Sans étiquette ni pastille, rien n'est rendu à leur place : la carte se resserre. Une
 pastille d'une carte en verre se rend en `contour` (voir « Pastille sur le verre »). Une carte sans
-titre et une action sans lien lèvent une erreur au rendu.
+titre, et une action, une ancre ou un remplacement d'adresse sans lien lèvent une erreur au rendu.
 
 **Carte interactive.** Avec `lien`, posé par `routerLink`, la carte n'a qu'un lien : celui du titre,
-dont le texte est le titre et dont la zone de clic s'étend à toute la carte. L'action du pied
+dont le texte est le titre et dont la zone de clic s'étend à toute la carte. `fragment` et
+`replaceUrl`, aux noms des entrées du lien du routeur, vont à ce même lien : une carte de l'accueil
+mène à sa section (`/#parcours`) et remplace l'entrée courante de l'historique au lieu d'en ajouter
+une (PF-06) ; une carte vers une page à part s'en passe. L'action du pied
 (`action` et sa flèche) est dessinée par la carte, décorative : masquée aux lecteurs d'écran, sans
 lien ni clic propre, pour ne pas annoncer deux fois la même destination. Au focus clavier, l'anneau
 entoure toute la carte ; au survol à la souris, son filet passe à `couleur-accent` à 45 %
@@ -204,7 +212,9 @@ se vérifie à la relecture des écrans.
   titre="Parcours"
   i18n-titre="@@accueil.parcours-titre"
   [niveauTitre]="3"
-  [lien]="'/parcours'"
+  [lien]="'/'"
+  [fragment]="'parcours'"
+  replaceUrl
   action="Voir la section"
   i18n-action="@@accueil.voir-section"
 >

@@ -13,7 +13,7 @@ const VARIANTES: VarianteBouton[] = ['primaire', 'secondaire', 'discret', 'icone
     </button>
     <button appBouton type="submit">Envoyer</button>
     <button appBouton variante="secondaire" disabled>Télécharger</button>
-    <a appBouton href="/cv">Voir le CV</a>
+    <a appBouton href="/contact">Écrire un message</a>
   `,
 })
 class Hote {
@@ -101,7 +101,7 @@ describe('Bouton', () => {
   it('pose l’aspect du bouton sur un lien, sans type ni rôle ajouté', () => {
     const { lien } = rendre();
     expect(lien.localName).toBe('a');
-    expect(lien.getAttribute('href')).toBe('/cv');
+    expect(lien.getAttribute('href')).toBe('/contact');
     expect(variantesPortees(lien)).toEqual(['bouton--primaire']);
     expect(lien.hasAttribute('type')).toBe(false);
     expect(lien.hasAttribute('role')).toBe(false);
