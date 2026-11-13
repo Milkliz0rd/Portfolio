@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -32,7 +33,10 @@ export type NiveauTitreCarte = 2 | 3 | 4;
  * contour (CO-03) : la carte fournit SURFACE_EN_VERRE à son contenu.
  *
  * Avec un lien, une adresse du site posée par routerLink, la carte devient interactive : un seul
- * lien, dans le titre, dont le texte est le titre, étendu à toute la carte. L'action du pied
+ * lien, dans le titre, dont le texte est le titre, étendu à toute la carte. Ce lien du routeur
+ * reçoit aussi fragment et replaceUrl, sous leurs noms : une carte de l'accueil mène à sa section
+ * (lien « / », fragment « parcours ») en remplaçant l'entrée courante de l'historique, sans en
+ * ajouter une (PF-06). Sans lien, ni ancre ni remplacement : le rendu échoue. L'action du pied
  * (« Voir la fiche » et sa flèche) est dessinée par la carte, décorative : masquée aux lecteurs
  * d'écran, sans lien ni clic propre, pour ne pas annoncer deux fois la même destination. Les
  * calques d'ombre et de lueur, décoratifs et vides, attendent le mouvement (MV-06). Une carte
@@ -67,8 +71,12 @@ export class Carte {
   readonly titre = input.required<string>();
   /** Le niveau du titre dans la hiérarchie de la page : h2, h3 ou h4. */
   readonly niveauTitre = input.required<NiveauTitreCarte>();
-  /** Une adresse du site (« /parcours ») : la carte devient interactive. */
+  /** Une adresse du site (« / », « /contact ») : la carte devient interactive. */
   readonly lien = input<string>();
+  /** L'ancre visée à cette adresse (« parcours »), comme le fragment d'un lien du routeur. */
+  readonly fragment = input<string>();
+  /** Remplace l'entrée courante de l'historique au lieu d'en ajouter une, comme replaceUrl. */
+  readonly replaceUrl = input(false, { transform: booleanAttribute });
   /** Le libellé de l'action du pied, décorative, écrit et marqué pour la traduction par la page. */
   readonly action = input<string>();
 
@@ -82,6 +90,17 @@ export class Carte {
       throw new Error('Une carte porte toujours un titre : entrée « titre » (CO-05).');
     }
     return titre;
+  });
+
+  // Une ancre ou un remplacement d'adresse sans lien ne mènerait nulle part : le rendu échoue.
+  protected readonly lienAffiche = computed(() => {
+    const lien = this.lien();
+    if (!lien && (this.fragment() !== undefined || this.replaceUrl())) {
+      throw new Error(
+        'Une carte sans lien ne prend ni fragment ni replaceUrl : entrée « lien » (CO-05).',
+      );
+    }
+    return lien;
   });
 
   // Une action sans lien promettrait une destination que rien ne porte : le rendu échoue.

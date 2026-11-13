@@ -1,6 +1,9 @@
+import { Location } from '@angular/common';
+import { provideLocationMocks, SpyLocation } from '@angular/common/testing';
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { NavigationEnd, provideRouter, Router } from '@angular/router';
+import { filter, firstValueFrom } from 'rxjs';
 import { Etiquette } from '../etiquette/etiquette';
 import { Pastille, VariantePastille } from '../pastille/pastille';
 import { Carte, NiveauTitreCarte, VarianteCarte } from './carte';
@@ -45,7 +48,8 @@ class Hote {
 })
 class HoteTexte {}
 
-// Une carte interactive : un lien vers une page du site et l'action décorative du pied.
+// Une carte interactive de l'accueil : un lien vers une section de la page principale, sans étape
+// d'historique, et l'action décorative du pied.
 @Component({
   imports: [Carte, Etiquette, Pastille],
   template: `
@@ -54,6 +58,8 @@ class HoteTexte {}
       titre="Parcours"
       [niveauTitre]="3"
       [lien]="lien()"
+      [fragment]="fragment()"
+      [replaceUrl]="replaceUrl()"
       [action]="action()"
     >
       <app-etiquette>Section</app-etiquette>
@@ -66,7 +72,9 @@ class HoteTexte {}
 })
 class HoteInteractif {
   readonly variante = signal<VarianteCarte>('pleine');
-  readonly lien = signal<string | undefined>('/parcours');
+  readonly lien = signal<string | undefined>('/');
+  readonly fragment = signal<string | undefined>('parcours');
+  readonly replaceUrl = signal(true);
   readonly action = signal<string | undefined>('Voir le parcours');
   readonly avecPastille = signal(false);
 }
@@ -224,6 +232,8 @@ describe('Carte interactive', () => {
   interface OptionsInteractive {
     variante?: VarianteCarte;
     lien?: string;
+    fragment?: string;
+    replaceUrl?: boolean;
     action?: string;
     avecPastille?: boolean;
   }
@@ -232,7 +242,9 @@ describe('Carte interactive', () => {
     const fixture = TestBed.createComponent(HoteInteractif);
     const hote = fixture.componentInstance;
     hote.variante.set(options.variante ?? 'pleine');
-    hote.lien.set('lien' in options ? options.lien : '/parcours');
+    hote.lien.set('lien' in options ? options.lien : '/');
+    hote.fragment.set('fragment' in options ? options.fragment : 'parcours');
+    hote.replaceUrl.set(options.replaceUrl ?? true);
     hote.action.set('action' in options ? options.action : 'Voir le parcours');
     hote.avecPastille.set(options.avecPastille ?? false);
     fixture.detectChanges();
@@ -249,7 +261,7 @@ describe('Carte interactive', () => {
       expect(liens).toHaveLength(1);
       expect(carte.querySelectorAll(FOCALISABLES)).toHaveLength(1);
       const [lien] = liens;
-      expect(lien.getAttribute('href')).toBe('/parcours');
+      expect(lien.getAttribute('href')).toBe('/#parcours');
       expect(lien.classList).toContain('carte__lien');
       expect(lien.parentElement?.localName).toBe('h3');
       expect(texte(lien)).toBe('Parcours');
@@ -293,8 +305,11 @@ describe('Carte interactive', () => {
     ]);
   });
 
+  // Une carte qui n'a ni lien, ni ancre, ni remplacement d'adresse.
+  const STATIQUE = { lien: undefined, fragment: undefined, replaceUrl: false };
+
   it('reste statique sans lien : ni calque, ni action, ni lien', () => {
-    const carte = rendreInteractive({ lien: undefined, action: undefined });
+    const carte = rendreInteractive({ ...STATIQUE, action: undefined });
     expect(carte.classList).not.toContain('carte--interactive');
     expect(carte.querySelector('a, .carte__ombre, .carte__lueur, .carte__action')).toBeNull();
     expect(carte.querySelector('.carte__pied')).toBeNull();
@@ -308,6 +323,69 @@ describe('Carte interactive', () => {
   });
 
   it('refuse une action sans lien', () => {
-    expect(() => rendreInteractive({ lien: undefined })).toThrow(/exige son lien/);
+    expect(() => rendreInteractive(STATIQUE)).toThrow(/exige son lien/);
+  });
+
+  it.each([{ fragment: 'parcours' }, { replaceUrl: true }])(
+    'refuse une ancre ou un remplacement d’adresse sans lien (%o)',
+    (options) => {
+      expect(() => rendreInteractive({ ...STATIQUE, action: undefined, ...options })).toThrow(
+        /ni fragment ni replaceUrl/,
+      );
+    },
+  );
+
+  it('mène à l’adresse seule, sans ancre ni remplacement', () => {
+    const carte = rendreInteractive({ lien: '/contact', fragment: undefined, replaceUrl: false });
+    expect(carte.querySelector('a')?.getAttribute('href')).toBe('/contact');
+  });
+});
+
+@Component({ template: '' })
+class PageVide {}
+
+// Le vrai routeur, sur un historique simulé (SpyLocation) : chaque changement d'adresse y est noté,
+// « replace: … » quand l'entrée courante est remplacée, l'adresse seule quand une entrée s'ajoute.
+describe('Carte interactive dans le routeur', () => {
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([
+          { path: '', component: PageVide },
+          { path: 'contact', component: PageVide },
+        ]),
+        provideLocationMocks(),
+      ],
+    }),
+  );
+
+  // Ouvre la page principale, pose la carte, la suit jusqu'au bout de la navigation, et rend les
+  // changements d'adresse que ce clic a faits.
+  async function cliquer(replaceUrl: boolean) {
+    const routeur = TestBed.inject(Router);
+    const historique = TestBed.inject(Location) as SpyLocation;
+    await routeur.navigateByUrl('/');
+    const fixture = TestBed.createComponent(HoteInteractif);
+    fixture.componentInstance.replaceUrl.set(replaceUrl);
+    fixture.detectChanges();
+    const lien = (fixture.nativeElement as HTMLElement).querySelector('a')!;
+    const avant = historique.urlChanges.length;
+    const fin = firstValueFrom(routeur.events.pipe(filter((e) => e instanceof NavigationEnd)));
+    lien.click();
+    await fin;
+    return { lien, routeur, changements: historique.urlChanges.slice(avant) };
+  }
+
+  it('mène à l’ancre de sa section en remplaçant l’entrée courante de l’historique', async () => {
+    const { lien, routeur, changements } = await cliquer(true);
+    expect(lien.getAttribute('href')).toBe('/#parcours');
+    expect(routeur.url).toBe('/#parcours');
+    expect(changements).toEqual(['replace: /#parcours']);
+  });
+
+  it('ajoute une entrée d’historique sans replaceUrl, comme un lien ordinaire', async () => {
+    const { routeur, changements } = await cliquer(false);
+    expect(routeur.url).toBe('/#parcours');
+    expect(changements).toEqual(['/#parcours']);
   });
 });
