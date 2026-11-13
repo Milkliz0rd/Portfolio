@@ -53,8 +53,10 @@
   text-decoration-thickness: var(--epaisseur-soulignement-survol);
 }
 
-// De navigation : le texte passe en couleur-texte au survol et sur la page courante, que souligne
-// un trait d'accent de 2 px.
+// De navigation : le texte passe en couleur-texte au survol et sur l'entrée courante, la page
+// affichée (aria-current="page") comme la section lue (aria-current="location"), que souligne le
+// même trait d'accent de 2 px. Les deux valeurs sont nommées, et elles seules : aucune autre
+// valeur d'aria-current ne reçoit le trait.
 :host(.lien--navigation) {
   position: relative;
   justify-content: center;
@@ -64,11 +66,13 @@
 }
 
 :host(.lien--navigation:hover),
-:host(.lien--navigation[aria-current='page']) {
+:host(.lien--navigation[aria-current='page']),
+:host(.lien--navigation[aria-current='location']) {
   color: var(--couleur-texte);
 }
 
-:host(.lien--navigation[aria-current='page'])::after {
+:host(.lien--navigation[aria-current='page'])::after,
+:host(.lien--navigation[aria-current='location'])::after {
   content: '';
   position: absolute;
   inset-inline: var(--espace-3);
