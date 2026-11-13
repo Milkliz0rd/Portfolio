@@ -1,0 +1,31 @@
+<div class="principale__accueil">
+  <h1 i18n="@@principale.accueil"><span class="principale__ecran">EC-01</span> Accueil</h1>
+  <p class="principale__mention" i18n="@@principale.mention">Page principale provisoire</p>
+</div>
+<!-- Les sections dans l'ordre du plan du site. aria-labelledby est lié : écrit en clair, la règle
+     i18n du lint le prendrait pour un libellé à traduire. -->
+<section id="parcours" class="principale__section" [attr.aria-labelledby]="'titre-parcours'">
+  <h2 id="titre-parcours" i18n="@@principale.parcours">
+    <span class="principale__ecran">EC-02</span> Parcours
+  </h2>
+</section>
+<section id="competences" class="principale__section" [attr.aria-labelledby]="'titre-competences'">
+  <h2 id="titre-competences" i18n="@@principale.competences">
+    <span class="principale__ecran">EC-03</span> Compétences
+  </h2>
+</section>
+<section id="experience" class="principale__section" [attr.aria-labelledby]="'titre-experience'">
+  <h2 id="titre-experience" i18n="@@principale.experience">
+    <span class="principale__ecran">EC-04</span> Expérience
+  </h2>
+</section>
+<section id="methode" class="principale__section" [attr.aria-labelledby]="'titre-methode'">
+  <h2 id="titre-methode" i18n="@@principale.methode">
+    <span class="principale__ecran">EC-05</span> Méthode de travail
+  </h2>
+</section>
+<section id="projets" class="principale__section" [attr.aria-labelledby]="'titre-projets'">
+  <h2 id="titre-projets" i18n="@@principale.projets">
+    <span class="principale__ecran">EC-06</span> Liste des projets
+  </h2>
+</section>

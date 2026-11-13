@@ -2,3 +2,6 @@
   <span class="provisoire__ecran">{{ identifiant }}</span> {{ nom }}
 </h1>
 <p class="provisoire__mention" i18n="@@provisoire.mention">Page provisoire</p>
+@if (variante) {
+  <p class="provisoire__mention" i18n="@@provisoire.variante">Variante {{ variante }}</p>
+}

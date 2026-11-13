@@ -15,7 +15,7 @@ import { join, sep } from 'node:path';
 export const ORIGINE = 'http://localhost:8787';
 export const DOSSIER_BUILD = join(__dirname, '..', '..', 'dist', 'front', 'browser');
 
-/** Les pages d'erreur, chacune atteinte par une adresse sans fichier (PF-06). */
+/** Les pages d'erreur : une adresse sans fichier et le document servi, par cas (PF-06). */
 export const PAGES_ERREUR = [
   { cas: 'une adresse inconnue', adresse: '/une-adresse-inconnue', fichier: '404.html' },
   {
@@ -23,8 +23,9 @@ export const PAGES_ERREUR = [
     adresse: '/projets/identifiant-inconnu',
     fichier: 'projets/404.html',
   },
-  // Un nom de fichier qu'aucun build ne contient, même une fois le CV fourni (C-03).
-  { cas: 'le fichier du CV absent', adresse: '/cv/cv-absent.pdf', fichier: 'cv/404.html' },
+  // /projets seule n'est plus une page : relevé sous wrangler dev 4.158.0, le serveur lui sert la
+  // page introuvable de la racine, pas celle de projets/, que reçoit /projets/ (PF-06, PF-08).
+  { cas: 'les projets sans identifiant', adresse: '/projets', fichier: '404.html' },
 ] as const;
 
 /** Le texte d'un fichier du build ; une erreur claire s'il manque. */
@@ -70,7 +71,7 @@ export function scriptPrincipal(page = 'index.html'): string {
   return `${ORIGINE}/${fichier}`;
 }
 
-/** Une adresse par index.html du build : « / » pour la racine, « /parcours » pour parcours/. */
+/** Une adresse par index.html du build : « / » pour la racine, « /contact » pour contact/. */
 export function pagesDuBuild(): string[] {
   exigerBuildDeTest();
   const pages = readdirSync(DOSSIER_BUILD, { recursive: true, encoding: 'utf8' })

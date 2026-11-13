@@ -19,19 +19,19 @@ const autresEnTetes = Object.entries(regleGlobale).filter(
   ([nom]) => nom !== 'content-security-policy',
 );
 
-test('conformité : /parcours en 200 sans redirection', async ({ request }) => {
-  const reponse = await request.get('/parcours', sansRedirection);
-  expect(reponse.status(), '/parcours en 200 sans redirection').toBe(200);
-  expect(await reponse.text(), 'contenu de parcours/index.html').toBe(
-    lireFichier('parcours/index.html'),
+test('conformité : /contact en 200 sans redirection', async ({ request }) => {
+  const reponse = await request.get('/contact', sansRedirection);
+  expect(reponse.status(), '/contact en 200 sans redirection').toBe(200);
+  expect(await reponse.text(), 'contenu de contact/index.html').toBe(
+    lireFichier('contact/index.html'),
   );
 });
 
-test('conformité : /parcours/ en 307 vers /parcours', async ({ request }) => {
-  const reponse = await request.get('/parcours/', sansRedirection);
-  expect(reponse.status(), '/parcours/ en 307').toBe(307);
+test('conformité : /contact/ en 307 vers /contact', async ({ request }) => {
+  const reponse = await request.get('/contact/', sansRedirection);
+  expect(reponse.status(), '/contact/ en 307').toBe(307);
   const cible = new URL(reponse.headers()['location'] ?? '', ORIGINE).href;
-  expect(cible, 'en-tête Location').toBe(`${ORIGINE}/parcours`);
+  expect(cible, 'en-tête Location').toBe(`${ORIGINE}/contact`);
 });
 
 for (const { cas, adresse, fichier } of PAGES_ERREUR) {
@@ -43,10 +43,24 @@ for (const { cas, adresse, fichier } of PAGES_ERREUR) {
   });
 }
 
+// Les pages de l'ancienne préversion, une par section et celles de la candidature, ne sont plus
+// des adresses du site : comme toute adresse sans route, la page introuvable de la racine, sans
+// redirection (PF-06, PF-08). /projets seule, dont le document servi est relevé, est parmi les
+// pages d'erreur (support/site.ts).
+const pagesRetirees = ['parcours', 'competences', 'experience', 'methode', 'cv', 'cv/404'];
+
+for (const page of pagesRetirees) {
+  test(`conformité : /${page}, page retirée, en 404 avec 404.html`, async ({ request }) => {
+    const reponse = await request.get(`/${page}`, sansRedirection);
+    expect(reponse.status(), `/${page} en 404`).toBe(404);
+    expect(await reponse.text(), 'contenu de 404.html').toBe(lireFichier('404.html'));
+  });
+}
+
 // La règle « /* » doit couvrir aussi la page servie par not_found_handling, ce que la
 // documentation de l'hébergeur ne dit pas (PF-08, PF-09).
 const reponses = [
-  { cas: 'une page en 200 (/parcours)', adresse: '/parcours', statut: 200 },
+  { cas: 'une page en 200 (/contact)', adresse: '/contact', statut: 200 },
   { cas: "la 404 d'une adresse inconnue", adresse: PAGES_ERREUR[0].adresse, statut: 404 },
 ];
 

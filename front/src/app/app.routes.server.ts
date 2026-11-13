@@ -1,21 +1,9 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 import { contenuProjets } from '../contenu/contenu-langue';
 
-// Toutes les adresses sont pré-rendues ; seule « ** » est rendue dans le navigateur (PF-06).
-const prerendues = [
-  '',
-  'parcours',
-  'competences',
-  'experience',
-  'methode',
-  'projets',
-  'projets/404',
-  'cv',
-  'cv/404',
-  'contact',
-  'mentions-legales',
-  '404',
-];
+// Toutes les pages sont pré-rendues, les deux pages introuvables comprises ; seule « ** » est
+// rendue dans le navigateur (PF-06).
+const prerendues = ['', 'projets/404', 'contact', 'mentions-legales', '404'];
 
 export const serverRoutes: ServerRoute[] = [
   ...prerendues.map((path): ServerRoute => ({ path, renderMode: RenderMode.Prerender })),
