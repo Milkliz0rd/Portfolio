@@ -5,7 +5,12 @@ import { EnteteSection, NiveauEnteteSection } from './entete-section';
 @Component({
   imports: [EnteteSection],
   template: `
-    <app-entete-section numero="02" etiquette="Section" [niveau]="niveau()" [centre]="centre()">
+    <app-entete-section
+      [numero]="numero()"
+      etiquette="Section"
+      [niveau]="niveau()"
+      [centre]="centre()"
+    >
       Le titre
       @if (avecChapo()) {
         <ng-template #chapo>Le chapô de la section.</ng-template>
@@ -14,16 +19,28 @@ import { EnteteSection, NiveauEnteteSection } from './entete-section';
   `,
 })
 class Hote {
+  readonly numero = signal<string | undefined>('02');
   readonly niveau = signal<NiveauEnteteSection>(2);
   readonly centre = signal(false);
   readonly avecChapo = signal(true);
 }
 
-function rendre(niveau: NiveauEnteteSection = 2, { centre = false, avecChapo = true } = {}) {
+interface Options {
+  numero?: string;
+  centre?: boolean;
+  avecChapo?: boolean;
+}
+
+function rendre(
+  niveau: NiveauEnteteSection = 2,
+  { numero = '02', centre = false, avecChapo = true }: Options = {},
+) {
   const fixture = TestBed.createComponent(Hote);
-  fixture.componentInstance.niveau.set(niveau);
-  fixture.componentInstance.centre.set(centre);
-  fixture.componentInstance.avecChapo.set(avecChapo);
+  const hote = fixture.componentInstance;
+  hote.numero.set(numero || undefined);
+  hote.niveau.set(niveau);
+  hote.centre.set(centre);
+  hote.avecChapo.set(avecChapo);
   fixture.detectChanges();
   return (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('app-entete-section')!;
 }
@@ -31,6 +48,11 @@ function rendre(niveau: NiveauEnteteSection = 2, { centre = false, avecChapo = t
 const TITRES = 'h1, h2, h3, h4, h5, h6, [role="heading"]';
 const texte = (element: Element | null | undefined) =>
   element?.textContent?.replace(/\s+/g, ' ').trim();
+// Les éléments sans texte qui ne sont pas des décors masqués aux lecteurs d'écran.
+const vides = (racine: Element) =>
+  [...racine.querySelectorAll('*')].filter(
+    (element) => !element.textContent?.trim() && element.getAttribute('aria-hidden') !== 'true',
+  );
 
 describe('EnteteSection', () => {
   it.each([2, 3] as const)('fait du titre un vrai h%i, seul titre de l’en-tête', (niveau) => {
@@ -40,15 +62,29 @@ describe('EnteteSection', () => {
     expect(texte(titres[0])).toBe('Le titre');
   });
 
-  it('pose l’étiquette numérotée avant le titre et hors de lui', () => {
+  it('pose l’étiquette numérotée et son filet avant le titre et hors de lui', () => {
     const entete = rendre();
     const etiquette = entete.querySelector('app-etiquette')!;
     expect(entete.firstElementChild).toBe(etiquette);
     expect(etiquette.classList).toContain('etiquette--numerotee');
     expect(texte(etiquette.querySelector('.etiquette__numero'))).toBe('02');
+    expect(etiquette.querySelectorAll('.etiquette__trait')).toHaveLength(1);
     expect(texte(etiquette.querySelector('.etiquette__texte'))).toBe('Section');
     expect(etiquette.closest(TITRES)).toBeNull();
     expect(entete.querySelector(TITRES)?.querySelector('app-etiquette')).toBeNull();
+  });
+
+  it('sans numéro, pose une étiquette sans numéro ni filet, sans rien de vide à leur place', () => {
+    const entete = rendre(2, { numero: '' });
+    const etiquette = entete.querySelector('app-etiquette')!;
+    expect(entete.firstElementChild).toBe(etiquette);
+    expect(etiquette.classList).not.toContain('etiquette--numerotee');
+    expect(etiquette.classList).toContain('etiquette--accent');
+    expect(etiquette.querySelector('.etiquette__numero, .etiquette__trait')).toBeNull();
+    expect([...etiquette.children].map((enfant) => enfant.className)).toEqual(['etiquette__texte']);
+    expect(texte(etiquette)).toBe('Section');
+    expect(etiquette.closest(TITRES)).toBeNull();
+    expect(vides(entete)).toEqual([]);
   });
 
   it('place le chapô sous le titre, dans un paragraphe', () => {
@@ -64,10 +100,7 @@ describe('EnteteSection', () => {
     const entete = rendre(3, { avecChapo: false });
     expect(entete.querySelector('.entete-section__chapo, p')).toBeNull();
     expect([...entete.children].map((enfant) => enfant.localName)).toEqual(['app-etiquette', 'h3']);
-    const vides = [...entete.querySelectorAll('*')].filter(
-      (element) => !element.textContent?.trim() && element.getAttribute('aria-hidden') !== 'true',
-    );
-    expect(vides).toEqual([]);
+    expect(vides(entete)).toEqual([]);
   });
 
   it('se centre sur demande, aligné à gauche par défaut', () => {

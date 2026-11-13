@@ -1,4 +1,8 @@
-<app-etiquette variante="numerotee" [numero]="numero()">{{ etiquette() }}</app-etiquette>
+@if (numero(); as numero) {
+  <app-etiquette variante="numerotee" [numero]="numero">{{ etiquette() }}</app-etiquette>
+} @else {
+  <app-etiquette variante="accent">{{ etiquette() }}</app-etiquette>
+}
 <!-- Le titre projeté, rendu une seule fois, dans le h2 ou le h3 du niveau demandé. -->
 <ng-template #titre><ng-content /></ng-template>
 @if (niveau() === 3) {
