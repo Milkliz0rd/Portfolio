@@ -33,8 +33,8 @@
   display: none;
 }
 
-// La barre : trois points neutres de 9 px, puis le titre ou l'adresse en chasse fixe, coupés d'une
-// ellipse plutôt que de déborder (maquettes).
+// La barre : trois points neutres de 9 px, puis le titre ou l'adresse en chasse fixe, à 14 px à
+// toutes les largeurs (taille-code), coupés d'une ellipse plutôt que de déborder (CO-12).
 .fenetre__barre {
   display: flex;
   gap: var(--espace-3);
@@ -63,7 +63,7 @@
   overflow: hidden;
   color: var(--couleur-texte-discret);
   font-family: var(--police-mono);
-  font-size: var(--taille-etiquette);
+  font-size: var(--taille-code);
   text-overflow: ellipsis;
   white-space: nowrap;
 }

@@ -54,12 +54,17 @@ h4 {
   letter-spacing: var(--approche-sous-titre);
 }
 
-// La césure est permise sur le titre 1 et l'affiche, pour qu'aucun mot ne déborde à 320 px.
-h1 {
+// Le titre 1 : celui d'une page à part (h1) et celui d'une section de la page principale, qui le
+// garde en h2 (charte, section 4 et CO-16) par la classe titre-1. Une classe l'emporte sur la règle
+// de h2, sans dépasser celle d'un composant. La césure est permise sur le titre 1 et l'affiche,
+// pour qu'aucun mot ne déborde à 320 px ; elle suit la langue de la page (lang="fr" sur html).
+h1,
+.titre-1 {
   font-size: var(--taille-titre-1);
   hyphens: auto;
 }
 
+// Le titre d'un bloc ; un titre de section en h2 prend la classe titre-1.
 h2 {
   font-size: var(--taille-titre-2);
 }
