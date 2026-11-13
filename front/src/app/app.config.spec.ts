@@ -11,7 +11,8 @@ import { routeur } from './app.config';
 // sa configuration, l'application démarrée : la page principale rend ses cinq sections à leurs
 // ancres. Le test navigue lui-même et relève chaque défilement : window.scrollTo vers une position,
 // scrollIntoView puis focus vers un élément. jsdom n'a ni scrollIntoView ni matchMedia : le test les
-// pose, puis les retire, comme tout ce qu'il change hors de lui (Vitest tourne sans isolation).
+// pose, puis les retire, comme tout ce qu'il change hors de lui (Vitest tourne sans isolation), dont
+// history.scrollRestoration, que le routeur règle et que jsdom ne connaît pas.
 // L'adresse du routeur vit dans son Location simulé ; celle que réécrit l'initialiseur, dans le vrai
 // window.history de jsdom, que le test relit.
 
@@ -26,14 +27,20 @@ const versElement = (ancre: string, behavior: ScrollBehavior): Defilement[] => [
   [`focus #${ancre}`, { preventScroll: true }],
 ];
 
-/** Pose une propriété sur `cible` et rend de quoi rétablir celle d'avant, ou son absence. */
-function poser(cible: object, propriete: string, valeur: unknown): () => void {
+/** Rend de quoi rétablir une propriété de `cible` telle qu'elle est, ou son absence. */
+function garder(cible: object, propriete: string): () => void {
   const avant = Object.getOwnPropertyDescriptor(cible, propriete);
-  Object.defineProperty(cible, propriete, { configurable: true, writable: true, value: valeur });
   return () =>
     avant
       ? Object.defineProperty(cible, propriete, avant)
       : Reflect.deleteProperty(cible, propriete);
+}
+
+/** Pose une propriété sur `cible` et rend de quoi rétablir celle d'avant, ou son absence. */
+function poser(cible: object, propriete: string, valeur: unknown): () => void {
+  const retablir = garder(cible, propriete);
+  Object.defineProperty(cible, propriete, { configurable: true, writable: true, value: valeur });
+  return retablir;
 }
 
 describe('Défilement du routeur', () => {
@@ -66,6 +73,7 @@ describe('Défilement du routeur', () => {
       poser(window, 'matchMedia', (requete: string) => ({
         matches: reduit && requete === '(prefers-reduced-motion: reduce)',
       })),
+      garder(history, 'scrollRestoration'),
     ];
     vi.spyOn(window, 'scrollTo').mockImplementation((options?: ScrollToOptions | number) => {
       defilements.push(['fenêtre', options]);
@@ -162,11 +170,11 @@ describe('Défilement du routeur', () => {
     ]);
   });
 
-  it('ôte aussitôt l’ancre qui ne nomme rien d’une page chargée, depuis la page principale aussi', async () => {
-    history.replaceState({ navigationId: 3 }, '', '/#competence');
+  it('ôte aussitôt l’ancre qui ne nomme rien d’une page chargée, depuis la page principale aussi, requête gardée', async () => {
+    history.replaceState({ navigationId: 3 }, '', '/?vue=1#competence');
     const remplacer = vi.spyOn(history, 'replaceState');
-    expect(await aller('/#competence')).toStrictEqual(versHaut('instant'));
-    expect(remplacer).toHaveBeenCalledExactlyOnceWith({ navigationId: 3 }, '', '/');
+    expect(await aller('/?vue=1#competence')).toStrictEqual(versHaut('instant'));
+    expect(remplacer).toHaveBeenCalledExactlyOnceWith({ navigationId: 3 }, '', '/?vue=1');
   });
 
   it('ne réécrit plus l’adresse si une autre navigation a suivi avant la fin du chargement', async () => {
