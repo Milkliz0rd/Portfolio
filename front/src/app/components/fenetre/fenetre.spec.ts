@@ -293,4 +293,36 @@ describe('Fenetre dans la mise en page', () => {
     expect(affichage(monter(HoteCapture).hote)).toBe('block');
     expect(affichage(monter(HoteNavigateur).hote)).toBe('block');
   });
+
+  // Les feuilles globales ne sont pas chargées : les deux tailles sont posées sur html le temps
+  // du test, puis retirées, car Vitest tourne sans isolation (#169).
+  describe('titre et adresse de la barre', () => {
+    const TAILLES = { '--taille-code': '14px', '--taille-etiquette': '12px' };
+    const html = document.documentElement;
+    beforeEach(() => {
+      for (const [nom, valeur] of Object.entries(TAILLES)) html.style.setProperty(nom, valeur);
+    });
+    afterEach(() => {
+      for (const nom of Object.keys(TAILLES)) html.style.removeProperty(nom);
+    });
+
+    // L'ellipse ne joue que sur une seule ligne, le surplus masqué, et dans une barre flexible
+    // seulement si l'élément peut rétrécir sous la largeur de son texte (min-width: 0). La coupure
+    // elle-même, qui demande la mise en page, se voit dans un navigateur.
+    it.each([
+      ['le titre', () => rendre().cadre, '.fenetre__titre'],
+      ['l’adresse', () => monter(HoteNavigateur).cadre, '.fenetre__adresse'],
+    ])('écrit %s à taille-code (14 px), coupé d’une ellipse', (_nom, cadre, selecteur) => {
+      const element = cadre()!.querySelector(selecteur)!;
+      const style = getComputedStyle(element);
+      expect(style.fontSize).toBe('14px');
+      expect([style.textOverflow, style.whiteSpace, style.overflow]).toEqual([
+        'ellipsis',
+        'nowrap',
+        'hidden',
+      ]);
+      expect(getComputedStyle(element.parentElement!).display).toBe('flex');
+      expect(style.minWidth).toMatch(/^0(px)?$/);
+    });
+  });
 });
