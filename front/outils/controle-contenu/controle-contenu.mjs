@@ -8,9 +8,10 @@ import { join, relative } from 'node:path';
 import { MODELE, MODELE_PROJET } from './modele.mjs';
 import * as regles from './regles.mjs';
 import { emplacements, faute, parcourir } from './structure.mjs';
+import * as textes from './textes.mjs';
 
 /** Les règles, une par fonction : chacune reçoit le contenu lu et rend ses fautes. */
-const REGLES = [emplacements, ...Object.values(regles)];
+const REGLES = [emplacements, ...Object.values(regles), ...Object.values(textes)];
 
 const parFichier = (a, b) => (a.fichier < b.fichier ? -1 : a.fichier > b.fichier ? 1 : 0);
 
