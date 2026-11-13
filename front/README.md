@@ -14,17 +14,18 @@ signaux. Le build produit des pages statiques pré-rendues, une par adresse du s
 
 Toutes se lancent depuis `front/`.
 
-| Commande                | Effet                                                                                                            |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `npm ci`                | installe les dépendances exactes de `package-lock.json`                                                          |
-| `npm start`             | lance le serveur de développement sur `http://localhost:4200/`                                                   |
-| `npm run build`         | construit le site pré-rendu dans `dist/front/browser/`, place les pages d'erreur et écrit `_headers`             |
-| `npm test`              | lance `test:outils`, puis les tests unitaires (Vitest, par `ng test`) ; avec `CI=true`, un seul passage          |
-| `npm run test:outils`   | lance une fois les tests de `outils/tests/` (Vitest), dont ceux des jetons et des polices                        |
-| `npm run lint`          | lance l'analyse statique : ESLint, les types du banc de bout en bout (`tsc`), Stylelint, puis Prettier           |
-| `npm run i18n:verifier` | extrait les libellés dans `tmp/i18n/` (non versionné) et échoue si l'un d'eux n'a pas d'identifiant personnalisé |
-| `npm run serveur-local` | sert `dist/front/browser/` avec les règles de l'hébergeur, sur `http://localhost:8787` (voir « Hébergement »)    |
-| `npm run e2e`           | construit le build de test, puis lance le banc de bout en bout (voir « Tests de bout en bout »)                  |
+| Commande                   | Effet                                                                                                            |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `npm ci`                   | installe les dépendances exactes de `package-lock.json`                                                          |
+| `npm start`                | lance le serveur de développement sur `http://localhost:4200/`                                                   |
+| `npm run build`            | construit le site pré-rendu dans `dist/front/browser/`, place les pages d'erreur et écrit `_headers`             |
+| `npm test`                 | lance `test:outils`, puis les tests unitaires (Vitest, par `ng test`) ; avec `CI=true`, un seul passage          |
+| `npm run test:outils`      | lance une fois les tests de `outils/tests/` (Vitest), dont ceux des jetons et des polices                        |
+| `npm run lint`             | lance l'analyse statique : ESLint, les types du banc de bout en bout (`tsc`), Stylelint, puis Prettier           |
+| `npm run i18n:verifier`    | extrait les libellés dans `tmp/i18n/` (non versionné) et échoue si l'un d'eux n'a pas d'identifiant personnalisé |
+| `npm run controle-contenu` | contrôle le contenu et ses images, avec `-- --mode=staging` ou `-- --mode=main` (voir « Contenu »)               |
+| `npm run serveur-local`    | sert `dist/front/browser/` avec les règles de l'hébergeur, sur `http://localhost:8787` (voir « Hébergement »)    |
+| `npm run e2e`              | construit le build de test, puis lance le banc de bout en bout (voir « Tests de bout en bout »)                  |
 
 `npm start`, `npm run build`, `npm test`, `npm run lint` et `npm run i18n:verifier` écrivent
 d'abord la configuration de l'environnement (voir « Environnements ») et l'index des projets (voir
@@ -85,6 +86,30 @@ texte brut, jamais de HTML ; un contenu encore à fournir est un emplacement ét
 versionné : un import par projet, vérifié par `satisfies Projet` (un champ obligatoire manquant
 fait échouer la compilation). La fiche `/projets/<identifiant>` est pré-rendue
 depuis cet index.
+
+**Contrôle du contenu.** `npm run controle-contenu -- --mode=staging` (ou `--mode=main`) lance
+`outils/controle-contenu/`, sans dépendance : il lit chaque fichier de `src/contenu/<langue>/` et
+les images de `public/images/projets/<identifiant>/`, sort une ligne par faute (fichier, champ,
+règle) puis un bilan, et échoue sur la moindre erreur. La CI le lance sur chaque PR et chaque push
+vers `staging` et `main`, où chaque ligne devient une annotation. Il vérifie :
+
+- la structure, sur la liste des champs de chaque fichier (`modele.mjs`, qu'un test tient égale
+  aux types de `contenu.ts`) : champs obligatoires présents et non vides, aucun champ hors du
+  modèle, valeurs fermées connues ;
+- les identifiants de projet, les rangs, les images (en WebP, aux dimensions déclarées, lues dans
+  l'en-tête VP8, VP8L ou VP8X), les liens en HTTPS, le renvoi de la méthode, l'ordre et les dates
+  du parcours, une seule étape mise en avant, les trois volets, l'absence de HTML ;
+- les textes : aucune tournure qui se périme (âge, « actuellement », « depuis » suivi d'une date,
+  d'un nombre ou d'une durée, « il y a », « en ce moment », « aujourd’hui », « cette année »),
+  avec l'une ou l'autre apostrophe ; aucune apostrophe droite hors des adresses (liens, chemins,
+  courriels). « depuis » suivi d'autre chose passe, comme « Reconversion depuis la restauration ».
+
+Un emplacement étiqueté n'est soumis qu'à sa propre règle : un avertissement en mode `staging`, une
+erreur en mode `main`. La CI prend le mode `main` sur une PR vers `main` ou un push sur `main`, le
+mode `staging` partout ailleurs. Restent à la relecture des PR et à la passe manuelle (TK-58) ce
+qu'aucune règle ne voit : une tournure qui se périme hors de la liste, et la confidentialité, dont
+aucune liste de termes n'est versionnée. Une valeur calculée depuis la date du jour est refusée
+dans le code par ESLint (`no-restricted-syntax`, dans `eslint.config.js`).
 
 ## Styles
 
