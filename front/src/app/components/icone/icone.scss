@@ -3,8 +3,8 @@
 :host {
   display: inline-block;
   flex: none;
-  width: 1.25em;
-  height: 1.25em;
+  width: var(--taille-icone);
+  height: var(--taille-icone);
 }
 
 .icone__dessin {

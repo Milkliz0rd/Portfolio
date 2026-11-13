@@ -6,7 +6,7 @@
   text-decoration-line: underline;
   text-decoration-thickness: var(--epaisseur-soulignement);
   text-decoration-color: var(--soulignement-lien);
-  text-underline-offset: 0.22em;
+  text-underline-offset: var(--decalage-soulignement);
   transition:
     color var(--duree-courte) var(--courbe-standard),
     text-decoration-color var(--duree-courte) var(--courbe-standard);
@@ -84,10 +84,10 @@
 
 // Externe : la flèche oblique suit le texte, un peu plus petite que lui.
 .lien__icone--externe {
-  width: 0.85em;
-  height: 0.85em;
-  margin-inline-start: 0.2em;
-  vertical-align: -0.05em;
+  width: var(--taille-fleche-externe);
+  height: var(--taille-fleche-externe);
+  margin-inline-start: var(--ecart-fleche-externe);
+  vertical-align: var(--decalage-fleche-externe);
 }
 
 // Mouvement réduit : les couleurs changent d'un coup.
