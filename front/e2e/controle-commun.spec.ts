@@ -3,8 +3,8 @@ import { expect, test } from './support/banc';
 import { PAGES_ERREUR, pagesDuBuild } from './support/site';
 
 // Contrôle commun (TK-21, décision 2 de W12) : chaque page produite par le build, relevée à
-// l'exécution, plus les trois pages d'erreur, atteintes par une adresse sans fichier ; un test par
-// adresse, joué dans chacun des six profils. Le plan du site (TK-44) remplacera ce relevé. La
+// l'exécution, plus les trois adresses d'erreur, sans fichier, que le serveur sert avec 404.html
+// ou projets/404.html ; un test par adresse, joué dans chacun des six profils. Le plan du site (TK-44) remplacera ce relevé. La
 // surveillance de banc.ts y ajoute requêtes, console et politique de sécurité.
 
 const ETIQUETTES_WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];

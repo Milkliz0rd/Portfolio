@@ -494,10 +494,11 @@ traces des échecs dans `test-results/`, non versionnés.
   relevé sur le serveur local), chaque page retirée (une par section, et celles de la candidature)
   en 404 avec le contenu de `404.html`, et les en-têtes de la règle `/*`
   de `_headers`, politique de sécurité comprise, sur une page en 200 comme sur une 404. Elle passe
-  sous Wrangler 4.155.0 : le serveur de repli prévu par le plan n'a pas lieu d'être.
+  sous Wrangler 4.158.0 : le serveur de repli prévu par le plan n'a pas lieu d'être.
 - `controle-commun.spec.ts`, un test par adresse : chaque `index.html` du build, relevé à
-  l'exécution (une page ajoutée est contrôlée sans rien écrire), et les trois pages d'erreur. Toute
-  violation axe-core des règles A et AA (`wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa`),
+  l'exécution (une page ajoutée est contrôlée sans rien écrire), et les trois adresses d'erreur,
+  servies par deux fichiers (`404.html` et `projets/404.html`). Toute violation axe-core des
+  règles A et AA (`wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa`),
   nommée par sa règle et ses cibles ; tout défilement horizontal du document à 320, 600, 900, 1200,
   1600 ou 2560 px, dans chaque profil.
 - La surveillance de `e2e/support/banc.ts`, sur chaque test qui ouvre une page : toute requête hors
