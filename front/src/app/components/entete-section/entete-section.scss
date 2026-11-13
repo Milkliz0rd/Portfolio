@@ -1,10 +1,10 @@
-// En-tête de section de la charte (CO-16) : étiquette, titre et chapô, espacés de espace-4 ; la
-// largeur de 56rem vient des maquettes.
+// En-tête de section de la charte (CO-16) : étiquette, titre et chapô, espacés de espace-4, sur
+// 56rem de large au plus (largeur-entete-section).
 :host {
   display: grid;
   gap: var(--espace-4);
   justify-items: start;
-  max-width: 56rem;
+  max-width: var(--largeur-entete-section);
 }
 
 :host(.entete-section--centre) {

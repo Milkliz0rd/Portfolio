@@ -332,4 +332,8 @@
 
   // Icône en trait (section 3.5) : 1,25 fois la taille du texte qu'elle accompagne.
   --taille-icone: 1.25em;
+
+  // CO-16 En-tête de section : 56rem de large au plus, étiquette, titre et chapô compris
+  // (maquettes, charte révisée).
+  --largeur-entete-section: 56rem;
 }
