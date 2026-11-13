@@ -13,6 +13,13 @@ const REPLI_MS = 3000;
 // tête, la réponse du serveur reçue, et la charge du banc (plusieurs navigateurs à la fois) peut le
 // retarder de quelques centaines de ms. Une seconde couvre les deux, loin d'un repli absent.
 const MARGE_MS = 1000;
+// L'attente du repli ne fait que lui laisser le temps d'arriver : la borne se vérifie ensuite sur
+// l'instant relevé dans la page. Elle interroge la page toutes les 100 ms, et pas au rythme par
+// défaut de expect.poll (une fois par seconde après 1,85 s), qui abandonne avant l'interrogation
+// de 3,85 s si les précédentes ont pris plus de 150 ms en tout : sous charge, un repli à l'heure
+// tombé juste après celle de 2,85 s échappait alors à l'attente.
+const SONDAGE_MS = 100;
+const ATTENTE_MS = REPLI_MS + MARGE_MS + 2000;
 const MESSAGE_ERREUR = 'mouvement : erreur levée par le script principal de remplacement';
 
 const adresses = [
@@ -64,7 +71,8 @@ async function constaterRepli(page: Page, journal: () => Promise<Journal>): Prom
   await expect
     .poll(async () => (await journal()).retraitActif, {
       message: `mv-actif retiré par le repli`,
-      timeout: REPLI_MS + MARGE_MS,
+      intervals: [SONDAGE_MS],
+      timeout: ATTENTE_MS,
     })
     .not.toBeNull();
   const { retraitActif, poses } = await journal();
