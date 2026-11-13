@@ -6,11 +6,15 @@
 }
 
 // Thème sombre seulement : la page et les contrôles natifs du navigateur prennent les couleurs
-// de la charte. Le fond est explicite sur html comme sur body.
+// de la charte. Le fond est explicite sur html comme sur body. Toute ancre s'ouvre sous l'en-tête
+// (PF-06), à hauteur-entete et 1.5rem du haut, comme les maquettes : une seule valeur pour toutes
+// les ancres, que le navigateur applique à l'ouverture d'une ancre comme à scrollIntoView, par
+// lequel le routeur défile vers une ancre une fois l'application démarrée (app.config.ts).
 html {
   color-scheme: dark;
   background-color: var(--couleur-fond);
   color: var(--couleur-texte);
+  scroll-padding-top: 5.5rem;
 }
 
 body {

@@ -334,11 +334,31 @@ nommant la page, si un HTML produit, pages d'erreur comprises, n'en a pas exacte
 
 **La règle** : un état caché (opacité 0, translation de départ, trait non tracé…) ne s'écrit que
 dans `src/styles/_mouvement.scss`, sous `.mv-actif`, dans le bloc
-`@media (prefers-reduced-motion: no-preference)`, comme le défilement doux vers une ancre. Sous
-`reduce`, toute transition et toute animation sont instantanées. **Le retour en haut** du routeur à
-chaque navigation en avant se fait d'un coup, même sous `no-preference` : `app.config.ts` rend
-instantané le défilement que le routeur demande sans comportement ; le défilement vers une ancre
-reste doux, la restauration au retour arrière instantanée (`app.config.spec.ts`).
+`@media (prefers-reduced-motion: no-preference)`, comme `html { scroll-behavior: smooth }`, qui
+ne vaut que pour un défilement qui ne donne pas son comportement (un lien d'ancre suivi sans
+script). Sous `reduce`, toute transition et toute animation sont instantanées.
+
+**Le défilement du routeur** (PF-06) : l'initialiseur de `app.config.ts` remplace
+`scrollToAnchor` et `scrollToPosition` du `ViewportScroller`, et chaque défilement donne son
+comportement, `smooth` ou `instant`, selon ce tableau :
+
+| Navigation                                                                       | Défilement                                                               |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| vers une autre page, sans ancre                                                  | en haut, d'un coup                                                       |
+| vers une autre page, avec une ancre qui nomme un élément                         | sur l'élément, sous l'en-tête, d'un coup                                 |
+| sur la page principale (chemin `/` avant et après), vers une section ou son haut | doux ; d'un coup sous `prefers-reduced-motion: reduce`, lu à chaque fois |
+| retour ou avance dans l'historique                                               | la position mémorisée, d'un coup                                         |
+| vers une ancre qui ne nomme rien, d'où que l'on vienne                           | en haut, d'un coup, et l'adresse perd son ancre                          |
+
+Vers un élément, cherché par son `id`, puis par son `name` : `scrollIntoView({ block: 'start' })`,
+puis le focus sans défilement (`preventScroll`), jamais par coordonnées. `scroll-padding-top: 5.5rem`
+sur `html` (`_base.scss` : `hauteur-entete` et 1.5rem, comme les maquettes) ouvre toute ancre sous
+l'en-tête, que le navigateur l'ouvre ou que le routeur y défile. L'ancre qui ne nomme rien quitte
+l'adresse par `history.replaceState(history.state, '', chemin et requête)`, qui garde l'état que le
+routeur a posé, jamais avant la fin du chargement (`document.readyState` à `complete`, sinon à
+l'événement `load`). Le routeur ne défile ni au pré-rendu ni pendant l'hydratation : à l'ouverture,
+c'est le navigateur qui ouvre l'ancre de l'adresse. Tests : `app.config.spec.ts`, avec le vrai
+routeur, une ligne du tableau après l'autre.
 
 **Brancher un motif.** Sa directive injecte `MouvementService` (`src/app/services/mouvement/`) et
 n'agit que dans `afterNextRender`, jamais au pré-rendu, si `actif()` est vrai. Elle lit
