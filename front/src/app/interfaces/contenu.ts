@@ -18,14 +18,12 @@ export type Brut<T> = T extends string
       ? { readonly [K in keyof T]: Brut<T[K]> }
       : T;
 
-/** profil.json, une seule occurrence (MF-01, MF-15, MF-17). */
+/** profil.json, une seule occurrence (MF-01, MF-17). */
 export interface Profil {
   readonly nom: string;
   readonly intitule: string;
   /** Adresses HTTPS ; aucun lien vers X (Q-08). */
   readonly liens: { readonly github: string; readonly linkedin: string };
-  /** Nom du fichier dans public/cv/ (C-03), sans date ni mention de situation (A-07). */
-  readonly cv: { readonly fichier: string };
 }
 
 export type SectionOrientee = 'parcours' | 'competences' | 'experience' | 'methode' | 'projets';

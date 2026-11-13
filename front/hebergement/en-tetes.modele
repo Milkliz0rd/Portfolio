@@ -4,8 +4,7 @@
 #   du build, jamais écrites à la main ; {{base-api}}, la base de l'API de l'environnement, retirée
 #   quand elle est vide : connect-src s'en tient alors à 'self' ;
 # - en test et en développement, servis en HTTP, upgrade-insecure-requests et
-#   Strict-Transport-Security sont retirés ; en production, X-Robots-Tag est retiré ;
-# - la règle du CV n'est écrite que si le fichier du CV est dans le build.
+#   Strict-Transport-Security sont retirés ; en production, X-Robots-Tag est retiré.
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self' {{empreintes}}; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' {{base-api}}; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
@@ -22,7 +21,3 @@
   Cache-Control: public, max-age=31536000, immutable
 /polices/*
   Cache-Control: public, max-age=31536000, immutable
-
-# Le CV, sans politique, pour ne pas gêner la visionneuse PDF intégrée des navigateurs.
-/cv/{{fichier-cv}}
-  ! Content-Security-Policy

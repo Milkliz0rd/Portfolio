@@ -9,7 +9,7 @@ import parcours from './fr/parcours.json';
 import profil from './fr/profil.json';
 import textesLegaux from './fr/textes-legaux.json';
 
-export { cvPresent, projets as contenuProjets } from './fr/projets/index.genere';
+export { projets as contenuProjets } from './fr/projets/index.genere';
 
 /** La langue du contenu : celle de LOCALE_ID, la langue source d'angular.json. */
 export const langueContenu = 'fr';

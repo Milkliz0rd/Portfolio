@@ -1,19 +1,19 @@
 // Fichier d'en-têtes (PF-09) : empreintes calculées sur la sortie, politique selon l'environnement,
-// règle du CV, et échecs du build sur un gestionnaire en ligne, un HTML qui n'a pas exactement un
-// petit script de tête ou une ligne trop longue.
+// retirée d'aucune adresse, et échecs du build sur un gestionnaire en ligne, un HTML qui n'a pas
+// exactement un petit script de tête ou une ligne trop longue.
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { lireConfiguration } from '../ecrire-configuration.mjs';
+import { ENVIRONNEMENTS, lireConfiguration } from '../ecrire-configuration.mjs';
 import { ecrireEnTetes, empreintesScripts, scriptsDeTete, texteEnTetes } from '../en-tetes.mjs';
 
 const front = join(import.meta.dirname, '..', '..');
 const modele = readFileSync(join(front, 'hebergement', 'en-tetes.modele'), 'utf8');
 // L'empreinte de « alert(1) », telle que la donnent les exemples de politique de sécurité.
 const alerte = "'sha256-bhHHL3z2vDgxUt0W3dWQOrprscmda2Y5pLsLg4GF+pI='";
-const enTetes = (environnement, baseApi = '', empreintes = [], fichiersCv = []) =>
-  texteEnTetes(modele, { environnement, baseApi, empreintes, fichiersCv });
+const enTetes = (environnement, baseApi = '', empreintes = []) =>
+  texteEnTetes(modele, { environnement, baseApi, empreintes });
 const entete = (texte, nom) => texte.match(new RegExp(`^  ${nom}: (.*)$`, 'm'))?.[1];
 
 let racine;
@@ -34,7 +34,6 @@ const fichierProduit = () => readFileSync(join(racine, 'dist', '_headers'), 'utf
 beforeEach(() => {
   racine = mkdtempSync(join(tmpdir(), 'en-tetes-'));
   cpSync(join(front, 'hebergement'), join(racine, 'hebergement'), { recursive: true });
-  ecrire('src/contenu/fr/profil.json', JSON.stringify({ cv: { fichier: 'cv-essai.pdf' } }));
 });
 afterEach(() => rmSync(racine, { recursive: true, force: true }));
 
@@ -60,10 +59,7 @@ describe('en-tetes', () => {
 
   it('écrit dans script-src l’union des empreintes de tous les HTML du build', () => {
     ecrire('dist/index.html', page('<script>alert(1)</script>'));
-    ecrire(
-      'dist/parcours/index.html',
-      page('<script>alert(1)</script><script>window.x=1</script>'),
-    );
+    ecrire('dist/contact/index.html', page('<script>alert(1)</script><script>window.x=1</script>'));
     ecrire('dist/404.html', page(''));
     expect(produire().empreintes).toBe(3);
     const scripts = entete(fichierProduit(), 'Content-Security-Policy').split('; ')[1].split(' ');
@@ -104,12 +100,12 @@ describe('en-tetes', () => {
   it('fait échouer le build sur un HTML sans petit script de tête, ou qui en a deux', () => {
     ecrire('dist/index.html', page(''));
     ecrire('dist/404.html', fichierHtml('<script>window.x = 1</script>'));
-    ecrire('dist/parcours/index.html', page(TETE));
+    ecrire('dist/contact/index.html', page(TETE));
     expect(produire).toThrow(
       [
         'Exactement un petit script de tête par HTML (PF-04, PF-09) :',
         '404.html : aucun petit script de tête',
-        'parcours/index.html : 2 exemplaires du petit script de tête',
+        'contact/index.html : 2 exemplaires du petit script de tête',
       ].join('\n'),
     );
     expect(() => readFileSync(join(racine, 'dist', '_headers'))).toThrow(/ENOENT/);
@@ -160,12 +156,10 @@ describe('en-tetes', () => {
     expect(entete(texte, 'X-Robots-Tag')).toBe('noindex');
   });
 
-  it('retire la politique du seul fichier du CV, quand il est dans le build', () => {
-    ecrire('dist/index.html', page(''));
-    produire();
-    expect(fichierProduit()).not.toContain('/cv/');
-    ecrire('dist/cv/cv-essai.pdf', '');
-    produire();
-    expect(fichierProduit()).toContain('\n/cv/cv-essai.pdf\n  ! Content-Security-Policy\n');
+  it('aucune règle ne retire la politique, ni aucun autre en-tête, quel que soit l’environnement', () => {
+    for (const environnement of ENVIRONNEMENTS) {
+      // Chez l'hébergeur, une ligne « ! En-tête » retire cet en-tête des adresses de sa règle.
+      expect(enTetes(environnement).match(/^\s*!.*$/gm), environnement).toBeNull();
+    }
   });
 });

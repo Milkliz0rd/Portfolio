@@ -5,7 +5,7 @@
 // gestionnaire d'événement en ligne, une adresse « javascript: », un HTML qui n'a pas exactement un
 // petit script de tête ou une ligne trop longue.
 import { createHash } from 'node:crypto';
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 // La longueur maximale d'une ligne de _headers chez l'hébergeur.
@@ -69,27 +69,19 @@ function politique(valeur, { https, empreintes, baseApi }) {
 }
 
 /** Le texte de _headers pour un environnement ; lève une erreur sur une ligne trop longue. */
-export function texteEnTetes(modele, { environnement, baseApi, empreintes, fichiersCv }) {
+export function texteEnTetes(modele, { environnement, baseApi, empreintes }) {
   const https = environnement === 'production' || environnement === 'preproduction';
   const retire = (nom) =>
     (nom === 'Strict-Transport-Security' && !https) ||
     (nom === 'X-Robots-Tag' && environnement === 'production');
-  const regles = [];
+  const lignes = [];
   for (const ligne of modele.split('\n').filter((l) => l.trim() && !l.startsWith('#'))) {
     const [nom, valeur] = ligne.trim().split(/: (.*)/);
-    if (!/^\s/.test(ligne)) regles.push({ chemin: ligne, lignes: [] });
+    if (!/^\s/.test(ligne)) lignes.push(ligne);
     else if (nom === 'Content-Security-Policy') {
-      regles.at(-1).lignes.push(`  ${nom}: ${politique(valeur, { https, empreintes, baseApi })}`);
-    } else if (!retire(nom)) regles.at(-1).lignes.push(ligne);
+      lignes.push(`  ${nom}: ${politique(valeur, { https, empreintes, baseApi })}`);
+    } else if (!retire(nom)) lignes.push(ligne);
   }
-  // La règle du CV devient une règle par fichier de CV présent, ou disparaît.
-  const chemins = (chemin) =>
-    chemin.includes('{{fichier-cv}}')
-      ? fichiersCv.map((fichier) => chemin.replace('{{fichier-cv}}', fichier))
-      : [chemin];
-  const lignes = regles.flatMap(({ chemin, lignes }) =>
-    chemins(chemin).flatMap((c) => [c, ...lignes]),
-  );
   const tropLongue = lignes.find((ligne) => ligne.length > LONGUEUR_MAXIMALE);
   if (tropLongue) {
     throw new Error(
@@ -97,19 +89,6 @@ export function texteEnTetes(modele, { environnement, baseApi, empreintes, fichi
     );
   }
   return `${lignes.join('\n')}\n`;
-}
-
-/** Les fichiers de CV de chaque langue présents dans le build, servis sous /cv/. */
-function fichiersCv(racine, sortie) {
-  const contenu = join(racine, 'src', 'contenu');
-  const noms = readdirSync(contenu, { withFileTypes: true })
-    .filter((entree) => entree.isDirectory())
-    .map(
-      ({ name }) => JSON.parse(readFileSync(join(contenu, name, 'profil.json'), 'utf8')).cv.fichier,
-    );
-  return [...new Set(noms)].filter(
-    (nom) => /^[\w.-]+$/.test(nom) && existsSync(join(sortie, 'cv', nom)),
-  );
 }
 
 /**
@@ -142,7 +121,6 @@ export function ecrireEnTetes(racine, sortie, { environnement, baseApi }) {
     environnement,
     baseApi,
     empreintes: [...empreintes].sort(),
-    fichiersCv: fichiersCv(racine, sortie),
   };
   const fichier = join(sortie, '_headers');
   writeFileSync(fichier, texteEnTetes(modele, options));

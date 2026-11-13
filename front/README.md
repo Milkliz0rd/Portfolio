@@ -83,7 +83,7 @@ texte brut, jamais de HTML ; un contenu encore à fournir est un emplacement ét
 
 `outils/generer-index-contenu.mjs` en tire `src/contenu/fr/projets/index.genere.ts`, non
 versionné : un import par projet, vérifié par `satisfies Projet` (un champ obligatoire manquant
-fait échouer la compilation), et `cvPresent`. La fiche `/projets/<identifiant>` est pré-rendue
+fait échouer la compilation). La fiche `/projets/<identifiant>` est pré-rendue
 depuis cet index.
 
 ## Styles
@@ -226,7 +226,7 @@ par la respiration, le dégradé couvre encore toute la section, sans bord net. 
 fixes : leur respiration viendra avec MV-04. Sur un halo, la page ne pose que des pastilles
 `contour`, et aucune carte interactive.
 
-Les composants de formulaire et d'état servent au formulaire de contact et au CV indisponible. Leurs
+Les composants de formulaire et d'état servent au formulaire de contact. Leurs
 seuls textes propres sont ceux que la charte leur donne, marqués pour la traduction : « Envoi en
 cours… » (`@@commun.envoi-en-cours`), « Votre adresse e-mail » (`@@champ.indicatif-email`), « Ce
 champ est obligatoire. » (`@@champ.erreur-obligatoire`) et « L’adresse e-mail n’est pas valide. »
@@ -437,8 +437,8 @@ n'entre pas dans le dépôt.
 - les autres en-têtes : `nosniff`, politique de référent, politique des permissions, interdiction
   du cadre et HTTPS obligatoire (HSTS) ; `X-Robots-Tag: noindex` hors production ; ni
   `upgrade-insecure-requests` ni HSTS en test et en développement, servis en HTTP ;
-- un an de cache immuable pour `/*.js`, `/*.css` et `/polices/*` ; la politique retirée du seul
-  fichier du CV, quand il est présent.
+- un an de cache immuable pour `/*.js`, `/*.css` et `/polices/*` ; aucune règle ne retire la
+  politique, ni aucun autre en-tête.
 
 Le build échoue si une page porte un attribut de gestionnaire d'événement (`onload`, `onclick`…)
 ou une adresse `javascript:`, qu'aucune empreinte n'autorise, si elle n'a pas exactement un petit
