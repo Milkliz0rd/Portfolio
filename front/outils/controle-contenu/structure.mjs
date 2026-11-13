@@ -21,9 +21,9 @@ const estObjet = (valeur) =>
   typeof valeur === 'object' && valeur !== null && !Array.isArray(valeur);
 
 /**
- * Parcourt une valeur selon sa forme : rend ses fautes de structure, et ses textes en feuilles
- * ({ fichier, champ, valeur, genre }). Un champ étiqueté devient une feuille « emplacement » et
- * n'est soumis qu'à la règle des emplacements, quelle que soit sa forme.
+ * Parcourt une valeur selon sa forme : rend ses fautes de structure, et ses textes et ses nombres
+ * en feuilles ({ fichier, champ, valeur, genre }). Un champ étiqueté devient une feuille
+ * « emplacement » et n'est soumis qu'à la règle des emplacements, quelle que soit sa forme.
  */
 export function parcourir(fichier, valeur, forme, champ, sortie) {
   const signaler = (regle, detail) => sortie.fautes.push(faute(fichier, champ, regle, detail));
@@ -45,7 +45,8 @@ export function parcourir(fichier, valeur, forme, champ, sortie) {
     if (estObjet(valeur)) parcourirObjet(fichier, valeur, forme, champ, sortie);
     else signaler('type de champ', 'objet attendu');
   } else if (forme === 'nombre') {
-    if (typeof valeur !== 'number') signaler('type de champ', 'nombre attendu');
+    if (typeof valeur === 'number') sortie.feuilles.push({ fichier, champ, valeur, genre: forme });
+    else signaler('type de champ', 'nombre attendu');
   } else if (typeof valeur !== 'string') {
     signaler('type de champ', 'texte attendu');
   } else if (valeur.trim() === '') {

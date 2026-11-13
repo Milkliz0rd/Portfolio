@@ -6,10 +6,11 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { MODELE, MODELE_PROJET } from './modele.mjs';
+import * as regles from './regles.mjs';
 import { emplacements, faute, parcourir } from './structure.mjs';
 
 /** Les règles, une par fonction : chacune reçoit le contenu lu et rend ses fautes. */
-const REGLES = [emplacements];
+const REGLES = [emplacements, ...Object.values(regles)];
 
 const parFichier = (a, b) => (a.fichier < b.fichier ? -1 : a.fichier > b.fichier ? 1 : 0);
 
