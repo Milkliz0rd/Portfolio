@@ -100,7 +100,7 @@ d'`angular.json`, un composant écrit `@use 'ruptures';`, puis
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `_polices.scss`     | une règle de police par fichier de `public/polices/`, avec `font-display: swap`                                                           |
 | `_base.scss`        | boîtes, fond de la page, anneau de focus sur `:focus-visible`, cibles de 44 px pour les contrôles natifs                                  |
-| `_typographie.scss` | les dix tailles de texte (`--taille-affiche` à `--taille-etiquette`), appliquées à `body`, `h1` à `h4` et `code` ; classe `affiche`       |
+| `_typographie.scss` | les dix tailles (`--taille-affiche` à `--taille-etiquette`), appliquées à `body`, `h1` à `h4` et `code` ; classes `affiche` et `titre-1`  |
 | `_utilitaires.scss` | `masque-visuellement`, `conteneur-standard` et `conteneur-large` (plus la marge de page de chaque côté), `grille` (4, 8 puis 12 colonnes) |
 | `_mouvement.scss`   | toutes les règles du mouvement, sur des classes `mv-*` (voir « Mouvement »)                                                               |
 
@@ -136,7 +136,7 @@ vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$
 | -------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Pastille (CO-03)           | `<app-pastille variante="succes">Validé</app-pastille>`                   | `variante` (`neutre`, par défaut, `accent`, `secondaire`, `succes`, `attention`, `erreur`, `contour`), `lumineuse` (point qui rayonne) |
 | Étiquette (CO-04)          | `<app-etiquette variante="numerotee" numero="02">Section</app-etiquette>` | `variante` (`discrete`, par défaut, `accent`, `numerotee`, `puce`), `numero` (exigé par `numerotee`)                                   |
-| En-tête de section (CO-16) | voir ci-dessous                                                           | `numero`, `etiquette`, `niveau` (`2` ou `3` : le titre est un `h2` ou un `h3`), `centre` (fin de page)                                 |
+| En-tête de section (CO-16) | voir ci-dessous                                                           | `numero` (facultatif), `etiquette`, `niveau` (`1`, `2` ou `3` : `h1`, `h2` ou `h3`), `bloc` (titre de bloc), `centre` (fin de page)    |
 | Liste clé-valeur (CO-17)   | `<app-liste-cle-valeur [paires]="paires" />`                              | `variante` (`en-ligne`, par défaut, `tableau`), `paires`                                                                               |
 
 **Pastille sur le verre.** Sur du verre (carte CO-05) et sur le halo d'un arrière-plan d'ambiance
@@ -153,9 +153,16 @@ de l'étiquette numérotée est un élément à part, `etiquette__trait`, que le
 icône seule sans libellé lèvent une erreur au rendu : au pré-rendu, le build échoue (voir
 « Commandes »).
 
-**En-tête de section.** Le titre est le contenu, rendu dans le `h2` ou le `h3` du niveau ;
-l'étiquette numérotée reste hors du titre. Le chapô, facultatif, est un modèle `#chapo` : absent,
-rien n'est rendu à sa place ; présent, il tient sur 68 caractères au plus par ligne.
+**En-tête de section.** Le titre est le contenu, rendu dans le `h1`, le `h2` ou le `h3` du niveau :
+`1` sur une page à part seulement, la page principale ayant déjà le sien dans l'accueil. Sa taille
+suit son rôle, pas son niveau : `taille-titre-1`, avec la césure du titre 1, pour une section de la
+page principale ou une page à part ; `taille-titre-2` pour un bloc à l'intérieur d'une section
+(`bloc`), en `h2` comme en `h3`. L'étiquette reste hors du titre : avec `numero`, sur une section de
+la page principale, elle est numérotée, avec son filet ; sans lui, sur une page à part, c'est une
+étiquette accent, sans numéro ni filet, et rien n'est rendu à leur place. Le chapô, facultatif, est
+un modèle `#chapo` : absent, rien n'est rendu à sa place ; présent, il tient sur environ 68
+caractères par ligne (`--conteneur-texte`, 54ch). L'ensemble mesure 56rem de large au plus
+(`--largeur-entete-section`).
 
 ```html
 <app-entete-section
@@ -168,6 +175,14 @@ rien n'est rendu à sa place ; présent, il tient sur 68 caractères au plus par
   <ng-template #chapo>
     <ng-container i18n="@@competences.chapo">Le chapô.</ng-container>
   </ng-template>
+</app-entete-section>
+
+<app-entete-section
+  etiquette="Informations légales"
+  i18n-etiquette="@@mentions-legales.etiquette"
+  [niveau]="1"
+>
+  <ng-container i18n="@@mentions-legales.titre">Mentions légales</ng-container>
 </app-entete-section>
 ```
 
@@ -290,7 +305,8 @@ visiteur réduit les animations : le texte voisin dit toujours ce qu'on attend.
 
 La fenêtre factice (CO-12) met en scène un extrait de code, une interface abstraite ou une capture
 dans un cadre d'application : une barre à trois points décoratifs, puis le titre en chasse fixe, ou
-l'adresse factice du navigateur sur sa pilule. Elle n'a aucun texte propre : titre, adresse, lignes
+l'adresse factice du navigateur sur sa pilule, à 14 px à toutes les largeurs (`taille-code`) et
+coupés d'une ellipse quand ils sont trop longs. Elle n'a aucun texte propre : titre, adresse, lignes
 de code, image et texte alternatif viennent de la page, qui les marque pour la traduction. Toutes
 les variantes prennent `titre` et `decorative` (faux par défaut).
 
