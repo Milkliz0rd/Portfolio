@@ -13,14 +13,23 @@
   text-align: center;
 }
 
-// Le titre d'un bloc (taille-titre-2), qu'il soit un h2 ou un h3 : comme tout h2 de la page, et
-// jamais plus petit pour un h3 (CO-16).
+// Le titre d'une section de la page principale ou d'une page à part : taille-titre-1, qu'il soit
+// un h1, un h2 ou un h3, car sa taille suit son rôle, pas son niveau (CO-16) ; la césure du titre 1
+// (charte, section 4) garde tout mot dans la largeur à 320 px.
 .entete-section__titre {
   color: var(--couleur-texte);
-  font-size: var(--taille-titre-2);
+  font-size: var(--taille-titre-1);
   font-weight: var(--graisse-titre);
   line-height: var(--interligne-titre);
   letter-spacing: var(--approche-titre);
+  hyphens: auto;
+}
+
+// Le titre d'un bloc, à l'intérieur d'une section : taille-titre-2, sans césure, comme tout h2 de
+// la page, et jamais plus petit pour un h3.
+:host(.entete-section--bloc) .entete-section__titre {
+  font-size: var(--taille-titre-2);
+  hyphens: manual;
 }
 
 // Le chapô tient sur 68 caractères au plus par ligne.

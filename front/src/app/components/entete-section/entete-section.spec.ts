@@ -9,6 +9,7 @@ import { EnteteSection, NiveauEnteteSection } from './entete-section';
       [numero]="numero()"
       etiquette="Section"
       [niveau]="niveau()"
+      [bloc]="bloc()"
       [centre]="centre()"
     >
       Le titre
@@ -21,24 +22,27 @@ import { EnteteSection, NiveauEnteteSection } from './entete-section';
 class Hote {
   readonly numero = signal<string | undefined>('02');
   readonly niveau = signal<NiveauEnteteSection>(2);
+  readonly bloc = signal(false);
   readonly centre = signal(false);
   readonly avecChapo = signal(true);
 }
 
 interface Options {
   numero?: string;
+  bloc?: boolean;
   centre?: boolean;
   avecChapo?: boolean;
 }
 
 function rendre(
   niveau: NiveauEnteteSection = 2,
-  { numero = '02', centre = false, avecChapo = true }: Options = {},
+  { numero = '02', bloc = false, centre = false, avecChapo = true }: Options = {},
 ) {
   const fixture = TestBed.createComponent(Hote);
   const hote = fixture.componentInstance;
   hote.numero.set(numero || undefined);
   hote.niveau.set(niveau);
+  hote.bloc.set(bloc);
   hote.centre.set(centre);
   hote.avecChapo.set(avecChapo);
   fixture.detectChanges();
@@ -53,9 +57,15 @@ const vides = (racine: Element) =>
   [...racine.querySelectorAll('*')].filter(
     (element) => !element.textContent?.trim() && element.getAttribute('aria-hidden') !== 'true',
   );
+// jsdom ne calcule pas la mise en page, mais il applique la feuille du composant et résout var() :
+// la taille calculée du titre dit quelle règle l'emporte. Les feuilles globales ne sont pas
+// chargées : les deux tailles sont posées sur html le temps du test, à leur valeur grand écran.
+const TAILLES = { '--taille-titre-1': '72px', '--taille-titre-2': '48px' };
+const taille = (entete: HTMLElement) =>
+  getComputedStyle(entete.querySelector('.entete-section__titre')!).fontSize;
 
 describe('EnteteSection', () => {
-  it.each([2, 3] as const)('fait du titre un vrai h%i, seul titre de l’en-tête', (niveau) => {
+  it.each([1, 2, 3] as const)('fait du titre un vrai h%i, seul titre de l’en-tête', (niveau) => {
     const titres = rendre(niveau).querySelectorAll(TITRES);
     expect([...titres].map((titre) => titre.localName)).toEqual([`h${niveau}`]);
     expect(titres[0].classList).toContain('entete-section__titre');
@@ -75,7 +85,7 @@ describe('EnteteSection', () => {
   });
 
   it('sans numéro, pose une étiquette sans numéro ni filet, sans rien de vide à leur place', () => {
-    const entete = rendre(2, { numero: '' });
+    const entete = rendre(1, { numero: '' });
     const etiquette = entete.querySelector('app-etiquette')!;
     expect(entete.firstElementChild).toBe(etiquette);
     expect(etiquette.classList).not.toContain('etiquette--numerotee');
@@ -101,6 +111,32 @@ describe('EnteteSection', () => {
     expect(entete.querySelector('.entete-section__chapo, p')).toBeNull();
     expect([...entete.children].map((enfant) => enfant.localName)).toEqual(['app-etiquette', 'h3']);
     expect(vides(entete)).toEqual([]);
+  });
+
+  describe('taille du titre', () => {
+    // Vitest tourne sans isolation (#169) : les propriétés posées sur html sont retirées après.
+    const html = document.documentElement;
+    beforeEach(() => {
+      for (const [nom, valeur] of Object.entries(TAILLES)) html.style.setProperty(nom, valeur);
+    });
+    afterEach(() => {
+      for (const nom of Object.keys(TAILLES)) html.style.removeProperty(nom);
+    });
+
+    it.each([1, 2, 3] as const)(
+      'met un titre de section ou de page à part en h%i à taille-titre-1, par défaut',
+      (niveau) => {
+        const entete = rendre(niveau);
+        expect(entete.classList).not.toContain('entete-section--bloc');
+        expect(taille(entete)).toBe('72px');
+      },
+    );
+
+    it.each([2, 3] as const)('met un titre de bloc en h%i à taille-titre-2', (niveau) => {
+      const entete = rendre(niveau, { bloc: true });
+      expect(entete.classList).toContain('entete-section--bloc');
+      expect(taille(entete)).toBe('48px');
+    });
   });
 
   it('se centre sur demande, aligné à gauche par défaut', () => {
