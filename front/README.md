@@ -363,6 +363,25 @@ flexible : la page n'a pas besoin d'un `@if` autour d'une fenêtre facultative. 
 décorative sans texte alternatif, ou toute capture sans `largeur` ou sans `hauteur`, lève une
 erreur au rendu : au pré-rendu, le build échoue.
 
+La frise chronologique (CO-09), verticale sous 900 px et horizontale au-delà, présente des périodes
+dans l'ordre où la page les donne, jamais triées : `<app-frise [etapes]="etapes" libelle="…" />`
+(`libelle`, facultatif, nomme la liste). Chaque `EtapeFrise` a un `intitule`, un `detail`
+facultatif, un `debut`, une `fin` et un `etat` écrit par le contenu : `accomplie`, `mise-en-avant`
+ou `prevue`.
+
+**Périodes.** Une date est un `DateFrise` (`annee`, `mois` facultatif), dont une partie, ou toute
+la date, peut être un emplacement. `formaterPeriode` l'écrit par `Intl.DateTimeFormat` dans la
+langue de l'application (`LOCALE_ID`) : « 09/2025 – 06/2028 », mais « 2025–2028 » entre deux années
+seules ; le tiret suit une espace insécable U+00A0. Toujours un début et une fin, jamais la date du
+jour. Un mois hors de 1 à 12, ou une deuxième étape mise en avant, lève une erreur au rendu.
+
+**États.** Accomplie : point plein. Mise en avant : point d'accent et sa lueur, période en accent,
+texte masqué « (étape mise en avant) » (`@@frise.etape-mise-en-avant`). Prévue : point creux,
+intitulé en `couleur-texte-secondaire`. Aucun texte n'est grisé. En horizontale, périodes,
+intitulés et détails restent alignés (`subgrid`). Le trait, entier, va du premier point à celui de
+l'étape mise en avant ; le tracé au défilement (MV-02) se posera sur `.frise__liste::after` et
+`.frise__point`. Point et trait : `--taille-point-frise` (13 px), `--epaisseur-trace-frise` (2 px).
+
 ## Mouvement
 
 Le socle du mouvement garantit qu'aucune animation ne cache jamais le contenu, ni sans script, ni

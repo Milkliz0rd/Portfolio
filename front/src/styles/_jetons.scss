@@ -337,3 +337,9 @@
   // (maquettes, charte révisée).
   --largeur-entete-section: 56rem;
 }
+
+// CO-09 Frise chronologique : le point de 13 px et le trait lumineux de 2 px de son anatomie.
+:root {
+  --taille-point-frise: 13px;
+  --epaisseur-trace-frise: 2px;
+}

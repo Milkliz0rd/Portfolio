@@ -1,0 +1,29 @@
+@if (etapesAffichees().length) {
+  <!-- Le trait s'arrête au rang de l'étape mise en avant (etape-avant), s'il en a une à atteindre. -->
+  <!-- role="list" : sans puces (list-style: none), VoiceOver sous Safari n'annoncerait plus la liste. -->
+  <ol
+    class="frise__liste"
+    role="list"
+    [class.frise__liste--trace]="rangMiseEnAvant() > 1"
+    [style.--etape-avant]="rangMiseEnAvant()"
+    [attr.aria-label]="libelle() || null"
+  >
+    @for (etape of etapesAffichees(); track $index) {
+      <li class="frise__etape frise__etape--{{ etape.etat }}">
+        <span class="frise__point" aria-hidden="true"></span>
+        <span class="frise__periode">{{ etape.periode }}</span>
+        <span class="frise__intitule"
+          >{{ etape.intitule }}
+          @if (etape.etat === 'mise-en-avant') {
+            <span class="masque-visuellement" i18n="@@frise.etape-mise-en-avant">
+              (étape mise en avant)</span
+            >
+          }
+        </span>
+        @if (etape.detail) {
+          <span class="frise__detail">{{ etape.detail }}</span>
+        }
+      </li>
+    }
+  </ol>
+}

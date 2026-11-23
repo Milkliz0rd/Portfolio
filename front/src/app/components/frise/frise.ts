@@ -1,3 +1,12 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  LOCALE_ID,
+} from '@angular/core';
+
 /** Une date au mois ou à l'année ; une partie, ou toute la date, peut être un emplacement. */
 export interface DateFrise {
   readonly annee: number | string;
@@ -43,4 +52,53 @@ const anneeSeule = (date: DateOuEmplacement) =>
 export function formaterPeriode(debut: DateOuEmplacement, fin: DateOuEmplacement, langue: string) {
   const separateur = anneeSeule(debut) && anneeSeule(fin) ? '–' : '\u00a0– ';
   return formaterDate(debut, langue) + separateur + formaterDate(fin, langue);
+}
+
+export type EtatEtapeFrise = 'accomplie' | 'mise-en-avant' | 'prevue';
+
+/** Une période a toujours un début et une fin, jamais au présent (MF-18). */
+export interface EtapeFrise {
+  readonly intitule: string;
+  readonly detail?: string;
+  readonly debut: DateOuEmplacement;
+  readonly fin: DateOuEmplacement;
+  /** Écrit par la page, jamais déduit de la date du jour (MF-18). */
+  readonly etat: EtatEtapeFrise;
+}
+
+/**
+ * Frise chronologique de la charte (CO-09) : les étapes que lui donne la page, dans l'ordre reçu,
+ * en liste ordonnée ; chacune a un point décoratif, sa période en chasse fixe, son intitulé et un
+ * détail facultatif. Verticale sous 900 px, horizontale au-delà. L'étape mise en avant, une au
+ * plus, l'annonce par un texte masqué ; le trait lumineux va du premier point au sien. Statique :
+ * le tracé au défilement viendra avec le mouvement (MV-02).
+ */
+@Component({
+  selector: 'app-frise',
+  templateUrl: './frise.html',
+  styleUrl: './frise.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'frise' },
+})
+export class Frise {
+  readonly etapes = input.required<readonly EtapeFrise[]>();
+  /** Le nom de la liste, écrit et marqué pour la traduction par la page. */
+  readonly libelle = input<string>();
+
+  protected readonly etapesAffichees = computed(() =>
+    this.etapes().map((etape) => ({
+      ...etape,
+      periode: formaterPeriode(etape.debut, etape.fin, this.langue),
+    })),
+  );
+  /** Le rang de l'étape mise en avant, à partir de 1 ; 0 sans elle. */
+  protected readonly rangMiseEnAvant = computed(() => {
+    const etats = this.etapes().map((etape) => etape.etat);
+    if (etats.indexOf('mise-en-avant') !== etats.lastIndexOf('mise-en-avant')) {
+      throw new Error('Une frise met en avant une étape au plus (CO-09).');
+    }
+    return etats.indexOf('mise-en-avant') + 1;
+  });
+
+  private readonly langue = inject(LOCALE_ID);
 }
