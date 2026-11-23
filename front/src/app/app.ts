@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, afterNextRender, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LienEvitement } from './layout/lien-evitement/lien-evitement';
 import { MouvementService } from './services/mouvement/mouvement';
 import { NavigationService } from './services/navigation/navigation';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, LienEvitement],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
