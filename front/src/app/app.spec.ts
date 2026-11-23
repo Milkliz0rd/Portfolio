@@ -1,5 +1,6 @@
 import { LOCALE_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 import { MouvementService } from './services/mouvement/mouvement';
 import { NavigationService } from './services/navigation/navigation';
@@ -8,6 +9,7 @@ describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
@@ -34,5 +36,26 @@ describe('App', () => {
     expect([demarrer, navigation].map(({ mock }) => mock.calls.length)).toEqual([0, 0]);
     await fixture.whenStable();
     expect([demarrer, navigation].map(({ mock }) => mock.calls.length)).toEqual([1, 1]);
+  });
+
+  it('ouvre chaque page par le lien d’évitement, puis le contenu principal', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const page = fixture.nativeElement as HTMLElement;
+    expect([...page.children].map(({ localName }) => localName)).toEqual([
+      'app-lien-evitement',
+      'main',
+    ]);
+    const [premier] = page.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])');
+    expect([premier.textContent?.trim(), premier.getAttribute('href')]).toEqual([
+      'Aller au contenu',
+      '#contenu',
+    ]);
+    const contenu = page.querySelector('main')!;
+    expect(['id', 'tabindex', 'aria-label'].map((nom) => contenu.getAttribute(nom))).toEqual([
+      'contenu',
+      '-1',
+      'Contenu principal',
+    ]);
   });
 });

@@ -1,1 +1,6 @@
-<router-outlet />
+<app-lien-evitement [cible]="'contenu'" />
+<!-- Le contenu principal, que vise le lien d'évitement (cible liée : écrite en clair, la règle
+     i18n du lint la prendrait pour un libellé), focalisable par script seulement. -->
+<main id="contenu" tabindex="-1" i18n-aria-label="@@commun.contenu" aria-label="Contenu principal">
+  <router-outlet />
+</main>

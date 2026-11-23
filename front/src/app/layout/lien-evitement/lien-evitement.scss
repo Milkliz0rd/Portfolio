@@ -1,0 +1,23 @@
+// Lien d'évitement (CO-14) : aspect de bouton primaire, cible de 44 px. Masqué au repos par sa
+// position, au-dessus de la fenêtre, jamais par une opacité ni une translation (le contenu reste
+// visible pour le banc, TK-23) ; au focus, en haut à gauche, au-dessus de tout. Le défilement
+// doux de son contenu est celui de la feuille, sous no-preference seulement.
+.evitement {
+  position: fixed;
+  inset-block-start: calc(-1 * var(--espace-24));
+  inset-inline-start: var(--espace-4);
+  z-index: var(--plan-evitement);
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--cible-tactile);
+  padding-inline: var(--espace-5);
+  border-radius: var(--arrondi-petit);
+  background: var(--couleur-accent);
+  color: var(--couleur-texte-sur-accent);
+  font-weight: var(--graisse-appuyee);
+  text-decoration: none;
+}
+
+.evitement:focus {
+  inset-block-start: var(--espace-4);
+}
