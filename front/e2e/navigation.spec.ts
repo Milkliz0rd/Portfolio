@@ -172,6 +172,10 @@ test('navigation : le retour en haut, vers une autre page, se fait d’un coup',
   await page.evaluate(() =>
     document.getElementById('methode')?.scrollIntoView({ behavior: 'instant' }),
   );
+  // La page de contact provisoire est plus courte que la fenêtre : la page y retomberait en haut
+  // d'elle-même, et un retour doux passerait inaperçu. Le document reste donc plus haut que la
+  // fenêtre pendant le test ; html ne change pas d'une page à l'autre.
+  await page.evaluate(() => document.documentElement.style.setProperty('min-block-size', '800vh'));
   // Le clic est envoyé tel quel : avant un clic, Playwright peut faire défiler la page jusqu'à
   // l'élément, ce qui, dans WebKit, décale de quelques pixels une page déjà immobile.
   const intermediaires = await positionsIntermediaires(page, async () => {
