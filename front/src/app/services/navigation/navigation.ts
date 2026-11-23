@@ -1,5 +1,7 @@
+import { Location } from '@angular/common';
 import {
   computed,
+  DestroyRef,
   DOCUMENT,
   inject,
   Injectable,
@@ -8,7 +10,13 @@ import {
   TransferState,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  NavigationEnd,
+  NavigationSkipped,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 import type { CourantLien } from '../../components/lien/lien';
 import { DefilementService } from '../defilement/defilement';
 import { sectionLue } from './section-lue';
@@ -24,6 +32,11 @@ export const PRINCIPALE = '/';
 
 /** Le chemin d'une adresse du routeur, sans sa requête ni son ancre. */
 export const cheminDe = (adresse: string) => adresse.split(/[?#]/, 1)[0];
+
+/** L'élément que nomme une ancre : par son id, puis par son nom, comme le navigateur. */
+export function cibleDe(document: Document, ancre: string): HTMLElement | null {
+  return document.getElementById(ancre) ?? document.getElementsByName(ancre).item(0);
+}
 
 /** La page affichée, d'après la dernière navigation finie. */
 interface Page {
@@ -45,19 +58,26 @@ function sectionDe(route: ActivatedRouteSnapshot): Entree | undefined {
 /**
  * La navigation du site (PF-06). L'entrée signalée de l'en-tête et la valeur de son aria-current,
  * jamais tirées d'une comparaison d'adresses : sur la page principale, la section lue, suivie par
- * le DefilementService tant que la page y inscrit ses sections ; ailleurs, data.section. Le
- * service ne lit la fenêtre et le document que dans le navigateur, depuis inscrire().
+ * le DefilementService tant que la page y inscrit ses sections ; ailleurs, data.section. Le chemin
+ * de la dernière navigation finie, que lit le défilement du routeur (app.config.ts). Le service ne
+ * lit la fenêtre et le document que dans le navigateur, depuis inscrire() et quitterLAncre().
  */
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
   private readonly routeur = inject(Router);
+  private readonly adresses = inject(Location);
   private readonly document = inject(DOCUMENT);
+  private readonly destruction = inject(DestroyRef);
   private readonly defilement = inject(DefilementService);
   private readonly transfert = inject(TransferState);
   private readonly page = signal<Page>(this.transfert.get(PAGE_PRERENDUE, { principale: false }));
   private readonly lue = signal<Entree>('accueil');
   private sections: readonly HTMLElement[] = [];
   private desabonner: (() => void) | undefined;
+  // Le chemin avant et après la dernière navigation finie ; historique : retour ou avance.
+  private avant: string | undefined;
+  private apres: string | undefined;
+  private historique = false;
 
   /** Vrai quand la page affichée est la page principale. */
   readonly surPrincipale = computed(() => this.page().principale);
@@ -66,13 +86,19 @@ export class NavigationService {
 
   constructor() {
     this.routeur.events.pipe(takeUntilDestroyed()).subscribe((evenement) => {
-      if (evenement instanceof NavigationEnd) {
+      if (evenement instanceof NavigationStart) {
+        this.historique = evenement.navigationTrigger === 'popstate';
+      } else if (evenement instanceof NavigationEnd) {
+        [this.avant, this.apres] = [this.apres, cheminDe(evenement.urlAfterRedirects)];
         const page = {
-          principale: cheminDe(evenement.urlAfterRedirects) === PRINCIPALE,
+          principale: this.apres === PRINCIPALE,
           section: sectionDe(this.routeur.routerState.snapshot.root),
         };
         this.page.set(page);
         this.transfert.set(PAGE_PRERENDUE, page);
+      } else if (evenement instanceof NavigationSkipped) {
+        // Une navigation ignorée parce que l'adresse est la même défile aussi, sur le même chemin.
+        [this.avant, this.historique] = [this.apres, false];
       }
     });
   }
@@ -84,6 +110,11 @@ export class NavigationService {
   courant(entree: Entree): CourantLien | undefined {
     if (this.entree() !== entree) return undefined;
     return this.page().principale ? 'location' : 'page';
+  }
+
+  /** Vrai quand la dernière navigation, hors retour et avance, part de la principale et y reste. */
+  resteSurPrincipale(): boolean {
+    return !this.historique && this.avant === PRINCIPALE && this.apres === PRINCIPALE;
   }
 
   /**
@@ -104,6 +135,17 @@ export class NavigationService {
     };
   }
 
+  /**
+   * Ôte l'ancre de l'adresse affichée (ancre qui ne nomme rien, V-11), une fois la page chargée,
+   * et seulement si aucune autre navigation n'a suivi.
+   */
+  quitterLAncre(): void {
+    const adresse = this.routeur.url;
+    this.apresChargement(() => {
+      if (this.routeur.url === adresse) this.remplacerAncre('');
+    });
+  }
+
   private suivre(): void {
     const vue = this.document.defaultView;
     if (!vue || this.sections.length === 0) return;
@@ -111,5 +153,29 @@ export class NavigationService {
     const reste = this.document.documentElement.scrollHeight - vue.scrollY - vue.innerHeight;
     const indice = sectionLue(hauts, vue.innerHeight, reste);
     this.lue.set(indice < 0 ? 'accueil' : (this.sections[indice].id as Section));
+  }
+
+  // Règle de moment de PF-06 : une fois le document entièrement chargé, aussitôt s'il l'est,
+  // sinon à l'événement load ; tant qu'il ne l'est pas, le navigateur peut encore défiler vers
+  // l'ancre de l'adresse. L'écouteur part avec l'application.
+  private apresChargement(action: () => void): void {
+    const vue = this.document.defaultView;
+    if (this.document.readyState === 'complete') {
+      action();
+    } else if (vue) {
+      vue.addEventListener('load', action, { once: true });
+      this.destruction.onDestroy(() => vue.removeEventListener('load', action));
+    }
+  }
+
+  // Remplace l'ancre de l'adresse affichée, chemin et requête gardés, sans étape d'historique :
+  // history.state garde l'état que le routeur a posé, dont il a besoin au retour arrière. Rien
+  // quand l'adresse est déjà la bonne.
+  private remplacerAncre(ancre: string): void {
+    const adresse = this.adresses.path(true);
+    const sansAncre = adresse.split('#', 1)[0];
+    const voulue = ancre ? `${sansAncre}#${ancre}` : sansAncre;
+    if (voulue === adresse) return;
+    history.replaceState(history.state, '', this.adresses.prepareExternalUrl(voulue));
   }
 }

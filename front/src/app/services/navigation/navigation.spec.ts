@@ -137,4 +137,13 @@ describe('NavigationService', () => {
       section: undefined,
     });
   });
+
+  it('retire l’écouteur de fin de chargement encore en attente quand l’application part', () => {
+    vi.spyOn(document, 'readyState', 'get').mockReturnValue('loading');
+    const retrait = vi.spyOn(window, 'removeEventListener');
+    TestBed.inject(NavigationService).quitterLAncre();
+    expect(retrait).not.toHaveBeenCalled();
+    TestBed.resetTestingModule();
+    expect(retrait.mock.calls.filter(([type]) => type === 'load')).toHaveLength(1);
+  });
 });

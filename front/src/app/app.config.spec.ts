@@ -170,6 +170,14 @@ describe('Défilement du routeur', () => {
     ]);
   });
 
+  it('va en haut d’un coup vers une ancre de la page principale qui ne nomme rien, depuis une autre page', async () => {
+    await aller('/contact');
+    history.replaceState({ navigationId: 5 }, '', '/#competence');
+    const remplacer = vi.spyOn(history, 'replaceState');
+    expect(await aller('/#competence')).toStrictEqual(versHaut('instant'));
+    expect(remplacer).toHaveBeenCalledExactlyOnceWith({ navigationId: 5 }, '', '/');
+  });
+
   it('ôte aussitôt l’ancre qui ne nomme rien d’une page chargée, depuis la page principale aussi, requête gardée', async () => {
     history.replaceState({ navigationId: 3 }, '', '/?vue=1#competence');
     const remplacer = vi.spyOn(history, 'replaceState');
