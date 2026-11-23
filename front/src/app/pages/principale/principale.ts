@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+} from '@angular/core';
+import { NavigationService } from '../../services/navigation/navigation';
 
 /**
  * La page principale provisoire (PF-06) : l'accueil en haut, sans ancre, porteur du seul titre de
@@ -14,4 +22,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'conteneur-standard' },
 })
-export class Principale {}
+export class Principale {
+  constructor() {
+    // Après le premier rendu, dans le navigateur seulement, la page inscrit ses sections auprès de
+    // services/navigation, qui suit la section lue ; elle les retire quand on la quitte.
+    const navigation = inject(NavigationService);
+    const page = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+    const destruction = inject(DestroyRef);
+    afterNextRender(() => {
+      destruction.onDestroy(navigation.inscrire([...page.querySelectorAll('section')]));
+    });
+  }
+}

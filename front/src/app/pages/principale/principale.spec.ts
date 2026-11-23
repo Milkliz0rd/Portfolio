@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { NavigationService } from '../../services/navigation/navigation';
 import { Principale } from './principale';
 
 // L'ancre de chaque section, dans l'ordre du plan du site, et le nom que lui donne son titre.
@@ -19,6 +20,8 @@ async function rendre(): Promise<HTMLElement> {
 const texte = (element: Element | null) => element?.textContent?.replace(/\s+/g, ' ').trim();
 
 describe('Principale', () => {
+  afterEach(() => vi.restoreAllMocks());
+
   it('enchaîne les cinq sections dans l’ordre du plan du site, chacune à son ancre', async () => {
     const sections = (await rendre()).querySelectorAll('section');
     expect([...sections].map(({ id }) => id)).toEqual(SECTIONS.map(([ancre]) => ancre));
@@ -43,5 +46,18 @@ describe('Principale', () => {
       return [section.id, titre?.tagName, section.contains(titre), texte(titre)];
     });
     expect(noms).toEqual(SECTIONS.map(([ancre, nom]) => [ancre, 'H2', true, nom]));
+  });
+
+  it('inscrit ses sections dans l’ordre après le premier rendu, et les retire quand on la quitte', async () => {
+    const retirer = vi.fn();
+    const inscrire = vi.spyOn(TestBed.inject(NavigationService), 'inscrire');
+    inscrire.mockReturnValue(retirer);
+    const fixture = TestBed.createComponent(Principale);
+    expect(inscrire).not.toHaveBeenCalled();
+    await fixture.whenStable();
+    expect(inscrire).toHaveBeenCalledOnce();
+    expect(inscrire.mock.calls[0][0].map(({ id }) => id)).toEqual(SECTIONS.map(([ancre]) => ancre));
+    fixture.destroy();
+    expect(retirer).toHaveBeenCalledOnce();
   });
 });
