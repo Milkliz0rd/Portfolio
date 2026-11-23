@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, afterNextRender, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MouvementService } from './services/mouvement/mouvement';
+import { NavigationService } from './services/navigation/navigation';
 
 @Component({
   imports: [RouterOutlet],
@@ -11,8 +12,13 @@ import { MouvementService } from './services/mouvement/mouvement';
 })
 export class App {
   constructor() {
-    // Le mouvement démarre après le premier rendu dans le navigateur, jamais au pré-rendu (PF-04).
+    // Le mouvement (PF-04) et ce qui attend la fin du chargement dans la navigation (PF-06)
+    // démarrent après le premier rendu dans le navigateur, jamais au pré-rendu.
     const mouvement = inject(MouvementService);
-    afterNextRender(() => mouvement.demarrer());
+    const navigation = inject(NavigationService);
+    afterNextRender(() => {
+      mouvement.demarrer();
+      navigation.demarrer();
+    });
   }
 }

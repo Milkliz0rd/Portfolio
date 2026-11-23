@@ -6,6 +6,7 @@ import { Router, Scroll } from '@angular/router';
 import { filter, firstValueFrom } from 'rxjs';
 import { App } from './app';
 import { routeur } from './app.config';
+import { NavigationService } from './services/navigation/navigation';
 
 // Le défilement du routeur (PF-06, tableau de défilement), avec le vrai routeur, ses vraies routes et
 // sa configuration, l'application démarrée : la page principale rend ses cinq sections à leurs
@@ -14,7 +15,8 @@ import { routeur } from './app.config';
 // pose, puis les retire, comme tout ce qu'il change hors de lui (Vitest tourne sans isolation), dont
 // history.scrollRestoration, que le routeur règle et que jsdom ne connaît pas.
 // L'adresse du routeur vit dans son Location simulé ; celle que réécrit l'initialiseur, dans le vrai
-// window.history de jsdom, que le test relit.
+// window.history de jsdom, que le test relit. L'adresse qui suit la lecture de la page principale,
+// testée avec services/navigation, n'est pas démarrée ici : jsdom ne mesure aucune section.
 
 type Defilement = [string, unknown];
 
@@ -84,6 +86,7 @@ describe('Défilement du routeur', () => {
     ) {
       defilements.push([`focus ${nom(this)}`, options]);
     });
+    vi.spyOn(NavigationService.prototype, 'demarrer').mockReturnValue();
     TestBed.configureTestingModule({ providers: [routeur, provideLocationMocks()] });
     // Deux éléments que nomme une ancre, hors de la page principale : par l'id, puis par le nom.
     const suite = document.createElement('div');
@@ -168,6 +171,14 @@ describe('Défilement du routeur', () => {
       '',
       { navigationId: 7 },
     ]);
+  });
+
+  it('va en haut d’un coup vers une ancre de la page principale qui ne nomme rien, depuis une autre page', async () => {
+    await aller('/contact');
+    history.replaceState({ navigationId: 5 }, '', '/#competence');
+    const remplacer = vi.spyOn(history, 'replaceState');
+    expect(await aller('/#competence')).toStrictEqual(versHaut('instant'));
+    expect(remplacer).toHaveBeenCalledExactlyOnceWith({ navigationId: 5 }, '', '/');
   });
 
   it('ôte aussitôt l’ancre qui ne nomme rien d’une page chargée, depuis la page principale aussi, requête gardée', async () => {
