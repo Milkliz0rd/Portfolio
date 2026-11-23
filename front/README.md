@@ -618,6 +618,13 @@ traces des échecs dans `test-results/`, non versionnés.
   sous l'en-tête (`e2e/support/lecture.ts` attend la position, jamais un délai), l'élément intérieur
   dont l'adresse devient celle de sa section, l'ancre qui ne nomme rien en haut et hors de l'adresse,
   avant le démarrage de l'application (script principal bloqué) comme après.
+- `navigation.spec.ts`, l'en-tête : sur la page principale, chaque entrée défile jusqu'à sa section,
+  signalée (`aria-current="location"`), sans étape d'historique, et le retour arrière quitte la page ;
+  l'entrée signalée et l'adresse suivent la lecture, jusqu'au bout d'un écran de 2560 px ; depuis
+  chaque page à part, chaque entrée mène d'un coup à sa section et « Contact » au contact ; la page
+  signalée de chaque page ; le retour en haut d'un coup ; le lien d'évitement ; le fond, le flou et
+  l'en-tête collant ; la marque à 320 px ; sans script, les liens et l'accueil signalé. La navigation
+  complète n'existant qu'à partir de 1200 px, ses tests prennent une fenêtre de 1280 px.
 - Un build qui n'est pas un build de test complet : sans build, `wrangler dev` ne démarre pas et le
   banc échoue sur son message ; sur un build sans aucune page, `/` répond 404 et le banc échoue au
   bout des 60 s d'attente du serveur ; sur le build d'un autre environnement que test, il échoue au

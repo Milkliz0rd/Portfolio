@@ -196,8 +196,11 @@ describe('NavigationService', () => {
     await RouterTestingHarness.create('/contact');
     const { remplacements } = suivreLHistorique();
     navigation.demarrer();
-    navigation.inscrire(
-      SECTIONS.map((id) => Object.assign(document.createElement('section'), { id })),
+    // Retirée après le test : l'inscription garde l'écouteur du DefilementService sur window.
+    retablir.push(
+      navigation.inscrire(
+        SECTIONS.map((id) => Object.assign(document.createElement('section'), { id })),
+      ),
     );
     defiler(2 * HAUTEUR);
     expect(remplacements).not.toHaveBeenCalled();
