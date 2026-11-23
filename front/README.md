@@ -404,12 +404,31 @@ comportement, `smooth` ou `instant`, selon ce tableau :
 Vers un élément, cherché par son `id`, puis par son `name` : `scrollIntoView({ block: 'start' })`,
 puis le focus sans défilement (`preventScroll`), jamais par coordonnées. `scroll-padding-top: 5.5rem`
 sur `html` (`_base.scss` : `hauteur-entete` et 1.5rem, comme les maquettes) ouvre toute ancre sous
-l'en-tête, que le navigateur l'ouvre ou que le routeur y défile. L'ancre qui ne nomme rien quitte
-l'adresse par `history.replaceState(history.state, '', chemin et requête)`, qui garde l'état que le
-routeur a posé, jamais avant la fin du chargement (`document.readyState` à `complete`, sinon à
-l'événement `load`). Le routeur ne défile ni au pré-rendu ni pendant l'hydratation : à l'ouverture,
-c'est le navigateur qui ouvre l'ancre de l'adresse. Tests : `app.config.spec.ts`, avec le vrai
-routeur, une ligne du tableau après l'autre.
+l'en-tête, que le navigateur l'ouvre ou que le routeur y défile. « Sur la page principale » se lit
+dans `services/navigation`, qui garde le chemin avant et après la dernière navigation finie
+(`resteSurPrincipale()`). L'ancre qui ne nomme rien quitte l'adresse par `quitterLAncre()`, avec
+`history.replaceState(history.state, '', chemin et requête)`, qui garde l'état que le routeur a posé,
+jamais avant la fin du chargement (`document.readyState` à `complete`, sinon à l'événement `load`).
+Le routeur ne défile ni au pré-rendu ni pendant l'hydratation : à l'ouverture, c'est le navigateur
+qui ouvre l'ancre de l'adresse. Tests : `app.config.spec.ts`, avec le vrai routeur, une ligne du
+tableau après l'autre.
+
+**La section lue et l'adresse** (`src/app/services/navigation/`, PF-06). La page principale inscrit
+ses sections après son premier rendu (`inscrire()`, retirées quand on la quitte) ; tant qu'il y en
+a, chaque image où la page défile (`DefilementService`) calcule la section lue (`section-lue.ts`) :
+la dernière dont le haut a passé 40 % de la fenêtre, l'accueil avant la première, la dernière dont
+le haut est dans la fenêtre quand la page ne peut plus défiler. L'entrée signalée de l'en-tête et
+son `aria-current` en viennent (`courant(entree)`) : `location` pour la section lue, `page` sur une
+page à part d'après `data.section` (« Projets » sur une fiche, « Contact » sur le contact),
+`undefined` ailleurs, jamais `null` ; le pré-rendu transmet l'entrée de la page au navigateur
+(`TransferState`), pour que l'hydratation retrouve le même en-tête. `demarrer()`, lancé par le
+composant racine après le premier rendu, attend la fin du chargement : une ancre qui ne nomme rien
+quitte l'adresse sur toute page, puis l'adresse de la page principale suit la section lue
+(`/#parcours`…, `/` pour l'accueil) par `history.replaceState`, dès qu'elle diffère, jamais pendant
+une navigation du routeur ni hors de la page principale. Quand l'ancre de l'adresse nomme un
+élément, l'adresse attend que le navigateur y ait défilé. **Au rechargement et au retour dans
+l'historique**, Chrome et Firefox n'ouvrent plus l'ancre eux-mêmes, `history.scrollRestoration`
+étant à `manual` (relevé de TK-27) : `demarrer()` ouvre alors la page sur l'élément, d'un coup.
 
 **Brancher un motif.** Sa directive injecte `MouvementService` (`src/app/services/mouvement/`) et
 n'agit que dans `afterNextRender`, jamais au pré-rendu, si `actif()` est vrai. Elle lit
@@ -428,7 +447,19 @@ une seconde de marge comprise, jamais `mv-pret`) ; « animations permises » sur
 transitions), aussi avec une pause mémorisée et un stockage local indisponible. Les cinq cas
 vérifient que **tout le contenu est visible** : `contenuCache(page)`, de
 `e2e/support/contenu-visible.ts`, rend chaque élément de contenu caché avec sa raison ; chaque écran
-l'emploie : `expect(await contenuCache(page)).toEqual([])`.
+l'emploie : `expect(await contenuCache(page)).toEqual([])`. Hors du compte : le texte réservé aux
+lecteurs d'écran, le décor `aria-hidden`, et la navigation complète de l'en-tête là où la charte la
+retire (`display: none` sous 1200 px).
+
+**Le cadre commun** (EC-00, `app.html`) : le lien d'évitement (`layout/lien-evitement`, premier
+élément focalisable ; une fois l'application démarrée, son clic fait défiler le contenu principal et
+lui donne le focus, sans toucher l'adresse ni l'historique), l'en-tête (`layout/entete`), puis le
+contenu principal (`main`, id `contenu`, `tabindex="-1"`). L'en-tête, collant, jamais dans une
+arrivée : la marque (monogramme « AM » décoratif sous 480 px, le nom restant annoncé), la navigation
+complète à partir de 1200 px (liens du routeur vers `/` et l'ancre de la section, `replaceUrl` depuis
+la page principale seulement), « Contact » (bouton primaire compact) ; seule l'entrée courante porte
+le repère, un élément propre ; fond à 92 %, à 74 % avec flou à partir de 900 px si le navigateur sait
+flouter (`@supports`). Le menu replié vient avec TK-29.
 
 ## Polices
 
@@ -583,6 +614,10 @@ traces des échecs dans `test-results/`, non versionnés.
   font pas une erreur) ; une fois, l'erreur non rattrapée `Error` d'un message exact que le test
   fait lever (`attendreErreurDePage`).
 - `mouvement.spec.ts`, le socle du mouvement (voir « Mouvement »).
+- `adresse.spec.ts`, les ancres de la page principale à l'ouverture et au rechargement : la section
+  sous l'en-tête (`e2e/support/lecture.ts` attend la position, jamais un délai), l'élément intérieur
+  dont l'adresse devient celle de sa section, l'ancre qui ne nomme rien en haut et hors de l'adresse,
+  avant le démarrage de l'application (script principal bloqué) comme après.
 - Un build qui n'est pas un build de test complet : sans build, `wrangler dev` ne démarre pas et le
   banc échoue sur son message ; sur un build sans aucune page, `/` répond 404 et le banc échoue au
   bout des 60 s d'attente du serveur ; sur le build d'un autre environnement que test, il échoue au
