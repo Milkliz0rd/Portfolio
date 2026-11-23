@@ -5,15 +5,18 @@ import type { Page } from '@playwright/test';
 // ancêtres, ni visibility: hidden, ni display: none (lui ou un ancêtre), une boîte non vide
 // qu'aucun ancêtre qui rogne (overflow hidden ou clip) n'efface, aucune translation qui le sort de
 // sa boîte (la sienne ou celle d'un ancêtre). Hors du compte, cachés à dessein : le texte réservé
-// aux lecteurs d'écran (.masque-visuellement) et le décor qui leur est masqué (aria-hidden="true").
+// aux lecteurs d'écran (.masque-visuellement), le décor qui leur est masqué (aria-hidden="true"),
+// et ce que la charte retire à certaines largeurs par display: none, comme la navigation complète
+// de l'en-tête sous 1200 px (CO-06), quand il est retiré.
 
 const CONTENU = 'h1, h2, h3, h4, h5, h6, p, a, button, img, li, dt, dd';
 const HORS_DU_COMPTE = '.masque-visuellement, [aria-hidden="true"]';
+const SELON_LA_LARGEUR = '.entete__navigation';
 
 /** Les éléments de contenu de la page qui ne sont pas visibles, avec leur raison ; vide sinon. */
 export function contenuCache(page: Page): Promise<string[]> {
   return page.evaluate(
-    ({ contenu, horsDuCompte }) => {
+    ({ contenu, horsDuCompte, selonLaLargeur }) => {
       const nom = (e: Element) =>
         [e.tagName.toLowerCase(), ...[...e.classList].map((c) => `.${c}`)].join('');
       const texte = (e: Element) =>
@@ -57,10 +60,15 @@ export function contenuCache(page: Page): Promise<string[]> {
         if (boite.width === 0 || boite.height === 0) return 'boîte vide';
         return undefined;
       };
+      const retire = (e: Element) => {
+        const partie = e.closest(selonLaLargeur);
+        return partie !== null && getComputedStyle(partie).display === 'none';
+      };
       const elements = [...document.body.querySelectorAll('*')].filter(
         (e) =>
           (e.matches(contenu) || (texte(e) && !e.matches('script, style, template, noscript'))) &&
-          !e.closest(horsDuCompte),
+          !e.closest(horsDuCompte) &&
+          !retire(e),
       );
       return elements.flatMap((element) => {
         const pourquoi = raison(element);
@@ -68,6 +76,6 @@ export function contenuCache(page: Page): Promise<string[]> {
         return pourquoi ? [`${nom(element)} « ${extrait} » : ${pourquoi}`] : [];
       });
     },
-    { contenu: CONTENU, horsDuCompte: HORS_DU_COMPTE },
+    { contenu: CONTENU, horsDuCompte: HORS_DU_COMPTE, selonLaLargeur: SELON_LA_LARGEUR },
   );
 }

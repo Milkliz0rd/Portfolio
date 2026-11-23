@@ -1,0 +1,45 @@
+<header class="entete" i18n-aria-label="@@entete.region" aria-label="En-tête du site">
+  <a class="entete__marque" routerLink="/" [replaceUrl]="navigation.surPrincipale()">
+    <span class="entete__monogramme" aria-hidden="true" i18n="@@entete.monogramme">AM</span>
+    <span class="entete__nom">{{ nom }}</span>
+  </a>
+  <nav
+    class="entete__navigation"
+    i18n-aria-label="@@entete.navigation"
+    aria-label="Sections du site"
+  >
+    <ul class="entete__entrees">
+      @for (entree of entrees; track entree.entree) {
+        <li>
+          <a
+            appLien
+            variante="navigation"
+            class="entete__entree"
+            routerLink="/"
+            [fragment]="entree.ancre"
+            [replaceUrl]="navigation.surPrincipale()"
+            [courant]="navigation.courant(entree.entree)"
+          >
+            {{ entree.libelle }}
+            @if (navigation.courant(entree.entree)) {
+              <span class="entete__repere" aria-hidden="true"></span>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+  <!-- Sur la page de contact, le bouton porte l'aria-current et le repère (choix C9). -->
+  <a
+    appBouton
+    compact
+    class="entete__contact"
+    routerLink="/contact"
+    [attr.aria-current]="navigation.courant('contact')"
+  >
+    <span i18n="@@entete.contact">Contact</span>
+    @if (navigation.courant('contact')) {
+      <span class="entete__repere" aria-hidden="true"></span>
+    }
+  </a>
+</header>

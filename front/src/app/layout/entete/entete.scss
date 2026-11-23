@@ -1,0 +1,136 @@
+// En-tête (CO-06) : collé en haut pendant le défilement, au-dessus du contenu, d'une hauteur
+// constante (hauteur-entete, que reprend scroll-padding-top). Jamais dans une animation d'arrivée :
+// aucune classe ni directive du mouvement. Aligné sur le conteneur large, comme les maquettes.
+@use 'ruptures';
+
+:host {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--plan-entete);
+  display: block;
+}
+
+.entete {
+  position: relative;
+  display: flex;
+  gap: var(--espace-3);
+  align-items: center;
+  min-block-size: var(--hauteur-entete);
+  padding-inline: max(var(--marge-page), calc((100% - var(--conteneur-large)) / 2));
+  border-block-end: var(--bordure-epaisseur) solid var(--verre-bordure);
+}
+
+// Le fond, sous le contenu de l'en-tête : couleur-fond à 92 %, sans flou ; à partir de 900 px, à
+// 74 % avec flou-verre, si le navigateur sait flouter l'arrière-plan (charte, section 6). Un calque
+// à l'opacité voulue : un mélange de couleurs ne s'écrit que dans _jetons.scss (PF-10).
+.entete::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  background: var(--couleur-fond);
+  opacity: 0.92;
+}
+
+@include ruptures.depuis(large) {
+  @supports (backdrop-filter: blur(1px)) {
+    .entete {
+      backdrop-filter: blur(var(--flou-verre));
+    }
+
+    .entete::before {
+      opacity: 0.74;
+    }
+  }
+}
+
+// La marque : monogramme et nom ; sous 480 px, le monogramme seul, décoratif, le nom restant le
+// nom du lien pour les lecteurs d'écran, dans une cible d'au moins 44 px, centrée.
+.entete__marque {
+  display: inline-flex;
+  gap: var(--espace-3);
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--cible-tactile);
+  min-inline-size: var(--cible-tactile);
+  margin-inline-end: auto;
+  border-radius: var(--arrondi-petit);
+  color: var(--couleur-texte);
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-4);
+  font-weight: var(--graisse-titre);
+  letter-spacing: var(--approche-sous-titre);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+// 36 px : la cible de 44 px, moins une marge de espace-1 de chaque côté.
+.entete__monogramme {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: calc(var(--cible-tactile) - 2 * var(--espace-1));
+  block-size: calc(var(--cible-tactile) - 2 * var(--espace-1));
+  border: var(--bordure-epaisseur) solid var(--verre-bordure);
+  border-radius: var(--arrondi-moyen);
+  background: var(--couleur-surface-relevee);
+  font-size: var(--taille-texte-petit);
+  letter-spacing: 0;
+}
+
+// 480 px n'est pas une rupture de la charte : le seul seuil du monogramme (CO-06, section 5).
+@media (width < 480px) {
+  .entete__nom {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+// La navigation complète à partir de 1200 px ; en dessous, la marque et « Contact » seuls, le
+// bouton du menu replié venant avec TK-29.
+.entete__navigation {
+  display: none;
+
+  @include ruptures.depuis(tres-large) {
+    display: block;
+  }
+}
+
+.entete__entrees {
+  display: flex;
+  gap: var(--espace-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Le trait de l'entrée courante est le repère, un élément propre (PF-04, MV-07), et non le trait
+// que le lien de navigation dessine pour son aria-current.
+.entete__navigation .entete__entree[aria-current]::after {
+  content: none;
+}
+
+.entete__entree,
+.entete__contact {
+  position: relative;
+  white-space: nowrap;
+}
+
+.entete__repere {
+  position: absolute;
+  inset-inline: var(--espace-3);
+  inset-block-end: var(--espace-2);
+  block-size: var(--epaisseur-trait-courant);
+  border-radius: var(--arrondi-pilule);
+  background: var(--couleur-accent);
+  pointer-events: none;
+}
+
+// Sous le bouton « Contact », dont le fond est déjà l'accent (choix C9).
+.entete__contact .entete__repere {
+  inset-block-end: calc(-1 * var(--espace-2));
+}
