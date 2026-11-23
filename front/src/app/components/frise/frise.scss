@@ -1,0 +1,159 @@
+// Frise chronologique de la charte (CO-09), statique. Chaque texte a une couleur pleine (section 8).
+@use 'ruptures';
+
+// Le centre du point, et son décalage qui le centre sur la première ligne de la période.
+:host {
+  --frise-ecart: var(--espace-8);
+  --frise-centre: calc(var(--taille-point-frise) / 2);
+  --frise-haut-point: calc(
+    (var(--taille-code) * var(--interligne-compact) - var(--taille-point-frise)) / 2
+  );
+
+  display: block;
+}
+
+// Verticale : une colonne de largeur nulle porte le trait, la seconde les étapes.
+.frise__liste {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0 minmax(0, 1fr);
+  gap: var(--frise-ecart) 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Le fil, du centre du premier point au bas de la liste.
+.frise__liste::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--frise-haut-point) + var(--frise-centre)) auto 0
+    calc(var(--frise-centre) - var(--bordure-epaisseur) / 2);
+  width: var(--bordure-epaisseur);
+  background: var(--couleur-bordure);
+}
+
+// Le trait couvre les rangées des étapes qui précèdent l'étape mise en avant, puis s'allonge, par
+// une marge négative, jusqu'au centre de son point. Positionné, il passe sur le fil.
+.frise__liste--trace::after {
+  content: '';
+  position: relative;
+  grid-row: 1 / var(--etape-avant);
+  grid-column: 1;
+  width: var(--epaisseur-trace-frise);
+  margin-block: calc(var(--frise-haut-point) + var(--frise-centre))
+    calc(-1 * (var(--frise-ecart) + var(--frise-haut-point) + var(--frise-centre)));
+  margin-inline-start: calc(var(--frise-centre) - var(--epaisseur-trace-frise) / 2);
+  border-radius: var(--epaisseur-trace-frise);
+  background: linear-gradient(to bottom, var(--couleur-accent), var(--couleur-accent-secondaire));
+}
+
+.frise__etape {
+  position: relative;
+  display: grid;
+  grid-column: 2;
+  gap: var(--espace-1);
+  align-content: start;
+  padding-inline-start: var(--espace-8);
+}
+
+// Creux par défaut (étape prévue), au-dessus du fil et du trait.
+.frise__point {
+  position: absolute;
+  z-index: var(--plan-contenu);
+  inset-block-start: var(--frise-haut-point);
+  inset-inline-start: 0;
+  width: var(--taille-point-frise);
+  height: var(--taille-point-frise);
+  border: var(--bordure-epaisseur) solid var(--couleur-texte-discret);
+  border-radius: var(--arrondi-cercle);
+  background: var(--couleur-fond);
+}
+
+// En chasse fixe (JetBrains Mono), à 14 px : les chiffres s'alignent d'une étape à l'autre.
+.frise__periode {
+  color: var(--couleur-texte-discret);
+  font-family: var(--police-mono);
+  font-size: var(--taille-code);
+  line-height: var(--interligne-compact);
+  letter-spacing: var(--approche-date);
+}
+
+.frise__intitule {
+  color: var(--couleur-texte);
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-4);
+  font-weight: var(--graisse-forte);
+  line-height: var(--interligne-sous-titre);
+  letter-spacing: var(--approche-sous-titre);
+}
+
+.frise__detail {
+  max-width: var(--conteneur-texte);
+  color: var(--couleur-texte-secondaire);
+  font-size: var(--taille-texte-petit);
+  line-height: var(--interligne-compact);
+}
+
+.frise__etape--accomplie .frise__point {
+  border-color: var(--couleur-texte-secondaire);
+  background: var(--couleur-texte-secondaire);
+}
+
+.frise__etape--mise-en-avant .frise__point {
+  border-color: var(--couleur-accent);
+  background: var(--couleur-accent);
+  box-shadow: var(--lueur-point);
+}
+
+.frise__etape--mise-en-avant .frise__periode {
+  color: var(--couleur-accent);
+}
+
+.frise__etape--prevue .frise__intitule {
+  color: var(--couleur-texte-secondaire);
+}
+
+// À partir de 900 px : horizontale, une colonne par étape, alignée en haut. Les étapes partagent
+// les rangées de la liste (subgrid) : périodes, intitulés et détails restent alignés, même quand
+// l'un passe à la ligne (révision du 27/10/2026). Le trait occupe la rangée vide du haut.
+@include ruptures.depuis(large) {
+  :host {
+    --frise-ecart: var(--espace-6);
+  }
+
+  .frise__liste {
+    grid-template-rows: 0 repeat(3, auto);
+    grid-template-columns: none;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 0 var(--frise-ecart);
+  }
+
+  .frise__liste::before {
+    inset: calc(var(--frise-centre) - var(--bordure-epaisseur) / 2) 0 auto;
+    width: auto;
+    height: var(--bordure-epaisseur);
+  }
+
+  .frise__liste--trace::after {
+    grid-row: 1;
+    grid-column: 1 / var(--etape-avant);
+    width: auto;
+    height: var(--epaisseur-trace-frise);
+    margin: calc(var(--frise-centre) - var(--epaisseur-trace-frise) / 2)
+      calc(-1 * (var(--frise-ecart) + var(--frise-centre))) 0 var(--frise-centre);
+    background: linear-gradient(to right, var(--couleur-accent), var(--couleur-accent-secondaire));
+  }
+
+  .frise__etape {
+    grid-row: 2 / span 3;
+    grid-column: auto;
+    grid-template-rows: subgrid;
+    padding: var(--espace-8) 0 0;
+  }
+
+  .frise__point {
+    inset-block-start: 0;
+  }
+}
