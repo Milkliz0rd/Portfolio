@@ -38,12 +38,13 @@ describe('App', () => {
     expect([demarrer, navigation].map(({ mock }) => mock.calls.length)).toEqual([1, 1]);
   });
 
-  it('ouvre chaque page par le lien d’évitement, puis le contenu principal', async () => {
+  it('ouvre chaque page par le lien d’évitement, puis l’en-tête, puis le contenu principal', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const page = fixture.nativeElement as HTMLElement;
     expect([...page.children].map(({ localName }) => localName)).toEqual([
       'app-lien-evitement',
+      'app-entete',
       'main',
     ]);
     const [premier] = page.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])');
