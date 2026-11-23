@@ -113,6 +113,10 @@ describe('Frise', () => {
     expect(() => rendre([ETAPES[2], ETAPES[2]])).toThrow(/une étape au plus/);
   });
 
+  it('garde à la liste sa sémantique de liste, sans puces', () => {
+    expect(rendre().querySelector('ol')?.getAttribute('role')).toBe('list');
+  });
+
   it('arrête le trait à l’étape mise en avant, et n’en trace aucun sans étape à atteindre', () => {
     const liste = rendre().querySelector('ol')!;
     expect(liste.classList).toContain('frise__liste--trace');
