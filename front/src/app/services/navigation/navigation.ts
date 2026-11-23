@@ -38,6 +38,15 @@ export function cibleDe(document: Document, ancre: string): HTMLElement | null {
   return document.getElementById(ancre) ?? document.getElementsByName(ancre).item(0);
 }
 
+/** Une ancre de l'adresse, décodée ; telle quelle si elle est mal formée. */
+function decoder(ancre: string): string {
+  try {
+    return decodeURIComponent(ancre);
+  } catch {
+    return ancre;
+  }
+}
+
 /** La page affichée, d'après la dernière navigation finie. */
 interface Page {
   principale: boolean;
@@ -58,9 +67,10 @@ function sectionDe(route: ActivatedRouteSnapshot): Entree | undefined {
 /**
  * La navigation du site (PF-06). L'entrée signalée de l'en-tête et la valeur de son aria-current,
  * jamais tirées d'une comparaison d'adresses : sur la page principale, la section lue, suivie par
- * le DefilementService tant que la page y inscrit ses sections ; ailleurs, data.section. Le chemin
- * de la dernière navigation finie, que lit le défilement du routeur (app.config.ts). Le service ne
- * lit la fenêtre et le document que dans le navigateur, depuis inscrire() et quitterLAncre().
+ * le DefilementService tant que la page y inscrit ses sections ; ailleurs, data.section. Une fois
+ * la page chargée, l'adresse de la page principale suit la section lue. Le chemin de la dernière
+ * navigation finie, que lit le défilement du routeur (app.config.ts). Le service ne lit la fenêtre
+ * et le document que dans le navigateur, depuis demarrer(), inscrire() et quitterLAncre().
  */
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
@@ -74,6 +84,7 @@ export class NavigationService {
   private readonly lue = signal<Entree>('accueil');
   private sections: readonly HTMLElement[] = [];
   private desabonner: (() => void) | undefined;
+  private charge = false;
   // Le chemin avant et après la dernière navigation finie ; historique : retour ou avance.
   private avant: string | undefined;
   private apres: string | undefined;
@@ -110,6 +121,42 @@ export class NavigationService {
   courant(entree: Entree): CourantLien | undefined {
     if (this.entree() !== entree) return undefined;
     return this.page().principale ? 'location' : 'page';
+  }
+
+  /**
+   * Démarre dans le navigateur ce qui attend la fin du chargement (PF-06). Une ancre qui ne nomme
+   * rien quitte l'adresse, sur toute page (V-11). Une ancre qui nomme un élément : au rechargement
+   * et au retour dans l'historique, la page s'ouvre sur lui, d'un coup, car le routeur a réglé
+   * history.scrollRestoration sur « manual » et Chrome et Firefox ne l'ouvrent alors plus eux-mêmes
+   * (relevé de W18) ; à la première ouverture, le navigateur y défile juste après le chargement, et
+   * l'adresse attend ce défilement. Puis, sur la page principale, l'adresse suit la section lue.
+   */
+  demarrer(): void {
+    const vue = this.document.defaultView;
+    this.apresChargement(() => {
+      const ancre = this.adresses.path(true).split('#').slice(1).join('#');
+      const cible = ancre ? cibleDe(this.document, decoder(ancre)) : null;
+      if (ancre && !cible) this.remplacerAncre('');
+      // getEntriesByType manque à certains environnements de test.
+      const [ouverture] = vue?.performance.getEntriesByType?.('navigation') ?? [];
+      const type = (ouverture as PerformanceNavigationTiming | undefined)?.type;
+      if (cible && (type === 'reload' || type === 'back_forward')) {
+        cible.scrollIntoView({ block: 'start', behavior: 'instant' });
+      }
+      const suivreLAdresse = () => {
+        this.charge = true;
+        this.suivre();
+      };
+      if (cible && vue?.scrollY === 0) {
+        const attente = this.defilement.abonner(() => {
+          attente();
+          suivreLAdresse();
+        });
+        this.destruction.onDestroy(attente);
+      } else {
+        suivreLAdresse();
+      }
+    });
   }
 
   /** Vrai quand la dernière navigation, hors retour et avance, part de la principale et y reste. */
@@ -153,6 +200,13 @@ export class NavigationService {
     const reste = this.document.documentElement.scrollHeight - vue.scrollY - vue.innerHeight;
     const indice = sectionLue(hauts, vue.innerHeight, reste);
     this.lue.set(indice < 0 ? 'accueil' : (this.sections[indice].id as Section));
+    // Une fois la page chargée, l'adresse affichée est celle de la section lue, / pour l'accueil,
+    // dès qu'elle diffère ; jamais hors de la page principale ni pendant une navigation du routeur.
+    // Location rend le chemin de la racine sans sa barre, vide.
+    const racine = Location.stripTrailingSlash(cheminDe(this.adresses.path())) === '';
+    if (this.charge && racine && this.page().principale && !this.routeur.currentNavigation()) {
+      this.remplacerAncre(this.lue() === 'accueil' ? '' : this.lue());
+    }
   }
 
   // Règle de moment de PF-06 : une fois le document entièrement chargé, aussitôt s'il l'est,
