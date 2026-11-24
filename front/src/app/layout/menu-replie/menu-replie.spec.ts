@@ -40,6 +40,28 @@ async function rendre() {
   };
 }
 
+// L'historique simulé (SpyLocation) note « replace: … » quand l'entrée courante est remplacée,
+// l'adresse seule quand une entrée s'ajoute.
+async function naviguer(lien: HTMLAnchorElement): Promise<string[]> {
+  const historique = TestBed.inject(Location) as SpyLocation;
+  const avant = historique.urlChanges.length;
+  const routeur = TestBed.inject(Router);
+  const fin = firstValueFrom(routeur.events.pipe(filter((e) => e instanceof NavigationEnd)));
+  lien.click();
+  await fin;
+  return historique.urlChanges.slice(avant);
+}
+
+/** Clique l'élément ; vrai si le clic est arrivé à la fenêtre sans être empêché. */
+function cliquer(element: Element): boolean {
+  let suivi = false;
+  const relever = (clic: Event) => (suivi = !clic.defaultPrevented);
+  window.addEventListener('click', relever);
+  element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+  window.removeEventListener('click', relever);
+  return suivi;
+}
+
 describe('MenuReplie', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
@@ -63,10 +85,7 @@ describe('MenuReplie', () => {
     expect(panneau.id).not.toBe('');
     expect(bouton.getAttribute('aria-controls')).toBe(panneau.id);
     expect(panneau.getAttribute('aria-label')).toBe('Sections du site, menu');
-    expect([panneau.getAttribute('role'), panneau.getAttribute('aria-modal')]).toEqual([
-      null,
-      null,
-    ]);
+    expect(panneau.getAttribute('role') ?? panneau.getAttribute('aria-modal')).toBeNull();
   });
 
   it('liste les entrées de la navigation complète, en vrais liens', async () => {
@@ -106,29 +125,75 @@ describe('MenuReplie', () => {
   });
 
   describe('dans le routeur', () => {
-    // L'historique simulé (SpyLocation) note « replace: … » quand l'entrée courante est remplacée,
-    // l'adresse seule quand une entrée s'ajoute.
-    async function cliquer(lien: HTMLAnchorElement): Promise<string[]> {
-      const historique = TestBed.inject(Location) as SpyLocation;
-      const avant = historique.urlChanges.length;
-      const routeur = TestBed.inject(Router);
-      const fin = firstValueFrom(routeur.events.pipe(filter((e) => e instanceof NavigationEnd)));
-      lien.click();
-      await fin;
-      return historique.urlChanges.slice(avant);
-    }
-
     it('remplace l’entrée d’historique depuis la page principale', async () => {
       const { liens } = await rendre();
-      expect(await cliquer(liens[4])).toEqual(['replace: /#methode']);
-      expect(await cliquer(liens[0])).toEqual(['replace: /']);
+      expect(await naviguer(liens[4])).toEqual(['replace: /#methode']);
+      expect(await naviguer(liens[0])).toEqual(['replace: /']);
     });
 
     it('ajoute une étape d’historique depuis une page à part', async () => {
       const { liens, navigation, stable } = await rendre();
       navigation.surPrincipale.set(false);
       await stable();
-      expect(await cliquer(liens[1])).toEqual(['/#parcours']);
+      expect(await naviguer(liens[1])).toEqual(['/#parcours']);
+    });
+  });
+
+  // Les écouteurs du document, posés après le rendu : le test rend le focus et ses espions.
+  describe('une fois l’application démarrée', () => {
+    afterEach(() => {
+      (document.activeElement as HTMLElement | null)?.blur();
+      vi.restoreAllMocks();
+    });
+
+    const echap = (cible: EventTarget, key = 'Escape') =>
+      cible.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
+
+    it('Échap ferme le panneau et rend le focus au bouton, sans défilement', async () => {
+      const { menu, bouton, liens } = await rendre();
+      menu.open = true;
+      liens[2].focus();
+      const focus = vi.spyOn(bouton, 'focus');
+      echap(liens[2]);
+      expect(menu.open).toBe(false);
+      expect(document.activeElement).toBe(bouton);
+      expect(focus).toHaveBeenCalledWith({ preventScroll: true });
+    });
+
+    it('Échap sur un panneau fermé, ou une autre touche, ne fait rien', async () => {
+      const { menu, bouton } = await rendre();
+      echap(document);
+      expect(document.activeElement).not.toBe(bouton);
+      menu.open = true;
+      echap(document, 'Enter');
+      expect(menu.open).toBe(true);
+    });
+
+    it('un clic hors du panneau le ferme, sans arrêter ce clic ; un clic dans le panneau, non', async () => {
+      const { menu, panneau } = await rendre();
+      menu.open = true;
+      expect(cliquer(panneau)).toBe(true);
+      expect(menu.open).toBe(true);
+      expect(cliquer(document.body)).toBe(true);
+      expect(menu.open).toBe(false);
+    });
+
+    it('choisir une entrée ferme le panneau, et le routeur mène à sa cible', async () => {
+      const { menu, liens } = await rendre();
+      menu.open = true;
+      expect(await naviguer(liens[3])).toEqual(['replace: /#experience']);
+      expect(menu.open).toBe(false);
+    });
+
+    it('retire ses écouteurs du document avec le menu', async () => {
+      const pose = vi.spyOn(document, 'addEventListener');
+      const retrait = vi.spyOn(document, 'removeEventListener');
+      const { fixture } = await rendre();
+      const ecouteurs = pose.mock.calls.filter(([type]) => ['keydown', 'click'].includes(type));
+      expect(ecouteurs.map(([type]) => type)).toEqual(['keydown', 'click']);
+      fixture.destroy();
+      for (const [type, ecouteur] of ecouteurs)
+        expect(retrait).toHaveBeenCalledWith(type, ecouteur);
     });
   });
 });
