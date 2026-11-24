@@ -656,6 +656,14 @@ traces des échecs dans `test-results/`, non versionnés.
   signalée de chaque page ; le retour en haut d'un coup ; le lien d'évitement ; le fond, le flou et
   l'en-tête collant ; la marque à 320 px ; sans script, les liens et l'accueil signalé. La navigation
   complète n'existant qu'à partir de 1200 px, ses tests prennent une fenêtre de 1280 px.
+- `menu-replie.spec.ts`, le menu replié, dans les trois profils téléphone (sous 1200 px seulement) :
+  sur la page principale, chaque entrée ferme le panneau et défile jusqu'à sa section, signalée, sans
+  étape d'historique ; depuis une page à part, d'un coup jusqu'à la section ; le repère de l'entrée
+  courante (barre de 3 px, sans trait ni nom de transition) ; refermé par son bouton, par Échap
+  (focus rendu au bouton) ou par un clic hors du panneau (qui suit son cours), la lecture ne bouge
+  pas ; à 320 px, aucune entrée coupée ni défilement horizontal, et le panneau de 320 px dès 600 px ;
+  présent sur chaque page, « Contact » hors du menu ; script principal bloqué, il s'ouvre et se
+  ferme par son bouton et ses liens se suivent ; ouvert avant le démarrage, il le reste après.
 - Un build qui n'est pas un build de test complet : sans build, `wrangler dev` ne démarre pas et le
   banc échoue sur son message ; sur un build sans aucune page, `/` répond 404 et le banc échoue au
   bout des 60 s d'attente du serveur ; sur le build d'un autre environnement que test, il échoue au
