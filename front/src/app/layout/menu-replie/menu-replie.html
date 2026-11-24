@@ -1,0 +1,35 @@
+<details class="menu-replie">
+  <!-- aria-controls est lié : écrit en clair, la règle i18n du lint le prendrait pour un libellé. -->
+  <summary class="menu-replie__bouton" [attr.aria-controls]="idPanneau">
+    <app-icone class="menu-replie__icone menu-replie__icone--menu" nom="menu" />
+    <app-icone class="menu-replie__icone menu-replie__icone--fermer" nom="fermer" />
+    <span class="masque-visuellement" i18n="@@menu-replie.bouton">Menu</span>
+  </summary>
+  <nav
+    class="menu-replie__panneau"
+    [id]="idPanneau"
+    i18n-aria-label="@@menu-replie.navigation"
+    aria-label="Sections du site, menu"
+  >
+    <ul class="menu-replie__entrees">
+      @for (entree of entrees; track entree.entree) {
+        <li>
+          <a
+            appLien
+            variante="navigation"
+            class="menu-replie__entree"
+            routerLink="/"
+            [fragment]="entree.ancre"
+            [replaceUrl]="navigation.surPrincipale()"
+            [courant]="navigation.courant(entree.entree)"
+          >
+            {{ entree.libelle }}
+            @if (navigation.courant(entree.entree)) {
+              <span class="menu-replie__repere" aria-hidden="true"></span>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+</details>
