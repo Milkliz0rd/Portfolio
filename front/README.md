@@ -143,16 +143,18 @@ routeur :
 | -------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | Icône          | `<app-icone nom="fleche" />`                                           | `nom`, l'une des 13 icônes ; décorative, à la couleur et à 1,25 fois la taille du texte (`--taille-icone`)                    |
 | Bouton (CO-01) | `<button appBouton>` pour une action, `<a appBouton>` pour une page    | `variante` (`primaire`, par défaut, `secondaire`, `discret`, `icone`), `compact`, `libelle` (texte masqué, exigé par `icone`) |
-| Lien (CO-02)   | `<a appLien routerLink="/contact">` ; `<a appLien href="…">` hors site | `variante` (`texte`, par défaut, `discret`, `action`, `navigation`, `externe`), `courant` (`page` ou `location`)              |
+| Lien (CO-02)   | `<a appLien routerLink="/contact">` ; `<a appLien href="…">` hors site | `variante` (`texte`, par défaut, `discret`, `action`, `navigation`), `externe`, `courant` (`page` ou `location`)              |
 
 `courant` fait du lien l'entrée courante et pose `aria-current` à sa valeur : `page` pour la page
 affichée, `location` pour la section lue de la page principale. Un lien de navigation courant passe
 en `couleur-texte` et prend le trait d'accent, le même pour les deux valeurs, et pour elles seules.
 Sans `courant`, le lien ne porte aucun `aria-current`.
 
-Un `button` sans `type` reçoit `type="button"`. Le lien externe s'ouvre dans un nouvel onglet
-(`target="_blank"`, `rel="noopener noreferrer"`) et l'annonce par sa flèche et le texte masqué
-« (nouvel onglet) ».
+Un `button` sans `type` reçoit `type="button"`. `externe` n'est pas une variante mais une entrée
+oui/non, qui s'ajoute à chacune : `<a appLien variante="discret" externe href="…">`, posé avec
+`href`, s'ouvre dans un nouvel onglet (`target="_blank"`, `rel="noopener noreferrer"`) et l'annonce
+par la flèche oblique et le texte masqué « (nouvel onglet) » (`@@commun.nouvel-onglet`). Il garde la
+couleur et le survol de sa variante ; un lien d'action externe ne porte que la flèche oblique.
 
 Les composants de texte sont statiques, sans survol ni focus. Ils n'ajoutent aucun texte : tout
 vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$localize`).
