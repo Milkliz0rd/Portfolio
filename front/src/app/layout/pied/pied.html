@@ -1,0 +1,47 @@
+<footer class="pied">
+  <div class="pied__haut">
+    <p class="pied__marque">{{ profil.nom }}</p>
+    <!-- role="list" : une liste sans puces reste annoncée comme telle par VoiceOver. -->
+    <ul class="pied__liens" role="list">
+      <li>
+        <a
+          appLien
+          variante="discret"
+          externe
+          class="pied__lien"
+          [href]="profil.liens.github"
+          i18n="@@pied.github"
+          >GitHub</a
+        >
+      </li>
+      <li>
+        <a
+          appLien
+          variante="discret"
+          externe
+          class="pied__lien"
+          [href]="profil.liens.linkedin"
+          i18n="@@pied.linkedin"
+          >LinkedIn</a
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="pied__bas">
+    <p class="pied__signature">
+      <app-etiquette>{{ domaine }}</app-etiquette>
+    </p>
+    <div class="pied__actions">
+      <a
+        appLien
+        variante="discret"
+        class="pied__lien"
+        routerLink="/mentions-legales"
+        i18n="@@pied.mentions-legales"
+        >Mentions légales</a
+      >
+      <!-- La place du bouton de pause des animations (CO-08, PF-04) : ici, après « Mentions
+           légales », dans le même groupe ; le bouton vient avec TK-50. -->
+    </div>
+  </div>
+</footer>
