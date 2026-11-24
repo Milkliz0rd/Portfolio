@@ -47,6 +47,13 @@
   background: var(--couleur-surface-relevee);
   box-shadow: var(--ombre-flottante);
 
+  // Jamais plus haut que la fenêtre sous l'en-tête : sur un écran bas (téléphone couché, zoom à
+  // 400 %), le panneau défile seul et chaque entrée reste atteignable (aucune entrée coupée,
+  // WCAG 1.4.10), sans que la page défile avec lui.
+  max-block-size: calc(100dvh - var(--hauteur-entete) - 2 * var(--espace-2));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
   @include ruptures.depuis(moyenne) {
     inset-inline-start: auto;
     inline-size: var(--largeur-panneau-menu);

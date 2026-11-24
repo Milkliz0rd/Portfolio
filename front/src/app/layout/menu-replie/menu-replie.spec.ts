@@ -160,6 +160,23 @@ describe('MenuReplie', () => {
       expect(focus).toHaveBeenCalledWith({ preventScroll: true });
     });
 
+    it('Échap, le focus hors du menu, ferme le panneau sans déplacer le focus', async () => {
+      const { menu, bouton } = await rendre();
+      const ailleurs = document.createElement('button');
+      document.body.append(ailleurs);
+      try {
+        menu.open = true;
+        ailleurs.focus();
+        const focus = vi.spyOn(bouton, 'focus');
+        echap(ailleurs);
+        expect(menu.open).toBe(false);
+        expect(document.activeElement).toBe(ailleurs);
+        expect(focus).not.toHaveBeenCalled();
+      } finally {
+        ailleurs.remove();
+      }
+    });
+
     it('Échap sur un panneau fermé, ou une autre touche, ne fait rien', async () => {
       const { menu, bouton } = await rendre();
       echap(document);

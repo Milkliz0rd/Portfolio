@@ -474,7 +474,8 @@ fermé.
 **Le cadre commun** (EC-00, `app.html`) : le lien d'évitement (`layout/lien-evitement`, premier
 élément focalisable ; une fois l'application démarrée, son clic fait défiler le contenu principal et
 lui donne le focus, sans toucher l'adresse ni l'historique), l'en-tête (`layout/entete`), puis le
-contenu principal (`main`, id `contenu`, `tabindex="-1"`). L'en-tête, collant, jamais dans une
+contenu principal (`main`, id `contenu`, `tabindex="-1"`) et le pied de page (`layout/pied`, voir
+« Le pied de page » dans « Composants »). L'en-tête, collant, jamais dans une
 arrivée : la marque (monogramme « AM » décoratif sous 480 px, le nom restant annoncé), la navigation
 complète à partir de 1200 px (liens du routeur vers `/` et l'ancre de la section, `replaceUrl` depuis
 la page principale seulement), « Contact » (bouton primaire compact) ; seule l'entrée courante porte
@@ -486,9 +487,11 @@ hors du menu : un `details` dont le résumé est le bouton icône « Menu » (li
 `aria-controls` vers le panneau) ; le panneau, pleine largeur moins les marges, de 320 px aligné à
 droite à partir de 600 px, liste les entrées de la navigation complète, une seule liste
 (`layout/entete/entrees.ts`) : mêmes liens, même `replaceUrl`, même entrée signalée, marquée par son
-propre repère (fond d'accent à 16 %, barre de 3 px), sans nom de transition de vue. Sans script, il
-s'ouvre et se ferme par son bouton et ses liens se suivent ; une fois l'application démarrée, Échap
-le ferme et rend le focus au bouton, un clic hors du panneau le ferme, choisir une entrée le ferme.
+propre repère (fond d'accent à 16 %, barre de 3 px), sans nom de transition de vue ; jamais plus
+haut que la fenêtre sous l'en-tête, il défile seul sur un écran bas. Sans script, il s'ouvre et se
+ferme par son bouton et ses liens se suivent ; une fois l'application démarrée, Échap le ferme (et
+rend le focus au bouton s'il était dans le menu), un clic hors du panneau le ferme, choisir une
+entrée le ferme.
 Rien d'autre : ce n'est pas une fenêtre modale, la lecture ne bouge pas, et l'attribut `open` n'est
 jamais lié (un panneau ouvert avant le démarrage le reste).
 
@@ -662,6 +665,7 @@ traces des échecs dans `test-results/`, non versionnés.
   courante (barre de 3 px, sans trait ni nom de transition) ; refermé par son bouton, par Échap
   (focus rendu au bouton) ou par un clic hors du panneau (qui suit son cours), la lecture ne bouge
   pas ; à 320 px, aucune entrée coupée ni défilement horizontal, et le panneau de 320 px dès 600 px ;
+  sur un écran bas (844 × 340, 320 × 256), le panneau tient dans la fenêtre et chaque entrée s'atteint ;
   présent sur chaque page, « Contact » hors du menu ; script principal bloqué, il s'ouvre et se
   ferme par son bouton et ses liens se suivent ; ouvert avant le démarrage, il le reste après.
 - Un build qui n'est pas un build de test complet : sans build, `wrangler dev` ne démarre pas et le

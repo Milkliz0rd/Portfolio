@@ -185,6 +185,29 @@ test('menu : à 320 px, aucune entrée coupée ni défilement horizontal ; le pa
   expect([large?.width, (large?.x ?? 0) + (large?.width ?? 0)]).toEqual([320, 700 - 24]);
 });
 
+test('menu : sur un écran bas, le panneau tient dans la fenêtre et défile seul ; chaque entrée reste atteignable', async ({
+  page,
+  surveillance,
+}) => {
+  // Un téléphone couché, puis un écran de 1280 × 1024 zoomé à 400 % (WCAG 1.4.10).
+  for (const [largeur, hauteur] of [
+    [844, 340],
+    [320, 256],
+  ] as const) {
+    await page.setViewportSize({ width: largeur, height: hauteur });
+    await ouvrir(page, '/', surveillance);
+    await bouton(page).dispatchEvent('click');
+    await expect.poll(() => ouvert(page)).toBe(true);
+    const cadre = await panneau(page).boundingBox();
+    expect((cadre?.y ?? 0) + (cadre?.height ?? 0)).toBeLessThanOrEqual(hauteur);
+    for (const nom of ['Accueil', ...SECTIONS.map(([libelle]) => libelle)]) {
+      await entree(page, nom).scrollIntoViewIfNeeded();
+      await expect(entree(page, nom)).toBeInViewport({ ratio: 1 });
+    }
+    expect(await position(page)).toBe(0);
+  }
+});
+
 test('menu : présent sur chaque page, adresse inconnue comprise, « Contact » à côté, hors du menu', async ({
   page,
   surveillance,
