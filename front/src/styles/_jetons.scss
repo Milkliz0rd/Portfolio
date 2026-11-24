@@ -344,10 +344,15 @@
   --epaisseur-trace-frise: 2px;
 }
 
-// CO-07 Menu replié : panneau de 320 px à partir de 600 px ; fond d'une entrée au survol,
-// couleur-texte à 6 % ; repère de l'entrée courante, couleur-accent à 16 % sur couleur-surface, et sa
-// barre d'accent de 3 px à gauche (maquettes).
+// CO-06 En-tête : opacités du calque de fond, couleur-fond à 92 % sans flou, à 74 % avec flou-verre
+// à partir de 900 px (charte révisée le 27/10/2026) ; monogramme de 36 px, la cible de 44 px moins
+// une marge de espace-1 de chaque côté. CO-07 Menu replié : panneau de 320 px à partir de 600 px ;
+// fond d'une entrée au survol, couleur-texte à 6 % ; repère de l'entrée courante, couleur-accent à
+// 16 % sur couleur-surface, et sa barre d'accent de 3 px à gauche (maquettes).
 :root {
+  --opacite-fond-entete: 0.92;
+  --opacite-fond-entete-flou: 0.74;
+  --taille-monogramme: calc(var(--cible-tactile) - 2 * var(--espace-1));
   --largeur-panneau-menu: 20rem;
   --fond-entree-menu-survol: color-mix(in srgb, var(--couleur-texte) 6%, transparent);
   --fond-entree-courante-menu: color-mix(

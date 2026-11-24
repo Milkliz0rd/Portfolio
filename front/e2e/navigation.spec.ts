@@ -7,7 +7,7 @@ import { PAGES_ERREUR, pagesDuBuild } from './support/site';
 // L'en-tête, la navigation et le lien d'évitement (TK-27, PF-06, SC-2.0-02 à SC-2.0-04), dans les
 // six profils, sous la surveillance de banc.ts. La navigation complète n'existe qu'à partir de
 // 1200 px : ses tests prennent une fenêtre de 1280 px, téléphones compris ; « Contact » et la
-// marque sont aussi éprouvés à la largeur du profil. Le menu replié vient avec TK-29.
+// marque sont aussi éprouvés à la largeur du profil. Le menu replié : menu-replie.spec.ts.
 
 const LARGE = { width: 1280, height: 800 };
 const SECTIONS = [
@@ -26,12 +26,14 @@ const entree = (page: Page, nom: string) =>
   page.getByRole('navigation', { name: 'Sections du site' }).getByRole('link', { name: nom });
 const contact = (page: Page) => entete(page).getByRole('link', { name: 'Contact', exact: true });
 const historique = (page: Page) => page.evaluate(() => history.length);
-/** Les liens signalés de l'en-tête : libellé et aria-current. */
+/** Les liens signalés de l'en-tête, hors du menu replié : libellé et aria-current. */
 const signales = (page: Page) =>
   entete(page)
     .locator('[aria-current]')
     .evaluateAll((liens) =>
-      liens.map((l) => [l.textContent?.trim(), l.getAttribute('aria-current')]),
+      liens
+        .filter((l) => !l.closest('.menu-replie'))
+        .map((l) => [l.textContent?.trim(), l.getAttribute('aria-current')]),
     );
 
 /** La fiche d'un projet, la première du build. */

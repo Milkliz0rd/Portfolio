@@ -34,15 +34,20 @@ async function rendre() {
   return {
     entete,
     navigation,
-    entrees: [...entete.querySelectorAll<HTMLAnchorElement>('nav a')],
+    entrees: [...entete.querySelectorAll<HTMLAnchorElement>('.entete__navigation a')],
     contact: entete.querySelector<HTMLAnchorElement>('.entete__contact')!,
     stable: () => fixture.whenStable(),
   };
 }
 
-/** L'aria-current de chaque lien qui en porte un, et le libellé des liens qui portent le repère. */
+/**
+ * L'aria-current de chaque lien qui en porte un, et le libellé des liens qui portent le repère,
+ * hors du menu replié, qui a son propre test.
+ */
 function signalement(entete: HTMLElement) {
-  const liens = [...entete.querySelectorAll('a')];
+  const liens = [...entete.querySelectorAll('a')].filter(
+    (lien) => !lien.closest('app-menu-replie'),
+  );
   const texte = (lien: Element) => lien.textContent?.trim();
   return {
     courants: liens.flatMap((lien) => {
@@ -93,6 +98,18 @@ describe('Entete', () => {
     expect(entete.querySelector('header')?.getAttribute('aria-label')).toBe('En-tête du site');
     expect(entete.querySelector('nav')?.getAttribute('aria-label')).toBe('Sections du site');
     expect(contact.closest('nav')).toBeNull();
+  });
+
+  it('porte le menu replié après « Contact », qui reste hors du menu, avec les mêmes entrées', async () => {
+    const { entete, entrees, contact } = await rendre();
+    const menu = entete.querySelector('app-menu-replie')!;
+    expect(contact.nextElementSibling).toBe(menu);
+    expect(menu.contains(contact)).toBe(false);
+    const decrire = (lien: HTMLAnchorElement) => [
+      lien.textContent?.trim(),
+      lien.getAttribute('href'),
+    ];
+    expect([...menu.querySelectorAll('a')].map(decrire)).toEqual(entrees.map(decrire));
   });
 
   it.each<[[Entree, CourantLien] | undefined, string[][], string[]]>([
