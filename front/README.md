@@ -644,6 +644,12 @@ traces des échecs dans `test-results/`, non versionnés.
   font pas une erreur) ; une fois, l'erreur non rattrapée `Error` d'un message exact que le test
   fait lever (`attendreErreurDePage`).
 - `mouvement.spec.ts`, le socle du mouvement (voir « Mouvement »).
+- `pied.spec.ts`, le pied de page de la page principale, du contact, des mentions légales, d'une
+  fiche et d'une adresse inconnue, l'application démarrée puis sans script : GitHub et LinkedIn ont
+  l'adresse de `profil.json` et s'ouvrent dans un nouvel onglet (`target`, `rel`, nom « GitHub
+  (nouvel onglet) »), sans être suivis ; aucun lien vers X ; « Mentions légales » mène à
+  `/mentions-legales` ; la signature est le domaine de l'origine du banc, sans année ; chaque lien a
+  44 px de haut ; un élément par ligne à 320 et 599 px, chaque rangée aux deux bouts à 600 et 1280 px.
 - `adresse.spec.ts`, les ancres de la page principale à l'ouverture et au rechargement : la section
   sous l'en-tête (`e2e/support/lecture.ts` attend la position, jamais un délai), l'élément intérieur
   dont l'adresse devient celle de sa section, l'ancre qui ne nomme rien en haut et hors de l'adresse,
