@@ -1,5 +1,6 @@
 // Pied de page (CO-08) : un filet couleur-bordure au-dessus, aligné sur le conteneur large comme
-// l'en-tête. Sous 600 px, il se lit en colonne, un élément par ligne ; à partir de 600 px, chaque
+// l'en-tête. Sous 600 px, il se lit en colonne : la marque, les profils (GitHub et LinkedIn côte à
+// côte), la signature et les mentions légales l'un sous l'autre ; à partir de 600 px, chaque
 // rangée place ses éléments aux deux extrémités. Jamais dans une animation d'arrivée.
 @use 'ruptures';
 

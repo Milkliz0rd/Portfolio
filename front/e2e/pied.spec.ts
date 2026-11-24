@@ -25,7 +25,8 @@ const DOMAINE = new URL(ORIGINE).hostname.replace(/^www\./, '');
 const ADRESSE_INCONNUE = PAGES_ERREUR[0].adresse;
 const PAGES = ['/', '/contact', '/mentions-legales', ficheDuBuild(), ADRESSE_INCONNUE];
 
-const pied = (page: Page) => page.getByRole('contentinfo');
+const pied = (page: Page) =>
+  page.getByRole('contentinfo', { name: 'Pied de page du site', exact: true });
 const mentions = (page: Page) =>
   pied(page).getByRole('link', { name: 'Mentions légales', exact: true });
 const hauteursDesLiens = (page: Page) =>
@@ -109,7 +110,7 @@ test.describe(() => {
   }
 });
 
-test('pied : un élément par ligne sur téléphone, chaque rangée aux deux extrémités dès 600 px', async ({
+test('pied : sur téléphone, la marque, les profils, la signature et les mentions l’un sous l’autre ; chaque rangée aux deux extrémités dès 600 px', async ({
   page,
 }) => {
   await page.goto('/');
@@ -155,4 +156,16 @@ test('pied : un élément par ligne sur téléphone, chaque rangée aux deux ext
     expect(signature.left, `${largeur} px : bord gauche`).toBeCloseTo(marque.left, 0);
     expect(actions.right, `${largeur} px : bord droit`).toBeCloseTo(profils.right, 0);
   }
+});
+
+test('pied : sur une page courte, en bas de la fenêtre, sans défilement', async ({
+  page,
+  surveillance,
+}) => {
+  // La page de contact provisoire est plus courte que la fenêtre d'un téléphone.
+  await page.setViewportSize({ width: 390, height: 844 });
+  await ouvrir(page, '/contact', surveillance);
+  const cadre = await pied(page).boundingBox();
+  expect(Math.round((cadre?.y ?? 0) + (cadre?.height ?? 0))).toBe(844);
+  expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBe(844);
 });

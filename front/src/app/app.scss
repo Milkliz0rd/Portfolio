@@ -1,5 +1,13 @@
 // Le cadre commun (EC-00) : le lien d'évitement, l'en-tête, collant sur toute la hauteur de la
-// page, le contenu principal, puis le pied de page.
+// page, le contenu principal, puis le pied de page. Le cadre occupe au moins la hauteur de la
+// fenêtre et le contenu principal prend la place qui reste : le pied reste en bas des pages
+// courtes, comme dans les maquettes (« .ecran », section 5 de leur feuille).
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
+}
+
+main {
+  flex: 1 0 auto;
 }
