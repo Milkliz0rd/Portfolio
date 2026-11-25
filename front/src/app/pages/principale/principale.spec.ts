@@ -1,4 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { LectureProfil } from '../../services/contenu/profil';
 import { NavigationService } from '../../services/navigation/navigation';
 import { Principale } from './principale';
 
@@ -18,22 +20,26 @@ async function rendre(): Promise<HTMLElement> {
 }
 
 const texte = (element: Element | null) => element?.textContent?.replace(/\s+/g, ' ').trim();
+// Les sections de la page : ses enfants directs, hors des régions de l'accueil.
+const sections = (page: HTMLElement) => [...page.querySelectorAll(':scope > section')];
 
 describe('Principale', () => {
+  beforeEach(() => TestBed.configureTestingModule({ providers: [provideRouter([])] }));
   afterEach(() => vi.restoreAllMocks());
 
-  it('enchaîne les cinq sections dans l’ordre du plan du site, chacune à son ancre', async () => {
-    const sections = (await rendre()).querySelectorAll('section');
-    expect([...sections].map(({ id }) => id)).toEqual(SECTIONS.map(([ancre]) => ancre));
+  it('ouvre sur l’accueil, puis enchaîne les cinq sections dans l’ordre, chacune à son ancre', async () => {
+    const page = await rendre();
+    expect(page.firstElementChild?.localName).toBe('app-accueil');
+    expect(sections(page).map(({ id }) => id)).toEqual(SECTIONS.map(([ancre]) => ancre));
   });
 
-  it('porte un seul titre de niveau 1, celui de l’accueil, avant les sections', async () => {
+  it('porte un seul titre de niveau 1, le nom, dans l’accueil, avant les sections', async () => {
     const page = await rendre();
     const titres = page.querySelectorAll('h1');
     expect(titres).toHaveLength(1);
-    expect(texte(titres[0])).toBe('EC-01 Accueil');
-    expect(titres[0].closest('section')).toBeNull();
-    const premiere = page.querySelector('section')!;
+    expect(texte(titres[0])).toBe(TestBed.inject(LectureProfil).profil.nom);
+    expect(titres[0].closest('app-accueil')).not.toBeNull();
+    const premiere = sections(page)[0];
     expect(titres[0].compareDocumentPosition(premiere) & Node.DOCUMENT_POSITION_FOLLOWING).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
@@ -41,14 +47,14 @@ describe('Principale', () => {
 
   it('nomme chaque section par son titre de niveau 2', async () => {
     const page = await rendre();
-    const noms = [...page.querySelectorAll('section')].map((section) => {
+    const noms = sections(page).map((section) => {
       const titre = page.querySelector(`[id="${section.getAttribute('aria-labelledby')}"]`);
       return [section.id, titre?.tagName, section.contains(titre), texte(titre)];
     });
     expect(noms).toEqual(SECTIONS.map(([ancre, nom]) => [ancre, 'H2', true, nom]));
   });
 
-  it('inscrit ses sections dans l’ordre après le premier rendu, et les retire quand on la quitte', async () => {
+  it('inscrit ses cinq sections, sans les régions de l’accueil, après le premier rendu, et les retire quand on la quitte', async () => {
     const retirer = vi.fn();
     const inscrire = vi.spyOn(TestBed.inject(NavigationService), 'inscrire');
     inscrire.mockReturnValue(retirer);

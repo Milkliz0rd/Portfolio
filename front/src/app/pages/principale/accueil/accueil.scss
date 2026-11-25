@@ -21,9 +21,12 @@
 }
 
 // Le texte puis la fenêtre, l'un sous l'autre ; côte à côte à partir de 1200 px (charte, section
-// 5), sur sept et cinq des douze colonnes de la grille de la charte.
+// 5), sur sept et cinq des douze colonnes de la grille de la charte. Chaque grille de l'accueil a
+// des colonnes sans largeur minimale : un mot plus long que la ligne y passe à la ligne, même au
+// plus gros réglage de texte, au lieu d'élargir la colonne hors de la section, qui le rognerait.
 .accueil__grille {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-12);
   align-items: center;
 
@@ -34,6 +37,7 @@
 
 .accueil__texte {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-6);
   justify-items: start;
   min-width: 0;
@@ -46,8 +50,13 @@
 // Un titre et ce qui l'accompagne : l'affiche et l'intitulé, l'étiquette et le titre des cartes.
 .accueil__titres {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-3);
   justify-items: start;
+
+  > * {
+    max-width: 100%;
+  }
 }
 
 // L'intitulé à la taille titre-3, sous l'affiche.
@@ -83,6 +92,7 @@
 // Le rythme d'une section (charte, section 5) : 64 px sur téléphone, 96 px à partir de 900 px.
 .accueil__sections {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-6);
   padding-block: var(--espace-16);
 

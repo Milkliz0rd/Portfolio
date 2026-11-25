@@ -111,6 +111,19 @@ qu'aucune règle ne voit : une tournure qui se périme hors de la liste, et la c
 aucune liste de termes n'est versionnée. Une valeur calculée depuis la date du jour est refusée
 dans le code par ESLint (`no-restricted-syntax`, dans `eslint.config.js`).
 
+**La section Accueil** (`src/app/pages/principale/accueil/`), en haut de la page principale, sans
+ancre ni numéro, ne tire ses textes que du contenu : le nom, seul titre de niveau 1 de la page, et
+l'intitulé de `profil.json` ; la présentation et la phrase d'orientation de chaque carte de
+`accueil.json` ; l'entreprise et la période de l'alternance de `experience.json`, qui ouvrent la
+carte « Expérience » (`Alternance chez <entreprise>, <période>.`, un libellé à deux espaces
+réservés) et que reprend la fenêtre « profil.ts » (`src/app/fragments/profil-code/`). Cette
+fenêtre est un décor, masqué aux lecteurs d'écran et retiré sous 600 px : un test vérifie que
+chaque valeur qu'elle montre est déjà écrite dans l'accueil, et une valeur propre à la fenêtre le
+ferait échouer. Les cartes (`src/app/fragments/cartes-sections/`) sont des liens du routeur vers
+`/`, avec l'ancre de leur section et `replaceUrl` : elles font défiler la page sans étape
+d'historique. Posées hors de l'arrière-plan d'ambiance, sur le fond uni, elles ne sont jamais sur
+un halo. Rien n'y est encore animé.
+
 ## Styles
 
 Les jetons de la charte graphique sont des propriétés personnalisées CSS, déclarées dans
