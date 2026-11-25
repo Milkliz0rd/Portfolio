@@ -6,7 +6,7 @@ import { Principale } from './principale';
 
 // L'ancre de chaque section, dans l'ordre du plan du site, et le nom que lui donne son titre.
 const SECTIONS = [
-  ['parcours', 'EC-02 Parcours'],
+  ['parcours', 'Parcours'],
   ['competences', 'Compétences'],
   ['experience', 'EC-04 Expérience'],
   ['methode', 'EC-05 Méthode de travail'],

@@ -9,16 +9,18 @@ import {
 import { NavigationService } from '../../services/navigation/navigation';
 import { Accueil } from './accueil/accueil';
 import { Competences } from './competences/competences';
+import { Parcours } from './parcours/parcours';
 
 /**
  * La page principale (PF-06) : la section accueil en haut, sans ancre, porteuse du seul titre de
  * niveau 1, puis les cinq sections, chacune dans un élément section, enfant direct de la page, dont
  * l'id est son ancre, nommée par son titre. Aucune n'est différée : chaque ancre est dans le
- * document pré-rendu. Les cinq sections sont encore des emplacements étiquetés, sans contenu, que
- * les sections réelles remplacent une à une.
+ * document pré-rendu. Parcours (TK-34) et Compétences (TK-35) sont posées dans leur élément
+ * section ; les trois autres sont encore des emplacements étiquetés, que les sections réelles
+ * remplacent une à une.
  */
 @Component({
-  imports: [Accueil, Competences],
+  imports: [Accueil, Parcours, Competences],
   selector: 'app-principale',
   styleUrl: './principale.scss',
   templateUrl: './principale.html',
