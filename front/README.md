@@ -129,6 +129,18 @@ ferait échouer. Les cartes (`src/app/fragments/cartes-sections/`) sont des lien
 d'historique. Posées hors de l'arrière-plan d'ambiance, sur le fond uni, elles ne sont jamais sur
 un halo. Rien n'y est encore animé.
 
+**La section Compétences** (`src/app/pages/principale/competences/`), à l'ancre `competences`,
+s'ouvre sur l'en-tête de section numéroté 02, titre seul, et ne tire ses textes que de
+`competences.json` : une carte pleine par catégorie technique, ses compétences en pastilles, puis
+les compétences humaines en pastilles posées sous le titre de leur bloc, sans carte, à gauche de la
+carte du récit de reconversion à partir de 900 px, au-dessus d'elle en deçà. `LectureCompetences`
+range catégories et compétences par rang et retire une catégorie sans compétence ; aucun niveau
+n'est affiché, ni note, ni pourcentage (A-06). L'en-tête de section rend lui-même son h2 : l'id
+`titre-competences`, que nomme l'élément section de la page, est porté par le texte entier du
+titre. La section lit sa propre copie de `competences.json`, à laquelle le build de test seul
+ajoute `competencesDuBanc`, une catégorie sans compétence, avant la lecture : elle ne doit pas
+l'afficher. Rien n'y est encore animé.
+
 ## Styles
 
 Les jetons de la charte graphique sont des propriétés personnalisées CSS, déclarées dans

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { NavigationService } from '../../services/navigation/navigation';
 import { Accueil } from './accueil/accueil';
+import { Competences } from './competences/competences';
 
 /**
  * La page principale (PF-06) : la section accueil en haut, sans ancre, porteuse du seul titre de
@@ -17,7 +18,7 @@ import { Accueil } from './accueil/accueil';
  * les sections réelles remplacent une à une.
  */
 @Component({
-  imports: [Accueil],
+  imports: [Accueil, Competences],
   selector: 'app-principale',
   styleUrl: './principale.scss',
   templateUrl: './principale.html',
