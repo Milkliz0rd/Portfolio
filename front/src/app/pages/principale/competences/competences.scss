@@ -1,0 +1,108 @@
+// La section Compétences (EC-03), posée dans l'élément section de la page principale, qui lui donne
+// sa largeur, sa marge de page et sa respiration haute et basse. Entre ses parties, le rythme des
+// maquettes : sous l'en-tête, 48 px, puis 64 px entre les deux blocs ; 64 et 96 px à partir de
+// 900 px. Chaque grille a des colonnes sans largeur minimale : un mot plus long que la ligne y
+// passe à la ligne au lieu d'élargir la colonne hors de la section.
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+.competences__bloc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espace-6);
+  margin-block-start: var(--espace-12);
+
+  @include ruptures.depuis(large) {
+    margin-block-start: var(--espace-16);
+  }
+}
+
+.competences__bloc--humaines {
+  margin-block-start: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    margin-block-start: var(--espace-24);
+  }
+}
+
+// Le titre d'un bloc à l'intérieur de la section, en h3 : taille-titre-2, comme le titre d'un bloc
+// de l'en-tête de section (CO-16).
+.competences__titre-bloc {
+  color: var(--couleur-texte);
+  font-size: var(--taille-titre-2);
+  font-weight: var(--graisse-titre);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--approche-titre);
+}
+
+// Les catégories en grille : une colonne en tranche étroite, deux en moyenne et large, trois à
+// partir de la très large (charte, section 5), séparées par la gouttière de la tranche.
+.competences__categories {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gouttiere);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include ruptures.depuis(moyenne) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include ruptures.depuis(tres-large) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// Les cartes d'une rangée prennent la même hauteur.
+.competences__categorie {
+  display: flex;
+  min-width: 0;
+}
+
+.competences__carte {
+  flex: 1;
+}
+
+// Les pastilles d'une liste, côte à côte, qui passent à la ligne. Une pastille plus longue que la
+// ligne y reste seule, rétrécie à sa largeur (min-width: 0), et son mot se coupe où il le faut :
+// rien ne déborde ni ne fait défiler la page.
+.competences__pastilles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-wrap: anywhere;
+}
+
+.competences__pastille {
+  min-width: 0;
+}
+
+// Les pastilles humaines, puis la carte du récit, l'une sous l'autre ; côte à côte à partir de
+// 900 px, chacune en haut de sa colonne (choix 6).
+.competences__humaines {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gouttiere);
+  align-items: start;
+
+  @include ruptures.depuis(large) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// Les paragraphes du récit, sans les marges du navigateur, sur la longueur de ligne de la charte.
+.competences__paragraphe {
+  max-width: var(--conteneur-texte);
+  margin: 0;
+}
+
+.competences__paragraphe + .competences__paragraphe {
+  margin-block-start: var(--espace-3);
+}
