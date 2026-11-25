@@ -512,9 +512,16 @@ jamais lié (un panneau ouvert avant le démarrage le reste).
 
 Bricolage Grotesque (700, 800), Hanken Grotesk (400 à 700) et JetBrains Mono (400, 500) sont
 servies par le site depuis `public/polices/` : aucune police n'est demandée à un tiers.
-`src/index.html` précharge les deux fichiers du premier écran, Bricolage Grotesque 800 et Hanken
-Grotesk 400. Le dossier ne contient qu'un fichier WOFF2 par graisse et la licence SIL Open Font
-License 1.1 de chaque famille, ce que vérifie `outils/tests/polices.test.mjs`. Les sources sont les
+`src/index.html` précharge les six fichiers qu'emploie l'accueil : Bricolage Grotesque 700 et 800,
+Hanken Grotesk 400, 600 et 700, JetBrains Mono 500 (six au lieu de deux depuis le 25/11/2026).
+Chaque règle garde `font-display: swap` : le texte s'affiche aussitôt dans la police de repli. Or
+l'accueil est au-dessus des ancres de la page principale : s'il changeait de hauteur à l'arrivée
+d'une police, une section ouverte par son ancre (`/#methode`) se retrouverait décalée, de quelques
+pixels à l'ordinateur et de 26 px au téléphone, même sans script. Préchargées, elles sont demandées
+dès la lecture du `head`, avant la feuille de style ; sur le banc (`adresse.spec.ts`), elles sont là
+quand le navigateur ouvre l'ancre. Le dossier ne contient qu'un fichier WOFF2 par graisse et la
+licence SIL Open Font License 1.1 de chaque famille, ce que vérifie `outils/tests/polices.test.mjs`
+(les six préchargements compris). Les sources sont les
 fichiers variables du dossier `ofl/` de
 [google/fonts](https://github.com/google/fonts/tree/58466038e19d5a14053e0c9f863715e74af0fe0e/ofl) :
 

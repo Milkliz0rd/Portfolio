@@ -31,8 +31,17 @@ describe('polices servies par le site', () => {
     expect(absentes(adresses)).toEqual([]);
   });
 
-  it('précharge deux fichiers du dossier, déclarés par les règles', () => {
-    expect(prechargees).toHaveLength(2);
+  // Les six graisses de l'accueil (décision du 25/11/2026) : à leur arrivée, l'accueil, au-dessus
+  // des ancres de la page principale, ne change plus de hauteur.
+  it('précharge les six fichiers de l’accueil, du dossier, déclarés par les règles', () => {
+    expect(prechargees).toEqual([
+      '/polices/bricolage-grotesque-700-v1.001.woff2',
+      '/polices/bricolage-grotesque-800-v1.001.woff2',
+      '/polices/hanken-grotesk-400-v3.013.woff2',
+      '/polices/hanken-grotesk-600-v3.013.woff2',
+      '/polices/hanken-grotesk-700-v3.013.woff2',
+      '/polices/jetbrains-mono-500-v2.211.woff2',
+    ]);
     expect(absentes(prechargees)).toEqual([]);
     expect(prechargees.filter((adresse) => !adresses.includes(adresse))).toEqual([]);
   });
