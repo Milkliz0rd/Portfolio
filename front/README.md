@@ -699,6 +699,14 @@ traces des échecs dans `test-results/`, non versionnés.
   sous l'en-tête (`e2e/support/lecture.ts` attend la position, jamais un délai), l'élément intérieur
   dont l'adresse devient celle de sa section, l'ancre qui ne nomme rien en haut et hors de l'adresse,
   avant le démarrage de l'application (script principal bloqué) comme après.
+- `accueil.spec.ts`, la section Accueil, ses textes attendus lus dans le contenu : à l'arrivée, le
+  nom, seul titre de niveau 1, l'intitulé, la présentation et une carte par section ; « Écrire un
+  message », seul bouton mis en avant, au contact en un clic ; chaque carte qui défile jusqu'à sa
+  section, sous l'en-tête, sans étape d'historique ; `/` ouvert puis rechargé, en haut ; l'arbre
+  d'accessibilité comparé nœud pour nœud à un instantané (`toMatchAriaSnapshot`), sans rien de la
+  fenêtre « profil.ts » ; la fenêtre absente sous 600 px, sous le texte jusqu'à 1199 px, à côté
+  dès 1200 px ; les cartes hors de l'ambiance ; aucun défilement horizontal de 320 à 2560 px ; sans
+  script, les cartes et le bouton restent de vrais liens.
 - `navigation.spec.ts`, l'en-tête : sur la page principale, chaque entrée défile jusqu'à sa section,
   signalée (`aria-current="location"`), sans étape d'historique, et le retour arrière quitte la page ;
   l'entrée signalée et l'adresse suivent la lecture, jusqu'au bout d'un écran de 2560 px ; depuis

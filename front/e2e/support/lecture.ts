@@ -9,12 +9,18 @@ export function adresse(page: Page): Promise<string> {
   return page.evaluate(() => `${location.pathname}${location.search}${location.hash}`);
 }
 
-/** L'écart, en px arrondis, entre le haut de l'élément et sa place sous l'en-tête. */
+/**
+ * L'écart, en px arrondis, entre le haut de l'élément et sa place sous l'en-tête, 0 à moins d'un
+ * pixel : sur une page aux hauteurs fractionnaires (tailles de texte fluides), le défilement
+ * s'arrête au pixel (WebKit) et laisse l'élément à une fraction de pixel de sa place, où
+ * Math.round rendrait -1 ou -0, que toBe(0) refuse (Object.is).
+ */
 function ecartSousLEntete(page: Page, id: string): Promise<number> {
   return page.evaluate((id) => {
     const haut = document.getElementById(id)?.getBoundingClientRect().top ?? NaN;
     const decalage = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop);
-    return Math.round(haut - decalage);
+    const ecart = haut - decalage;
+    return Math.abs(ecart) < 1 ? 0 : Math.round(ecart);
   }, id);
 }
 
