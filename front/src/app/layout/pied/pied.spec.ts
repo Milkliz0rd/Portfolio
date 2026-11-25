@@ -36,6 +36,8 @@ describe('Pied', () => {
   it('clôt la page : la marque et les profils, puis la signature et les mentions légales', async () => {
     const { hote, pied } = await rendre();
     expect([...hote.children].map(({ localName }) => localName)).toEqual(['footer']);
+    // Une région nommée, comme l'en-tête (« En-tête du site ») et le contenu principal.
+    expect(pied.getAttribute('aria-label')).toBe('Pied de page du site');
     const rangees = [...pied.children].map((rangee) => rangee.className);
     expect(rangees).toEqual(['pied__haut', 'pied__bas']);
     const lus = [...pied.querySelectorAll('.pied__marque, a, .pied__signature')].map(texte);

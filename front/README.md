@@ -391,7 +391,9 @@ dans `profil.json` (`liens`), liens discrets et externes ; aucun lien vers X. Ra
 signature, le nom de domaine tiré d'`origineSite` sans `www.` (`localhost` dans le build de test),
 sans année ni « © » ; « Mentions légales », lien du routeur vers `/mentions-legales`, que suivra le
 bouton de pause des animations (TK-50), dans le même groupe. Chaque lien a 44 px de haut. Sous
-600 px, un élément par ligne ; à partir de 600 px, chaque rangée met ses éléments aux deux bouts.
+600 px, la marque, les profils (GitHub et LinkedIn côte à côte), la signature et les mentions
+légales l'un sous l'autre ; à partir de 600 px, chaque rangée met ses éléments aux deux bouts. Le
+pied, une région nommée « Pied de page du site », reste en bas de la fenêtre sur une page courte.
 
 ## Mouvement
 
@@ -644,6 +646,14 @@ traces des échecs dans `test-results/`, non versionnés.
   font pas une erreur) ; une fois, l'erreur non rattrapée `Error` d'un message exact que le test
   fait lever (`attendreErreurDePage`).
 - `mouvement.spec.ts`, le socle du mouvement (voir « Mouvement »).
+- `pied.spec.ts`, le pied de page de la page principale, du contact, des mentions légales, d'une
+  fiche et d'une adresse inconnue, l'application démarrée puis sans script : GitHub et LinkedIn ont
+  l'adresse de `profil.json` et s'ouvrent dans un nouvel onglet (`target`, `rel`, nom « GitHub
+  (nouvel onglet) »), sans être suivis ; aucun lien vers X ; « Mentions légales » mène à
+  `/mentions-legales` ; la signature est le domaine de l'origine du banc, sans année ; chaque lien a
+  44 px de haut ; la marque, les profils, la signature et les mentions légales l'un sous l'autre à
+  320 et 599 px, chaque rangée aux deux bouts à 600 et 1280 px ; sur une page courte, le pied en bas
+  de la fenêtre.
 - `adresse.spec.ts`, les ancres de la page principale à l'ouverture et au rechargement : la section
   sous l'en-tête (`e2e/support/lecture.ts` attend la position, jamais un délai), l'élément intérieur
   dont l'adresse devient celle de sa section, l'ancre qui ne nomme rien en haut et hors de l'adresse,
