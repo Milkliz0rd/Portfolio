@@ -480,8 +480,9 @@ transitions), aussi avec une pause mémorisée et un stockage local indisponible
 vérifient que **tout le contenu est visible** : `contenuCache(page)`, de
 `e2e/support/contenu-visible.ts`, rend chaque élément de contenu caché avec sa raison ; chaque écran
 l'emploie : `expect(await contenuCache(page)).toEqual([])`. Hors du compte : le texte réservé aux
-lecteurs d'écran, le décor `aria-hidden`, et la navigation complète de l'en-tête là où la charte la
-retire (`display: none` sous 1200 px).
+lecteurs d'écran, le décor `aria-hidden`, la navigation complète de l'en-tête là où la charte la
+retire (`display: none` sous 1200 px), et le panneau du menu replié tant que son `details` est
+fermé.
 
 **Le cadre commun** (EC-00, `app.html`) : le lien d'évitement (`layout/lien-evitement`, premier
 élément focalisable ; une fois l'application démarrée, son clic fait défiler le contenu principal et
@@ -491,7 +492,18 @@ arrivée : la marque (monogramme « AM » décoratif sous 480 px, le nom restant
 complète à partir de 1200 px (liens du routeur vers `/` et l'ancre de la section, `replaceUrl` depuis
 la page principale seulement), « Contact » (bouton primaire compact) ; seule l'entrée courante porte
 le repère, un élément propre ; fond à 92 %, à 74 % avec flou à partir de 900 px si le navigateur sait
-flouter (`@supports`). Le menu replié vient avec TK-29.
+flouter (`@supports`), opacités et monogramme en jetons de rôle (`--opacite-fond-entete`,
+`--opacite-fond-entete-flou`, `--taille-monogramme`). Sous 1200 px, le menu replié
+(`layout/menu-replie`, CO-07) prend la place de la navigation complète, après « Contact », qui reste
+hors du menu : un `details` dont le résumé est le bouton icône « Menu » (libellé masqué,
+`aria-controls` vers le panneau) ; le panneau, pleine largeur moins les marges, de 320 px aligné à
+droite à partir de 600 px, liste les entrées de la navigation complète, une seule liste
+(`layout/entete/entrees.ts`) : mêmes liens, même `replaceUrl`, même entrée signalée, marquée par son
+propre repère (fond d'accent à 16 %, barre de 3 px), sans nom de transition de vue. Sans script, il
+s'ouvre et se ferme par son bouton et ses liens se suivent ; une fois l'application démarrée, Échap
+le ferme et rend le focus au bouton, un clic hors du panneau le ferme, choisir une entrée le ferme.
+Rien d'autre : ce n'est pas une fenêtre modale, la lecture ne bouge pas, et l'attribut `open` n'est
+jamais lié (un panneau ouvert avant le démarrage le reste).
 
 ## Polices
 

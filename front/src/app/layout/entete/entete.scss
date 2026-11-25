@@ -22,14 +22,14 @@
 
 // Le fond, sous le contenu de l'en-tête : couleur-fond à 92 %, sans flou ; à partir de 900 px, à
 // 74 % avec flou-verre, si le navigateur sait flouter l'arrière-plan (charte, section 6). Un calque
-// à l'opacité voulue : un mélange de couleurs ne s'écrit que dans _jetons.scss (PF-10).
+// à l'opacité voulue (jetons de rôle) : un mélange de couleurs ne s'écrit que dans _jetons.scss.
 .entete::before {
   position: absolute;
   inset: 0;
   z-index: -1;
   content: '';
   background: var(--couleur-fond);
-  opacity: 0.92;
+  opacity: var(--opacite-fond-entete);
 }
 
 @include ruptures.depuis(large) {
@@ -39,7 +39,7 @@
     }
 
     .entete::before {
-      opacity: 0.74;
+      opacity: var(--opacite-fond-entete-flou);
     }
   }
 }
@@ -64,13 +64,13 @@
   white-space: nowrap;
 }
 
-// 36 px : la cible de 44 px, moins une marge de espace-1 de chaque côté.
+// 36 px (taille-monogramme) : la cible de 44 px, moins une marge de espace-1 de chaque côté.
 .entete__monogramme {
   display: grid;
   flex: none;
   place-items: center;
-  inline-size: calc(var(--cible-tactile) - 2 * var(--espace-1));
-  block-size: calc(var(--cible-tactile) - 2 * var(--espace-1));
+  inline-size: var(--taille-monogramme);
+  block-size: var(--taille-monogramme);
   border: var(--bordure-epaisseur) solid var(--verre-bordure);
   border-radius: var(--arrondi-moyen);
   background: var(--couleur-surface-relevee);
@@ -90,13 +90,19 @@
   }
 }
 
-// La navigation complète à partir de 1200 px ; en dessous, la marque et « Contact » seuls, le
-// bouton du menu replié venant avec TK-29.
+// La navigation complète à partir de 1200 px ; en dessous, la marque, « Contact » et le bouton du
+// menu replié, dont le panneau se place sous l'en-tête (.entete, positionné).
 .entete__navigation {
   display: none;
 
   @include ruptures.depuis(tres-large) {
     display: block;
+  }
+}
+
+.entete__menu {
+  @include ruptures.depuis(tres-large) {
+    display: none;
   }
 }
 

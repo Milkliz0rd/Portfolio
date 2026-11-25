@@ -6,17 +6,19 @@ import type { Page } from '@playwright/test';
 // qu'aucun ancêtre qui rogne (overflow hidden ou clip) n'efface, aucune translation qui le sort de
 // sa boîte (la sienne ou celle d'un ancêtre). Hors du compte, cachés à dessein : le texte réservé
 // aux lecteurs d'écran (.masque-visuellement), le décor qui leur est masqué (aria-hidden="true"),
-// et ce que la charte retire à certaines largeurs par display: none, comme la navigation complète
-// de l'en-tête sous 1200 px (CO-06), quand il est retiré.
+// ce que la charte retire à certaines largeurs par display: none, comme la navigation complète
+// de l'en-tête sous 1200 px (CO-06), quand il est retiré, et le seul panneau du menu replié (CO-07)
+// tant que son details est fermé.
 
 const CONTENU = 'h1, h2, h3, h4, h5, h6, p, a, button, img, li, dt, dd';
 const HORS_DU_COMPTE = '.masque-visuellement, [aria-hidden="true"]';
 const SELON_LA_LARGEUR = '.entete__navigation';
+const PANNEAU_FERME = 'details.menu-replie:not([open]) > .menu-replie__panneau';
 
 /** Les éléments de contenu de la page qui ne sont pas visibles, avec leur raison ; vide sinon. */
 export function contenuCache(page: Page): Promise<string[]> {
   return page.evaluate(
-    ({ contenu, horsDuCompte, selonLaLargeur }) => {
+    ({ contenu, horsDuCompte, selonLaLargeur, panneauFerme }) => {
       const nom = (e: Element) =>
         [e.tagName.toLowerCase(), ...[...e.classList].map((c) => `.${c}`)].join('');
       const texte = (e: Element) =>
@@ -68,6 +70,7 @@ export function contenuCache(page: Page): Promise<string[]> {
         (e) =>
           (e.matches(contenu) || (texte(e) && !e.matches('script, style, template, noscript'))) &&
           !e.closest(horsDuCompte) &&
+          !e.closest(panneauFerme) &&
           !retire(e),
       );
       return elements.flatMap((element) => {
@@ -76,6 +79,11 @@ export function contenuCache(page: Page): Promise<string[]> {
         return pourquoi ? [`${nom(element)} « ${extrait} » : ${pourquoi}`] : [];
       });
     },
-    { contenu: CONTENU, horsDuCompte: HORS_DU_COMPTE, selonLaLargeur: SELON_LA_LARGEUR },
+    {
+      contenu: CONTENU,
+      horsDuCompte: HORS_DU_COMPTE,
+      selonLaLargeur: SELON_LA_LARGEUR,
+      panneauFerme: PANNEAU_FERME,
+    },
   );
 }
