@@ -1,0 +1,33 @@
+// La section Parcours (EC-02), dans la largeur que lui donne son élément section de la page
+// principale : l'en-tête, l'orientation et la frise l'un sous l'autre, espacés de 48 px
+// (espace-12), la frise sur toute la largeur (maquette).
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espace-12);
+}
+
+// L'étiquette « Orientation » au-dessus de son texte, à 12 px (bloc titré de la maquette).
+.parcours__orientation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espace-3);
+  justify-items: start;
+
+  > * {
+    max-width: 100%;
+  }
+}
+
+// Le texte d'orientation en texte courant, sur la longueur de ligne de la charte, ses paragraphes
+// espacés de 20 px (texte long de la maquette).
+.parcours__texte {
+  display: grid;
+  gap: var(--espace-5);
+  max-width: var(--conteneur-texte);
+  color: var(--couleur-texte-secondaire);
+
+  > p {
+    margin: 0;
+  }
+}
