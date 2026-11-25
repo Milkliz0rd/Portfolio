@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { projetExiste } from './guards/projet-existe';
+import type { VarianteErreur } from './pages/erreur/erreur';
 import { Principale } from './pages/principale/principale';
 import { Provisoire } from './pages/provisoire/provisoire';
 
@@ -9,12 +10,15 @@ import { Provisoire } from './pages/provisoire/provisoire';
 // data.section désigne l'entrée de navigation signalée ; la page principale n'en a pas (la section
 // lue la donnera), les mentions légales et les routes d'erreur non plus. data.variante choisit la
 // page introuvable.
+const erreur = () => import('./pages/erreur/erreur').then((m) => m.Erreur);
+
 export const routes: Routes = [
   { path: '', pathMatch: 'full', component: Principale },
+  // Avant « projets/:id » : l'identifiant de projet « 404 » est réservé (PF-02).
   {
     path: 'projets/404',
-    component: Provisoire,
-    data: { variante: 'projet-inexistant', ecran: 'EC-11 Page introuvable' },
+    loadComponent: erreur,
+    data: { variante: 'projet-inexistant' satisfies VarianteErreur },
   },
   // Un identifiant inconnu des fichiers de contenu ne correspond pas : il va jusqu'à « ** ».
   {
@@ -32,8 +36,9 @@ export const routes: Routes = [
   },
   {
     path: '404',
-    component: Provisoire,
-    data: { variante: 'adresse-inconnue', ecran: 'EC-11 Page introuvable' },
+    loadComponent: erreur,
+    data: { variante: 'adresse-inconnue' satisfies VarianteErreur },
   },
-  { path: '**', component: Provisoire, data: { ecran: 'EC-11 Page introuvable' } },
+  // Toute autre adresse, rendue dans le navigateur : la variante vient de l'adresse.
+  { path: '**', loadComponent: erreur },
 ];

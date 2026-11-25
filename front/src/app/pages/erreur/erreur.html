@@ -1,0 +1,21 @@
+<app-ambiance variante="accueil" class="erreur">
+  <div class="conteneur-large erreur__contenu">
+    <p class="affiche" aria-hidden="true">404</p>
+    <h1 class="erreur__titre" i18n="@@erreur.titre">Cette page n’existe pas</h1>
+    <p class="erreur__chapo" i18n="@@erreur.chapo">
+      L’adresse demandée ne correspond à aucune page du site.
+    </p>
+    <div class="erreur__actions">
+      <a appBouton routerLink="/">
+        <span i18n="@@erreur.accueil">Revenir à l’accueil</span>
+        <app-icone nom="fleche" />
+      </a>
+      @if (variante() === 'projet-inexistant') {
+        <a appBouton variante="secondaire" routerLink="/" [fragment]="'projets'">
+          <span i18n="@@erreur.projets">Voir la liste des projets</span>
+          <app-icone nom="fleche" />
+        </a>
+      }
+    </div>
+  </div>
+</app-ambiance>
