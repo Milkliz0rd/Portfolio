@@ -1,0 +1,51 @@
+// La page introuvable (EC-11), au rythme de l'accueil des maquettes : 64 px au-dessus et au-dessous,
+// 80 et 96 px à partir de la tranche large, 128 px au-dessus à partir de l'immense. Le « 404 »,
+// le titre, la phrase et les retours empilés, à espace-6 ; le titre à taille-titre-2, comme la
+// maquette ; la phrase en chapô, sur conteneur-texte ; les retours côte à côte quand la place le
+// permet.
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+.erreur {
+  padding-block: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-20) var(--espace-24);
+  }
+
+  @include ruptures.depuis(immense) {
+    padding-block-start: var(--espace-32);
+  }
+}
+
+.erreur__contenu {
+  display: grid;
+  gap: var(--espace-6);
+  justify-items: start;
+}
+
+.erreur__contenu > * {
+  max-width: 100%;
+}
+
+.erreur__titre {
+  font-size: var(--taille-titre-2);
+  hyphens: manual;
+}
+
+.erreur__chapo {
+  max-width: var(--conteneur-texte);
+  margin: 0;
+  color: var(--couleur-texte-secondaire);
+  font-size: var(--taille-chapo);
+  line-height: var(--interligne-chapo);
+}
+
+.erreur__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-3);
+}
