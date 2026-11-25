@@ -127,8 +127,9 @@ d'historique. Posées hors de l'arrière-plan d'ambiance, sur le fond uni, elles
 un halo. Rien n'y est encore animé.
 
 **La section Parcours** (`src/app/pages/principale/parcours/`) se pose dans l'élément
-`section#parcours` de la page principale, que nomme l'id `titre-parcours` : l'en-tête de section ne
-donnant pas d'id à son titre, la section projette dans son `h2` le texte qui le porte. Elle ne tire
+`section#parcours` de la page principale, dont l'`aria-labelledby` vise l'id `titre-parcours` :
+l'en-tête de section ne donnant pas d'id à son titre, la section projette dans son `h2` le texte
+qui porte cet id. Elle ne tire
 ses textes que de `parcours.json` : l'introduction (C-10) en chapô de l'en-tête numéroté 01, le
 texte d'orientation (C-09) sous l'étiquette « Orientation », puis la frise des trois étapes, dans
 l'ordre reconversion, bac+3, master que garantit `LectureParcours`, quel que soit celui du fichier.
