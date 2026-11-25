@@ -38,7 +38,7 @@ describe('App', () => {
     expect([demarrer, navigation].map(({ mock }) => mock.calls.length)).toEqual([1, 1]);
   });
 
-  it('ouvre chaque page par le lien d’évitement, puis l’en-tête, puis le contenu principal', async () => {
+  it('ouvre chaque page par le lien d’évitement, l’en-tête, le contenu principal, puis le pied', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const page = fixture.nativeElement as HTMLElement;
@@ -46,7 +46,9 @@ describe('App', () => {
       'app-lien-evitement',
       'app-entete',
       'main',
+      'app-pied',
     ]);
+    expect(page.querySelector('app-pied > footer')).not.toBeNull();
     const [premier] = page.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])');
     expect([premier.textContent?.trim(), premier.getAttribute('href')]).toEqual([
       'Aller au contenu',

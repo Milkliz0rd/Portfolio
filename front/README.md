@@ -384,6 +384,15 @@ intitulés et détails restent alignés (`subgrid`). Le trait, entier, va du pre
 l'étape mise en avant ; le tracé au défilement (MV-02) se posera sur `.frise__liste::after` et
 `.frise__point`. Point et trait : `--taille-point-frise` (13 px), `--epaisseur-trace-frise` (2 px).
 
+**Le pied de page** (CO-08, `layout/pied`), `<app-pied />` après le contenu principal dans
+`app.html`, sur toutes les pages, jamais dans une arrivée : un filet `couleur-bordure` au-dessus,
+aligné sur le conteneur large comme l'en-tête. Rangée haute : la marque, puis GitHub et LinkedIn, lus
+dans `profil.json` (`liens`), liens discrets et externes ; aucun lien vers X. Rangée basse : la
+signature, le nom de domaine tiré d'`origineSite` sans `www.` (`localhost` dans le build de test),
+sans année ni « © » ; « Mentions légales », lien du routeur vers `/mentions-legales`, que suivra le
+bouton de pause des animations (TK-50), dans le même groupe. Chaque lien a 44 px de haut. Sous
+600 px, un élément par ligne ; à partir de 600 px, chaque rangée met ses éléments aux deux bouts.
+
 ## Mouvement
 
 Le socle du mouvement garantit qu'aucune animation ne cache jamais le contenu, ni sans script, ni

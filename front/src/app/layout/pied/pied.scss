@@ -1,0 +1,64 @@
+// Pied de page (CO-08) : un filet couleur-bordure au-dessus, aligné sur le conteneur large comme
+// l'en-tête. Sous 600 px, il se lit en colonne, un élément par ligne ; à partir de 600 px, chaque
+// rangée place ses éléments aux deux extrémités. Jamais dans une animation d'arrivée.
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+.pied {
+  display: grid;
+  gap: var(--espace-6);
+  padding-block: var(--espace-10);
+  padding-inline: max(var(--marge-page), calc((100% - var(--conteneur-large)) / 2));
+  border-block-start: var(--bordure-epaisseur) solid var(--couleur-bordure);
+}
+
+.pied__haut,
+.pied__bas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espace-3) var(--espace-6);
+  align-items: flex-start;
+
+  @include ruptures.depuis(moyenne) {
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.pied__marque,
+.pied__signature {
+  margin: 0;
+}
+
+.pied__marque {
+  color: var(--couleur-texte);
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-4);
+  font-weight: var(--graisse-titre);
+  letter-spacing: var(--approche-sous-titre);
+}
+
+// Les liens des profils, puis les actions : « Mentions légales » et, avec TK-50, le bouton de
+// pause, qui passe à la ligne s'il manque de place.
+.pied__liens,
+.pied__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-1) var(--espace-5);
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Chaque lien atteint 44 px de haut (CO-08), et de large.
+.pied__lien {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--cible-tactile);
+  min-inline-size: var(--cible-tactile);
+}
