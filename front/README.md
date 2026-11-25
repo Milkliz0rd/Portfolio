@@ -137,7 +137,8 @@ carte du récit de reconversion à partir de 900 px, au-dessus d'elle en deçà.
 range catégories et compétences par rang et retire une catégorie sans compétence ; aucun niveau
 n'est affiché, ni note, ni pourcentage (A-06). L'en-tête de section rend lui-même son h2 : l'id
 `titre-competences`, que nomme l'élément section de la page, est porté par le texte entier du
-titre. La section lit sa propre copie de `competences.json`, à laquelle le build de test seul
+titre, en bloc : sa boîte est celle du h2, et `/#titre-competences` s'ouvre au même endroit dans
+les trois moteurs. La section lit sa propre copie de `competences.json`, à laquelle le build de test seul
 ajoute `competencesDuBanc`, une catégorie sans compétence, avant la lecture : elle ne doit pas
 l'afficher. Rien n'y est encore animé.
 

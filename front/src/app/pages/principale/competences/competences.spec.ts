@@ -54,6 +54,7 @@ describe('Competences', () => {
     const nom = racine.querySelector('#titre-competences');
     expect(nom?.closest('h2')).toBe(titres[0]);
     expect(texte(nom)).toBe(texte(titres[0]));
+    expect(getComputedStyle(nom!).display).toBe('block');
     expect(entete.querySelector('.entete-section__chapo')).toBeNull();
   });
 
