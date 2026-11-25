@@ -12,9 +12,9 @@
     text-decoration-color var(--duree-courte) var(--courbe-standard);
 }
 
-// Dans le texte et externe : soulignement plein de 2 px au survol.
-:host(.lien--texte:hover),
-:host(.lien--externe:hover) {
+// Dans le texte : soulignement plein de 2 px au survol. Un lien externe n'a pas de survol propre :
+// il prend celui de sa variante (décision 1 de W19).
+:host(.lien--texte:hover) {
   text-decoration-color: currentcolor;
   text-decoration-thickness: var(--epaisseur-soulignement-survol);
 }

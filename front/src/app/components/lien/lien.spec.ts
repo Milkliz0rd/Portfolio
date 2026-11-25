@@ -3,7 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter, RouterLink } from '@angular/router';
 import { CourantLien, Lien, VarianteLien } from './lien';
 
-const VARIANTES: VarianteLien[] = ['texte', 'discret', 'action', 'navigation', 'externe'];
+const VARIANTES: VarianteLien[] = ['texte', 'discret', 'action', 'navigation'];
+const FLECHE = 'M5 12h14M13 6l6 6-6 6';
+const FLECHE_OBLIQUE = 'M9 5h10v10M19 5 6 18';
 
 @Component({
   imports: [Lien, RouterLink],
@@ -11,15 +13,26 @@ const VARIANTES: VarianteLien[] = ['texte', 'discret', 'action', 'navigation', '
     <a appLien [variante]="variante()" [courant]="courant()" routerLink="/contact">
       Voir la fiche
     </a>
-    <a appLien variante="externe" href="https://example.org/profil">Profil externe</a>
+    <a appLien [variante]="variante()" [externe]="externe()" href="https://example.org/profil">
+      Profil externe
+    </a>
   `,
 })
 class Hote {
   readonly variante = signal<VarianteLien>('texte');
   readonly courant = signal<CourantLien | undefined>(undefined);
+  readonly externe = signal(true);
 }
 
-// Le premier lien, de la variante demandée, mène à une page du site ; le second hors du site.
+/** L'entrée posée par le seul attribut, comme dans le pied de page. */
+@Component({
+  imports: [Lien],
+  template: `<a appLien variante="discret" externe href="https://example.org/profil">Profil</a>`,
+})
+class HoteAttribut {}
+
+// Le premier lien, de la variante demandée, mène à une page du site ; le second, de la même
+// variante et externe, hors du site.
 function rendre(variante: VarianteLien = 'texte', courant?: CourantLien): HTMLAnchorElement[] {
   const fixture = TestBed.createComponent(Hote);
   fixture.componentInstance.variante.set(variante);
@@ -31,6 +44,11 @@ function rendre(variante: VarianteLien = 'texte', courant?: CourantLien): HTMLAn
 const variantesPortees = (lien: HTMLElement) =>
   [...lien.classList].filter((classe) => classe.startsWith('lien--'));
 const texte = (lien: HTMLElement) => lien.textContent?.replace(/\s+/g, ' ').trim();
+const traces = (lien: HTMLElement) =>
+  [...lien.querySelectorAll('app-icone svg')].map((svg) => [
+    svg.querySelector('path')?.getAttribute('d'),
+    svg.getAttribute('aria-hidden'),
+  ]);
 
 describe('Lien', () => {
   beforeEach(() => TestBed.configureTestingModule({ providers: [provideRouter([])] }));
@@ -43,7 +61,7 @@ describe('Lien', () => {
     expect(variantesPortees(lien)).toEqual([`lien--${variante}`]);
   });
 
-  it.each(VARIANTES.filter((variante) => variante !== 'externe'))(
+  it.each(VARIANTES)(
     'ouvre « %s » dans l’onglet courant, sans icône ni texte ajouté',
     (variante) => {
       const [lien] = rendre(variante);
@@ -52,6 +70,7 @@ describe('Lien', () => {
       if (variante !== 'action') {
         expect(lien.querySelector('svg')).toBeNull();
       }
+      expect(lien.querySelector('.masque-visuellement')).toBeNull();
       expect(texte(lien)).toBe('Voir la fiche');
     },
   );
@@ -61,23 +80,54 @@ describe('Lien', () => {
     const icones = lien.querySelectorAll('app-icone');
     expect(icones).toHaveLength(1);
     expect(lien.lastElementChild).toBe(icones[0]);
-    expect(icones[0].querySelector('path')?.getAttribute('d')).toBe('M5 12h14M13 6l6 6-6 6');
-    expect(icones[0].querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
+    expect(traces(lien)).toEqual([[FLECHE, 'true']]);
   });
 
-  it('ouvre le lien externe dans un nouvel onglet, sans lien vers la page d’origine', () => {
-    const [, lien] = rendre();
+  it.each(VARIANTES)(
+    'ouvre « %s » externe dans un nouvel onglet, sans lien vers la page d’origine, dans sa variante',
+    (variante) => {
+      const [, lien] = rendre(variante);
+      expect(lien.getAttribute('href')).toBe('https://example.org/profil');
+      expect(lien.getAttribute('target')).toBe('_blank');
+      expect(lien.getAttribute('rel')?.split(' ').sort()).toEqual(['noopener', 'noreferrer']);
+      expect(variantesPortees(lien)).toEqual([`lien--${variante}`, 'lien--externe']);
+    },
+  );
+
+  // CO-02 donne une seule icône par lien : l'externe d'action n'a que la flèche oblique.
+  it.each(VARIANTES)(
+    'annonce « %s » externe par la seule flèche oblique, décorative, et un texte masqué',
+    (variante) => {
+      const [, lien] = rendre(variante);
+      expect(traces(lien)).toEqual([[FLECHE_OBLIQUE, 'true']]);
+      const masque = lien.querySelector('.masque-visuellement');
+      expect(masque?.textContent?.trim()).toBe('(nouvel onglet)');
+      expect(lien.lastElementChild).toBe(masque);
+      // Le nom accessible : le texte, puis l'annonce ; la flèche, aria-hidden, n'en fait pas partie.
+      expect(texte(lien)).toBe('Profil externe (nouvel onglet)');
+    },
+  );
+
+  it('se dit externe par le seul attribut, sans valeur : <a appLien externe>', () => {
+    const fixture = TestBed.createComponent(HoteAttribut);
+    fixture.detectChanges();
+    const lien = (fixture.nativeElement as HTMLElement).querySelector('a')!;
+    expect(variantesPortees(lien)).toEqual(['lien--discret', 'lien--externe']);
     expect(lien.getAttribute('target')).toBe('_blank');
-    expect(lien.getAttribute('rel')?.split(' ').sort()).toEqual(['noopener', 'noreferrer']);
+    expect(texte(lien)).toBe('Profil (nouvel onglet)');
   });
 
-  it('annonce le lien externe par la flèche oblique, décorative, et un texte masqué', () => {
-    const [, lien] = rendre();
-    const svg = lien.querySelector('app-icone svg');
-    expect(svg?.querySelector('path')?.getAttribute('d')).toBe('M9 5h10v10M19 5 6 18');
-    expect(svg?.getAttribute('aria-hidden')).toBe('true');
-    expect(lien.querySelector('.masque-visuellement')?.textContent?.trim()).toBe('(nouvel onglet)');
-    expect(texte(lien)).toBe('Profil externe (nouvel onglet)');
+  it('retire le nouvel onglet, la flèche oblique et le texte masqué quand externe repasse à faux', () => {
+    const fixture = TestBed.createComponent(Hote);
+    fixture.detectChanges();
+    const lien = (fixture.nativeElement as HTMLElement).querySelectorAll('a')[1];
+    expect(lien.getAttribute('target')).toBe('_blank');
+    fixture.componentInstance.externe.set(false);
+    fixture.detectChanges();
+    expect(['target', 'rel'].map((nom) => lien.hasAttribute(nom))).toEqual([false, false]);
+    expect(variantesPortees(lien)).toEqual(['lien--texte']);
+    expect(lien.querySelector('svg')).toBeNull();
+    expect(texte(lien)).toBe('Profil externe');
   });
 
   it.each(['page', 'location'] as const)(
@@ -112,8 +162,9 @@ describe('Lien', () => {
 
 // jsdom charge la feuille du composant mais pas les jetons de _jetons.scss : il ne calcule ni la
 // couleur ni le ::after d'une règle faite de var(). Il dit en revanche quels sélecteurs un élément
-// vérifie : on compare les règles qui touchent le lien et son ::after, pas les pixels peints.
-function regles(lien: HTMLElement): string[] {
+// vérifie : on compare les règles qui touchent le lien et son ::after, pas les pixels peints. Au
+// survol, :hover est retiré des sélecteurs, que jsdom ne vérifie jamais.
+function regles(lien: HTMLElement, survol = false): string[] {
   return [...document.styleSheets]
     .flatMap((feuille) => [...feuille.cssRules])
     .filter((regle) => regle instanceof CSSStyleRule)
@@ -121,7 +172,11 @@ function regles(lien: HTMLElement): string[] {
       const vises = regle.selectorText
         .split(',')
         .map((selecteur) => selecteur.trim())
-        .filter((selecteur) => lien.matches(selecteur.replace(/::after$/, '')));
+        .filter((selecteur) =>
+          lien.matches(
+            (survol ? selecteur.replaceAll(':hover', '') : selecteur).replace(/::after$/, ''),
+          ),
+        );
       if (!vises.length) {
         return [];
       }
@@ -155,4 +210,16 @@ describe('Lien de navigation courant', () => {
       expect(regles(lien)).toEqual(auRepos);
     },
   );
+});
+
+describe('Lien externe : l’aspect de sa variante', () => {
+  beforeEach(() => TestBed.configureTestingModule({ providers: [provideRouter([])] }));
+
+  it.each(VARIANTES)('« %s » externe a les règles de « %s », au repos et au survol', (variante) => {
+    const [interne, externe] = rendre(variante);
+    expect(regles(externe)).toEqual(regles(interne));
+    expect(regles(externe, true)).toEqual(regles(interne, true));
+    // Le survol de la variante s'applique bien : il ajoute au moins une règle.
+    expect(regles(externe, true).length).toBeGreaterThan(regles(externe).length);
+  });
 });
