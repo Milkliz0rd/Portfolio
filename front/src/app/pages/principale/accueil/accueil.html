@@ -1,0 +1,35 @@
+<!-- L'ouverture, sur l'arrière-plan d'ambiance d'accueil, nommée par le titre de niveau 1 ; ses
+     aria-labelledby sont liés : écrits en clair, la règle i18n du lint les prendrait pour des
+     libellés. -->
+<app-ambiance variante="accueil">
+  <section class="accueil__ouverture" [attr.aria-labelledby]="'titre-accueil'">
+    <div class="accueil__grille conteneur-large">
+      <div class="accueil__texte">
+        <app-etiquette variante="puce" i18n="@@accueil.etiquette">Portfolio</app-etiquette>
+        <div class="accueil__titres">
+          <h1 id="titre-accueil" class="affiche">{{ profil.nom }}</h1>
+          <p class="accueil__intitule">{{ profil.intitule }}</p>
+        </div>
+        @for (paragraphe of presentation; track $index) {
+          <p class="accueil__presentation">{{ paragraphe }}</p>
+        }
+        <a appBouton routerLink="/contact">
+          <span i18n="@@accueil.contact">Écrire un message</span><app-icone nom="fleche" />
+        </a>
+      </div>
+      <!-- Un décor, retiré sous 600 px : l'accueil dit déjà tout ce qu'il montre. -->
+      <app-profil-code class="accueil__decor" />
+    </div>
+  </section>
+</app-ambiance>
+<!-- Les cartes, hors de l'ambiance et de ses halos, sur le fond uni. -->
+<section
+  class="accueil__sections conteneur-large"
+  [attr.aria-labelledby]="'titre-sections-accueil'"
+>
+  <div class="accueil__titres">
+    <app-etiquette i18n="@@accueil.sections">Sections</app-etiquette>
+    <h2 id="titre-sections-accueil" i18n="@@accueil.parcourir">Parcourir le profil</h2>
+  </div>
+  <app-cartes-sections />
+</section>

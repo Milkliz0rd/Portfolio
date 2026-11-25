@@ -1,0 +1,92 @@
+// La section accueil : l'ouverture sur toute la largeur de la page (l'ambiance s'étend avec la
+// fenêtre, le contenu reste dans le conteneur large), puis les cartes, sur le fond uni.
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+// La respiration d'une section d'accueil (charte, 3.3) : 64 px sur téléphone, 80 px au-dessus et
+// 96 px au-dessous à partir de 900 px, 128 px au-dessus à partir de 1600 px (maquette).
+.accueil__ouverture {
+  padding-block: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-20) var(--espace-24);
+  }
+
+  @include ruptures.depuis(immense) {
+    padding-top: var(--espace-32);
+  }
+}
+
+// Le texte puis la fenêtre, l'un sous l'autre ; côte à côte à partir de 1200 px (charte, section
+// 5), sur sept et cinq des douze colonnes de la grille de la charte.
+.accueil__grille {
+  display: grid;
+  gap: var(--espace-12);
+  align-items: center;
+
+  @include ruptures.depuis(tres-large) {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+}
+
+.accueil__texte {
+  display: grid;
+  gap: var(--espace-6);
+  justify-items: start;
+  min-width: 0;
+
+  > * {
+    max-width: 100%;
+  }
+}
+
+// Un titre et ce qui l'accompagne : l'affiche et l'intitulé, l'étiquette et le titre des cartes.
+.accueil__titres {
+  display: grid;
+  gap: var(--espace-3);
+  justify-items: start;
+}
+
+// L'intitulé à la taille titre-3, sous l'affiche.
+.accueil__intitule {
+  margin: 0;
+  color: var(--couleur-texte);
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-3);
+  font-weight: var(--graisse-forte);
+  line-height: var(--interligne-sous-titre);
+  letter-spacing: var(--approche-sous-titre);
+  text-wrap: balance;
+}
+
+// La présentation en chapô, sur la longueur de ligne de la charte.
+.accueil__presentation {
+  max-width: var(--conteneur-texte);
+  margin: 0;
+  color: var(--couleur-texte-secondaire);
+  font-size: var(--taille-chapo);
+  line-height: var(--interligne-chapo);
+}
+
+// La fenêtre « profil.ts » sort de la mise en page sous 600 px (choix C3) : display: none, et non
+// un simple masque. La règle vise l'hôte du fragment, jamais celui de la fenêtre, qui garde la
+// sienne (sans contenu, elle n'est pas affichée).
+.accueil__decor {
+  @include ruptures.jusqua(moyenne) {
+    display: none;
+  }
+}
+
+// Le rythme d'une section (charte, section 5) : 64 px sur téléphone, 96 px à partir de 900 px.
+.accueil__sections {
+  display: grid;
+  gap: var(--espace-6);
+  padding-block: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-24);
+  }
+}
