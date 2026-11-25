@@ -445,7 +445,13 @@ comportement, `smooth` ou `instant`, selon ce tableau :
 Vers un élément, cherché par son `id`, puis par son `name` : `scrollIntoView({ block: 'start' })`,
 puis le focus sans défilement (`preventScroll`), jamais par coordonnées. `scroll-padding-top: 5.5rem`
 sur `html` (`_base.scss` : `hauteur-entete` et 1.5rem, comme les maquettes) ouvre toute ancre sous
-l'en-tête, que le navigateur l'ouvre ou que le routeur y défile. « Sur la page principale » se lit
+l'en-tête, que le navigateur l'ouvre ou que le routeur y défile. S'il reste des polices à charger
+(`document.fonts.status`, lu après une mise en page forcée, qui les fait demander), le défilement
+vers un élément attend `document.fonts.ready`, puis se fait une seule fois, et toute demande de
+défilement qui le suit l'annule ; polices prêtes, il se fait aussitôt. Firefox ne prend une police,
+même préchargée, qu'à son premier emploi, et la charge après la mise en page : sans cette attente,
+l'accueil changeait de hauteur après le défilement, et depuis une page à part, `/#methode` s'ouvrait
+26 px trop haut au téléphone (`menu-replie.spec.ts`). « Sur la page principale » se lit
 dans `services/navigation`, qui garde le chemin avant et après la dernière navigation finie
 (`resteSurPrincipale()`). L'ancre qui ne nomme rien quitte l'adresse par `quitterLAncre()`, avec
 `history.replaceState(history.state, '', chemin et requête)`, qui garde l'état que le routeur a posé,
@@ -546,9 +552,16 @@ fois l'application démarrée.
 
 Bricolage Grotesque (700, 800), Hanken Grotesk (400 à 700) et JetBrains Mono (400, 500) sont
 servies par le site depuis `public/polices/` : aucune police n'est demandée à un tiers.
-`src/index.html` précharge les deux fichiers du premier écran, Bricolage Grotesque 800 et Hanken
-Grotesk 400. Le dossier ne contient qu'un fichier WOFF2 par graisse et la licence SIL Open Font
-License 1.1 de chaque famille, ce que vérifie `outils/tests/polices.test.mjs`. Les sources sont les
+`src/index.html` précharge les six fichiers qu'emploie l'accueil : Bricolage Grotesque 700 et 800,
+Hanken Grotesk 400, 600 et 700, JetBrains Mono 500 (six au lieu de deux depuis le 25/11/2026).
+Chaque règle garde `font-display: swap` : le texte s'affiche aussitôt dans la police de repli. Or
+l'accueil est au-dessus des ancres de la page principale : s'il changeait de hauteur à l'arrivée
+d'une police, une section ouverte par son ancre (`/#methode`) se retrouverait décalée, de quelques
+pixels à l'ordinateur et de 26 px au téléphone, même sans script. Préchargées, elles sont demandées
+dès la lecture du `head`, avant la feuille de style ; sur le banc (`adresse.spec.ts`), elles sont là
+quand le navigateur ouvre l'ancre. Le dossier ne contient qu'un fichier WOFF2 par graisse et la
+licence SIL Open Font License 1.1 de chaque famille, ce que vérifie `outils/tests/polices.test.mjs`
+(les six préchargements compris). Les sources sont les
 fichiers variables du dossier `ofl/` de
 [google/fonts](https://github.com/google/fonts/tree/58466038e19d5a14053e0c9f863715e74af0fe0e/ofl) :
 

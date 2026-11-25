@@ -13,7 +13,8 @@ import { NavigationService } from './services/navigation/navigation';
 // ancres. Le test navigue lui-même et relève chaque défilement : window.scrollTo vers une position,
 // scrollIntoView puis focus vers un élément. jsdom n'a ni scrollIntoView ni matchMedia : le test les
 // pose, puis les retire, comme tout ce qu'il change hors de lui (Vitest tourne sans isolation), dont
-// history.scrollRestoration, que le routeur règle et que jsdom ne connaît pas.
+// history.scrollRestoration, que le routeur règle et que jsdom ne connaît pas, et document.fonts,
+// que posent les tests de l'attente des polices.
 // L'adresse du routeur vit dans son Location simulé ; celle que réécrit l'initialiseur, dans le vrai
 // window.history de jsdom, que le test relit. L'adresse qui suit la lecture de la page principale,
 // testée avec services/navigation, n'est pas démarrée ici : jsdom ne mesure aucune section.
@@ -65,6 +66,18 @@ describe('Défilement du routeur', () => {
 
   /** Simule la position verticale de la page, que le routeur mémorise avant de la quitter. */
   const positionVerticale = (y: number) => retablir.push(poser(window, 'scrollY', y));
+
+  /** Pose des polices encore en chargement ; rend de quoi les dire prêtes, puis attendre la suite. */
+  function policesEnChargement(): () => Promise<void> {
+    let finir: () => void = () => undefined;
+    const polices = { status: 'loading', ready: new Promise<void>((r) => (finir = r)) };
+    retablir.push(poser(document, 'fonts', polices));
+    return async () => {
+      polices.status = 'loaded';
+      finir();
+      await polices.ready;
+    };
+  }
 
   beforeEach(async () => {
     reduit = false;
@@ -131,6 +144,30 @@ describe('Défilement du routeur', () => {
     reduit = true;
     expect(await aller('/#experience')).toStrictEqual(versElement('experience', 'instant'));
     expect(await aller('/')).toStrictEqual(versHaut('instant'));
+  });
+
+  it('attend que les polices soient prêtes pour aller d’un coup sur l’élément, une seule fois', async () => {
+    const pretes = policesEnChargement();
+    expect(await aller('/contact#suite')).toStrictEqual([]);
+    await pretes();
+    expect(defilements).toStrictEqual(versElement('suite', 'instant'));
+  });
+
+  it('défile aussitôt quand les polices sont prêtes, doucement sur la page principale', async () => {
+    // Des polices prêtes : ready ne se résout jamais, le défilement ne l'attend pas.
+    retablir.push(
+      poser(document, 'fonts', { status: 'loaded', ready: new Promise(() => undefined) }),
+    );
+    expect(await aller('/#parcours')).toStrictEqual(versElement('parcours', 'smooth'));
+    expect(await aller('/contact#suite')).toStrictEqual(versElement('suite', 'instant'));
+  });
+
+  it('ne défile plus vers l’élément qui attendait les polices si une autre demande a suivi', async () => {
+    const pretes = policesEnChargement();
+    expect(await aller('/contact#suite')).toStrictEqual([]);
+    expect(await aller('/mentions-legales')).toStrictEqual(versHaut('instant'));
+    await pretes();
+    expect(defilements).toStrictEqual(versHaut('instant'));
   });
 
   it('rend d’un coup la position mémorisée au retour et à l’avance, sur toute page', async () => {

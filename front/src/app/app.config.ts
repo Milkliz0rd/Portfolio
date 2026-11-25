@@ -41,16 +41,38 @@ function defilementDuRouteur(): void {
       ? 'smooth'
       : 'instant';
 
-  defilement.scrollToPosition = (position, options) =>
+  // Le rang de la dernière demande de défilement : un défilement qui attend encore les polices n'a
+  // plus lieu si une autre demande l'a suivi.
+  let derniere = 0;
+
+  defilement.scrollToPosition = (position, options) => {
+    derniere += 1;
     versPosition(position, options ?? { behavior: comportement() });
+  };
 
   // La recherche de la méthode remplacée : l'id, puis le nom ; puis le focus, sans défilement, pour
-  // que la navigation au clavier reparte de l'élément.
+  // que la navigation au clavier reparte de l'élément. S'il reste des polices à charger, le
+  // défilement les attend, puis se fait une seule fois : Firefox ne prend une police, même
+  // préchargée, qu'à son premier emploi, et la charge après la mise en page. Arrivée après le
+  // défilement, elle changeait la hauteur de l'accueil, au-dessus des sections, et Firefox ne
+  // corrige pas la position : depuis une page à part, /#methode s'ouvrait 26 px trop haut au
+  // téléphone. Polices prêtes, ou absentes de l'environnement : le défilement se fait aussitôt.
   defilement.scrollToAnchor = (ancre, options) => {
+    derniere += 1;
+    const demande = derniere;
     const cible = cibleDe(document, ancre);
     if (cible) {
-      cible.scrollIntoView({ block: 'start', behavior: options?.behavior ?? comportement() });
-      cible.focus({ preventScroll: true });
+      const behavior = options?.behavior ?? comportement();
+      const defiler = () => {
+        if (demande !== derniere) return;
+        cible.scrollIntoView({ block: 'start', behavior });
+        cible.focus({ preventScroll: true });
+      };
+      // La mise en page, forcée ici, fait demander au navigateur les polices de la page affichée.
+      cible.getBoundingClientRect();
+      const polices: FontFaceSet | undefined = document.fonts;
+      if (!polices || polices.status === 'loaded') defiler();
+      else void polices.ready.then(defiler);
     } else {
       // L'adresse perd son ancre une fois la page chargée, si aucune autre navigation n'a suivi.
       versPosition([0, 0], { behavior: 'instant' });
