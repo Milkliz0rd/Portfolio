@@ -51,15 +51,20 @@ const region = (page: Page) => page.getByRole('region', { name: 'Parcours', exac
 const frise = (page: Page) => region(page).getByRole('list', { name: 'Étapes du parcours' });
 const etapes = (page: Page) => frise(page).getByRole('listitem');
 
-/** Chaque étape affichée : sa période exacte (espaces insécables comprises), son intitulé, son détail. */
+/**
+ * Chaque étape affichée : sa période exacte (espaces insécables comprises), son intitulé, son
+ * détail. Les étapes sont prises dans section#parcours par un sélecteur CSS : evaluateAll sur une
+ * région trouvée par son nom fait planter la page dans Firefox (Playwright 1.65.1, constaté).
+ */
 function lireEtapes(page: Page) {
-  return etapes(page).evaluateAll((items) =>
+  return page.locator('section#parcours app-frise li').evaluateAll((items) =>
     items.map((item) => {
-      // Le texte visible, sans le texte masqué qui annonce l'étape mise en avant.
+      // Le texte visible : sans le texte masqué qui annonce l'étape mise en avant, retiré du texte
+      // lu, sans toucher au document.
       const visible = (selecteur: string) => {
-        const copie = item.querySelector(selecteur)?.cloneNode(true) as Element | undefined;
-        copie?.querySelectorAll('.masque-visuellement').forEach((masque) => masque.remove());
-        return copie?.textContent?.replace(/\s+/g, ' ').trim();
+        const element = item.querySelector(selecteur);
+        const masque = element?.querySelector('.masque-visuellement')?.textContent ?? '';
+        return element?.textContent?.replace(masque, '').replace(/\s+/g, ' ').trim();
       };
       return {
         periode: item.querySelector('.frise__periode')?.textContent,
@@ -70,11 +75,15 @@ function lireEtapes(page: Page) {
   );
 }
 
-/** La boîte de l'élément dans la page ; une erreur claire s'il n'est pas affiché. */
-async function boite(element: Locator) {
-  const cadre = await element.boundingBox();
-  if (!cadre) throw new Error(`${element.toString()} sans boîte`);
-  return cadre;
+/**
+ * La boîte de l'élément dans le document, en une seule lecture : la page peut encore défiler vers
+ * l'ancre entre deux mesures, et une boîte prise dans la fenêtre bougerait avec elle.
+ */
+function boite(element: Locator) {
+  return element.evaluate((cible) => {
+    const { left, top, width, height } = cible.getBoundingClientRect();
+    return { x: left + scrollX, y: top + scrollY, width, height };
+  });
 }
 
 test('parcours : les trois étapes dans l’ordre reconversion, bac+3, master, chacune datée par le contenu (SC-2.0-10)', async ({
