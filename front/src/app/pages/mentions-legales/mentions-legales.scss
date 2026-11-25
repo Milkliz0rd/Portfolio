@@ -1,0 +1,28 @@
+// Les mentions légales (EC-10), au rythme vertical des maquettes : l'ouverture, sur l'ambiance
+// d'une section, 64 px au-dessus et 48 px au-dessous ; la liste, sans marge haute, 64 px au-dessous ;
+// 96, 64 et 96 px à partir de la tranche large. La liste tient sur conteneur-texte.
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+.mentions-legales__ouverture {
+  padding-block: var(--espace-16) var(--espace-12);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-24) var(--espace-16);
+  }
+}
+
+.mentions-legales__suite {
+  padding-block-end: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    padding-block-end: var(--espace-24);
+  }
+}
+
+.mentions-legales__liste {
+  max-width: var(--conteneur-texte);
+}

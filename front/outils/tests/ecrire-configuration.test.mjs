@@ -111,5 +111,30 @@ describe('ecrire-configuration', () => {
       origineSite: '',
     });
     expect(await format(vide, options)).toBe(vide);
+    const banc = texteConfiguration(configuration({ PORTFOLIO_ENVIRONNEMENT: 'test' }));
+    expect(await format(banc, options)).toBe(banc);
+  });
+
+  it('n’importe le contenu de test des mentions légales que dans le build de test', () => {
+    const importe = (environnement) =>
+      texteConfiguration(configuration({ PORTFOLIO_ENVIRONNEMENT: environnement })).includes(
+        "from '../../e2e/support/mentions-legales-du-banc.json'",
+      );
+    expect(['developpement', 'test', 'preproduction', 'production'].map(importe)).toEqual([
+      false,
+      true,
+      false,
+      false,
+    ]);
+    const production = texteConfiguration(configuration({ PORTFOLIO_ENVIRONNEMENT: 'production' }));
+    expect(production).toContain('export const mentionsLegalesDuBanc: readonly BlocTexte[] = [];');
+  });
+
+  it('donne au build de test un contenu des mentions légales qui mène à une ancre qui ne nomme rien', () => {
+    const banc = JSON.parse(
+      readFileSync(join(front, 'e2e', 'support', 'mentions-legales-du-banc.json'), 'utf8'),
+    );
+    const liens = banc.flatMap(({ paragraphes }) => paragraphes.flat().map(({ lien }) => lien));
+    expect(liens).toEqual(['/#competence']);
   });
 });

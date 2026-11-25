@@ -82,14 +82,24 @@ export function deduireConfiguration(variables, adresses, pourLesTests = false) 
   return { environnement, baseApi, origineSite, avertissements };
 }
 
+// Le contenu de test des mentions légales (TK-31) : un lien vers /#competence, une ancre qui ne
+// nomme rien (V-11 depuis une autre page). Le seul build de test l'importe, et leur page l'ajoute
+// aux textes ; dans tout autre environnement, il est vide : ni le contenu réel ni le build de
+// production ne le voient.
+const MENTIONS_DU_BANC = "import banc from '../../e2e/support/mentions-legales-du-banc.json';";
+
 /** Le texte du fichier généré, déjà dans la forme de Prettier ; les valeurs sont typées larges. */
 export function texteConfiguration({ environnement, baseApi, origineSite }) {
+  const banc = environnement === 'test';
   return [
     '// Écrit par outils/ecrire-configuration.mjs (PF-07) : ni à modifier, ni à versionner.',
+    "import type { BlocTexte } from '../app/interfaces/contenu';",
+    ...(banc ? [MENTIONS_DU_BANC] : []),
     `export type Environnement = ${ENVIRONNEMENTS.map((e) => `'${e}'`).join(' | ')};`,
     `export const environnement = '${environnement}' as Environnement;`,
     `export const baseApi = '${baseApi}' as string;`,
     `export const origineSite = '${origineSite}' as string;`,
+    `export const mentionsLegalesDuBanc: readonly BlocTexte[] = ${banc ? 'banc' : '[]'};`,
     '',
   ].join('\n');
 }
