@@ -436,7 +436,13 @@ comportement, `smooth` ou `instant`, selon ce tableau :
 Vers un élément, cherché par son `id`, puis par son `name` : `scrollIntoView({ block: 'start' })`,
 puis le focus sans défilement (`preventScroll`), jamais par coordonnées. `scroll-padding-top: 5.5rem`
 sur `html` (`_base.scss` : `hauteur-entete` et 1.5rem, comme les maquettes) ouvre toute ancre sous
-l'en-tête, que le navigateur l'ouvre ou que le routeur y défile. « Sur la page principale » se lit
+l'en-tête, que le navigateur l'ouvre ou que le routeur y défile. S'il reste des polices à charger
+(`document.fonts.status`, lu après une mise en page forcée, qui les fait demander), le défilement
+vers un élément attend `document.fonts.ready`, puis se fait une seule fois, et toute demande de
+défilement qui le suit l'annule ; polices prêtes, il se fait aussitôt. Firefox ne prend une police,
+même préchargée, qu'à son premier emploi, et la charge après la mise en page : sans cette attente,
+l'accueil changeait de hauteur après le défilement, et depuis une page à part, `/#methode` s'ouvrait
+26 px trop haut au téléphone (`menu-replie.spec.ts`). « Sur la page principale » se lit
 dans `services/navigation`, qui garde le chemin avant et après la dernière navigation finie
 (`resteSurPrincipale()`). L'ancre qui ne nomme rien quitte l'adresse par `quitterLAncre()`, avec
 `history.replaceState(history.state, '', chemin et requête)`, qui garde l'état que le routeur a posé,
