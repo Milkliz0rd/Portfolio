@@ -62,13 +62,15 @@ export class MenuReplie {
     });
   }
 
-  // Échap ferme le panneau ouvert et rend le focus au bouton, dans l'en-tête collant, sans
-  // faire défiler la page.
+  // Échap ferme le panneau ouvert. Si le focus était dans le menu, il revient au bouton, dans
+  // l'en-tête collant, sans faire défiler la page ; s'il était ailleurs (le panneau n'est pas
+  // modal), il y reste : fermer sans choisir ne déplace pas la lecture, au clavier non plus.
   private surTouche(evenement: KeyboardEvent): void {
     const menu = this.menu().nativeElement;
     if (evenement.key !== 'Escape' || !menu.open) return;
+    const focusDansLeMenu = menu.contains(this.document.activeElement);
     menu.open = false;
-    this.bouton().nativeElement.focus({ preventScroll: true });
+    if (focusDansLeMenu) this.bouton().nativeElement.focus({ preventScroll: true });
   }
 
   // Un clic hors du menu le ferme ; dans le panneau, seul le choix d'une entrée le ferme, et le
