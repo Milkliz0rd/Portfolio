@@ -43,7 +43,7 @@
     "angular-eslint": "22.8.0",
     "eslint": "^10.15.0",
     "jsdom": "^31.0.1",
-    "prettier": "^3.8.1",
+    "prettier": "^3.10.1",
     "stylelint": "^17.16.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~6.0.2",
