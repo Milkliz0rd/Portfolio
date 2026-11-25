@@ -113,6 +113,19 @@ qu'aucune règle ne voit : une tournure qui se périme hors de la liste, et la c
 aucune liste de termes n'est versionnée. Une valeur calculée depuis la date du jour est refusée
 dans le code par ESLint (`no-restricted-syntax`, dans `eslint.config.js`).
 
+**La section Accueil** (`src/app/pages/principale/accueil/`), en haut de la page principale, sans
+ancre ni numéro, ne tire ses textes que du contenu : le nom, seul titre de niveau 1 de la page, et
+l'intitulé de `profil.json` ; la présentation et la phrase d'orientation de chaque carte de
+`accueil.json` ; l'entreprise et la période de l'alternance de `experience.json`, qui ouvrent la
+carte « Expérience » (`Alternance chez <entreprise>, <période>.`, un libellé à deux espaces
+réservés) et que reprend la fenêtre « profil.ts » (`src/app/fragments/profil-code/`). Cette
+fenêtre est un décor, masqué aux lecteurs d'écran et retiré sous 600 px : un test vérifie que
+chaque valeur qu'elle montre est déjà écrite dans l'accueil, et une valeur propre à la fenêtre le
+ferait échouer. Les cartes (`src/app/fragments/cartes-sections/`) sont des liens du routeur vers
+`/`, avec l'ancre de leur section et `replaceUrl` : elles font défiler la page sans étape
+d'historique. Posées hors de l'arrière-plan d'ambiance, sur le fond uni, elles ne sont jamais sur
+un halo. Rien n'y est encore animé.
+
 ## Styles
 
 Les jetons de la charte graphique sont des propriétés personnalisées CSS, déclarées dans
@@ -731,6 +744,14 @@ traces des échecs dans `test-results/`, non versionnés.
   sous l'en-tête (`e2e/support/lecture.ts` attend la position, jamais un délai), l'élément intérieur
   dont l'adresse devient celle de sa section, l'ancre qui ne nomme rien en haut et hors de l'adresse,
   avant le démarrage de l'application (script principal bloqué) comme après.
+- `accueil.spec.ts`, la section Accueil, ses textes attendus lus dans le contenu : à l'arrivée, le
+  nom, seul titre de niveau 1, l'intitulé, la présentation et une carte par section ; « Écrire un
+  message », seul bouton mis en avant, au contact en un clic ; chaque carte qui défile jusqu'à sa
+  section, sous l'en-tête, sans étape d'historique ; `/` ouvert puis rechargé, en haut ; l'arbre
+  d'accessibilité comparé nœud pour nœud à un instantané (`toMatchAriaSnapshot`), sans rien de la
+  fenêtre « profil.ts » ; la fenêtre absente sous 600 px, sous le texte jusqu'à 1199 px, à côté
+  dès 1200 px ; les cartes hors de l'ambiance ; aucun défilement horizontal de 320 à 2560 px ; sans
+  script, les cartes et le bouton restent de vrais liens.
 - `navigation.spec.ts`, l'en-tête : sur la page principale, chaque entrée défile jusqu'à sa section,
   signalée (`aria-current="location"`), sans étape d'historique, et le retour arrière quitte la page ;
   l'entrée signalée et l'adresse suivent la lecture, jusqu'au bout d'un écran de 2560 px ; depuis

@@ -1,17 +1,19 @@
-// L'allure de la page provisoire, sans composant : conteneur standard (classe de l'hôte), rythme
-// vertical d'une section, identifiant de l'écran en étiquette au-dessus de son nom.
+// L'allure des sections provisoires, sans composant : contenu dans la largeur du conteneur
+// standard, rythme vertical d'une section, identifiant de l'écran en étiquette au-dessus de son
+// nom. La page n'a plus de conteneur : l'accueil s'étend sur toute sa largeur.
 @use 'ruptures';
 
 :host {
   display: block;
 }
 
-// L'accueil et chaque section au moins aussi hauts que la fenêtre à sa plus grande hauteur (lvh,
-// barres du navigateur repliées) : chacun, le dernier compris, peut venir en haut de la fenêtre, et
-// la page s'ouvre sur l'accueil seul.
-.principale__accueil,
+// Chaque section provisoire au moins aussi haute que la fenêtre à sa plus grande hauteur (lvh,
+// barres du navigateur repliées) : chacune, la dernière comprise, peut venir en haut de la fenêtre.
+// La section reste en border-box, marges intérieures comprises dans sa hauteur ; son contenu
+// garde la largeur du conteneur standard (75rem au plus) et la marge de page de chaque côté.
 .principale__section {
   min-block-size: 100lvh;
+  padding-inline: max(var(--marge-page), calc((100% - var(--conteneur-standard)) / 2));
   padding-block: var(--espace-16);
 
   @include ruptures.depuis(large) {
@@ -29,10 +31,4 @@
   letter-spacing: var(--approche-etiquette);
   text-transform: uppercase;
   color: var(--couleur-texte-discret);
-}
-
-.principale__mention {
-  margin-block: var(--espace-6) 0;
-  max-width: var(--conteneur-texte);
-  color: var(--couleur-texte-secondaire);
 }
