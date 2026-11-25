@@ -1,0 +1,30 @@
+<!-- role="list" : une liste sans puces reste annoncée comme telle par VoiceOver. Le lien de chaque
+     carte est lié : écrit en clair, la règle i18n du lint le prendrait pour un libellé. -->
+<ul class="cartes-sections" role="list">
+  @for (carte of cartes; track carte.ancre) {
+    <li class="cartes-sections__element">
+      <app-carte
+        class="cartes-sections__carte"
+        variante="pleine"
+        [titre]="carte.titre"
+        [niveauTitre]="3"
+        [lien]="principale"
+        [fragment]="carte.ancre"
+        replaceUrl
+        action="Voir la section"
+        i18n-action="@@cartes-sections.action"
+      >
+        <app-etiquette
+          variante="numerotee"
+          [numero]="carte.numero"
+          i18n="@@cartes-sections.etiquette"
+          >Section</app-etiquette
+        >
+        @if (carte.ancre === 'experience') {
+          <strong>{{ alternance }}</strong>
+        }
+        {{ orientations[carte.ancre] }}
+      </app-carte>
+    </li>
+  }
+</ul>

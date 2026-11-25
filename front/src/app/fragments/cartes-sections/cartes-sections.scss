@@ -1,0 +1,34 @@
+// Les cartes de l'accueil en grille : une colonne en tranche étroite, deux en moyenne et large,
+// trois à partir de la très large (charte, section 5), séparées par la gouttière de la tranche.
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+.cartes-sections {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gouttiere);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include ruptures.depuis(moyenne) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include ruptures.depuis(tres-large) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// Les cartes d'une rangée prennent la même hauteur : leurs pieds s'alignent (CO-05).
+.cartes-sections__element {
+  display: flex;
+  min-width: 0;
+}
+
+.cartes-sections__carte {
+  flex: 1;
+}
