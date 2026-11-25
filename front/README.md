@@ -759,6 +759,13 @@ traces des échecs dans `test-results/`, non versionnés.
   sous l'en-tête (`e2e/support/lecture.ts` attend la position, jamais un délai), l'élément intérieur
   dont l'adresse devient celle de sa section, l'ancre qui ne nomme rien en haut et hors de l'adresse,
   avant le démarrage de l'application (script principal bloqué) comme après.
+- `competences.spec.ts`, la section Compétences, ses textes attendus lus dans `competences.json` :
+  les catégories techniques par rang, chacune avec ses compétences par rang (SC-2.0-12) ; les
+  compétences humaines en pastilles sous le titre de leur bloc, sans carte, puis la carte du récit
+  (SC-2.0-13) ; `/#competences` ouvert puis rechargé, sous l'en-tête, avant le démarrage comme
+  après ; la catégorie vide du banc, écrite dans un script du build de test et absente de la page ;
+  le récit sous les pastilles à 899 px, à leur droite à 900 px ; aucun niveau ; une compétence
+  longue, écrite dans la page, qui passe à la ligne, sans défilement horizontal de 320 à 2560 px.
 - `accueil.spec.ts`, la section Accueil, ses textes attendus lus dans le contenu : à l'arrivée, le
   nom, seul titre de niveau 1, l'intitulé, la présentation et une carte par section ; « Écrire un
   message », seul bouton mis en avant, au contact en un clic ; chaque carte qui défile jusqu'à sa
