@@ -37,6 +37,7 @@
         variante="discret"
         class="pied__lien"
         routerLink="/mentions-legales"
+        [courant]="surMentionsLegales() ? 'page' : undefined"
         i18n="@@pied.mentions-legales"
         >Mentions légales</a
       >

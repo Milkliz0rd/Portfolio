@@ -12,7 +12,12 @@ declare global {
   }
 }
 
-/** Retient le titre de niveau 1 du document servi, dès qu'il est lu, avant le démarrage. */
+/**
+ * Retient le titre de niveau 1 du document servi, à DOMContentLoaded. Cet événement part après
+ * l'exécution des scripts modules, mais avant que la page de la route soit rendue à nouveau : les
+ * deux pages se chargent à la demande (loadComponent), si bien que le h1 retenu est encore celui du
+ * pré-rendu ; la preuve tient à ce chargement à la demande.
+ */
 export async function retenirLeDocument(page: Page): Promise<void> {
   await page.addInitScript(() => {
     document.addEventListener('DOMContentLoaded', () => {

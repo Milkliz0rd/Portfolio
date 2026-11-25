@@ -1,5 +1,6 @@
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { origineSite } from '../../../configuration/configuration.genere';
 import type { Profil } from '../../interfaces/contenu';
 import { FICHIER_PROFIL } from '../../services/contenu/profil';
@@ -118,5 +119,39 @@ describe('domaineDe', () => {
     ['http://localhost:8787', 'localhost'],
   ])('tire de %s le nom de domaine %s', (origine, domaine) => {
     expect(domaineDe(origine)).toBe(domaine);
+  });
+});
+
+describe('Pied, selon la page affichée', () => {
+  @Component({ template: '' })
+  class PageVide {}
+
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([
+          { path: 'mentions-legales', component: PageVide },
+          { path: 'contact', component: PageVide },
+        ]),
+        { provide: FICHIER_PROFIL, useValue: PROFIL },
+      ],
+    }),
+  );
+
+  it('désigne la page affichée par le lien des mentions légales, sur /mentions-legales seulement', async () => {
+    const routeur = TestBed.inject(Router);
+    const fixture = TestBed.createComponent(Pied);
+    const mentions = () =>
+      [...(fixture.nativeElement as HTMLElement).querySelectorAll('a')].find((lien) =>
+        lien.textContent?.trim().startsWith('Mentions légales'),
+      )!;
+    const aller = async (adresse: string) => {
+      await routeur.navigateByUrl(adresse);
+      await fixture.whenStable();
+      return mentions().getAttribute('aria-current');
+    };
+    expect(await aller('/contact')).toBeNull();
+    expect(await aller('/mentions-legales')).toBe('page');
+    expect(await aller('/contact')).toBeNull();
   });
 });

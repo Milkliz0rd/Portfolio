@@ -1,9 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter, map } from 'rxjs';
 import { origineSite } from '../../../configuration/configuration.genere';
 import { Etiquette } from '../../components/etiquette/etiquette';
 import { Lien } from '../../components/lien/lien';
 import { LectureProfil } from '../../services/contenu/profil';
+import { cheminDe } from '../../services/navigation/navigation';
+
+/** Le chemin des mentions légales, que désigne le lien du pied. */
+const MENTIONS_LEGALES = '/mentions-legales';
 
 /** Le nom de domaine d'une origine, sans « www. » : celui que signe le pied de page. */
 export function domaineDe(origine: string): string {
@@ -28,4 +34,18 @@ export function domaineDe(origine: string): string {
 export class Pied {
   protected readonly profil = inject(LectureProfil).profil;
   protected readonly domaine = domaineDe(origineSite);
+
+  private readonly routeur = inject(Router);
+
+  /**
+   * Sur /mentions-legales, le lien du pied désigne la page affichée (aria-current="page",
+   * annotation de la maquette EC-10), dès le pré-rendu, d'après la dernière navigation finie.
+   */
+  protected readonly surMentionsLegales = toSignal(
+    this.routeur.events.pipe(
+      filter((evenement) => evenement instanceof NavigationEnd),
+      map((evenement) => cheminDe(evenement.urlAfterRedirects) === MENTIONS_LEGALES),
+    ),
+    { initialValue: cheminDe(this.routeur.url) === MENTIONS_LEGALES },
+  );
 }

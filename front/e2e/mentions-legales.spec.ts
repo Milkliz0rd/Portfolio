@@ -36,10 +36,10 @@ async function verifierLesMentions(page: Page): Promise<void> {
   // Le cadre commun : la navigation, le pied et son lien vers cette page ; aucune entrée signalée.
   expect(await navigationVisible(page)).toBe(true);
   const pied = page.getByRole('contentinfo');
-  await expect(pied.getByRole('link', { name: 'Mentions légales' })).toHaveAttribute(
-    'href',
-    ADRESSE,
-  );
+  const lienDuPied = pied.getByRole('link', { name: 'Mentions légales' });
+  await expect(lienDuPied).toHaveAttribute('href', ADRESSE);
+  // La page affichée, comme l'annote la maquette EC-10, avant comme après le démarrage.
+  await expect(lienDuPied).toHaveAttribute('aria-current', 'page');
   expect(await signalees(page)).toBe(0);
 }
 

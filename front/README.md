@@ -45,7 +45,9 @@ console.
 
 `outils/ecrire-configuration.mjs` écrit `src/configuration/configuration.genere.ts`, non versionné,
 le seul fichier que le code lit pour connaître son environnement : `environnement`, `baseApi` (la
-base de l'API du back, sans barre finale) et `origineSite` (l'origine canonique du site). Les
+base de l'API du back, sans barre finale), `origineSite` (l'origine canonique du site) et
+`mentionsLegalesDuBanc`, le contenu de test des mentions légales, vide hors de l'environnement test
+(voir « Les mentions légales et la page introuvable »). Les
 adresses publiques sont versionnées dans `src/configuration/adresses-publiques.json` ; l'adresse
 technique du back de préproduction n'entre jamais dans le dépôt.
 

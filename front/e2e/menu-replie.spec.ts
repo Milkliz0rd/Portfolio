@@ -227,14 +227,16 @@ test('menu : présent sur chaque page, adresse inconnue comprise, « Contact » 
     expect(await contact(page).evaluate((c) => c.closest('details') === null), depart).toBe(true);
     expect(await signalees(page), depart).toEqual(attendues(depart));
   }
-  // Sur les pages d'erreur, la présence seule : l'entrée signalée de /projets/identifiant-inconnu
-  // après le démarrage dépend de la garde des fiches, qui n'existe pas encore (TK-31, TK-37) ;
-  // celle de l'adresse inconnue est relevée par navigation.spec.ts.
+  // Sur les pages d'erreur, le menu et « Contact », et aucune entrée signalée une fois
+  // l'application démarrée : la garde des fiches (TK-31) rend /projets/identifiant-inconnu à la
+  // page introuvable, sans section.
   for (const { adresse: depart } of PAGES_ERREUR) {
     surveillance.attendreReponseEnErreur(depart, 404);
     await page.goto(depart);
+    await expect(page.locator('html'), depart).toHaveClass(/\bmv-pret\b/);
     await expect(bouton(page), depart).toBeVisible();
     await expect(contact(page), depart).toBeVisible();
+    expect(await signalees(page), depart).toEqual([]);
   }
 });
 
