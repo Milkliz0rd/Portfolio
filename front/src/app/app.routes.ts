@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { projetExiste } from './guards/projet-existe';
 import { Principale } from './pages/principale/principale';
 import { Provisoire } from './pages/provisoire/provisoire';
 
@@ -15,9 +16,11 @@ export const routes: Routes = [
     component: Provisoire,
     data: { variante: 'projet-inexistant', ecran: 'EC-11 Page introuvable' },
   },
+  // Un identifiant inconnu des fichiers de contenu ne correspond pas : il va jusqu'à « ** ».
   {
     path: 'projets/:id',
     component: Provisoire,
+    canMatch: [projetExiste],
     data: { section: 'projets', ecran: "EC-07 Fiche d'un projet" },
   },
   { path: 'contact', component: Provisoire, data: { section: 'contact', ecran: 'EC-09 Contact' } },
