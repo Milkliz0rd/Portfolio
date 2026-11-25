@@ -6,7 +6,26 @@
           <app-etiquette>{{ paire.cle }}</app-etiquette>
         </dt>
         <dd class="liste-cle-valeur__valeur" [class.liste-cle-valeur__valeur--date]="paire.date">
-          {{ paire.valeur }}
+          @if (paire.paragraphes; as paragraphes) {
+            <!-- Chaque segment tel quel, sans espace ajoutée autour : le texte garde les siennes. -->
+            @for (paragraphe of paragraphes; track $index) {
+              <p class="liste-cle-valeur__paragraphe">
+                @for (segment of paragraphe; track $index) {
+                  @if (!segment.lien) {
+                    <ng-container>{{ segment.texte }}</ng-container>
+                  } @else if (segment.externe) {
+                    <a appLien externe [href]="segment.lien">{{ segment.texte }}</a>
+                  } @else {
+                    <a appLien [routerLink]="segment.lien" [fragment]="segment.fragment">{{
+                      segment.texte
+                    }}</a>
+                  }
+                }
+              </p>
+            }
+          } @else {
+            {{ paire.texte }}
+          }
         </dd>
       </div>
     }

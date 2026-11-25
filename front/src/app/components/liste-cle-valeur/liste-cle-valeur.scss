@@ -1,4 +1,5 @@
-// Liste clé-valeur de la charte (CO-17). Les largeurs en rem viennent des maquettes.
+// Liste clé-valeur de la charte (CO-17). Les largeurs des colonnes, valeurs des maquettes, sont des
+// jetons de rôle (_jetons.scss).
 @use 'ruptures';
 
 :host {
@@ -20,13 +21,22 @@
   margin: 0;
 }
 
+// Une valeur en paragraphes : sans les marges du navigateur, espacés entre eux seulement.
+.liste-cle-valeur__paragraphe {
+  margin: 0;
+}
+
+.liste-cle-valeur__paragraphe + .liste-cle-valeur__paragraphe {
+  margin-block-start: var(--espace-3);
+}
+
 // En ligne : les paires empilées sur téléphone, côte à côte à partir de la tranche moyenne ; les
 // valeurs en police-titre, taille-titre-4.
 :host(.liste-cle-valeur--en-ligne) .liste-cle-valeur__liste {
   gap: var(--espace-6);
 
   @include ruptures.depuis(moyenne) {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--largeur-colonne-paire)), 1fr));
   }
 }
 
@@ -46,7 +56,7 @@
   border-top: var(--bordure-epaisseur) solid var(--couleur-bordure);
 
   @include ruptures.depuis(moyenne) {
-    grid-template-columns: minmax(6rem, 10rem) minmax(0, 1fr);
+    grid-template-columns: minmax(var(--largeur-cle-min), var(--largeur-cle-max)) minmax(0, 1fr);
     gap: var(--espace-4);
   }
 }

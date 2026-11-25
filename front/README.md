@@ -164,7 +164,7 @@ vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$
 | Pastille (CO-03)           | `<app-pastille variante="succes">Validé</app-pastille>`                   | `variante` (`neutre`, par défaut, `accent`, `secondaire`, `succes`, `attention`, `erreur`, `contour`), `lumineuse` (point qui rayonne) |
 | Étiquette (CO-04)          | `<app-etiquette variante="numerotee" numero="02">Section</app-etiquette>` | `variante` (`discrete`, par défaut, `accent`, `numerotee`, `puce`), `numero` (exigé par `numerotee`)                                   |
 | En-tête de section (CO-16) | voir ci-dessous                                                           | `numero` (facultatif), `etiquette`, `niveau` (`1`, `2` ou `3` : `h1`, `h2` ou `h3`), `bloc` (titre de bloc), `centre` (fin de page)    |
-| Liste clé-valeur (CO-17)   | `<app-liste-cle-valeur [paires]="paires" />`                              | `variante` (`en-ligne`, par défaut, `tableau`), `paires`                                                                               |
+| Liste clé-valeur (CO-17)   | `<app-liste-cle-valeur [paires]="paires" />`                              | `variante` (`en-ligne`, par défaut, `tableau`), `paires` (une valeur en texte, ou en paragraphes de segments, avec leurs liens)        |
 
 **Pastille sur le verre.** Sur du verre (carte CO-05) et sur le halo d'un arrière-plan d'ambiance
 (CO-13), seule la variante `contour` est permise ; la neutre et les teintées se posent sur un fond
@@ -213,10 +213,17 @@ caractères par ligne (`--conteneur-texte`, 54ch). L'ensemble mesure 56rem de la
 </app-entete-section>
 ```
 
-**Liste clé-valeur.** Chaque paire est un `PaireCleValeur` : `cle`, `valeur` (texte déjà mis en
-forme par la page) et `date`, vrai pour une date ou une période, écrite en police-mono. Une paire
-dont la valeur manque, est nulle ou vide une fois les espaces retirés disparaît entière ; sans
-aucune paire, aucune liste n'est rendue.
+**Liste clé-valeur.** Chaque paire est un `PaireCleValeur` : `cle`, `valeur` et `date`, vrai pour
+une date ou une période, écrite en police-mono. La valeur est un texte déjà mis en forme par la page,
+ou des paragraphes de segments (`ParagraphesValeur`, la forme des textes du contenu), chacun dans un
+`p`, chaque segment rendu tel quel, sans espace ajoutée : un texte seul, ou un texte et son lien, en
+variante `texte`, qui prend les noms de la carte. `lien`, une adresse du site, et `fragment`, son
+ancre, en font un lien du routeur (`routerLink`, `fragment`), jamais une navigation native vers une
+ancre (PF-06) ; avec `externe`, `lien` est une adresse hors du site, posée par `href`, qui s'ouvre
+dans un nouvel onglet (CO-02). Une paire dont la valeur manque, est nulle ou vide une fois les
+espaces retirés, ou n'a aucun paragraphe avec du texte, disparaît entière ; sans aucune paire,
+aucune liste n'est rendue. Les colonnes sont des jetons de rôle : 10rem au moins en ligne
+(`--largeur-colonne-paire`), la clé de 6 à 10rem en tableau (`--largeur-cle-min`, `--largeur-cle-max`).
 
 La carte regroupe un contenu autonome ; l'arrière-plan d'ambiance donne sa lumière à une section.
 Le titre de la carte et le libellé de son action viennent de la page, marqués pour la traduction

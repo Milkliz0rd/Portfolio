@@ -1,5 +1,15 @@
+import { Location } from '@angular/common';
+import { provideLocationMocks, SpyLocation } from '@angular/common/testing';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ListeCleValeur, PaireCleValeur, VarianteListeCleValeur } from './liste-cle-valeur';
+import { NavigationEnd, provideRouter, Router } from '@angular/router';
+import { filter, firstValueFrom } from 'rxjs';
+import {
+  ListeCleValeur,
+  PaireCleValeur,
+  ParagraphesValeur,
+  VarianteListeCleValeur,
+} from './liste-cle-valeur';
 
 const PAIRES: PaireCleValeur[] = [
   { cle: 'Rôle', valeur: 'Développeur' },
@@ -74,5 +84,92 @@ describe('ListeCleValeur', () => {
     const hote = rendre();
     expect(hote.classList).toContain('liste-cle-valeur--en-ligne');
     expect(hote.querySelector('a, button, input, [tabindex]')).toBeNull();
+  });
+});
+
+@Component({ template: '' })
+class PageVide {}
+
+// Une valeur en paragraphes, dans le vrai routeur, sur un historique simulé (SpyLocation).
+describe('ListeCleValeur, valeur en paragraphes', () => {
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([
+          { path: '', component: PageVide },
+          { path: 'contact', component: PageVide },
+        ]),
+        provideLocationMocks(),
+      ],
+    }),
+  );
+
+  const CONTACT: ParagraphesValeur = [
+    [{ texte: 'Par le ' }, { texte: 'formulaire de contact', lien: '/contact' }, { texte: '.' }],
+  ];
+
+  it('rend chaque paragraphe dans la valeur, chaque segment tel quel, sans espace ajoutée', () => {
+    const valeur = [
+      ...CONTACT,
+      [{ texte: '   ' }],
+      [{ texte: 'Deuxième ' }, { texte: 'paragraphe' }],
+    ] satisfies ParagraphesValeur;
+    const dd = rendre([{ cle: 'Contact', valeur }], 'tableau').querySelector('dd')!;
+    const paragraphes = [...dd.querySelectorAll('p.liste-cle-valeur__paragraphe')];
+    expect(paragraphes.map((p) => p.textContent)).toEqual([
+      'Par le formulaire de contact.',
+      'Deuxième paragraphe',
+    ]);
+  });
+
+  it('fait d’une adresse du site un lien du routeur, avec son ancre, en variante texte', () => {
+    const valeur = [
+      ...CONTACT,
+      [{ texte: 'Une section', lien: '/', fragment: 'competence' }],
+    ] satisfies ParagraphesValeur;
+    const liens = [...rendre([{ cle: 'Contact', valeur }]).querySelectorAll('a')];
+    expect(liens.map((lien) => lien.getAttribute('href'))).toEqual(['/contact', '/#competence']);
+    for (const lien of liens) {
+      expect(lien.classList).toContain('lien--texte');
+      expect(lien.getAttribute('target')).toBeNull();
+    }
+  });
+
+  it('suit l’adresse et son ancre par le routeur, en ajoutant une entrée d’historique', async () => {
+    const routeur = TestBed.inject(Router);
+    const historique = TestBed.inject(Location) as SpyLocation;
+    await routeur.navigateByUrl('/contact');
+    const valeur = [[{ texte: 'Une section', lien: '/', fragment: 'competence' }]];
+    const lien = rendre([{ cle: 'Lien', valeur }]).querySelector('a')!;
+    const avant = historique.urlChanges.length;
+    const fin = firstValueFrom(routeur.events.pipe(filter((e) => e instanceof NavigationEnd)));
+    const clic = new MouseEvent('click', { bubbles: true, cancelable: true });
+    lien.dispatchEvent(clic);
+    await fin;
+    // Le routeur a pris le clic : le navigateur n'a pas suivi le lien lui-même.
+    expect(clic.defaultPrevented).toBe(true);
+    expect(routeur.url).toBe('/#competence');
+    expect(historique.urlChanges.slice(avant)).toEqual(['/#competence']);
+  });
+
+  it('ouvre un lien externe dans un nouvel onglet, posé par href, et l’annonce', () => {
+    const valeur = [[{ texte: 'Hébergeur', lien: 'https://example.org/', externe: true }]];
+    const lien = rendre([{ cle: 'Hébergement', valeur }]).querySelector('a')!;
+    expect(lien.getAttribute('href')).toBe('https://example.org/');
+    expect([lien.getAttribute('target'), lien.getAttribute('rel')]).toEqual([
+      '_blank',
+      'noopener noreferrer',
+    ]);
+    expect(texte(lien)).toBe('Hébergeur (nouvel onglet)');
+  });
+
+  it('retire la paire dont aucun paragraphe n’a de texte, et ne rend que les paragraphes pleins', () => {
+    const hote = rendre([
+      { cle: 'Vide', valeur: [] },
+      { cle: 'Blanche', valeur: [[{ texte: ' ' }], [{ texte: '', lien: '/contact' }]] },
+      { cle: 'Pleine', valeur: [[{ texte: '' }], [{ texte: 'Texte' }]] },
+    ]);
+    expect([...hote.querySelectorAll('dt')].map(texte)).toEqual(['Pleine']);
+    expect(hote.querySelectorAll('dd p')).toHaveLength(1);
   });
 });
