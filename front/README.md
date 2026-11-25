@@ -126,6 +126,18 @@ ferait échouer. Les cartes (`src/app/fragments/cartes-sections/`) sont des lien
 d'historique. Posées hors de l'arrière-plan d'ambiance, sur le fond uni, elles ne sont jamais sur
 un halo. Rien n'y est encore animé.
 
+**La section Parcours** (`src/app/pages/principale/parcours/`) se pose dans l'élément
+`section#parcours` de la page principale, que nomme l'id `titre-parcours` : l'en-tête de section ne
+donnant pas d'id à son titre, la section projette dans son `h2` le texte qui le porte. Elle ne tire
+ses textes que de `parcours.json` : l'introduction (C-10) en chapô de l'en-tête numéroté 01, le
+texte d'orientation (C-09) sous l'étiquette « Orientation », puis la frise des trois étapes, dans
+l'ordre reconversion, bac+3, master que garantit `LectureParcours`, quel que soit celui du fichier.
+Chaque étape donne à la frise son intitulé, son état, son début et sa fin tels quels : une date est
+formatée selon la langue par `formaterPeriode`, un emplacement étiqueté (`[C-01 — début]`) s'affiche
+tel quel, jamais remplacé par une date. Le bac+3 a pour détail `Bac+3 · <établissement>`, un libellé
+à un espace réservé. Rien n'y est encore animé : le tracé de la frise au défilement vient avec
+TK-53.
+
 ## Styles
 
 Les jetons de la charte graphique sont des propriétés personnalisées CSS, déclarées dans
@@ -752,6 +764,15 @@ traces des échecs dans `test-results/`, non versionnés.
   fenêtre « profil.ts » ; la fenêtre absente sous 600 px, sous le texte jusqu'à 1199 px, à côté
   dès 1200 px ; les cartes hors de l'ambiance ; aucun défilement horizontal de 320 à 2560 px ; sans
   script, les cartes et le bouton restent de vrais liens.
+- `parcours.spec.ts`, la section Parcours, ses textes et ses dates attendus lus dans
+  `parcours.json` : les trois étapes dans l'ordre reconversion, bac+3, master, chacune avec le début
+  et la fin du contenu (l'emplacement tel quel tant que C-01 manque), le bac+3 avec son intitulé et
+  son établissement, aucune date ni durée relative (SC-2.0-10) ; dans `section#parcours`, nommée par
+  son seul titre, de niveau 2, l'en-tête numéroté 01, l'introduction, puis l'orientation, qui cite
+  le master, avant la frise (SC-2.0-11) ; `/#parcours` ouvert puis rechargé, sous l'en-tête, après
+  le démarrage de l'application comme avant (script principal bloqué : la section pré-rendue) ;
+  rien ne déborde de 320 à 2560 px, les étapes l'une sous l'autre sous 900 px, côte à côte au-delà,
+  la période en tête.
 - `navigation.spec.ts`, l'en-tête : sur la page principale, chaque entrée défile jusqu'à sa section,
   signalée (`aria-current="location"`), sans étape d'historique, et le retour arrière quitte la page ;
   l'entrée signalée et l'adresse suivent la lecture, jusqu'au bout d'un écran de 2560 px ; depuis
