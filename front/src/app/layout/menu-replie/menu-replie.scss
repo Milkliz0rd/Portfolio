@@ -1,0 +1,114 @@
+// Menu replié (CO-07) : le bouton icône discret de 44 px, et un panneau flottant posé sous l'en-tête,
+// pleine largeur moins les marges sur téléphone, de largeur-panneau-menu (320 px) aligné à droite à
+// partir de 600 px. Le panneau se place par rapport au premier ancêtre positionné, l'en-tête : ni
+// l'hôte ni details ne le sont.
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+// Le résumé, sans le marqueur du navigateur, à l'aspect du bouton icône discret (CO-01) ; le focus
+// garde l'anneau de _base.scss.
+.menu-replie__bouton {
+  display: grid;
+  place-items: center;
+  inline-size: var(--cible-tactile);
+  block-size: var(--cible-tactile);
+  border-radius: var(--arrondi-petit);
+  color: var(--couleur-texte);
+  list-style: none;
+  cursor: pointer;
+  transition: background-color var(--duree-courte) var(--courbe-standard);
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:hover {
+    background: var(--fond-bouton-survol);
+  }
+}
+
+// Trois traits fermé, la croix une fois ouvert.
+.menu-replie[open] .menu-replie__icone--menu,
+.menu-replie:not([open]) .menu-replie__icone--fermer {
+  display: none;
+}
+
+.menu-replie__panneau {
+  position: absolute;
+  inset-block-start: calc(100% + var(--espace-2));
+  inset-inline: var(--marge-page);
+  z-index: var(--plan-menu);
+  padding: var(--espace-2);
+  border: var(--bordure-epaisseur) solid var(--verre-bordure);
+  border-radius: var(--arrondi-grand);
+  background: var(--couleur-surface-relevee);
+  box-shadow: var(--ombre-flottante);
+
+  @include ruptures.depuis(moyenne) {
+    inset-inline-start: auto;
+    inline-size: var(--largeur-panneau-menu);
+  }
+}
+
+.menu-replie__entrees {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Une entrée par ligne, lien de navigation de 44 px de haut, texte à gauche ; au survol, le fond
+// couleur-texte à 6 %, sous le repère de l'entrée courante (isolation).
+.menu-replie__panneau .menu-replie__entree {
+  display: flex;
+  justify-content: flex-start;
+  isolation: isolate;
+  inline-size: 100%;
+  padding-inline: var(--espace-4);
+  transition:
+    color var(--duree-courte) var(--courbe-standard),
+    background-color var(--duree-courte) var(--courbe-standard);
+
+  &:hover {
+    background: var(--fond-entree-menu-survol);
+  }
+}
+
+// L'entrée courante porte son repère, un élément propre, et non le trait que le lien de navigation
+// dessine pour son aria-current.
+.menu-replie__panneau .menu-replie__entree[aria-current]::after {
+  content: none;
+}
+
+// Le repère : fond couleur-accent à 16 % sur couleur-surface, sous le texte, et barre d'accent à
+// gauche (epaisseur-barre-courante-menu, 3 px). Sans nom de transition de vue : « repere-courant »
+// ne sert qu'une fois par page, à l'en-tête (PF-04).
+.menu-replie__repere {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--fond-entree-courante-menu);
+  pointer-events: none;
+
+  &::before {
+    position: absolute;
+    inset-block: var(--espace-2);
+    inset-inline-start: 0;
+    inline-size: var(--epaisseur-barre-courante-menu);
+    border-radius: var(--arrondi-pilule);
+    content: '';
+    background: var(--couleur-accent);
+  }
+}
+
+// Mouvement réduit : les couleurs changent d'un coup.
+@media (prefers-reduced-motion: reduce) {
+  .menu-replie__bouton,
+  .menu-replie__panneau .menu-replie__entree {
+    transition: none;
+  }
+}

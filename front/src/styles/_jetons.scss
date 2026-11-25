@@ -343,3 +343,17 @@
   --taille-point-frise: 13px;
   --epaisseur-trace-frise: 2px;
 }
+
+// CO-07 Menu replié : panneau de 320 px à partir de 600 px ; fond d'une entrée au survol,
+// couleur-texte à 6 % ; repère de l'entrée courante, couleur-accent à 16 % sur couleur-surface, et sa
+// barre d'accent de 3 px à gauche (maquettes).
+:root {
+  --largeur-panneau-menu: 20rem;
+  --fond-entree-menu-survol: color-mix(in srgb, var(--couleur-texte) 6%, transparent);
+  --fond-entree-courante-menu: color-mix(
+    in srgb,
+    var(--couleur-accent) 16%,
+    var(--couleur-surface)
+  );
+  --epaisseur-barre-courante-menu: 3px;
+}
