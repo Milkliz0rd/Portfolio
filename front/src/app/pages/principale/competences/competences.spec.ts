@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { competencesDuBanc } from '../../../../configuration/configuration.genere';
 import type { Competences as ContenuCompetences } from '../../../interfaces/contenu';
 import { FICHIER_COMPETENCES } from '../../../services/contenu/competences';
 import { competencesDeTest } from '../../../testing/contenus-de-test';
@@ -77,6 +78,17 @@ describe('Competences', () => {
     expect(elements.map((element) => element.querySelectorAll('app-pastille').length)).toEqual([
       1, 2,
     ]);
+  });
+
+  // CI=true et npm test écrivent la configuration de l'environnement test, qui porte le contenu de
+  // test du banc (outils/ecrire-configuration.mjs).
+  it('lit dans le build de test la catégorie vide du banc, sans l’afficher non plus', () => {
+    expect(competencesDuBanc.map(({ competences }) => competences.length)).toEqual([0]);
+    const fixture = rendre();
+    const lu = fixture.debugElement.injector.get(FICHIER_COMPETENCES);
+    expect(lu.techniques).toEqual([...competencesDeTest.techniques, ...competencesDuBanc]);
+    expect(lus(fixture.nativeElement as HTMLElement)).not.toContain(competencesDuBanc[0].libelle);
+    expect(categories(fixture.nativeElement as HTMLElement)).toHaveLength(2);
   });
 
   it('pose les compétences humaines en pastilles sous le titre de leur bloc, sans carte, puis le récit', () => {

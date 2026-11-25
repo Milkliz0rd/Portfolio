@@ -47,7 +47,10 @@ console.
 le seul fichier que le code lit pour connaître son environnement : `environnement`, `baseApi` (la
 base de l'API du back, sans barre finale), `origineSite` (l'origine canonique du site) et
 `mentionsLegalesDuBanc`, le contenu de test des mentions légales, vide hors de l'environnement test
-(voir « Les mentions légales et la page introuvable »). Les
+(voir « Les mentions légales et la page introuvable »). Il porte aussi `competencesDuBanc`, le
+contenu de test des compétences (`e2e/support/competences-du-banc.json`) : une catégorie sans
+compétence, que la section Compétences ne doit pas afficher, vide lui aussi hors de
+l'environnement test. Les
 adresses publiques sont versionnées dans `src/configuration/adresses-publiques.json` ; l'adresse
 technique du back de préproduction n'entre jamais dans le dépôt.
 

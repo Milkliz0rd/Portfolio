@@ -137,4 +137,30 @@ describe('ecrire-configuration', () => {
     const liens = banc.flatMap(({ paragraphes }) => paragraphes.flat().map(({ lien }) => lien));
     expect(liens).toEqual(['/#competence']);
   });
+
+  it('n’importe le contenu de test des compétences que dans le build de test', () => {
+    const texte = (environnement) =>
+      texteConfiguration(configuration({ PORTFOLIO_ENVIRONNEMENT: environnement }));
+    const importe = (environnement) =>
+      texte(environnement).includes("from '../../e2e/support/competences-du-banc.json'");
+    expect(['developpement', 'test', 'preproduction', 'production'].map(importe)).toEqual([
+      false,
+      true,
+      false,
+      false,
+    ]);
+    expect(texte('production')).toContain(
+      'export const competencesDuBanc: readonly CategorieCompetences[] = [];',
+    );
+  });
+
+  it('donne au build de test une seule catégorie de compétences, sans compétence ni niveau', () => {
+    const banc = JSON.parse(
+      readFileSync(join(front, 'e2e', 'support', 'competences-du-banc.json'), 'utf8'),
+    );
+    expect(banc.map((categorie) => Object.keys(categorie).sort())).toEqual([
+      ['competences', 'libelle', 'rang'],
+    ]);
+    expect(banc[0].competences).toEqual([]);
+  });
 });
