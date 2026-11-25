@@ -157,8 +157,13 @@ test('compétences : aucun niveau, ni note, ni pourcentage, ni mesure', async ({
   await page.goto('/#competences');
   const mesures = 'progress, meter, [role="progressbar"], [role="meter"], [role="slider"]';
   await expect(section(page).locator(`${mesures}, [aria-valuenow]`)).toHaveCount(0);
-  const affichees = section(page).locator('app-pastille');
-  await expect(affichees).toHaveText([...CATEGORIES.flatMap((c) => c.competences), ...HUMAINES]);
+  // Chaque élément d'une liste de compétences n'est que sa pastille, qui n'est que son libellé.
+  const elements = section(page).locator('.competences__pastilles > li');
+  await expect(elements).toHaveText([...CATEGORIES.flatMap((c) => c.competences), ...HUMAINES]);
+  const enfants = await elements.evaluateAll((liste) =>
+    liste.map((element) => [...element.children].map((enfant) => enfant.localName).join(' ')),
+  );
+  expect(new Set(enfants)).toEqual(new Set(['app-pastille']));
   expect(await section(page).textContent()).not.toMatch(/%|★/);
 });
 
