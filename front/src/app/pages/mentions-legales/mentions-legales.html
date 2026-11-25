@@ -1,0 +1,14 @@
+<app-ambiance variante="section" class="mentions-legales__ouverture">
+  <div class="conteneur-large">
+    <app-entete-section
+      etiquette="Informations légales"
+      i18n-etiquette="@@mentions-legales.etiquette"
+      [niveau]="1"
+    >
+      <ng-container i18n="@@mentions-legales.titre">Mentions légales</ng-container>
+    </app-entete-section>
+  </div>
+</app-ambiance>
+<div class="conteneur-large mentions-legales__suite">
+  <app-liste-cle-valeur variante="tableau" class="mentions-legales__liste" [paires]="paires" />
+</div>

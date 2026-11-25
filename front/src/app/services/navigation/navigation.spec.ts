@@ -4,6 +4,7 @@ import { TransferState } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
+import { contenuProjets } from '../../../contenu/contenu-langue';
 import { routes } from '../../app.routes';
 import { type Entree, NavigationService, PAGE_PRERENDUE, SECTIONS } from './navigation';
 
@@ -95,7 +96,7 @@ describe('NavigationService', () => {
   it.each([
     ['/', { accueil: 'location' }, true],
     ['/contact', { contact: 'page' }, false],
-    ['/projets/un-projet', { projets: 'page' }, false],
+    [`/projets/${contenuProjets[0].identifiant}`, { projets: 'page' }, false],
     ['/mentions-legales', {}, false],
     ['/404', {}, false],
     ['/projets/404', {}, false],
