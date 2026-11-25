@@ -515,6 +515,31 @@ entrée le ferme.
 Rien d'autre : ce n'est pas une fenêtre modale, la lecture ne bouge pas, et l'attribut `open` n'est
 jamais lié (un panneau ouvert avant le démarrage le reste).
 
+**Les mentions légales et la page introuvable** (EC-10, EC-11) sont des pages à part sans entrée
+signalée : leurs routes n'ont pas de `data.section`, et chacune vient dans son morceau de code,
+chargé à la demande. `pages/mentions-legales`, sous un en-tête sans numéro (titre de niveau 1),
+donne une liste clé-valeur en tableau, une paire par bloc de `textes-legaux.json`, rendue telle
+quelle, emplacements étiquetés compris jusqu'à TK-45 ; une adresse du site y devient un lien du
+routeur, avec son ancre, une adresse HTTPS un lien externe (`segmentDeLaListe`). Le build de test
+seul y ajoute le contenu de test du banc, `e2e/support/mentions-legales-du-banc.json`, un lien vers
+`/#competence` : `outils/ecrire-configuration.mjs` ne l'importe dans `configuration.genere.ts`
+(`mentionsLegalesDuBanc`) qu'en environnement `test` ; partout ailleurs, la liste est vide, et ni le
+contenu réel, ni son contrôle, ni le build de production ne le voient. `pages/erreur`, la page
+introuvable, est un seul composant pour `/404` (`404.html`), `/projets/404` (`projets/404.html`) et
+`**`, rendue dans le navigateur : le « 404 » d'affiche, décoratif, « Cette page n’existe pas »
+(`h1`), la phrase de la maquette et « Revenir à l’accueil » ; pour un projet inexistant, en plus,
+« Voir la liste des projets », vers `/#projets`. La variante est d'abord celle du document servi,
+au démarrage sur lui (`TransferState`, clé `erreur.variante`), puis celle des données de la route,
+puis celle de l'adresse, par la règle de l'hébergeur : sous `/projets/`, un projet inexistant ;
+partout ailleurs, et à `/projets` seule, servie avec `404.html` (relevé sur le serveur local), une
+adresse inconnue. `/projets/`, avec sa barre finale, reçoit `projets/404.html`, mais le routeur la
+lit `/projets` : c'est le document servi qui garde la bonne variante. La page porte
+`<meta name="robots" content="noindex">` tant qu'elle est affichée ; le statut 404 vient de
+l'hébergeur, jamais du script. `guards/projet-existe`, le `canMatch` de `projets/:id`, ne laisse
+passer qu'un identifiant de l'index des projets (`LectureProjets`) : un identifiant inconnu va,
+sans redirection ni étape d'historique, jusqu'à `**`, et aucune entrée n'est signalée, même une
+fois l'application démarrée.
+
 ## Polices
 
 Bricolage Grotesque (700, 800), Hanken Grotesk (400 à 700) et JetBrains Mono (400, 500) sont
@@ -651,6 +676,17 @@ traces des échecs dans `test-results/`, non versionnés.
   en 404 avec le contenu de `404.html`, et les en-têtes de la règle `/*`
   de `_headers`, politique de sécurité comprise, sur une page en 200 comme sur une 404. Elle passe
   sous Wrangler 4.158.0 : le serveur de repli prévu par le plan n'a pas lieu d'être.
+- `mentions-legales.spec.ts` et `page-introuvable.spec.ts` (avec `e2e/support/page-a-part.ts`), les
+  pages à part sans entrée signalée : `/mentions-legales` ouverte directement puis rechargée,
+  l'éditeur, le contact par le formulaire et les hébergeurs, sans adresse ni téléphone ; une adresse
+  inconnue, un projet inexistant, `/projets` seule et avec sa barre finale, `/parcours`, chacun en
+  404 avec le message, la navigation, le pied, la consigne de non-indexation et les retours de la
+  variante du document servi ; chacune avant le démarrage (script principal bloqué) comme après,
+  hydratée sans être rendue de nouveau (l'hôte de la page perd son `ngh`, le titre reste le même
+  élément), sans aucune entrée signalée ; le lien du contenu de test vers `/#competence`, suivi par
+  le routeur, ouvre la page principale en haut, à `/` (V-11) ; « Voir la liste des projets » mène à
+  `/#projets`, « Revenir à l’accueil » en haut de la page principale ; le message et le retour à
+  l'accueil se lisent sans défilement.
 - `controle-commun.spec.ts`, un test par adresse : chaque `index.html` du build, relevé à
   l'exécution (une page ajoutée est contrôlée sans rien écrire), et les trois adresses d'erreur,
   servies par deux fichiers (`404.html` et `projets/404.html`). Toute violation axe-core des
