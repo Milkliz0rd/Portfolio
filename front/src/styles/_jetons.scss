@@ -362,3 +362,11 @@
   );
   --epaisseur-barre-courante-menu: 3px;
 }
+
+// CO-17 Liste clé-valeur : en ligne, des colonnes de 10rem au moins ; en tableau, la clé dans une
+// colonne de 6 à 10rem, à gauche de la valeur (maquettes, charte révisée).
+:root {
+  --largeur-colonne-paire: 10rem;
+  --largeur-cle-min: 6rem;
+  --largeur-cle-max: 10rem;
+}
