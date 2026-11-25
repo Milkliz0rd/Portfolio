@@ -1,0 +1,5 @@
+// L'hôte se comporte en bloc, sans largeur minimale : la fenêtre suit la colonne qui la reçoit.
+:host {
+  display: block;
+  min-width: 0;
+}
