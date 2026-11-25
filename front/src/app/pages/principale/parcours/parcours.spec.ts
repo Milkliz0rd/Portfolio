@@ -144,6 +144,7 @@ describe('Parcours', () => {
       vi.setSystemTime(Date.UTC(2010, 0, 1));
       const avant = rendre(CONTENU_DE_TEST).innerHTML;
       vi.setSystemTime(Date.UTC(2045, 5, 15));
+      // Le même contenu de test, rendu de nouveau : le module de test est déjà réglé.
       expect(rendre().innerHTML).toBe(avant);
     } finally {
       vi.useRealTimers();
