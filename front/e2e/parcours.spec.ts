@@ -185,6 +185,8 @@ test('parcours : de 320 à 2560 px, rien ne déborde ; les étapes l’une sous 
   page,
 }) => {
   await page.goto('/#parcours');
+  // Les trois étapes sont bien dans la section : sans elles, les mesures ne porteraient sur rien.
+  await expect(etapes(page)).toHaveCount(3);
   for (const largeur of LARGEURS) {
     await page.setViewportSize({ width: largeur, height: 800 });
     const { contenu, visible, hors } = await page
