@@ -71,7 +71,9 @@ for (const { cas, adresse: demandee, projets } of CAS) {
     await sansApplication(page, surveillance);
     const reponse = await page.goto(demandee);
     expect(reponse?.status()).toBe(404);
-    await verifierLaPage(page, (await reponse!.text()).includes(PROJETS));
+    const servie = (await reponse!.text()).includes(PROJETS);
+    if (projets !== undefined) expect(servie, 'variante du document servi').toBe(projets);
+    await verifierLaPage(page, servie);
   });
 }
 
