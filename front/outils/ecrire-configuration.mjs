@@ -87,19 +87,25 @@ export function deduireConfiguration(variables, adresses, pourLesTests = false) 
 // aux textes ; dans tout autre environnement, il est vide : ni le contenu réel ni le build de
 // production ne le voient.
 const MENTIONS_DU_BANC = "import banc from '../../e2e/support/mentions-legales-du-banc.json';";
+// Le contenu de test des compétences (TK-35) : une catégorie sans compétence, que la section
+// Compétences ajoute aux catégories du contenu avant de les lire, et qu'elle ne doit pas afficher
+// (état « catégorie vide »). Le seul build de test l'importe, comme celui des mentions légales.
+const COMPETENCES_DU_BANC =
+  "import competencesBanc from '../../e2e/support/competences-du-banc.json';";
 
 /** Le texte du fichier généré, déjà dans la forme de Prettier ; les valeurs sont typées larges. */
 export function texteConfiguration({ environnement, baseApi, origineSite }) {
   const banc = environnement === 'test';
   return [
     '// Écrit par outils/ecrire-configuration.mjs (PF-07) : ni à modifier, ni à versionner.',
-    "import type { BlocTexte } from '../app/interfaces/contenu';",
-    ...(banc ? [MENTIONS_DU_BANC] : []),
+    "import type { BlocTexte, CategorieCompetences } from '../app/interfaces/contenu';",
+    ...(banc ? [MENTIONS_DU_BANC, COMPETENCES_DU_BANC] : []),
     `export type Environnement = ${ENVIRONNEMENTS.map((e) => `'${e}'`).join(' | ')};`,
     `export const environnement = '${environnement}' as Environnement;`,
     `export const baseApi = '${baseApi}' as string;`,
     `export const origineSite = '${origineSite}' as string;`,
     `export const mentionsLegalesDuBanc: readonly BlocTexte[] = ${banc ? 'banc' : '[]'};`,
+    `export const competencesDuBanc: readonly CategorieCompetences[] = ${banc ? 'competencesBanc' : '[]'};`,
     '',
   ].join('\n');
 }

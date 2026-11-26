@@ -1,9 +1,21 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { competencesDuBanc } from '../../../../configuration/configuration.genere';
 import { Carte } from '../../../components/carte/carte';
 import { EnteteSection } from '../../../components/entete-section/entete-section';
 import { Etiquette } from '../../../components/etiquette/etiquette';
 import { Pastille } from '../../../components/pastille/pastille';
-import { LectureCompetences } from '../../../services/contenu/competences';
+import type { Competences as ContenuCompetences } from '../../../interfaces/contenu';
+import { FICHIER_COMPETENCES, LectureCompetences } from '../../../services/contenu/competences';
+
+/**
+ * Le fichier que lit la section : competences.json, auquel le build de test seul ajoute son
+ * contenu de test (configuration.genere.ts), une catégorie sans compétence, avant la lecture :
+ * elle passe par le même tri et le même retrait que les catégories du contenu. Ailleurs,
+ * competencesDuBanc est vide, et les catégories sont celles du fichier.
+ */
+export function avecLeBanc(fichier: ContenuCompetences): ContenuCompetences {
+  return { ...fichier, techniques: [...fichier.techniques, ...competencesDuBanc] };
+}
 
 /**
  * La section Compétences de la page principale (EC-03, MF-09, MF-10), dans l'élément section de
@@ -23,6 +35,15 @@ import { LectureCompetences } from '../../../services/contenu/competences';
   templateUrl: './competences.html',
   styleUrl: './competences.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Une lecture propre à la section, du fichier augmenté du contenu de test : le service de la
+  // racine et le fichier qu'il lit restent ceux de la langue du build.
+  providers: [
+    LectureCompetences,
+    {
+      provide: FICHIER_COMPETENCES,
+      useFactory: () => avecLeBanc(inject(FICHIER_COMPETENCES, { skipSelf: true })),
+    },
+  ],
 })
 export class Competences {
   protected readonly competences = inject(LectureCompetences).competences;

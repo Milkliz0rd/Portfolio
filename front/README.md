@@ -47,7 +47,10 @@ console.
 le seul fichier que le code lit pour connaître son environnement : `environnement`, `baseApi` (la
 base de l'API du back, sans barre finale), `origineSite` (l'origine canonique du site) et
 `mentionsLegalesDuBanc`, le contenu de test des mentions légales, vide hors de l'environnement test
-(voir « Les mentions légales et la page introuvable »). Les
+(voir « Les mentions légales et la page introuvable »). Il porte aussi `competencesDuBanc`, le
+contenu de test des compétences (`e2e/support/competences-du-banc.json`) : une catégorie sans
+compétence, que la section Compétences ne doit pas afficher, vide lui aussi hors de
+l'environnement test. Les
 adresses publiques sont versionnées dans `src/configuration/adresses-publiques.json` ; l'adresse
 technique du back de préproduction n'entre jamais dans le dépôt.
 
@@ -138,6 +141,19 @@ formatée selon la langue par `formaterPeriode`, un emplacement étiqueté (`[C-
 tel quel, jamais remplacé par une date. Le bac+3 a pour détail `Bac+3 · <établissement>`, un libellé
 à un espace réservé. Rien n'y est encore animé : le tracé de la frise au défilement vient avec
 TK-53.
+
+**La section Compétences** (`src/app/pages/principale/competences/`), à l'ancre `competences`,
+s'ouvre sur l'en-tête de section numéroté 02, titre seul, et ne tire ses textes que de
+`competences.json` : une carte pleine par catégorie technique, ses compétences en pastilles, puis
+les compétences humaines en pastilles posées sous le titre de leur bloc, sans carte, à gauche de la
+carte du récit de reconversion à partir de 900 px, au-dessus d'elle en deçà. `LectureCompetences`
+range catégories et compétences par rang et retire une catégorie sans compétence ; aucun niveau
+n'est affiché, ni note, ni pourcentage (A-06). L'en-tête de section rend lui-même son h2 : l'id
+`titre-competences`, que nomme l'élément section de la page, est porté par le texte entier du
+titre, en bloc : sa boîte est celle du h2, et `/#titre-competences` s'ouvre au même endroit dans
+les trois moteurs. La section lit sa propre copie de `competences.json`, à laquelle le build de test seul
+ajoute `competencesDuBanc`, une catégorie sans compétence, avant la lecture : elle ne doit pas
+l'afficher. Rien n'y est encore animé.
 
 ## Styles
 
@@ -757,6 +773,13 @@ traces des échecs dans `test-results/`, non versionnés.
   sous l'en-tête (`e2e/support/lecture.ts` attend la position, jamais un délai), l'élément intérieur
   dont l'adresse devient celle de sa section, l'ancre qui ne nomme rien en haut et hors de l'adresse,
   avant le démarrage de l'application (script principal bloqué) comme après.
+- `competences.spec.ts`, la section Compétences, ses textes attendus lus dans `competences.json` :
+  les catégories techniques par rang, chacune avec ses compétences par rang (SC-2.0-12) ; les
+  compétences humaines en pastilles sous le titre de leur bloc, sans carte, puis la carte du récit
+  (SC-2.0-13) ; `/#competences` ouvert puis rechargé, sous l'en-tête, avant le démarrage comme
+  après ; la catégorie vide du banc, écrite dans un script du build de test et absente de la page ;
+  le récit sous les pastilles à 899 px, à leur droite à 900 px ; aucun niveau ; une compétence
+  longue, écrite dans la page, qui passe à la ligne, sans défilement horizontal de 320 à 2560 px.
 - `accueil.spec.ts`, la section Accueil, ses textes attendus lus dans le contenu : à l'arrivée, le
   nom, seul titre de niveau 1, l'intitulé, la présentation et une carte par section ; « Écrire un
   message », seul bouton mis en avant, au contact en un clic ; chaque carte qui défile jusqu'à sa
