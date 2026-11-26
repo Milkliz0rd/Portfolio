@@ -6,7 +6,7 @@ import { Principale } from './principale';
 
 // L'ancre de chaque section, dans l'ordre du plan du site, et le nom que lui donne son titre.
 const SECTIONS = [
-  ['parcours', 'EC-02 Parcours'],
+  ['parcours', 'Parcours'],
   ['competences', 'EC-03 Compétences'],
   ['experience', 'EC-04 Expérience'],
   ['methode', 'EC-05 Méthode de travail'],
@@ -48,7 +48,10 @@ describe('Principale', () => {
   it('nomme chaque section par son titre de niveau 2', async () => {
     const page = await rendre();
     const noms = sections(page).map((section) => {
-      const titre = page.querySelector(`[id="${section.getAttribute('aria-labelledby')}"]`);
+      // L'élément nommé est le h2, ou son texte dans le h2 : l'en-tête de section ne donne pas
+      // d'id à son titre, la section y projette le texte qui le porte.
+      const nomme = page.querySelector(`[id="${section.getAttribute('aria-labelledby')}"]`);
+      const titre = nomme?.closest('h2') ?? null;
       return [section.id, titre?.tagName, section.contains(titre), texte(titre)];
     });
     expect(noms).toEqual(SECTIONS.map(([ancre, nom]) => [ancre, 'H2', true, nom]));
