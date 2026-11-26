@@ -1,0 +1,65 @@
+<!-- L'en-tête, numéroté 02, titre seul, sans chapô (choix C5). L'en-tête de section rend lui-même
+     son h2 : l'id que nomme l'aria-labelledby de la section (principale.html) est porté par le
+     texte entier du titre, dans ce h2. Le numéro est lié : écrit en clair, la règle i18n du lint le
+     prendrait pour un libellé. -->
+<app-entete-section
+  [numero]="'02'"
+  etiquette="Compétences"
+  i18n-etiquette="@@competences.etiquette"
+  [niveau]="2"
+>
+  <span id="titre-competences" i18n="@@competences.titre">Compétences</span>
+</app-entete-section>
+<!-- Les compétences techniques : une carte pleine par catégorie, sur le fond uni. role="list" : une
+     liste sans puces reste annoncée comme telle par VoiceOver. -->
+<div class="competences__bloc">
+  <h3 class="competences__titre-bloc" i18n="@@competences.techniques">Compétences techniques</h3>
+  <ul class="competences__categories" role="list">
+    @for (categorie of competences.techniques; track categorie.rang) {
+      <li class="competences__categorie">
+        <app-carte
+          class="competences__carte"
+          variante="pleine"
+          [titre]="categorie.libelle"
+          [niveauTitre]="4"
+        >
+          <app-etiquette i18n="@@competences.categorie">Catégorie</app-etiquette>
+          <ul class="competences__pastilles" role="list">
+            @for (competence of categorie.competences; track competence.rang) {
+              <li class="competences__pastille">
+                <app-pastille>{{ competence.libelle }}</app-pastille>
+              </li>
+            }
+          </ul>
+        </app-carte>
+      </li>
+    }
+  </ul>
+</div>
+<!-- Les compétences humaines : leurs pastilles directement sous le titre du bloc, sans carte, puis
+     la carte du récit de reconversion, à leur droite à partir de 900 px (choix 6). -->
+<div class="competences__bloc competences__bloc--humaines">
+  <h3 class="competences__titre-bloc" i18n="@@competences.humaines">Compétences humaines</h3>
+  <div class="competences__humaines">
+    <ul class="competences__pastilles" role="list">
+      @for (competence of competences.humaines.competences; track competence.rang) {
+        <li class="competences__pastille">
+          <app-pastille>{{ competence.libelle }}</app-pastille>
+        </li>
+      }
+    </ul>
+    <app-carte
+      variante="pleine"
+      titre="Depuis la restauration"
+      i18n-titre="@@competences.recit-titre"
+      [niveauTitre]="4"
+    >
+      <app-etiquette variante="accent" i18n="@@competences.recit-etiquette"
+        >Reconversion</app-etiquette
+      >
+      @for (paragraphe of competences.humaines.recit; track $index) {
+        <p class="competences__paragraphe">{{ paragraphe }}</p>
+      }
+    </app-carte>
+  </div>
+</div>
