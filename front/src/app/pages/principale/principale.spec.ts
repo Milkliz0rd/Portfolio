@@ -8,7 +8,7 @@ import { Principale } from './principale';
 const SECTIONS = [
   ['parcours', 'Parcours'],
   ['competences', 'Compétences'],
-  ['experience', 'EC-04 Expérience'],
+  ['experience', 'Expérience'],
   ['methode', 'EC-05 Méthode de travail'],
   ['projets', 'EC-06 Liste des projets'],
 ];
@@ -43,6 +43,18 @@ describe('Principale', () => {
     expect(titres[0].compareDocumentPosition(premiere) & Node.DOCUMENT_POSITION_FOLLOWING).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
+  });
+
+  it('pose chaque section réelle dans son élément section, et nulle part ailleurs', async () => {
+    const page = await rendre();
+    for (const [ancre, composant] of [
+      ['parcours', 'app-parcours'],
+      ['competences', 'app-competences'],
+      ['experience', 'app-experience'],
+    ]) {
+      expect(page.querySelectorAll(composant), composant).toHaveLength(1);
+      expect(page.querySelector(composant)?.parentElement?.id, composant).toBe(ancre);
+    }
   });
 
   it('nomme chaque section par son titre de niveau 2', async () => {

@@ -157,6 +157,21 @@ l'afficher. L'en-tête est seul sur l'ouverture, l'arrière-plan d'ambiance d'un
 blocs suivent sur le fond uni, hors du halo, la grille des catégories sur le conteneur large, les
 compétences humaines et le récit plafonnés au conteneur standard. Rien n'y est encore animé.
 
+**La section Expérience** (`src/app/pages/principale/experience/`) se pose dans l'élément
+`section#experience` de la page principale, nommé par son titre (`titreId` : `titre-experience`).
+Elle ne tire ses textes que de `experience.json` : l'en-tête numéroté 03, titre « Expérience »
+seul, sans chapô, porte dans son complément, sous le titre, la liste clé-valeur en ligne
+« Alternance · <entreprise> » et « Période · <début>–<fin> », la période écrite par
+`formaterPeriode` dans la langue de l'application, en chasse fixe (C6) ; puis le rôle en trois
+volets, une carte pleine par volet, numérotée de 01 à 03, dans l'ordre du contenu, avec son texte
+(C-08, emplacements étiquetés tant qu'il manque) ; enfin la mention que les projets menés en
+entreprise ne sont pas partageables, dans un message d'information. Le nom de l'entreprise n'est
+écrit ni dans le code ni dans les tests : tous le lisent dans `experience.json`. Aucun projet,
+client, outil interne, dépôt ni collègue n'y est nommé, et la section ne dit rien d'autre que le
+contenu et les libellés de la maquette, ce que vérifient ses tests. L'en-tête est seul sur
+l'ouverture ; les cartes suivent sur le fond uni, en grille sur le conteneur large : une colonne
+sous 600 px, deux jusqu'à 1199 px, trois au-delà. Rien n'y est encore animé.
+
 ## Styles
 
 Les jetons de la charte graphique sont des propriétés personnalisées CSS, déclarées dans
@@ -209,7 +224,7 @@ vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$
 | -------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Pastille (CO-03)           | `<app-pastille variante="succes">Validé</app-pastille>`                   | `variante` (`neutre`, par défaut, `accent`, `secondaire`, `succes`, `attention`, `erreur`, `contour`), `lumineuse` (point qui rayonne) |
 | Étiquette (CO-04)          | `<app-etiquette variante="numerotee" numero="02">Section</app-etiquette>` | `variante` (`discrete`, par défaut, `accent`, `numerotee`, `puce`), `numero` (exigé par `numerotee`)                                   |
-| En-tête de section (CO-16) | voir ci-dessous                                                           | `numero` (facultatif), `etiquette`, `niveau` (`1`, `2` ou `3` : `h1`, `h2` ou `h3`), `bloc` (titre de bloc), `centre` (fin de page)    |
+| En-tête de section (CO-16) | voir ci-dessous                                                           | `numero` (facultatif), `etiquette`, `niveau` (`1` à `3` : `h1` à `h3`), `titreId`, `bloc` (titre de bloc), `centre` (fin de page)      |
 | Liste clé-valeur (CO-17)   | `<app-liste-cle-valeur [paires]="paires" />`                              | `variante` (`en-ligne`, par défaut, `tableau`), `paires` (une valeur en texte, ou en paragraphes de segments, avec leurs liens)        |
 
 **Pastille sur le verre.** Sur du verre (carte CO-05) et sur le halo d'un arrière-plan d'ambiance
@@ -823,6 +838,15 @@ traces des échecs dans `test-results/`, non versionnés.
   le démarrage de l'application comme avant (script principal bloqué : la section pré-rendue) ;
   rien ne déborde de 320 à 2560 px, les étapes l'une sous l'autre sous 900 px, côte à côte au-delà,
   la période en tête.
+- `experience.spec.ts`, la section Expérience, ses textes attendus lus dans `experience.json`,
+  jamais écrits dans le test : dans `section#experience`, enfant direct de la page, nommée par son
+  seul titre, l'en-tête numéroté 03, puis les trois volets, application, backend, appui DevOps,
+  chacun avec son texte ; l'entreprise et la période du contenu, la période en chasse fixe ; la
+  mention dans un message d'information ; tous les textes de la section, nœud par nœud, égaux au
+  contenu et aux libellés de la maquette (rien d'autre n'y est nommé), aucun lien, aucune date ni
+  durée relative (SC-2.0-14) ; `/#experience` ouvert puis rechargé, sous l'en-tête, après le
+  démarrage comme avant ; rien ne déborde de 320 à 2560 px, la liste sous le titre, les cartes hors
+  du halo, l'une sous l'autre sous 600 px, côte à côte dès 1200 px.
 - `navigation.spec.ts`, l'en-tête : sur la page principale, chaque entrée défile jusqu'à sa section,
   signalée (`aria-current="location"`), sans étape d'historique, et le retour arrière quitte la page ;
   l'entrée signalée et l'adresse suivent la lecture, jusqu'au bout d'un écran de 2560 px ; depuis

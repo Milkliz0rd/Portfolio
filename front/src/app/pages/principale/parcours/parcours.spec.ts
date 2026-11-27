@@ -93,6 +93,19 @@ describe('Parcours', () => {
     expect([...suite.children].map((enfant) => enfant.localName)).toEqual(['div', 'app-frise']);
   });
 
+  it('plafonne le texte d’orientation à la longueur de ligne de la charte (conteneur-texte)', () => {
+    // jsdom applique la feuille du composant et résout var() ; le jeton, posé sur html le temps du
+    // test, est retiré ensuite : Vitest tourne sans isolation (#169).
+    const html = document.documentElement;
+    try {
+      html.style.setProperty('--conteneur-texte', '480px');
+      const texteOrientation = rendre().querySelector('.parcours__texte')!;
+      expect(getComputedStyle(texteOrientation).maxWidth).toBe('480px');
+    } finally {
+      html.style.removeProperty('--conteneur-texte');
+    }
+  });
+
   it('pose les trois étapes dans l’ordre reconversion, bac+3, master, même rangées autrement', () => {
     const section = rendre(CONTENU_DE_TEST);
     expect(etapes(section).map(({ intitule }) => intitule)).toEqual([

@@ -36,7 +36,9 @@
   justify-items: start;
   max-width: var(--conteneur-standard);
 
-  > * {
+  // L'étiquette ne dépasse pas la colonne ; le texte garde son propre plafond, conteneur-texte, que
+  // cette règle, plus précise, effacerait.
+  > app-etiquette {
     max-width: 100%;
   }
 }
