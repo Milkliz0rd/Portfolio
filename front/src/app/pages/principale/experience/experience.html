@@ -1,0 +1,53 @@
+<!-- L'ouverture, sur l'ambiance d'une section : l'en-tête numéroté 03, titre seul (choix C5), qui
+     porte l'id que nomme la section (principale.html), puis, en complément, la liste clé-valeur de
+     l'alternance (choix C6). Numéro et id liés : en clair, la règle i18n les prendrait pour des
+     libellés. -->
+<app-ambiance variante="section" class="experience__ouverture">
+  <div class="conteneur-large">
+    <app-entete-section
+      [numero]="'03'"
+      etiquette="Expérience"
+      i18n-etiquette="@@experience.etiquette"
+      [niveau]="2"
+      [titreId]="'titre-experience'"
+    >
+      <ng-container i18n="@@experience.titre">Expérience</ng-container>
+      <ng-template #complement>
+        <app-liste-cle-valeur class="experience__faits" [paires]="faits" />
+      </ng-template>
+    </app-entete-section>
+  </div>
+</app-ambiance>
+<!-- La suite, sur le fond uni, hors du halo : une carte pleine par volet, en grille, puis la
+     mention. role="list" : une liste sans puces reste annoncée comme telle par VoiceOver. -->
+<div class="conteneur-large experience__suite">
+  <div class="experience__role">
+    <h3 class="experience__titre-bloc" i18n="@@experience.role">Le rôle, en trois volets</h3>
+    <ul class="experience__volets" role="list">
+      @for (volet of volets; track volet.cle) {
+        <li class="experience__volet">
+          <app-carte
+            class="experience__carte"
+            variante="pleine"
+            [titre]="volet.intitule"
+            [niveauTitre]="4"
+          >
+            <app-etiquette variante="numerotee" [numero]="volet.numero" i18n="@@experience.volet"
+              >Volet</app-etiquette
+            >
+            @for (paragraphe of volet.description; track $index) {
+              <p class="experience__paragraphe">{{ paragraphe }}</p>
+            }
+          </app-carte>
+        </li>
+      }
+    </ul>
+  </div>
+  <!-- Les projets menés en entreprise ne sont pas partageables (MF-11) : le texte du contenu. -->
+  <app-message-etat
+    class="experience__mention"
+    titre="Projets d’entreprise"
+    i18n-titre="@@experience.mention"
+    >{{ experience.mentionConfidentialite }}</app-message-etat
+  >
+</div>
