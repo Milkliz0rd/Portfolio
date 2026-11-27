@@ -711,8 +711,10 @@ qui démarre et arrête lui-même le serveur local, sans jamais construire. Le p
 libre : un serveur déjà présent fait échouer le banc, au lieu de lui faire tester un autre build.
 Les options de Playwright suivent `--`, par exemple `npm run e2e -- --project chromium-ordinateur`
 ou `npm run e2e -- --grep "contrôle commun /contact"` ; sur un build de test déjà fait,
-`npx playwright test -c e2e/playwright.config.ts` suffit. Aucune nouvelle tentative : un test
-instable est un défaut. Le rapport va dans `playwright-report/` (`npx playwright show-report`), les
+`npx playwright test -c e2e/playwright.config.ts` suffit. Un test instable est un défaut : aucune
+nouvelle tentative en local ; deux dans la CI, où un test qui ne passe qu'à une reprise est marqué
+instable (flaky) dans le journal et sur la page de la PR, sans bloquer la fusion, puis corrigé dans
+la vague où il apparaît. Le rapport va dans `playwright-report/` (`npx playwright show-report`), les
 traces des échecs dans `test-results/`, non versionnés.
 
 | Profil                | Navigateur et appareil                                       | Fenêtre    |
