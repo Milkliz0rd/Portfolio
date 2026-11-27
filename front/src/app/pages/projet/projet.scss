@@ -1,0 +1,79 @@
+// La fiche d'un projet (EC-07), au rythme des maquettes, comme les mentions légales : l'ouverture,
+// sur l'ambiance d'une section, 64 px au-dessus et 48 au-dessous ; la suite, 64 px au-dessous ; 96,
+// 64 et 96 px à partir de la tranche large. La suite empile description, captures, code source et
+// retour, à 48 px (espace-12).
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+.projet__ouverture {
+  padding-block: var(--espace-16) var(--espace-12);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-24) var(--espace-16);
+  }
+}
+
+.projet__suite {
+  display: grid;
+  gap: var(--espace-12);
+  justify-items: start;
+  padding-block-end: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    padding-block-end: var(--espace-24);
+  }
+
+  > * {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+// La description sur la longueur de ligne de la charte, ses paragraphes à 20 px (texte long).
+.projet__description {
+  display: grid;
+  gap: var(--espace-5);
+  max-width: var(--conteneur-texte);
+  color: var(--couleur-texte-secondaire);
+
+  > p {
+    margin: 0;
+  }
+}
+
+// Les captures sur toute la largeur, sous leur titre, un h2 à taille-titre-4 (maquette) : une
+// colonne, deux à partir de la tranche large ; chacune tient dans la largeur de l'écran.
+.projet__captures {
+  display: grid;
+  gap: var(--espace-6);
+  justify-self: stretch;
+}
+
+.projet__titre-captures {
+  font-size: var(--taille-titre-4);
+  font-weight: var(--graisse-forte);
+  line-height: var(--interligne-sous-titre);
+  letter-spacing: var(--approche-sous-titre);
+}
+
+.projet__grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gouttiere);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include ruptures.depuis(large) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.projet__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-3);
+}

@@ -1,0 +1,46 @@
+<app-ambiance variante="section" class="projet__ouverture">
+  <div class="conteneur-large">
+    <app-entete-section etiquette="Projets" i18n-etiquette="@@projet.etiquette" [niveau]="1">
+      {{ projet().titre }}
+    </app-entete-section>
+  </div>
+</app-ambiance>
+<div class="conteneur-large projet__suite">
+  <div class="projet__description">
+    @for (paragraphe of projet().description; track $index) {
+      <p>{{ paragraphe }}</p>
+    }
+  </div>
+  <!-- Sans capture affichable, aucune zone : ni titre, ni grille, ni cadre (SC-2.0-18, choix 1). -->
+  @if (captures().length > 0) {
+    <div class="projet__captures">
+      <h2 class="projet__titre-captures" i18n="@@projet.captures">Captures</h2>
+      <ul class="projet__grille">
+        @for (capture of captures(); track capture.source) {
+          <li>
+            <app-fenetre
+              variante="capture"
+              [titre]="capture.titre"
+              [source]="capture.source"
+              [largeur]="capture.largeur"
+              [hauteur]="capture.hauteur"
+              [texteAlternatif]="capture.alternatif"
+            />
+          </li>
+        }
+      </ul>
+    </div>
+  }
+  @if (projet().lienCode; as lienCode) {
+    <div class="projet__actions">
+      <a appBouton externe [href]="lienCode">
+        <span i18n="@@projet.code-source">Voir le code source</span>
+      </a>
+    </div>
+  }
+  <p class="projet__retour">
+    <a appLien variante="action" retour routerLink="/" [fragment]="'projets'">
+      <span i18n="@@projet.retour">Retour à la liste des projets</span>
+    </a>
+  </p>
+</div>
