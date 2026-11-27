@@ -1,0 +1,21 @@
+[
+  {
+    "identifiant": "projet-du-banc",
+    "titre": "Projet du banc",
+    "description": [
+      "Un projet de test, du seul build de test : sa fiche est complète, description, capture et code source.",
+      "Sa capture est une petite image WebP, servie par ce build seulement, jamais par le site."
+    ],
+    "descriptionCourte": "Le projet de test du banc.",
+    "rang": 99,
+    "captures": [
+      {
+        "fichier": "capture-01.webp",
+        "alternatif": "Capture de test : une page abstraite, sa barre, un titre, deux lignes et deux blocs",
+        "largeur": 320,
+        "hauteur": 200
+      }
+    ],
+    "lienCode": "https://example.org/projet-du-banc"
+  }
+]

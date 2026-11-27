@@ -1,7 +1,9 @@
 // Écrit l'index des projets de chaque langue (PF-02), src/contenu/<langue>/projets/index.genere.ts :
 // un import par fichier JSON du dossier, vérifié par « satisfies Projet », qui fait échouer la
 // compilation si un champ obligatoire manque. Lancé avant chaque build, test, analyse, extraction
-// des libellés et serveur de développement ; l'index n'est pas versionné.
+// des libellés et serveur de développement ; l'index n'est pas versionné. Le contenu de test des
+// fiches (projetsDuBanc, TK-37) suit les fichiers : configuration.genere.ts, écrit juste avant par
+// ecrire-configuration.mjs, ne le porte que dans le build de test ; ailleurs, la liste est vide.
 import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
@@ -12,7 +14,10 @@ export function texteIndex(fichiersRecus) {
   // L'ordre de lecture d'un dossier dépend du système de fichiers : l'index, lui, n'en dépend pas.
   const fichiers = [...fichiersRecus].sort();
   const imports = fichiers.map((fichier) => `import ${nomImport(fichier)} from './${fichier}';\n`);
-  const elements = fichiers.map((fichier) => `${nomImport(fichier)} satisfies Projet`);
+  const elements = [
+    ...fichiers.map((fichier) => `${nomImport(fichier)} satisfies Projet`),
+    '...projetsDuBanc',
+  ];
   const debut = 'export const projets: readonly Projet[] = [';
   const enLigne = `${debut}${elements.join(', ')}];`;
   const liste =
@@ -20,6 +25,7 @@ export function texteIndex(fichiersRecus) {
   return [
     '// Écrit par outils/generer-index-contenu.mjs : ni à modifier, ni à versionner.',
     "import type { Projet } from '../../../app/interfaces/contenu';",
+    "import { projetsDuBanc } from '../../../configuration/configuration.genere';",
     imports.join(''),
     liste,
     '',

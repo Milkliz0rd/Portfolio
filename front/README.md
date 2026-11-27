@@ -50,7 +50,10 @@ base de l'API du back, sans barre finale), `origineSite` (l'origine canonique du
 (voir « Les mentions légales et la page introuvable »). Il porte aussi `competencesDuBanc`, le
 contenu de test des compétences (`e2e/support/competences-du-banc.json`) : une catégorie sans
 compétence, que la section Compétences ne doit pas afficher, vide lui aussi hors de
-l'environnement test. Les
+l'environnement test. Il porte enfin `projetsDuBanc`, le contenu de test des fiches
+(`e2e/support/projets-du-banc.json`, voir « La fiche d'un projet ») : un projet complet, que l'index
+des projets ajoute à ceux du contenu, et dont `outils/finaliser-build.mjs` copie la capture WebP
+(`e2e/support/projets-du-banc/<identifiant>/`) dans le seul build de test ; vide ailleurs. Les
 adresses publiques sont versionnées dans `src/configuration/adresses-publiques.json` ; l'adresse
 technique du back de préproduction n'entre jamais dans le dépôt.
 
@@ -89,8 +92,8 @@ texte brut, jamais de HTML ; un contenu encore à fournir est un emplacement ét
 
 `outils/generer-index-contenu.mjs` en tire `src/contenu/fr/projets/index.genere.ts`, non
 versionné : un import par projet, vérifié par `satisfies Projet` (un champ obligatoire manquant
-fait échouer la compilation). La fiche `/projets/<identifiant>` est pré-rendue
-depuis cet index.
+fait échouer la compilation), puis `projetsDuBanc`, vide hors du build de test. La fiche
+`/projets/<identifiant>` (`pages/projet`) est pré-rendue depuis cet index.
 
 **Contrôle du contenu.** `npm run controle-contenu -- --mode=staging` (ou `--mode=main`) lance
 `outils/controle-contenu/`, sans dépendance : il lit chaque fichier de `src/contenu/<langue>/` et
@@ -633,6 +636,22 @@ l'hébergeur, jamais du script. `guards/projet-existe`, le `canMatch` de `projet
 passer qu'un identifiant de l'index des projets (`LectureProjets`) : un identifiant inconnu va,
 sans redirection ni étape d'historique, jusqu'à `**`, et aucune entrée n'est signalée, même une
 fois l'application démarrée.
+
+**La fiche d'un projet** (EC-07), `pages/projet`, page à part chargée à la demande, est pré-rendue
+pour chaque identifiant de l'index des projets ; sa route garde `projetExiste` et `data.section`
+« projets » : « Projets » y est l'entrée signalée (`aria-current="page"`). Sous un en-tête sans
+numéro, sur l'ambiance d'une section, l'étiquette « Projets » et le titre du projet, seul `h1`, à
+`taille-titre-1`, puis, dans l'ordre : la description ; les captures, seulement s'il y en a, en
+fenêtres `capture` (WebP de `public/images/projets/<identifiant>/`, dimensions déclarées, texte
+alternatif, chargement à la demande) ; « Voir le code source », seulement si `lienCode` existe, en
+bouton primaire externe ; « ← Retour à la liste des projets », lien d'action `retour` du routeur
+vers `/` et l'ancre `projets` : une navigation ordinaire, qui ajoute une étape et ouvre la section
+des projets sous l'en-tête, d'un coup. Sans capture, aucune zone ; sans lien, ni lien ni bouton.
+Une capture encore en emplacement, par son fichier (la marque `[… — …]` que reconnaît le contrôle
+du contenu, même expression) ou une dimension qui n'est pas un nombre, n'est pas affichée, comme
+s'il n'y en avait aucune (choix 1 de W22) : ni image cassée, ni requête vers la marque ; le
+contrôle du contenu la signale toujours. Le build de test ajoute un projet complet,
+`projet-du-banc` (voir « Environnements »), dont la capture n'existe que dans ce build.
 
 ## Polices
 

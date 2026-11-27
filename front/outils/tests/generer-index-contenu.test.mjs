@@ -1,6 +1,7 @@
 // Index des projets (PF-02) : un fichier ajouté entre dans l'index, l'ordre ne dépend pas de
-// celui de la création des fichiers, l'index ne porte que les projets, et il est écrit dans la
-// forme de Prettier, qui ne le refuse donc pas, même s'il ne le lit pas (fichier non versionné).
+// celui de la création des fichiers, l'index ne porte que les projets, ceux des fichiers puis le
+// contenu de test des fiches (TK-37), et il est écrit dans la forme de Prettier, qui ne le refuse
+// donc pas, même s'il ne le lit pas (fichier non versionné).
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -28,7 +29,7 @@ afterEach(() => rmSync(racine, { recursive: true, force: true }));
 describe('generer-index-contenu', () => {
   it('importe chaque fichier de projet et le vérifie par « satisfies Projet »', () => {
     expect(index()).toContain("import projet_portfolio from './portfolio.json';");
-    expect(index()).toContain('[projet_portfolio satisfies Projet]');
+    expect(index()).toContain('[projet_portfolio satisfies Projet, ...projetsDuBanc]');
   });
 
   it('fait entrer un fichier ajouté dans l’index, à côté des autres', () => {
@@ -53,14 +54,16 @@ describe('generer-index-contenu', () => {
     expect(index()).toBe(index());
   });
 
-  it('ne porte que les projets : leurs imports, puis leur liste', () => {
+  // Le contenu de test des fiches, vide hors du build de test (ecrire-configuration.mjs), suit.
+  it('ne porte que les projets : leurs imports, puis leur liste, le contenu de test en dernier', () => {
     expect(index()).toBe(
       [
         '// Écrit par outils/generer-index-contenu.mjs : ni à modifier, ni à versionner.',
         "import type { Projet } from '../../../app/interfaces/contenu';",
+        "import { projetsDuBanc } from '../../../configuration/configuration.genere';",
         "import projet_portfolio from './portfolio.json';",
         '',
-        'export const projets: readonly Projet[] = [projet_portfolio satisfies Projet];',
+        'export const projets: readonly Projet[] = [projet_portfolio satisfies Projet, ...projetsDuBanc];',
         '',
       ].join('\n'),
     );
