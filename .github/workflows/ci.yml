@@ -1,6 +1,9 @@
-# Contrôles de chaque PR et de chaque push vers staging et main (TK-07). Les travaux tournent à
-# chaque fois, sans filtre de chemins : un contrôle exigé avant fusion, mais sauté, resterait en
-# attente. Aucun secret : le déploiement passe par l'intégration Git des hébergeurs (CT-09).
+# Contrôles de chaque PR et de chaque push vers staging et main (TK-07). Seulement ce qui ne peut
+# pas échouer pour une raison extérieure : installations verrouillées, analyses, tests unitaires,
+# contrôle du contenu, builds et image du back. Le banc de bout en bout, dans les navigateurs,
+# tourne à la demande (e2e.yml). Les travaux tournent à chaque fois, sans filtre de chemins : un
+# contrôle exigé avant fusion, mais sauté, resterait en attente. Aucun secret : le déploiement
+# passe par l'intégration Git des hébergeurs (CT-09).
 name: CI
 
 on:
@@ -8,13 +11,19 @@ on:
     branches: [staging, main]
   # Render ne déploie le back qu'une fois passés les contrôles du nouveau commit de sa branche, et
   # jamais un commit sans contrôles (autoDeployTrigger: checksPass, back/render.yaml) : le commit
-  # de fusion reçoit ici ses propres front, back et e2e, que pull_request seul ne lance pas. La
+  # de fusion reçoit ici ses propres front et back, que pull_request seul ne lance pas. La
   # branche d'une PR n'est ni staging ni main : ses contrôles tournent toujours une seule fois.
   push:
     branches: [staging, main]
 
 permissions:
   contents: read
+
+# Un seul passage à la fois par PR : un nouveau push annule le précédent. Chaque push vers staging
+# ou main garde le sien (son groupe est son commit), que Render attend avant de déployer.
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('ci-pr-{0}', github.event.pull_request.number) || format('ci-{0}', github.sha) }}
+  cancel-in-progress: true
 
 jobs:
   front:
@@ -73,31 +82,3 @@ jobs:
           tags: portfolio-back:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-  # Banc de bout en bout et d'accessibilité du front (TK-21) : le build de test servi par
-  # wrangler dev, dans les six profils. Sur échec, le rapport de Playwright reste en artefact.
-  e2e:
-    name: e2e
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: front
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v7
-        with:
-          node-version-file: front/.nvmrc
-          cache: npm
-          cache-dependency-path: front/package-lock.json
-      - run: npm ci
-      # Les navigateurs de la version de Playwright du lockfile, avec leurs bibliothèques système.
-      - run: npx playwright install --with-deps chromium firefox webkit
-      - run: npm run e2e
-      - uses: actions/upload-artifact@v7
-        if: failure()
-        with:
-          name: playwright-report
-          path: front/playwright-report/
-          retention-days: 14

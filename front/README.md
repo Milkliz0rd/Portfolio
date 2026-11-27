@@ -923,10 +923,13 @@ test('contact : envoi réussi', async ({ page, backSimule }) => {
 });
 ```
 
-**Dans la CI**, le travail `e2e` de `.github/workflows/ci.yml` lance le banc sur chaque PR, sans
-filtre de chemins, comme `front` et `back` : `npm ci`, les navigateurs, `npm run e2e` ; sur échec,
-le rapport de Playwright est gardé en artefact (`playwright-report`, 14 jours). Il est à rendre
-exigé dans la protection de `staging`, réglage de GitHub, après la fusion de la PR qui le crée.
+**Dans la CI, à la demande.** Le banc ne tourne pas sur chaque PR : les contrôles de PR
+(`.github/workflows/ci.yml`) se limitent aux installations, analyses, tests unitaires, builds et
+image du back, qui ne dépendent ni du rythme de la machine ni d'un service extérieur. Le workflow
+`.github/workflows/e2e.yml` le lance à la main sur une branche poussée,
+`gh workflow run e2e.yml --ref <branche>` : `npm ci`, les navigateurs, `npm run e2e` ; sur échec,
+le rapport de Playwright est gardé en artefact (`playwright-report`, 14 jours). Il se lance avant
+de rendre une PR, sur chaque PR du robot de mises à jour et avant chaque mise en production.
 
 ## Langue
 
