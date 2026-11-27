@@ -1,23 +1,31 @@
-<!-- L'en-tête de section, numéroté 01. Son h2 porte l'id titre-parcours, que nomme
+<!-- L'ouverture, sur l'arrière-plan d'ambiance d'une section, sur toute la largeur de la page :
+     l'en-tête de section, numéroté 01. Son h2 porte l'id titre-parcours, que nomme
      l'aria-labelledby de la section de la page principale (principale.html) ; l'id est lié :
      écrit en clair, la règle i18n du lint le prendrait pour un libellé. -->
-<app-entete-section
-  numero="01"
-  etiquette="Parcours"
-  i18n-etiquette="@@parcours.etiquette"
-  [niveau]="2"
-  [titreId]="'titre-parcours'"
->
-  <ng-container i18n="@@parcours.titre">Parcours</ng-container>
-  <ng-template #chapo>{{ parcours.introduction }}</ng-template>
-</app-entete-section>
-<!-- L'orientation vers l'architecture logicielle, qui cite le master comme étape (C-09). -->
-<div class="parcours__orientation">
-  <app-etiquette variante="accent" i18n="@@parcours.orientation">Orientation</app-etiquette>
-  <div class="parcours__texte">
-    @for (paragraphe of parcours.orientation; track $index) {
-      <p>{{ paragraphe }}</p>
-    }
+<app-ambiance variante="section" class="parcours__ouverture">
+  <div class="conteneur-large">
+    <app-entete-section
+      numero="01"
+      etiquette="Parcours"
+      i18n-etiquette="@@parcours.etiquette"
+      [niveau]="2"
+      [titreId]="'titre-parcours'"
+    >
+      <ng-container i18n="@@parcours.titre">Parcours</ng-container>
+      <ng-template #chapo>{{ parcours.introduction }}</ng-template>
+    </app-entete-section>
   </div>
+</app-ambiance>
+<!-- La suite, sur le fond uni : l'orientation vers l'architecture logicielle, qui cite le master
+     comme étape (C-09), puis la frise, sur le conteneur large. -->
+<div class="conteneur-large parcours__suite">
+  <div class="parcours__orientation">
+    <app-etiquette variante="accent" i18n="@@parcours.orientation">Orientation</app-etiquette>
+    <div class="parcours__texte">
+      @for (paragraphe of parcours.orientation; track $index) {
+        <p>{{ paragraphe }}</p>
+      }
+    </div>
+  </div>
+  <app-frise [etapes]="etapes" libelle="Étapes du parcours" i18n-libelle="@@parcours.frise" />
 </div>
-<app-frise [etapes]="etapes" libelle="Étapes du parcours" i18n-libelle="@@parcours.frise" />

@@ -186,7 +186,8 @@ test('accueil : les cartes hors de l’ambiance et de ses halos, et nul défilem
   await page.goto('/');
   for (const largeur of LARGEURS) {
     await page.setViewportSize({ width: largeur, height: 800 });
-    const ambiance = await boite(page.locator('app-ambiance'));
+    // L'ambiance de l'accueil : chaque section de la page a aussi la sienne, à son ouverture.
+    const ambiance = await boite(page.locator('app-accueil app-ambiance'));
     for (const element of await cartes(page).locator('app-carte').all()) {
       expect((await boite(element)).y, `${largeur} px`).toBeGreaterThanOrEqual(
         ambiance.y + ambiance.height,

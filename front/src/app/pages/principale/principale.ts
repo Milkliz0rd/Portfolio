@@ -6,6 +6,7 @@ import {
   ElementRef,
   inject,
 } from '@angular/core';
+import { Ambiance } from '../../components/ambiance/ambiance';
 import { NavigationService } from '../../services/navigation/navigation';
 import { Accueil } from './accueil/accueil';
 import { Competences } from './competences/competences';
@@ -17,10 +18,12 @@ import { Parcours } from './parcours/parcours';
  * l'id est son ancre, nommée par son titre. Aucune n'est différée : chaque ancre est dans le
  * document pré-rendu. Parcours (TK-34) et Compétences (TK-35) sont posées dans leur élément
  * section ; les trois autres sont encore des emplacements étiquetés, que les sections réelles
- * remplacent une à une.
+ * remplacent une à une. Chaque section s'ouvre sur l'arrière-plan d'ambiance d'une section, à
+ * l'intérieur de son élément section : le halo s'étend sur toute la largeur de la page, le
+ * contenu se range dans le conteneur large (charte, section 5).
  */
 @Component({
-  imports: [Accueil, Parcours, Competences],
+  imports: [Ambiance, Accueil, Parcours, Competences],
   selector: 'app-principale',
   styleUrl: './principale.scss',
   templateUrl: './principale.html',

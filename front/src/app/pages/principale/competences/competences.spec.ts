@@ -43,8 +43,8 @@ function lus(racine: HTMLElement): string[] {
 describe('Competences', () => {
   it('s’ouvre sur l’en-tête numéroté 02, titre seul de niveau 2, qui porte l’id de la section', () => {
     const racine = section();
-    const entete = racine.firstElementChild!;
-    expect(entete.localName).toBe('app-entete-section');
+    const entete = racine.querySelector('app-entete-section')!;
+    expect(racine.querySelectorAll('app-entete-section')).toHaveLength(1);
     expect(textes(entete.querySelectorAll('.etiquette__numero, .etiquette__texte'))).toEqual([
       '02',
       'Compétences',
@@ -53,6 +53,19 @@ describe('Competences', () => {
     expect(titres.map((titre) => [titre.localName, texte(titre)])).toEqual([['h2', 'Compétences']]);
     expect(racine.querySelector('#titre-competences')).toBe(titres[0]);
     expect(entete.querySelector('.entete-section__chapo')).toBeNull();
+  });
+
+  it('s’ouvre sur l’ambiance d’une section, l’en-tête seul dessus, les blocs et leurs cartes hors d’elle', () => {
+    const racine = section();
+    const ouverture = racine.firstElementChild!;
+    expect(ouverture.localName).toBe('app-ambiance');
+    expect(ouverture.classList).toContain('ambiance--section');
+    expect(racine.querySelectorAll('app-ambiance')).toHaveLength(1);
+    expect(ouverture.querySelector('.conteneur-large > app-entete-section')).not.toBeNull();
+    expect(ouverture.querySelector('app-carte, app-pastille, h3')).toBeNull();
+    const blocs = [...racine.querySelectorAll(':scope > .competences__bloc')];
+    expect(blocs.map((bloc) => bloc.classList.contains('conteneur-large'))).toEqual([true, true]);
+    expect(racine.querySelectorAll('app-carte')).toHaveLength(3);
   });
 
   it('range les catégories et leurs compétences par rang, seulement celles du contenu', () => {

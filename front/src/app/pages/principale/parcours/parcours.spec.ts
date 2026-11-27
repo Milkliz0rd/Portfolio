@@ -82,6 +82,17 @@ describe('Parcours', () => {
     expect(section.querySelector('#titre-parcours')).toBe(titres[0]);
   });
 
+  it('s’ouvre sur l’ambiance d’une section, l’en-tête seul dessus, puis la suite, la frise sur le conteneur large', () => {
+    const section = rendre();
+    const [ouverture, suite] = [...section.children];
+    expect([ouverture.localName, suite.localName]).toEqual(['app-ambiance', 'div']);
+    expect(ouverture.classList).toContain('ambiance--section');
+    expect(ouverture.querySelector('.conteneur-large > app-entete-section')).not.toBeNull();
+    expect(ouverture.querySelector('app-frise, .parcours__orientation')).toBeNull();
+    expect(suite.classList).toContain('conteneur-large');
+    expect([...suite.children].map((enfant) => enfant.localName)).toEqual(['div', 'app-frise']);
+  });
+
   it('pose les trois étapes dans l’ordre reconversion, bac+3, master, même rangées autrement', () => {
     const section = rendre(CONTENU_DE_TEST);
     expect(etapes(section).map(({ intitule }) => intitule)).toEqual([

@@ -1,18 +1,24 @@
-<!-- L'en-tête, numéroté 02, titre seul, sans chapô (choix C5). Son h2 porte l'id que nomme
+<!-- L'ouverture, sur l'arrière-plan d'ambiance d'une section, sur toute la largeur de la page :
+     l'en-tête, numéroté 02, titre seul, sans chapô (choix C5). Son h2 porte l'id que nomme
      l'aria-labelledby de la section (principale.html). Le numéro et l'id sont liés : écrits en
      clair, la règle i18n du lint les prendrait pour des libellés. -->
-<app-entete-section
-  [numero]="'02'"
-  etiquette="Compétences"
-  i18n-etiquette="@@competences.etiquette"
-  [niveau]="2"
-  [titreId]="'titre-competences'"
->
-  <ng-container i18n="@@competences.titre">Compétences</ng-container>
-</app-entete-section>
-<!-- Les compétences techniques : une carte pleine par catégorie, sur le fond uni. role="list" : une
-     liste sans puces reste annoncée comme telle par VoiceOver. -->
-<div class="competences__bloc">
+<app-ambiance variante="section" class="competences__ouverture">
+  <div class="conteneur-large">
+    <app-entete-section
+      [numero]="'02'"
+      etiquette="Compétences"
+      i18n-etiquette="@@competences.etiquette"
+      [niveau]="2"
+      [titreId]="'titre-competences'"
+    >
+      <ng-container i18n="@@competences.titre">Compétences</ng-container>
+    </app-entete-section>
+  </div>
+</app-ambiance>
+<!-- La suite, sur le fond uni, hors du halo. Les compétences techniques : une carte pleine par
+     catégorie, en grille sur le conteneur large. role="list" : une liste sans puces reste annoncée
+     comme telle par VoiceOver. -->
+<div class="conteneur-large competences__bloc">
   <h3 class="competences__titre-bloc" i18n="@@competences.techniques">Compétences techniques</h3>
   <ul class="competences__categories" role="list">
     @for (categorie of competences.techniques; track categorie.rang) {
@@ -38,7 +44,7 @@
 </div>
 <!-- Les compétences humaines : leurs pastilles directement sous le titre du bloc, sans carte, puis
      la carte du récit de reconversion, à leur droite à partir de 900 px (choix 6). -->
-<div class="competences__bloc competences__bloc--humaines">
+<div class="conteneur-large competences__bloc competences__bloc--humaines">
   <h3 class="competences__titre-bloc" i18n="@@competences.humaines">Compétences humaines</h3>
   <div class="competences__humaines">
     <ul class="competences__pastilles" role="list">
