@@ -3,8 +3,12 @@ import { provideLocationMocks, SpyLocation } from '@angular/common/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
+import { projetsDuBanc } from '../../../configuration/configuration.genere';
+import portfolio from '../../../contenu/fr/projets/portfolio.json';
+import { routes } from '../../app.routes';
 import type { Capture, Projet as ProjetDuContenu } from '../../interfaces/contenu';
 import { FICHIERS_PROJETS } from '../../services/contenu/projets';
+import { NavigationService } from '../../services/navigation/navigation';
 import { capturesAffichees, Projet } from './projet';
 
 const texte = (element: Element | null | undefined) =>
@@ -157,6 +161,39 @@ describe('Projet', () => {
     expect(texte(element.querySelector('h1'))).toBe('Projet sans-capture');
     expect(element.querySelector('app-fenetre')).toBeNull();
   });
+});
+
+// Les vraies routes et le contenu du build : la garde, le chargement à la demande, data.section.
+describe('Projet, sur les routes du site', () => {
+  async function ouvrirSurLesRoutes(adresse: string) {
+    TestBed.configureTestingModule({ providers: [provideRouter(routes), provideLocationMocks()] });
+    // Le service suit les navigations dès qu'il existe : avant la première.
+    const navigation = TestBed.inject(NavigationService);
+    const harness = await RouterTestingHarness.create();
+    await harness.navigateByUrl(adresse, Projet);
+    return { element: harness.routeNativeElement!, navigation };
+  }
+
+  it('mène /projets/portfolio à sa fiche : son titre, sa description, son code source, « Projets » signalé', async () => {
+    const { element, navigation } = await ouvrirSurLesRoutes('/projets/portfolio');
+    expect(texte(element.querySelector('h1'))).toBe(portfolio.titre);
+    // Le texte tel quel, espaces insécables comprises (texte les ramènerait à des espaces).
+    const paragraphes = element.querySelectorAll('.projet__description > p');
+    expect([...paragraphes].map((p) => p.textContent)).toEqual(portfolio.description);
+    const bouton = element.querySelector('.projet__actions > a');
+    expect(bouton?.getAttribute('href')).toBe(portfolio.lienCode);
+    expect(navigation.entree()).toBe('projets');
+  });
+
+  // Le contenu de test des fiches, vide hors de l'environnement test (configuration.genere.ts).
+  it.each(projetsDuBanc.map((projet) => [projet.identifiant, projet] as const))(
+    'mène le projet de test « %s » du build à sa fiche, ses captures comprises',
+    async (identifiant, projet) => {
+      const { element } = await ouvrirSurLesRoutes(`/projets/${identifiant}`);
+      expect(texte(element.querySelector('h1'))).toBe(projet.titre);
+      expect(element.querySelectorAll('app-fenetre img')).toHaveLength(projet.captures.length);
+    },
+  );
 });
 
 describe('capturesAffichees', () => {

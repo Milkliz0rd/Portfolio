@@ -1,13 +1,25 @@
 // Adresses par environnement (PF-07) : déduction de l'environnement, adresses versionnées en
 // production, variable de préproduction facultative, origines HTTPS exigées, fichier généré dans
 // la forme de Prettier.
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { format, resolveConfig } from 'prettier';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { EMPLACEMENT } from '../controle-contenu/structure.mjs';
+import { dimensionsWebp } from '../controle-contenu/webp.mjs';
 import {
   ORIGINE_LOCALE_TEST,
+  copierImagesDuBanc,
   deduireEnvironnement,
   ecrireConfiguration,
   lireConfiguration,
@@ -162,5 +174,49 @@ describe('ecrire-configuration', () => {
       ['competences', 'libelle', 'rang'],
     ]);
     expect(banc[0].competences).toEqual([]);
+  });
+
+  it('n’importe le contenu de test des fiches que dans le build de test', () => {
+    const texte = (environnement) =>
+      texteConfiguration(configuration({ PORTFOLIO_ENVIRONNEMENT: environnement }));
+    const importe = (environnement) =>
+      texte(environnement).includes("from '../../e2e/support/projets-du-banc.json'");
+    expect(['developpement', 'test', 'preproduction', 'production'].map(importe)).toEqual([
+      false,
+      true,
+      false,
+      false,
+    ]);
+    expect(texte('production')).toContain('export const projetsDuBanc: readonly Projet[] = [];');
+  });
+
+  it('donne au build de test un projet complet, hors du contenu, ses captures en WebP aux dimensions déclarées', () => {
+    const banc = JSON.parse(
+      readFileSync(join(front, 'e2e', 'support', 'projets-du-banc.json'), 'utf8'),
+    );
+    const reels = readdirSync(join(front, 'src', 'contenu', 'fr', 'projets'));
+    for (const { identifiant, description, captures, lienCode } of banc) {
+      expect(identifiant).toMatch(/^[a-z0-9-]+$/);
+      expect(reels).not.toContain(`${identifiant}.json`);
+      expect([description.length > 0, captures.length > 0]).toEqual([true, true]);
+      expect(lienCode).toMatch(/^https:\/\//);
+      for (const { fichier, alternatif, largeur, hauteur } of captures) {
+        const chemin = join(front, 'e2e', 'support', 'projets-du-banc', identifiant, fichier);
+        expect(dimensionsWebp(readFileSync(chemin)), fichier).toEqual({ largeur, hauteur });
+        expect(alternatif.trim()).not.toBe('');
+      }
+    }
+    expect(JSON.stringify(banc)).not.toMatch(EMPLACEMENT);
+  });
+
+  it('ne copie les images du contenu de test des fiches que dans le build de test', () => {
+    const sortie = join(racine, 'dist');
+    for (const environnement of ['developpement', 'preproduction', 'production']) {
+      expect(copierImagesDuBanc(front, sortie, environnement)).toBeNull();
+      expect(existsSync(sortie)).toBe(false);
+    }
+    expect(copierImagesDuBanc(front, sortie, 'test')).toBe(join(sortie, 'images', 'projets'));
+    const capture = join(sortie, 'images', 'projets', 'projet-du-banc', 'capture-01.webp');
+    expect(dimensionsWebp(readFileSync(capture))).toEqual({ largeur: 320, hauteur: 200 });
   });
 });

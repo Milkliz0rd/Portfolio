@@ -3,7 +3,7 @@
 // du back, sans barre finale, et l'origine canonique du site. Les adresses publiques viennent de
 // src/configuration/adresses-publiques.json ; ce qui ne s'écrit pas dans le dépôt vient des
 // variables d'environnement, complétées sur le poste par front/.env.local (non versionné).
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { parseEnv } from 'node:util';
 
@@ -92,22 +92,39 @@ const MENTIONS_DU_BANC = "import banc from '../../e2e/support/mentions-legales-d
 // (état « catégorie vide »). Le seul build de test l'importe, comme celui des mentions légales.
 const COMPETENCES_DU_BANC =
   "import competencesBanc from '../../e2e/support/competences-du-banc.json';";
+// Le contenu de test des fiches (TK-37) : un projet complet, sa capture WebP comprise, que l'index
+// des projets ajoute à ceux du contenu (generer-index-contenu.mjs) : sa fiche est routée et
+// pré-rendue comme toute autre. Le seul build de test l'importe, et copie sa capture (ci-dessous).
+const PROJETS_DU_BANC = "import projetsBanc from '../../e2e/support/projets-du-banc.json';";
 
 /** Le texte du fichier généré, déjà dans la forme de Prettier ; les valeurs sont typées larges. */
 export function texteConfiguration({ environnement, baseApi, origineSite }) {
   const banc = environnement === 'test';
   return [
     '// Écrit par outils/ecrire-configuration.mjs (PF-07) : ni à modifier, ni à versionner.',
-    "import type { BlocTexte, CategorieCompetences } from '../app/interfaces/contenu';",
-    ...(banc ? [MENTIONS_DU_BANC, COMPETENCES_DU_BANC] : []),
+    "import type { BlocTexte, CategorieCompetences, Projet } from '../app/interfaces/contenu';",
+    ...(banc ? [MENTIONS_DU_BANC, COMPETENCES_DU_BANC, PROJETS_DU_BANC] : []),
     `export type Environnement = ${ENVIRONNEMENTS.map((e) => `'${e}'`).join(' | ')};`,
     `export const environnement = '${environnement}' as Environnement;`,
     `export const baseApi = '${baseApi}' as string;`,
     `export const origineSite = '${origineSite}' as string;`,
     `export const mentionsLegalesDuBanc: readonly BlocTexte[] = ${banc ? 'banc' : '[]'};`,
     `export const competencesDuBanc: readonly CategorieCompetences[] = ${banc ? 'competencesBanc' : '[]'};`,
+    `export const projetsDuBanc: readonly Projet[] = ${banc ? 'projetsBanc' : '[]'};`,
     '',
   ].join('\n');
+}
+
+/**
+ * Copie les images du contenu de test des fiches (e2e/support/projets-du-banc/<identifiant>/) dans
+ * images/projets/ de <sortie>, le build de test seul, après sa construction (finaliser-build.mjs) :
+ * ni public/, ni le build d'un autre environnement ne les voient. Rend le dossier copié, ou null.
+ */
+export function copierImagesDuBanc(racine, sortie, environnement) {
+  if (environnement !== 'test') return null;
+  const cible = join(sortie, 'images', 'projets');
+  cpSync(join(racine, 'e2e', 'support', 'projets-du-banc'), cible, { recursive: true });
+  return cible;
 }
 
 /** La configuration de <racine> (front/), sans rien écrire : finaliser-build.mjs la relit. */

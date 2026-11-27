@@ -23,9 +23,9 @@ export const routes: Routes = [
   // Un identifiant inconnu des fichiers de contenu ne correspond pas : il va jusqu'à « ** ».
   {
     path: 'projets/:id',
-    component: Provisoire,
+    loadComponent: () => import('./pages/projet/projet').then((m) => m.Projet),
     canMatch: [projetExiste],
-    data: { section: 'projets', ecran: "EC-07 Fiche d'un projet" },
+    data: { section: 'projets' },
   },
   { path: 'contact', component: Provisoire, data: { section: 'contact', ecran: 'EC-09 Contact' } },
   // Les mentions légales, sans data.section : aucune entrée signalée (PF-06).
