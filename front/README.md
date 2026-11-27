@@ -157,6 +157,21 @@ l'afficher. L'en-tête est seul sur l'ouverture, l'arrière-plan d'ambiance d'un
 blocs suivent sur le fond uni, hors du halo, la grille des catégories sur le conteneur large, les
 compétences humaines et le récit plafonnés au conteneur standard. Rien n'y est encore animé.
 
+**La section Expérience** (`src/app/pages/principale/experience/`) se pose dans l'élément
+`section#experience` de la page principale, nommé par son titre (`titreId` : `titre-experience`).
+Elle ne tire ses textes que de `experience.json` : l'en-tête numéroté 03, titre « Expérience »
+seul, sans chapô, porte dans son complément, sous le titre, la liste clé-valeur en ligne
+« Alternance · <entreprise> » et « Période · <début>–<fin> », la période écrite par
+`formaterPeriode` dans la langue de l'application, en chasse fixe (C6) ; puis le rôle en trois
+volets, une carte pleine par volet, numérotée de 01 à 03, dans l'ordre du contenu, avec son texte
+(C-08, emplacements étiquetés tant qu'il manque) ; enfin la mention que les projets menés en
+entreprise ne sont pas partageables, dans un message d'information. Le nom de l'entreprise n'est
+écrit ni dans le code ni dans les tests : tous le lisent dans `experience.json`. Aucun projet,
+client, outil interne, dépôt ni collègue n'y est nommé, et la section ne dit rien d'autre que le
+contenu et les libellés de la maquette, ce que vérifient ses tests. L'en-tête est seul sur
+l'ouverture ; les cartes suivent sur le fond uni, en grille sur le conteneur large : une colonne
+sous 600 px, deux jusqu'à 1199 px, trois au-delà. Rien n'y est encore animé.
+
 ## Styles
 
 Les jetons de la charte graphique sont des propriétés personnalisées CSS, déclarées dans

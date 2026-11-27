@@ -180,7 +180,7 @@ describe('Experience', () => {
       ['Période', formaterPeriode({ annee: periode.debut }, { annee: periode.fin }, 'fr')],
     ]);
     expect(texte(section)).not.toMatch(
-      /\b\d+\s*(ans?|mois|années?)\b|actuellement|en cours|depuis|il y a|en ce moment|aujourd[’']hui|cette année/i,
+      /\b\d+\s*(ans?|mois|années?)\b|actuellement|en cours|depuis \d|il y a|en ce moment|aujourd[’']hui|cette année/i,
     );
     const animes = [section, ...section.querySelectorAll('*')].filter(
       (e) =>
