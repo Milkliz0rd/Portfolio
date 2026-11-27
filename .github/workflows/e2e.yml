@@ -1,0 +1,46 @@
+# Banc de bout en bout et d'accessibilité du front (TK-21), à la demande : le build de test servi
+# par wrangler dev, dans les six profils. Il ne tourne pas sur chaque PR (décision du 27/11/2026,
+# écart à CT-09 et à la DoD (5) de TK-21) : sensible au rythme de la machine, il donnait des
+# échecs sans défaut du site. Il se lance à la main sur une branche poussée
+# (gh workflow run e2e.yml --ref <branche>) : avant de rendre une PR, sur chaque PR du robot de
+# mises à jour et avant chaque mise en production. Sur échec, le rapport de Playwright reste en
+# artefact.
+name: e2e
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Un seul banc à la fois par branche : un nouveau lancement annule le précédent.
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    name: e2e
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: front/.nvmrc
+          cache: npm
+          cache-dependency-path: front/package-lock.json
+      - run: npm ci
+      # Les navigateurs de la version de Playwright du lockfile, avec leurs bibliothèques système.
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run e2e
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-report
+          path: front/playwright-report/
+          retention-days: 14
