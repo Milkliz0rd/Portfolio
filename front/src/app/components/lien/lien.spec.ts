@@ -138,13 +138,19 @@ describe('Lien', () => {
     },
   );
 
-  it('se dit externe ou retour par le seul attribut, sans valeur : <a appLien externe>', () => {
+  it('se dit externe par le seul attribut, sans valeur : <a appLien externe>', () => {
     const fixture = TestBed.createComponent(HoteAttribut);
     fixture.detectChanges();
-    const [lien, retour] = (fixture.nativeElement as HTMLElement).querySelectorAll('a');
+    const lien = (fixture.nativeElement as HTMLElement).querySelector('a')!;
     expect(variantesPortees(lien)).toEqual(['lien--discret', 'lien--externe']);
     expect(lien.getAttribute('target')).toBe('_blank');
     expect(texte(lien)).toBe('Profil (nouvel onglet)');
+  });
+
+  it('se dit retour par le seul attribut, sans valeur : <a appLien retour>', () => {
+    const fixture = TestBed.createComponent(HoteAttribut);
+    fixture.detectChanges();
+    const retour = (fixture.nativeElement as HTMLElement).querySelectorAll('a')[1];
     expect(variantesPortees(retour)).toEqual(['lien--action', 'lien--retour']);
     expect(traces(retour)).toEqual([[FLECHE_GAUCHE, 'true']]);
     expect(iconeAvantLeTexte(retour)).toBe(true);
