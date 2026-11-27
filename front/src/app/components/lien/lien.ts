@@ -16,7 +16,9 @@ export type CourantLien = 'page' | 'location';
  * oblique, qui annonce le nouvel onglet. L'entrée courante est désignée par ce qui pose le lien
  * (entrée courant), jamais par une comparaison d'adresses (PF-06) : « page » pour la page affichée,
  * « location » pour la section lue de la page principale ; sans elle, le lien ne porte pas
- * d'aria-current.
+ * d'aria-current. « Retour » est, comme « externe », une entrée oui/non, pour toute variante : la
+ * flèche gauche avant le texte (choix C7), à la place de la flèche d'un lien d'action, pour
+ * « ← Retour à la liste des projets » ; un retour externe ne garderait que la flèche oblique.
  */
 @Component({
   selector: 'a[appLien]',
@@ -31,6 +33,7 @@ export type CourantLien = 'page' | 'location';
     '[class.lien--action]': "variante() === 'action'",
     '[class.lien--navigation]': "variante() === 'navigation'",
     '[class.lien--externe]': 'externe()',
+    '[class.lien--retour]': 'retour()',
     // Nouvel onglet, sans accès de la page ouverte à celle-ci ni adresse d'origine transmise.
     '[attr.target]': "externe() ? '_blank' : null",
     '[attr.rel]': "externe() ? 'noopener noreferrer' : null",
@@ -41,6 +44,8 @@ export class Lien {
   readonly variante = input<VarianteLien>('texte');
   /** Hors du site, quelle que soit la variante : nouvel onglet, flèche oblique et texte masqué. */
   readonly externe = input(false, { transform: booleanAttribute });
+  /** Un retour, quelle que soit la variante : la flèche gauche avant le texte (choix C7). */
+  readonly retour = input(false, { transform: booleanAttribute });
   /** L'entrée courante : aria-current="page" (la page affichée) ou "location" (la section lue). */
   readonly courant = input<CourantLien>();
 }

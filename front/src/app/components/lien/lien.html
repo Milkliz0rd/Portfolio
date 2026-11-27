@@ -1,7 +1,12 @@
+<!-- Une seule icône par lien (CO-02) : l'oblique de l'externe, sinon la flèche gauche du retour,
+     avant le texte (choix C7), sinon celle du lien d'action, après lui. -->
+@if (retour() && !externe()) {
+  <app-icone class="lien__icone lien__icone--retour" nom="fleche-gauche" />
+}
 <ng-content />
 @if (externe()) {
   <app-icone class="lien__icone lien__icone--externe" nom="externe" />
   <span class="masque-visuellement" i18n="@@commun.nouvel-onglet"> (nouvel onglet)</span>
-} @else if (variante() === 'action') {
+} @else if (variante() === 'action' && !retour()) {
   <app-icone class="lien__icone" nom="fleche" />
 }
