@@ -56,10 +56,23 @@ jobs:
           distribution: temurin
           java-version: '25'
           cache: maven
+      # setup-java garde Maven lui-même (cache maven-wrapper) ; sans ce cache (nouvelle version,
+      # cache expiré), le wrapper le télécharge depuis Maven Central, qui refuse parfois (HTTP
+      # 429) : trois essais espacés, avant les contrôles.
+      - run: for essai in 1 2 3; do ./mvnw -B -ntp --version && exit 0; sleep 30; done; exit 1
       - run: ./mvnw -B -ntp verify
       # L'image du back (TK-14) se construit sur chaque PR, sans être publiée : la publication
-      # n'a lieu qu'aux tags (publish-back-image.yml).
-      - run: docker build -t portfolio-back:ci .
+      # n'a lieu qu'aux tags (publish-back-image.yml). Les couches sont gardées dans le cache de
+      # GitHub : celle de Maven et des dépendances (dependency:go-offline) ne se refait que si le
+      # wrapper ou le pom change, sans retélécharger depuis Maven Central à chaque passage.
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/build-push-action@v7
+        with:
+          context: back
+          push: false
+          tags: portfolio-back:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   # Banc de bout en bout et d'accessibilité du front (TK-21) : le build de test servi par
   # wrangler dev, dans les six profils. Sur échec, le rapport de Playwright reste en artefact.

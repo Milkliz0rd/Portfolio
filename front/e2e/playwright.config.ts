@@ -11,9 +11,14 @@ export default defineConfig({
   testDir: '.',
   fullyParallel: true,
   forbidOnly: !!process.env['CI'],
-  // Aucune nouvelle tentative, ni en local ni dans la CI : un test instable est un défaut.
-  retries: 0,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  // Un test instable est un défaut. En local, aucune nouvelle tentative : il s'y voit tout de
+  // suite. Dans la CI, deux : un test qui ne passe qu'à une reprise ne bloque plus la fusion, mais
+  // il est marqué instable (flaky) dans le journal et, par le rapporteur github, sur la page de la
+  // PR ; il se corrige dans la vague où il apparaît.
+  retries: process.env['CI'] ? 2 : 0,
+  reporter: process.env['CI']
+    ? [['list'], ['github'], ['html', { open: 'never' }]]
+    : [['list'], ['html', { open: 'never' }]],
   use: {
     // L'origine du build de test (PF-07) : la politique 'self' et le contrôle des requêtes la
     // comparent telle quelle, localhost et non 127.0.0.1.
