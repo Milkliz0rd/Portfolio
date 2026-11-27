@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import parcoursFr from '../../../../contenu/fr/parcours.json';
-import { formaterPeriode } from '../../../components/frise/frise';
 import type { Brut, Parcours as ContenuParcours } from '../../../interfaces/contenu';
+import { formaterPeriode } from '../../../services/contenu/lecture/periode';
 import { FICHIER_PARCOURS } from '../../../services/contenu/parcours';
 import { parcoursDeTest } from '../../../testing/contenus-de-test';
 import { Parcours } from './parcours';

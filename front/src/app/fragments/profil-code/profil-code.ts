@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, LOCALE_ID } from '@angular/core';
 import { Fenetre, type LigneCode, type SegmentCode } from '../../components/fenetre/fenetre';
-import { formaterPeriode } from '../../components/frise/frise';
 import type { Experience, Profil } from '../../interfaces/contenu';
 import { LectureExperience } from '../../services/contenu/experience';
+import { formaterPeriode } from '../../services/contenu/lecture/periode';
 import { LectureProfil } from '../../services/contenu/profil';
 
 /** Le titre de la barre : le nom d'un fichier, pas un libellé à traduire. */

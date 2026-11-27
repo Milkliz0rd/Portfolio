@@ -423,9 +423,12 @@ facultatif, un `debut`, une `fin` et un `etat` écrit par le contenu : `accompli
 ou `prevue`.
 
 **Périodes.** Une date est un `DateFrise` (`annee`, `mois` facultatif), dont une partie, ou toute
-la date, peut être un emplacement. `formaterPeriode` l'écrit par `Intl.DateTimeFormat` dans la
-langue de l'application (`LOCALE_ID`) : « 09/2025 – 06/2028 », mais « 2025–2028 » entre deux années
-seules ; le tiret suit une espace insécable U+00A0. Toujours un début et une fin, jamais la date du
+la date, peut être un emplacement. `formaterPeriode`, dans
+`src/app/services/contenu/lecture/periode.ts`, avec les lecteurs du contenu, sert la frise,
+l'accueil et la section Expérience ; une fonction pure, qui ne lit aucun contenu, seule exception
+de la frise à la règle d'import des composants de la charte (`eslint-disable-next-line`). Elle
+écrit la date par `Intl.DateTimeFormat` dans la langue de l'application (`LOCALE_ID`) :
+« 09/2025 – 06/2028 », mais « 2025–2028 » entre deux années seules ; le tiret suit une espace insécable U+00A0. Toujours un début et une fin, jamais la date du
 jour. Un mois hors de 1 à 12, ou une deuxième étape mise en avant, lève une erreur au rendu.
 
 **États.** Accomplie : point plein. Mise en avant : point d'accent et sa lueur, période en accent,
