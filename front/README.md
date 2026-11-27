@@ -224,7 +224,7 @@ vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$
 | -------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Pastille (CO-03)           | `<app-pastille variante="succes">Validé</app-pastille>`                   | `variante` (`neutre`, par défaut, `accent`, `secondaire`, `succes`, `attention`, `erreur`, `contour`), `lumineuse` (point qui rayonne) |
 | Étiquette (CO-04)          | `<app-etiquette variante="numerotee" numero="02">Section</app-etiquette>` | `variante` (`discrete`, par défaut, `accent`, `numerotee`, `puce`), `numero` (exigé par `numerotee`)                                   |
-| En-tête de section (CO-16) | voir ci-dessous                                                           | `numero` (facultatif), `etiquette`, `niveau` (`1`, `2` ou `3` : `h1`, `h2` ou `h3`), `bloc` (titre de bloc), `centre` (fin de page)    |
+| En-tête de section (CO-16) | voir ci-dessous                                                           | `numero` (facultatif), `etiquette`, `niveau` (`1` à `3` : `h1` à `h3`), `titreId`, `bloc` (titre de bloc), `centre` (fin de page)      |
 | Liste clé-valeur (CO-17)   | `<app-liste-cle-valeur [paires]="paires" />`                              | `variante` (`en-ligne`, par défaut, `tableau`), `paires` (une valeur en texte, ou en paragraphes de segments, avec leurs liens)        |
 
 **Pastille sur le verre.** Sur du verre (carte CO-05) et sur le halo d'un arrière-plan d'ambiance
