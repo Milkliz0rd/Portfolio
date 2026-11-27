@@ -1,30 +1,33 @@
-// La section Compétences (EC-03), posée dans l'élément section de la page principale, qui lui donne
-// sa largeur, sa marge de page et sa respiration haute et basse. Entre ses parties, le rythme des
-// maquettes : sous l'en-tête, 48 px, puis 64 px entre les deux blocs ; 64 et 96 px à partir de
-// 900 px. Chaque grille a des colonnes sans largeur minimale : un mot plus long que la ligne y
-// passe à la ligne au lieu d'élargir la colonne hors de la section.
+// La section Compétences (EC-03), dans l'élément section de la page principale, au rythme des
+// maquettes : l'ouverture, sur l'ambiance d'une section, 64 px au-dessus et 48 px au-dessous ; les
+// deux blocs, sur le conteneur large, à 64 px l'un de l'autre et 64 px au-dessus du bas ; 96, 64,
+// 96 et 96 px à partir de 900 px. Chaque grille a des colonnes sans largeur minimale : un mot plus
+// long que la ligne y passe à la ligne au lieu d'élargir la colonne hors de la section.
 @use 'ruptures';
 
 :host {
   display: block;
 }
 
+.competences__ouverture {
+  padding-block: var(--espace-16) var(--espace-12);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-24) var(--espace-16);
+  }
+}
+
 .competences__bloc {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-6);
-  margin-block-start: var(--espace-12);
-
-  @include ruptures.depuis(large) {
-    margin-block-start: var(--espace-16);
-  }
 }
 
 .competences__bloc--humaines {
-  margin-block-start: var(--espace-16);
+  padding-block: var(--espace-16);
 
   @include ruptures.depuis(large) {
-    margin-block-start: var(--espace-24);
+    padding-block: var(--espace-24);
   }
 }
 
@@ -85,9 +88,11 @@
 }
 
 // Les pastilles humaines, puis la carte du récit, l'une sous l'autre ; côte à côte à partir de
-// 900 px, chacune en haut de sa colonne (choix 6).
+// 900 px, chacune en haut de sa colonne (choix 6). Du contenu courant, et non une grille de
+// cartes : plafonné au conteneur standard.
 .competences__humaines {
   display: grid;
+  max-width: var(--conteneur-standard);
   grid-template-columns: minmax(0, 1fr);
   gap: var(--gouttiere);
   align-items: start;

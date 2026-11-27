@@ -193,7 +193,9 @@ test('parcours : de 320 à 2560 px, rien ne déborde ; les étapes l’une sous 
       .locator('section#parcours')
       .evaluate((section) => {
         const visible = document.documentElement.clientWidth;
-        const hors = [section, ...section.querySelectorAll('*')]
+        // Les calques de l'ambiance débordent de l'ouverture par dessin (debord-halo), qui les
+        // rogne : seul compte ce qu'ils couvrent, l'ouverture elle-même.
+        const hors = [section, ...section.querySelectorAll('*:not(.ambiance__calque)')]
           .filter((element) => {
             const { left, right, width } = element.getBoundingClientRect();
             return width > 0 && (left < -0.5 || right > visible + 0.5);

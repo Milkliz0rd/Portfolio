@@ -1,23 +1,29 @@
-// L'allure des sections provisoires, sans composant : contenu dans la largeur du conteneur
-// standard, rythme vertical d'une section, identifiant de l'écran en étiquette au-dessus de son
-// nom. La page n'a plus de conteneur : l'accueil s'étend sur toute sa largeur.
+// Les sections de la page principale. Chacune s'ouvre sur l'arrière-plan d'ambiance d'une
+// section, sur toute la largeur de la page ; son contenu se range dans le conteneur large, marges
+// de page en plus (charte, section 5). La page n'a pas de conteneur : l'accueil s'étend sur toute
+// sa largeur. Les sections encore provisoires n'ont que leur ouverture, leur nom précédé de
+// l'identifiant de l'écran en étiquette.
 @use 'ruptures';
 
 :host {
   display: block;
 }
 
-// Chaque section provisoire au moins aussi haute que la fenêtre à sa plus grande hauteur (lvh,
-// barres du navigateur repliées) : chacune, la dernière comprise, peut venir en haut de la fenêtre.
-// La section reste en border-box, marges intérieures comprises dans sa hauteur ; son contenu
-// garde la largeur du conteneur standard (75rem au plus) et la marge de page de chaque côté.
+// Chaque section au moins aussi haute que la fenêtre à sa plus grande hauteur (lvh, barres du
+// navigateur repliées) : chacune, la dernière comprise, peut venir en haut de la fenêtre. Ni marge
+// intérieure ni largeur propre : l'ouverture, en haut de la section, s'étend sur toute la largeur,
+// et chaque partie se range dans son conteneur, avec sa respiration.
 .principale__section {
   min-block-size: 100lvh;
-  padding-inline: max(var(--marge-page), calc((100% - var(--conteneur-standard)) / 2));
-  padding-block: var(--espace-16);
+}
+
+// L'ouverture d'une section provisoire : 64 px au-dessus, 48 px au-dessous ; 96 et 64 px à partir
+// de la tranche large, comme celle d'une section posée.
+.principale__ouverture {
+  padding-block: var(--espace-16) var(--espace-12);
 
   @include ruptures.depuis(large) {
-    padding-block: var(--espace-24);
+    padding-block: var(--espace-24) var(--espace-16);
   }
 }
 

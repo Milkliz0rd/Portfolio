@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Ambiance } from '../../../components/ambiance/ambiance';
 import { EnteteSection } from '../../../components/entete-section/entete-section';
 import { Etiquette } from '../../../components/etiquette/etiquette';
 import { Frise, type EtapeFrise } from '../../../components/frise/frise';
@@ -27,12 +28,15 @@ function etapeDeFrise(etape: EtapeParcours): EtapeFrise {
  * titre de niveau 2 à la taille titre-1 (CO-16, choix 4 et 5) et la phrase d'introduction (C-10) ;
  * le bloc « Orientation », le texte d'orientation vers l'architecture logicielle (C-09) ; la frise
  * des trois étapes, dans l'ordre reconversion, bac+3, master, que garantit LectureParcours, chacune
- * avec sa période (C-01). Tout texte vient de parcours.json. Statique : la cascade et le tracé de
- * la frise au défilement viendront avec le mouvement (TK-48, TK-53).
+ * avec sa période (C-01). Tout texte vient de parcours.json. L'en-tête ouvre la section sur
+ * l'arrière-plan d'ambiance d'une section (CO-13), sur toute la largeur de la page ; la suite est
+ * sur le fond uni, la frise sur le conteneur large (charte, section 5). Statique : la cascade, le
+ * tracé de la frise au défilement et la respiration du halo viendront avec le mouvement (TK-48,
+ * TK-53, MV-04).
  */
 @Component({
   selector: 'app-parcours',
-  imports: [EnteteSection, Etiquette, Frise],
+  imports: [Ambiance, EnteteSection, Etiquette, Frise],
   templateUrl: './parcours.html',
   styleUrl: './parcours.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { competencesDuBanc } from '../../../../configuration/configuration.genere';
+import { Ambiance } from '../../../components/ambiance/ambiance';
 import { Carte } from '../../../components/carte/carte';
 import { EnteteSection } from '../../../components/entete-section/entete-section';
 import { Etiquette } from '../../../components/etiquette/etiquette';
@@ -26,12 +27,14 @@ export function avecLeBanc(fichier: ContenuCompetences): ContenuCompetences {
  * gauche de la carte du récit de reconversion (C-07) à partir de 900 px, au-dessus d'elle en deçà
  * (choix 6). LectureCompetences range par rang et retire une catégorie sans compétence (PF-02).
  * Aucun niveau (A-06) : une compétence n'est que son libellé. Les titres des blocs et de la carte
- * du récit sont ceux de la maquette, marqués pour la traduction. Statique : la cascade viendra
- * avec le mouvement (TK-48).
+ * du récit sont ceux de la maquette, marqués pour la traduction. L'en-tête ouvre la section sur
+ * l'arrière-plan d'ambiance d'une section (CO-13), sur toute la largeur de la page ; les blocs
+ * suivent sur le fond uni, hors du halo : aucune carte n'est posée sur lui. Statique : la cascade
+ * et la respiration du halo viendront avec le mouvement (TK-48, MV-04).
  */
 @Component({
   selector: 'app-competences',
-  imports: [Carte, EnteteSection, Etiquette, Pastille],
+  imports: [Ambiance, Carte, EnteteSection, Etiquette, Pastille],
   templateUrl: './competences.html',
   styleUrl: './competences.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

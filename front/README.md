@@ -138,8 +138,9 @@ l'ordre reconversion, bac+3, master que garantit `LectureParcours`, quel que soi
 Chaque étape donne à la frise son intitulé, son état, son début et sa fin tels quels : une date est
 formatée selon la langue par `formaterPeriode`, un emplacement étiqueté (`[C-01 — début]`) s'affiche
 tel quel, jamais remplacé par une date. Le bac+3 a pour détail `Bac+3 · <établissement>`, un libellé
-à un espace réservé. Rien n'y est encore animé : le tracé de la frise au défilement vient avec
-TK-53.
+à un espace réservé. L'en-tête est seul sur l'ouverture, l'arrière-plan d'ambiance d'une section ;
+l'orientation et la frise suivent sur le fond uni, la frise sur le conteneur large. Rien n'y est
+encore animé : le tracé de la frise au défilement vient avec TK-53.
 
 **La section Compétences** (`src/app/pages/principale/competences/`), à l'ancre `competences`,
 s'ouvre sur l'en-tête de section numéroté 02, titre seul, et ne tire ses textes que de
@@ -152,7 +153,9 @@ l'id `titre-competences` (`titreId`), que nomme l'élément section de la page :
 `/#titre-competences` s'ouvre sur le h2, sous l'en-tête, au même endroit dans les trois moteurs. La
 section lit sa propre copie de `competences.json`, à laquelle le build de test seul
 ajoute `competencesDuBanc`, une catégorie sans compétence, avant la lecture : elle ne doit pas
-l'afficher. Rien n'y est encore animé.
+l'afficher. L'en-tête est seul sur l'ouverture, l'arrière-plan d'ambiance d'une section ; les deux
+blocs suivent sur le fond uni, hors du halo, la grille des catégories sur le conteneur large, les
+compétences humaines et le récit plafonnés au conteneur standard. Rien n'y est encore animé.
 
 ## Styles
 
@@ -337,6 +340,15 @@ l'échelle 1, la tache a la place et la taille que lui donne la charte ; réduit
 par la respiration, le dégradé couvre encore toute la section, sans bord net. Les halos restent
 fixes : leur respiration viendra avec MV-04. Sur un halo, la page ne pose que des pastilles
 `contour`, et aucune carte interactive.
+
+La page principale ouvre chacune de ses cinq sections sur la variante `section`, à l'intérieur de
+son élément section, qui reste l'enfant direct de la page : l'en-tête seul sur le halo, sur toute
+la largeur de la page, la suite sur le fond uni, sans aucune carte sur le halo. Le contenu se range
+dans le conteneur large (`.conteneur-large`, 90rem, marges de page en plus), aligné sur l'accueil,
+l'en-tête du site et le pied ; la frise et les grilles de cartes en prennent toute la largeur, le
+contenu courant est plafonné au conteneur standard (`--conteneur-standard`, 75rem), le texte à
+`--conteneur-texte`. Les halos débordent de l'ouverture, qui les rogne : aucun défilement
+horizontal ; posés en absolu, les calques ne prennent aucune place dans la section.
 
 Les composants de formulaire et d'état servent au formulaire de contact. Leurs
 seuls textes propres sont ceux que la charte leur donne, marqués pour la traduction : « Envoi en

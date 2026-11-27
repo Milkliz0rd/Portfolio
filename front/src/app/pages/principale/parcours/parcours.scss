@@ -1,10 +1,31 @@
-// La section Parcours (EC-02), dans la largeur que lui donne son élément section de la page
-// principale : l'en-tête, l'orientation et la frise l'un sous l'autre, espacés de 48 px
-// (espace-12), la frise sur toute la largeur (maquette).
+// La section Parcours (EC-02), dans son élément section de la page principale, au rythme des
+// maquettes : l'ouverture, sur l'ambiance d'une section, 64 px au-dessus et 48 px au-dessous ; la
+// suite, sans marge haute, 64 px au-dessous ; 96, 64 et 96 px à partir de la tranche large. La
+// suite range l'orientation et la frise l'une sous l'autre, espacées de 48 px (espace-12) : la
+// frise sur le conteneur large, l'orientation plafonnée au conteneur standard.
+@use 'ruptures';
+
 :host {
+  display: block;
+}
+
+.parcours__ouverture {
+  padding-block: var(--espace-16) var(--espace-12);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-24) var(--espace-16);
+  }
+}
+
+.parcours__suite {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-12);
+  padding-block-end: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    padding-block-end: var(--espace-24);
+  }
 }
 
 // L'étiquette « Orientation » au-dessus de son texte, à 12 px (bloc titré de la maquette).
@@ -13,6 +34,7 @@
   grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-3);
   justify-items: start;
+  max-width: var(--conteneur-standard);
 
   > * {
     max-width: 100%;

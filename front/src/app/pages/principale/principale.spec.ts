@@ -56,6 +56,19 @@ describe('Principale', () => {
     expect(noms).toEqual(SECTIONS.map(([ancre, nom]) => [ancre, 'H2', true, nom, nom]));
   });
 
+  it('ouvre chaque section, dans son élément section, sur l’ambiance d’une section, son titre dessus, sans carte', async () => {
+    const page = await rendre();
+    const ouvertures = sections(page).map((section) => section.querySelector('app-ambiance'));
+    expect(
+      ouvertures.map((ouverture) => ouverture?.classList.contains('ambiance--section')),
+    ).toEqual(SECTIONS.map(() => true));
+    sections(page).forEach((section, rang) => {
+      const titre = page.querySelector(`[id="${section.getAttribute('aria-labelledby')}"]`);
+      expect(ouvertures[rang]?.contains(titre), section.id).toBe(true);
+    });
+    expect(page.querySelectorAll('app-ambiance app-carte')).toHaveLength(0);
+  });
+
   it('inscrit ses cinq sections, sans les régions de l’accueil, après le premier rendu, et les retire quand on la quitte', async () => {
     const retirer = vi.fn();
     const inscrire = vi.spyOn(TestBed.inject(NavigationService), 'inscrire');

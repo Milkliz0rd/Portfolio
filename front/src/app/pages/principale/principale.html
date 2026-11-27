@@ -1,6 +1,8 @@
 <app-accueil />
 <!-- Les sections dans l'ordre du plan du site. aria-labelledby est lié : écrit en clair, la règle
-     i18n du lint le prendrait pour un libellé à traduire. -->
+     i18n du lint le prendrait pour un libellé à traduire. Chacune s'ouvre, à l'intérieur de son
+     élément section, sur l'arrière-plan d'ambiance d'une section : son composant le pose, ou la
+     page, pour une section encore provisoire. -->
 <section id="parcours" class="principale__section" [attr.aria-labelledby]="'titre-parcours'">
   <app-parcours />
 </section>
@@ -8,17 +10,29 @@
   <app-competences />
 </section>
 <section id="experience" class="principale__section" [attr.aria-labelledby]="'titre-experience'">
-  <h2 id="titre-experience" i18n="@@principale.experience">
-    <span class="principale__ecran">EC-04</span> Expérience
-  </h2>
+  <app-ambiance variante="section" class="principale__ouverture">
+    <div class="conteneur-large">
+      <h2 id="titre-experience" i18n="@@principale.experience">
+        <span class="principale__ecran">EC-04</span> Expérience
+      </h2>
+    </div>
+  </app-ambiance>
 </section>
 <section id="methode" class="principale__section" [attr.aria-labelledby]="'titre-methode'">
-  <h2 id="titre-methode" i18n="@@principale.methode">
-    <span class="principale__ecran">EC-05</span> Méthode de travail
-  </h2>
+  <app-ambiance variante="section" class="principale__ouverture">
+    <div class="conteneur-large">
+      <h2 id="titre-methode" i18n="@@principale.methode">
+        <span class="principale__ecran">EC-05</span> Méthode de travail
+      </h2>
+    </div>
+  </app-ambiance>
 </section>
 <section id="projets" class="principale__section" [attr.aria-labelledby]="'titre-projets'">
-  <h2 id="titre-projets" i18n="@@principale.projets">
-    <span class="principale__ecran">EC-06</span> Liste des projets
-  </h2>
+  <app-ambiance variante="section" class="principale__ouverture">
+    <div class="conteneur-large">
+      <h2 id="titre-projets" i18n="@@principale.projets">
+        <span class="principale__ecran">EC-06</span> Liste des projets
+      </h2>
+    </div>
+  </app-ambiance>
 </section>
