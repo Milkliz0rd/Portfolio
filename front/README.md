@@ -838,6 +838,15 @@ traces des échecs dans `test-results/`, non versionnés.
   le démarrage de l'application comme avant (script principal bloqué : la section pré-rendue) ;
   rien ne déborde de 320 à 2560 px, les étapes l'une sous l'autre sous 900 px, côte à côte au-delà,
   la période en tête.
+- `experience.spec.ts`, la section Expérience, ses textes attendus lus dans `experience.json`,
+  jamais écrits dans le test : dans `section#experience`, enfant direct de la page, nommée par son
+  seul titre, l'en-tête numéroté 03, puis les trois volets, application, backend, appui DevOps,
+  chacun avec son texte ; l'entreprise et la période du contenu, la période en chasse fixe ; la
+  mention dans un message d'information ; tous les textes de la section, nœud par nœud, égaux au
+  contenu et aux libellés de la maquette (rien d'autre n'y est nommé), aucun lien, aucune date ni
+  durée relative (SC-2.0-14) ; `/#experience` ouvert puis rechargé, sous l'en-tête, après le
+  démarrage comme avant ; rien ne déborde de 320 à 2560 px, la liste sous le titre, les cartes hors
+  du halo, l'une sous l'autre sous 600 px, côte à côte dès 1200 px.
 - `navigation.spec.ts`, l'en-tête : sur la page principale, chaque entrée défile jusqu'à sa section,
   signalée (`aria-current="location"`), sans étape d'historique, et le retour arrière quitte la page ;
   l'entrée signalée et l'adresse suivent la lecture, jusqu'au bout d'un écran de 2560 px ; depuis
