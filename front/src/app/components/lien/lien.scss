@@ -82,6 +82,13 @@
   background: var(--couleur-accent);
 }
 
+// Retour : la flèche gauche précède le texte (choix C7). Le lien d'action l'en écarte de son
+// espace-2 (gap) ; hors de lui, la même marge, l'icône centrée sur la ligne.
+:host(.lien--retour:not(.lien--action)) .lien__icone--retour {
+  margin-inline-end: var(--espace-2);
+  vertical-align: middle;
+}
+
 // Externe : la flèche oblique suit le texte, un peu plus petite que lui.
 .lien__icone--externe {
   width: var(--taille-fleche-externe);

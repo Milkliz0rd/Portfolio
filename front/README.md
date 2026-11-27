@@ -183,11 +183,11 @@ n'emploient que des jetons et ne dépendent d'aucun contenu ni d'aucun service d
 bouton et le lien se posent sur l'élément natif, qui garde sa sémantique, son clavier et le lien du
 routeur :
 
-| Composant      | Se pose                                                                | Entrées                                                                                                                       |
-| -------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Icône          | `<app-icone nom="fleche" />`                                           | `nom`, l'une des 13 icônes ; décorative, à la couleur et à 1,25 fois la taille du texte (`--taille-icone`)                    |
-| Bouton (CO-01) | `<button appBouton>` pour une action, `<a appBouton>` pour une page    | `variante` (`primaire`, par défaut, `secondaire`, `discret`, `icone`), `compact`, `libelle` (texte masqué, exigé par `icone`) |
-| Lien (CO-02)   | `<a appLien routerLink="/contact">` ; `<a appLien href="…">` hors site | `variante` (`texte`, par défaut, `discret`, `action`, `navigation`), `externe`, `courant` (`page` ou `location`)              |
+| Composant      | Se pose                                                                | Entrées                                                                                                                                              |
+| -------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Icône          | `<app-icone nom="fleche" />`                                           | `nom`, l'une des 13 icônes ; décorative, à la couleur et à 1,25 fois la taille du texte (`--taille-icone`)                                           |
+| Bouton (CO-01) | `<button appBouton>` pour une action, `<a appBouton>` pour une page    | `variante` (`primaire`, par défaut, `secondaire`, `discret`, `icone`), `compact`, `libelle` (texte masqué, exigé par `icone`), `externe` (lien seul) |
+| Lien (CO-02)   | `<a appLien routerLink="/contact">` ; `<a appLien href="…">` hors site | `variante` (`texte`, par défaut, `discret`, `action`, `navigation`), `externe`, `retour`, `courant` (`page` ou `location`)                           |
 
 `courant` fait du lien l'entrée courante et pose `aria-current` à sa valeur : `page` pour la page
 affichée, `location` pour la section lue de la page principale. Un lien de navigation courant passe
@@ -198,7 +198,12 @@ Un `button` sans `type` reçoit `type="button"`. `externe` n'est pas une variant
 oui/non, qui s'ajoute à chacune : `<a appLien variante="discret" externe href="…">`, posé avec
 `href`, s'ouvre dans un nouvel onglet (`target="_blank"`, `rel="noopener noreferrer"`) et l'annonce
 par la flèche oblique et le texte masqué « (nouvel onglet) » (`@@commun.nouvel-onglet`). Il garde la
-couleur et le survol de sa variante ; un lien d'action externe ne porte que la flèche oblique.
+couleur et le survol de sa variante ; un lien d'action externe ne porte que la flèche oblique. Le
+bouton posé sur un lien a la même entrée, `<a appBouton externe href="…">` (« Voir le code source »
+d'une fiche) : même nouvel onglet, flèche oblique après le texte, même texte masqué, dans l'aspect
+de sa variante ; sur un `button`, elle lève une erreur au rendu. `retour`, une entrée oui/non de
+même, pose la flèche gauche avant le texte (choix C7), à la place de la flèche du lien d'action :
+`<a appLien variante="action" retour routerLink="/">` ; un retour externe ne garde que l'oblique.
 
 Les composants de texte sont statiques, sans survol ni focus. Ils n'ajoutent aucun texte : tout
 vient de la page, qui le marque pour la traduction (`i18n`, `i18n-etiquette`, `$localize`).

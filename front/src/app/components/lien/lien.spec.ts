@@ -6,14 +6,27 @@ import { CourantLien, Lien, VarianteLien } from './lien';
 const VARIANTES: VarianteLien[] = ['texte', 'discret', 'action', 'navigation'];
 const FLECHE = 'M5 12h14M13 6l6 6-6 6';
 const FLECHE_OBLIQUE = 'M9 5h10v10M19 5 6 18';
+const FLECHE_GAUCHE = 'M19 12H5M11 6l-6 6 6 6';
 
 @Component({
   imports: [Lien, RouterLink],
   template: `
-    <a appLien [variante]="variante()" [courant]="courant()" routerLink="/contact">
+    <a
+      appLien
+      [variante]="variante()"
+      [courant]="courant()"
+      [retour]="retour()"
+      routerLink="/contact"
+    >
       Voir la fiche
     </a>
-    <a appLien [variante]="variante()" [externe]="externe()" href="https://example.org/profil">
+    <a
+      appLien
+      [variante]="variante()"
+      [externe]="externe()"
+      [retour]="retour()"
+      href="https://example.org/profil"
+    >
       Profil externe
     </a>
   `,
@@ -22,21 +35,30 @@ class Hote {
   readonly variante = signal<VarianteLien>('texte');
   readonly courant = signal<CourantLien | undefined>(undefined);
   readonly externe = signal(true);
+  readonly retour = signal(false);
 }
 
-/** L'entrée posée par le seul attribut, comme dans le pied de page. */
+/** Les entrées posées par le seul attribut : externe dans le pied de page, retour sur la fiche. */
 @Component({
-  imports: [Lien],
-  template: `<a appLien variante="discret" externe href="https://example.org/profil">Profil</a>`,
+  imports: [Lien, RouterLink],
+  template: `
+    <a appLien variante="discret" externe href="https://example.org/profil">Profil</a>
+    <a appLien variante="action" retour routerLink="/">Retour à la liste</a>
+  `,
 })
 class HoteAttribut {}
 
 // Le premier lien, de la variante demandée, mène à une page du site ; le second, de la même
 // variante et externe, hors du site.
-function rendre(variante: VarianteLien = 'texte', courant?: CourantLien): HTMLAnchorElement[] {
+function rendre(
+  variante: VarianteLien = 'texte',
+  courant?: CourantLien,
+  retour = false,
+): HTMLAnchorElement[] {
   const fixture = TestBed.createComponent(Hote);
   fixture.componentInstance.variante.set(variante);
   fixture.componentInstance.courant.set(courant);
+  fixture.componentInstance.retour.set(retour);
   fixture.detectChanges();
   return [...(fixture.nativeElement as HTMLElement).querySelectorAll('a')];
 }
@@ -108,13 +130,50 @@ describe('Lien', () => {
     },
   );
 
-  it('se dit externe par le seul attribut, sans valeur : <a appLien externe>', () => {
+  it('se dit externe ou retour par le seul attribut, sans valeur : <a appLien externe>', () => {
     const fixture = TestBed.createComponent(HoteAttribut);
     fixture.detectChanges();
-    const lien = (fixture.nativeElement as HTMLElement).querySelector('a')!;
+    const [lien, retour] = (fixture.nativeElement as HTMLElement).querySelectorAll('a');
     expect(variantesPortees(lien)).toEqual(['lien--discret', 'lien--externe']);
     expect(lien.getAttribute('target')).toBe('_blank');
     expect(texte(lien)).toBe('Profil (nouvel onglet)');
+    expect(variantesPortees(retour)).toEqual(['lien--action', 'lien--retour']);
+    expect(traces(retour)).toEqual([[FLECHE_GAUCHE, 'true']]);
+  });
+
+  // Choix C7 : la flèche gauche avant le texte, la seule icône du lien, quelle que soit la variante.
+  it.each(VARIANTES)(
+    'porte sur un retour « %s » la seule flèche gauche, décorative, avant le texte',
+    (variante) => {
+      const [lien] = rendre(variante, undefined, true);
+      expect(variantesPortees(lien)).toEqual([`lien--${variante}`, 'lien--retour']);
+      expect(traces(lien)).toEqual([[FLECHE_GAUCHE, 'true']]);
+      expect(lien.firstElementChild).toBe(lien.querySelector('app-icone'));
+      expect(lien.firstElementChild?.classList).toContain('lien__icone--retour');
+      expect(lien.hasAttribute('target')).toBe(false);
+      expect(texte(lien)).toBe('Voir la fiche');
+    },
+  );
+
+  it('rend au lien d’action sa flèche après le texte quand retour repasse à faux', () => {
+    const fixture = TestBed.createComponent(Hote);
+    fixture.componentInstance.variante.set('action');
+    fixture.componentInstance.retour.set(true);
+    fixture.detectChanges();
+    const lien = (fixture.nativeElement as HTMLElement).querySelector('a')!;
+    expect(traces(lien)).toEqual([[FLECHE_GAUCHE, 'true']]);
+    fixture.componentInstance.retour.set(false);
+    fixture.detectChanges();
+    expect(variantesPortees(lien)).toEqual(['lien--action']);
+    expect(traces(lien)).toEqual([[FLECHE, 'true']]);
+    expect(lien.lastElementChild).toBe(lien.querySelector('app-icone'));
+  });
+
+  it('ne garde à un retour externe que la flèche oblique et le texte masqué', () => {
+    const [, lien] = rendre('action', undefined, true);
+    expect(variantesPortees(lien)).toEqual(['lien--action', 'lien--externe', 'lien--retour']);
+    expect(traces(lien)).toEqual([[FLECHE_OBLIQUE, 'true']]);
+    expect(texte(lien)).toBe('Profil externe (nouvel onglet)');
   });
 
   it('retire le nouvel onglet, la flèche oblique et le texte masqué quand externe repasse à faux', () => {

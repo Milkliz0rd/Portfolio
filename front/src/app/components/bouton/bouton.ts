@@ -10,6 +10,7 @@ import {
   input,
   Renderer2,
 } from '@angular/core';
+import { Icone } from '../icone/icone';
 import { IndicateurActivite } from '../indicateur-activite/indicateur-activite';
 
 export type VarianteBouton = 'primaire' | 'secondaire' | 'discret' | 'icone';
@@ -22,10 +23,15 @@ export type VarianteBouton = 'primaire' | 'secondaire' | 'discret' | 'icone';
  * En cours (enCours), le bouton garde son aspect et son focus, sans l'attribut disabled : il montre
  * l'indicateur d'activité et « Envoi en cours… », se déclare aria-disabled et annule tout clic, si
  * bien qu'un nouvel envoi (clic, Entrée, Espace, envoi implicite du formulaire) reste sans effet.
+ *
+ * Externe, comme le lien (CO-02, décision 1 de W19) : une entrée oui/non, sur un lien seulement,
+ * posé avec href. Il s'ouvre dans un nouvel onglet et l'annonce par la flèche oblique, après son
+ * texte, et un texte masqué, « (nouvel onglet) », pour « Voir le code source » sur une fiche ; il
+ * garde l'aspect de sa variante. Un button externe lève une erreur au rendu.
  */
 @Component({
   selector: 'button[appBouton], a[appBouton]',
-  imports: [IndicateurActivite],
+  imports: [Icone, IndicateurActivite],
   templateUrl: './bouton.html',
   styleUrl: './bouton.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +45,9 @@ export type VarianteBouton = 'primaire' | 'secondaire' | 'discret' | 'icone';
     '[class.bouton--en-cours]': 'enCours()',
     '[attr.type]': 'type()',
     '[attr.aria-disabled]': "enCours() ? 'true' : null",
+    // Nouvel onglet, sans accès de la page ouverte à celle-ci ni adresse d'origine transmise.
+    '[attr.target]': "nouvelOnglet() ? '_blank' : null",
+    '[attr.rel]': "nouvelOnglet() ? 'noopener noreferrer' : null",
   },
 })
 export class Bouton {
@@ -49,6 +58,8 @@ export class Bouton {
   readonly libelle = input<string>();
   /** Un envoi est en cours : indicateur, « Envoi en cours… » et nouvel envoi bloqué. */
   readonly enCours = input(false, { transform: booleanAttribute });
+  /** Hors du site, sur un lien seulement : nouvel onglet, flèche oblique et texte masqué. */
+  readonly externe = input(false, { transform: booleanAttribute });
 
   protected readonly libelleMasque = computed(() => {
     const libelle = this.libelle()?.trim();
@@ -56,6 +67,12 @@ export class Bouton {
       throw new Error('Un bouton à icône seule exige son libellé masqué : entrée « libelle ».');
     }
     return libelle;
+  });
+  protected readonly nouvelOnglet = computed(() => {
+    if (this.externe() && this.element.localName !== 'a') {
+      throw new Error('Seul un lien s’ouvre dans un nouvel onglet : <a appBouton externe href>.');
+    }
+    return this.externe();
   });
   // Un button sans type enverrait le formulaire qui le contient : il reçoit type="button", sauf si
   // l'élément écrit le sien (type="submit" pour un bouton d'envoi).

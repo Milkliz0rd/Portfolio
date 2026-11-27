@@ -1,4 +1,10 @@
-<span class="bouton__contenu"><ng-content /></span>
+<span class="bouton__contenu"
+  ><ng-content />
+  @if (nouvelOnglet()) {
+    <app-icone nom="externe" />
+    <span class="masque-visuellement" i18n="@@commun.nouvel-onglet"> (nouvel onglet)</span>
+  }
+</span>
 @if (enCours()) {
   <app-indicateur-activite taille="bouton" />
   <span i18n="@@commun.envoi-en-cours">Envoi en cours…</span>

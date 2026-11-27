@@ -43,6 +43,26 @@ class Envoi {
   clics = 0;
 }
 
+/** Le bouton-lien externe, posé avec href, comme « Voir le code source » sur une fiche. */
+@Component({
+  imports: [Bouton],
+  template: `
+    <a appBouton [externe]="externe()" href="https://example.org/code">
+      <span>Voir le code source</span>
+    </a>
+    <a appBouton variante="secondaire" externe href="https://example.org/code">Code</a>
+  `,
+})
+class Externe {
+  readonly externe = signal(true);
+}
+
+@Component({
+  imports: [Bouton],
+  template: `<button appBouton externe>Envoyer</button>`,
+})
+class ButtonExterne {}
+
 function rendreEnvoi() {
   const fixture = TestBed.createComponent(Envoi);
   fixture.detectChanges();
@@ -61,6 +81,14 @@ function rendre() {
 
 const variantesPortees = (element: HTMLElement) =>
   [...element.classList].filter((classe) => /^bouton--(?!compact)/.test(classe));
+const texte = (element: HTMLElement) => element.textContent?.replace(/\s+/g, ' ').trim();
+
+function rendreExterne() {
+  const fixture = TestBed.createComponent(Externe);
+  fixture.detectChanges();
+  const liens = [...(fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>('a')];
+  return { fixture, liens };
+}
 
 describe('Bouton', () => {
   it('reste un button natif, primaire par défaut, de type « button »', () => {
@@ -105,6 +133,55 @@ describe('Bouton', () => {
     expect(variantesPortees(lien)).toEqual(['bouton--primaire']);
     expect(lien.hasAttribute('type')).toBe(false);
     expect(lien.hasAttribute('role')).toBe(false);
+  });
+
+  it('ouvre un lien sans externe dans l’onglet courant, sans icône ni texte ajouté', () => {
+    const { lien } = rendre();
+    expect(['target', 'rel'].map((nom) => lien.hasAttribute(nom))).toEqual([false, false]);
+    expect(lien.querySelector('svg, .masque-visuellement')).toBeNull();
+    expect(texte(lien)).toBe('Écrire un message');
+  });
+
+  it('ouvre un lien externe dans un nouvel onglet, sans lien vers la page d’origine, dans sa variante', () => {
+    const { liens } = rendreExterne();
+    for (const [lien, variante] of [
+      [liens[0], 'bouton--primaire'],
+      [liens[1], 'bouton--secondaire'],
+    ] as const) {
+      expect(lien.getAttribute('href')).toBe('https://example.org/code');
+      expect(lien.getAttribute('target')).toBe('_blank');
+      expect(lien.getAttribute('rel')?.split(' ').sort()).toEqual(['noopener', 'noreferrer']);
+      expect(variantesPortees(lien)).toEqual([variante]);
+      expect(['type', 'role'].map((nom) => lien.hasAttribute(nom))).toEqual([false, false]);
+    }
+  });
+
+  it('annonce le lien externe par la flèche oblique après le texte, décorative, et un texte masqué', () => {
+    const [lien] = rendreExterne().liens;
+    const contenu = lien.querySelector('.bouton__contenu')!;
+    const [libelle, icone, masque] = [...contenu.children];
+    expect(libelle.textContent).toBe('Voir le code source');
+    expect(icone.localName).toBe('app-icone');
+    const svg = icone.querySelector('svg')!;
+    expect(svg.querySelector('path')?.getAttribute('d')).toBe('M9 5h10v10M19 5 6 18');
+    expect(svg.getAttribute('aria-hidden')).toBe('true');
+    expect(masque.classList).toContain('masque-visuellement');
+    // Le nom accessible : le texte, puis l'annonce ; la flèche, aria-hidden, n'en fait pas partie.
+    expect(texte(lien)).toBe('Voir le code source (nouvel onglet)');
+  });
+
+  it('retire le nouvel onglet, la flèche et le texte masqué quand externe repasse à faux', () => {
+    const { fixture, liens } = rendreExterne();
+    fixture.componentInstance.externe.set(false);
+    fixture.detectChanges();
+    expect(['target', 'rel'].map((nom) => liens[0].hasAttribute(nom))).toEqual([false, false]);
+    expect(liens[0].querySelector('svg, .masque-visuellement')).toBeNull();
+    expect(texte(liens[0])).toBe('Voir le code source');
+  });
+
+  it('refuse un button externe : seul un lien s’ouvre dans un nouvel onglet', () => {
+    const fixture = TestBed.createComponent(ButtonExterne);
+    expect(() => fixture.detectChanges()).toThrow(/nouvel onglet/);
   });
 
   it('nomme l’icône seule par son libellé masqué, l’icône restant décorative', () => {
