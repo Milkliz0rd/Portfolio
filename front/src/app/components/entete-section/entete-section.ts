@@ -16,13 +16,18 @@ export type NiveauEnteteSection = 1 | 2 | 3;
  * section de la page principale, sans numéro ni filet ailleurs ; le titre, vrai titre h1, h2 ou h3
  * de la hiérarchie de la page ; un chapô facultatif, plafonné à conteneur-texte. La taille du
  * titre suit son rôle, pas son niveau : taille-titre-1 pour une section ou une page à part,
- * taille-titre-2 pour un bloc. La page projette le titre en contenu et le chapô dans un modèle
- * #chapo : sans chapô, rien n'est rendu à sa place. Centré pour une fin de page. Statique : la
- * cascade (MV-01) et le filet qui s'étire (MV-05) viennent avec le mouvement.
+ * taille-titre-2 pour un bloc. La page projette le titre en contenu, le chapô dans un modèle
+ * #chapo, et dans un modèle #complement ce qui suit le titre et le chapô : une action, comme le
+ * spécimen centré du catalogue, ou une liste, comme la liste clé-valeur de la section Expérience
+ * (EC-04). Sans l'un ou l'autre, rien n'est rendu à sa place. titreId pose l'id du titre sur le
+ * h1, le h2 ou le h3 lui-même : celui que nomme l'aria-labelledby de la section, et la cible d'une
+ * ancre vers le titre. Centré pour une fin de page. Statique : la cascade (MV-01) et le filet qui
+ * s'étire (MV-05) viennent avec le mouvement.
  *
- *   <app-entete-section numero="02" etiquette="Section" [niveau]="2">
+ *   <app-entete-section numero="02" etiquette="Section" [niveau]="2" [titreId]="'titre-section'">
  *     Le titre
  *     <ng-template #chapo>Le chapô, en une ou deux phrases.</ng-template>
+ *     <ng-template #complement><a appBouton routerLink="/contact">Une action</a></ng-template>
  *   </app-entete-section>
  */
 @Component({
@@ -48,6 +53,10 @@ export class EnteteSection {
   readonly bloc = input(false, { transform: booleanAttribute });
   /** Centré, pour une fin de page, avec une action. */
   readonly centre = input(false, { transform: booleanAttribute });
+  /** L'id du titre, posé sur le h1, le h2 ou le h3 lui-même ; sans lui, le titre n'en a pas. */
+  readonly titreId = input<string>();
 
   protected readonly chapo = contentChild<TemplateRef<unknown>>('chapo');
+  /** Ce qui suit le titre et le chapô : une action ou une liste. */
+  protected readonly complement = contentChild<TemplateRef<unknown>>('complement');
 }

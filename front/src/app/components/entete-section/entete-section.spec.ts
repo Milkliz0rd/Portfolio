@@ -11,10 +11,19 @@ import { EnteteSection, NiveauEnteteSection } from './entete-section';
       [niveau]="niveau()"
       [bloc]="bloc()"
       [centre]="centre()"
+      [titreId]="titreId()"
     >
       Le titre
       @if (avecChapo()) {
         <ng-template #chapo>Le chapô de la section.</ng-template>
+      }
+      @if (avecComplement()) {
+        <ng-template #complement
+          ><dl class="essai-liste">
+            <dt>Clé</dt>
+            <dd>Valeur</dd>
+          </dl></ng-template
+        >
       }
     </app-entete-section>
   `,
@@ -25,6 +34,8 @@ class Hote {
   readonly bloc = signal(false);
   readonly centre = signal(false);
   readonly avecChapo = signal(true);
+  readonly titreId = signal<string | undefined>(undefined);
+  readonly avecComplement = signal(false);
 }
 
 interface Options {
@@ -32,11 +43,20 @@ interface Options {
   bloc?: boolean;
   centre?: boolean;
   avecChapo?: boolean;
+  titreId?: string;
+  avecComplement?: boolean;
 }
 
 function rendre(
   niveau: NiveauEnteteSection = 2,
-  { numero = '02', bloc = false, centre = false, avecChapo = true }: Options = {},
+  {
+    numero = '02',
+    bloc = false,
+    centre = false,
+    avecChapo = true,
+    titreId,
+    avecComplement = false,
+  }: Options = {},
 ) {
   const fixture = TestBed.createComponent(Hote);
   const hote = fixture.componentInstance;
@@ -45,6 +65,8 @@ function rendre(
   hote.bloc.set(bloc);
   hote.centre.set(centre);
   hote.avecChapo.set(avecChapo);
+  hote.titreId.set(titreId);
+  hote.avecComplement.set(avecComplement);
   fixture.detectChanges();
   return (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('app-entete-section')!;
 }
@@ -111,6 +133,60 @@ describe('EnteteSection', () => {
     expect(entete.querySelector('.entete-section__chapo, p')).toBeNull();
     expect([...entete.children].map((enfant) => enfant.localName)).toEqual(['app-etiquette', 'h3']);
     expect(vides(entete)).toEqual([]);
+  });
+
+  it.each([1, 2, 3] as const)('pose l’id donné sur le titre lui-même, en h%i', (niveau) => {
+    const entete = rendre(niveau, { titreId: 'titre-essai' });
+    const titre = entete.querySelector(TITRES)!;
+    expect(titre.localName).toBe(`h${niveau}`);
+    expect(titre.id).toBe('titre-essai');
+    expect([...entete.querySelectorAll('[id]')]).toEqual([titre]);
+  });
+
+  it('sans titreId, ne pose aucun id, ni sur le titre ni ailleurs', () => {
+    const entete = rendre();
+    expect(entete.querySelector(TITRES)?.hasAttribute('id')).toBe(false);
+    expect(entete.querySelector('[id]')).toBeNull();
+  });
+
+  it('place le complément projeté sous le titre et le chapô, hors du titre', () => {
+    const entete = rendre(2, { avecComplement: true });
+    const complement = entete.querySelector('.entete-section__complement')!;
+    expect([...entete.children].map((enfant) => enfant.localName)).toEqual([
+      'app-etiquette',
+      'h2',
+      'p',
+      'div',
+    ]);
+    expect(entete.lastElementChild).toBe(complement);
+    expect([...complement.children].map((enfant) => enfant.className)).toEqual(['essai-liste']);
+    expect([...complement.querySelectorAll('dt, dd')].map(texte)).toEqual(['Clé', 'Valeur']);
+    expect(complement.closest(TITRES)).toBeNull();
+    expect(texte(entete.querySelector(TITRES))).toBe('Le titre');
+  });
+
+  it('place le complément juste sous le titre quand le chapô manque', () => {
+    const entete = rendre(2, { avecChapo: false, avecComplement: true });
+    expect([...entete.children].map((enfant) => enfant.localName)).toEqual([
+      'app-etiquette',
+      'h2',
+      'div',
+    ]);
+  });
+
+  it('ne rend rien à la place du complément quand la page n’en projette aucun', () => {
+    const entete = rendre();
+    expect(entete.querySelector('.entete-section__complement')).toBeNull();
+    expect(entete.querySelector('dl')).toBeNull();
+  });
+
+  it('aligne le complément comme l’en-tête, centré sur demande', () => {
+    const alignement = (centre: boolean) =>
+      getComputedStyle(
+        rendre(2, { centre, avecComplement: true }).querySelector('.entete-section__complement')!,
+      ).textAlign;
+    expect(alignement(true)).toBe('center');
+    expect(alignement(false)).not.toBe('center');
   });
 
   describe('taille du titre', () => {

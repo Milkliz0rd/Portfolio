@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, LOCALE_ID } from '@angular/core';
 import { Carte } from '../../components/carte/carte';
 import { Etiquette } from '../../components/etiquette/etiquette';
-import { formaterPeriode } from '../../components/frise/frise';
 import type { Experience } from '../../interfaces/contenu';
 import { LectureAccueil } from '../../services/contenu/accueil';
 import { LectureExperience } from '../../services/contenu/experience';
+import { formaterPeriode } from '../../services/contenu/lecture/periode';
 import { PRINCIPALE, type Section } from '../../services/navigation/navigation';
 
 /** Une carte de l'accueil : l'ancre de sa section, son numéro d'en-tête de section, son titre. */

@@ -7,15 +7,26 @@
 <ng-template #titre><ng-content /></ng-template>
 @switch (niveau()) {
   @case (1) {
-    <h1 class="entete-section__titre"><ng-container [ngTemplateOutlet]="titre" /></h1>
+    <h1 class="entete-section__titre" [attr.id]="titreId() || null">
+      <ng-container [ngTemplateOutlet]="titre" />
+    </h1>
   }
   @case (3) {
-    <h3 class="entete-section__titre"><ng-container [ngTemplateOutlet]="titre" /></h3>
+    <h3 class="entete-section__titre" [attr.id]="titreId() || null">
+      <ng-container [ngTemplateOutlet]="titre" />
+    </h3>
   }
   @default {
-    <h2 class="entete-section__titre"><ng-container [ngTemplateOutlet]="titre" /></h2>
+    <h2 class="entete-section__titre" [attr.id]="titreId() || null">
+      <ng-container [ngTemplateOutlet]="titre" />
+    </h2>
   }
 }
 @if (chapo(); as modele) {
   <p class="entete-section__chapo"><ng-container [ngTemplateOutlet]="modele" /></p>
+}
+<!-- L'emplacement sous le titre et le chapô : une action ou une liste, rendue seulement si la page
+     en projette une. -->
+@if (complement(); as modele) {
+  <div class="entete-section__complement"><ng-container [ngTemplateOutlet]="modele" /></div>
 }

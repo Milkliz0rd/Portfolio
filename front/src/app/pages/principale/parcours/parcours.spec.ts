@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import parcoursFr from '../../../../contenu/fr/parcours.json';
-import { formaterPeriode } from '../../../components/frise/frise';
 import type { Brut, Parcours as ContenuParcours } from '../../../interfaces/contenu';
+import { formaterPeriode } from '../../../services/contenu/lecture/periode';
 import { FICHIER_PARCOURS } from '../../../services/contenu/parcours';
 import { parcoursDeTest } from '../../../testing/contenus-de-test';
 import { Parcours } from './parcours';
@@ -71,7 +71,7 @@ describe('Parcours', () => {
     });
   });
 
-  it('n’a qu’un titre, de niveau 2, à la taille titre-1, dont le texte porte l’id titre-parcours', () => {
+  it('n’a qu’un titre, de niveau 2, à la taille titre-1, qui porte lui-même l’id titre-parcours', () => {
     const section = rendre();
     const titres = tous(section, 'h1, h2, h3, h4, h5, h6, [role="heading"]');
     expect(titres.map((titre) => [titre.localName, texte(titre)])).toEqual([['h2', 'Parcours']]);
@@ -79,9 +79,7 @@ describe('Parcours', () => {
     expect(section.querySelector('app-entete-section')?.classList).not.toContain(
       'entete-section--bloc',
     );
-    const nomme = section.querySelector('#titre-parcours');
-    expect(nomme?.closest('h2')).toBe(titres[0]);
-    expect(texte(nomme)).toBe('Parcours');
+    expect(section.querySelector('#titre-parcours')).toBe(titres[0]);
   });
 
   it('pose les trois étapes dans l’ordre reconversion, bac+3, master, même rangées autrement', () => {

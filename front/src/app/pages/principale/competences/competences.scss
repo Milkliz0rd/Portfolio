@@ -9,13 +9,6 @@
   display: block;
 }
 
-// Le texte du titre, qui porte l'id de la section : en bloc, sa boîte est celle du h2, et une ancre
-// vers lui (/#titre-competences) s'ouvre au même endroit dans les trois moteurs. En ligne, sa boîte
-// dépasse de 5 px celle du h2, que WebKit ne place pas comme les deux autres (1 px d'écart).
-.competences__titre {
-  display: block;
-}
-
 .competences__bloc {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

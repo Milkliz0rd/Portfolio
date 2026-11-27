@@ -1,13 +1,14 @@
-<!-- L'en-tête de section, numéroté 01. Son titre porte l'id titre-parcours, que nomme
-     l'aria-labelledby de la section de la page principale (principale.html) : l'en-tête de
-     section ne donne pas d'id à son h2, le titre projeté le porte, dans le h2. -->
+<!-- L'en-tête de section, numéroté 01. Son h2 porte l'id titre-parcours, que nomme
+     l'aria-labelledby de la section de la page principale (principale.html) ; l'id est lié :
+     écrit en clair, la règle i18n du lint le prendrait pour un libellé. -->
 <app-entete-section
   numero="01"
   etiquette="Parcours"
   i18n-etiquette="@@parcours.etiquette"
   [niveau]="2"
+  [titreId]="'titre-parcours'"
 >
-  <span id="titre-parcours" i18n="@@parcours.titre">Parcours</span>
+  <ng-container i18n="@@parcours.titre">Parcours</ng-container>
   <ng-template #chapo>{{ parcours.introduction }}</ng-template>
 </app-entete-section>
 <!-- L'orientation vers l'architecture logicielle, qui cite le master comme étape (C-09). -->
