@@ -51,10 +51,7 @@ describe('Competences', () => {
     ]);
     const titres = [...racine.querySelectorAll('h1, h2')];
     expect(titres.map((titre) => [titre.localName, texte(titre)])).toEqual([['h2', 'Compétences']]);
-    const nom = racine.querySelector('#titre-competences');
-    expect(nom?.closest('h2')).toBe(titres[0]);
-    expect(texte(nom)).toBe(texte(titres[0]));
-    expect(getComputedStyle(nom!).display).toBe('block');
+    expect(racine.querySelector('#titre-competences')).toBe(titres[0]);
     expect(entete.querySelector('.entete-section__chapo')).toBeNull();
   });
 

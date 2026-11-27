@@ -1,5 +1,5 @@
-// En-tête de section de la charte (CO-16) : étiquette, titre et chapô, espacés de espace-4, sur
-// 56rem de large au plus (largeur-entete-section).
+// En-tête de section de la charte (CO-16) : étiquette, titre, chapô et complément, espacés de
+// espace-4, sur 56rem de large au plus (largeur-entete-section).
 :host {
   display: grid;
   gap: var(--espace-4);
@@ -39,4 +39,11 @@
   color: var(--couleur-texte-secondaire);
   font-size: var(--taille-chapo);
   line-height: var(--interligne-chapo);
+}
+
+// Le complément (une action, une liste) prend toute la largeur de l'en-tête : une liste s'y étend,
+// une action s'y aligne comme le texte de l'en-tête, à gauche, ou centrée (text-align).
+.entete-section__complement {
+  justify-self: stretch;
+  min-width: 0;
 }

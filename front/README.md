@@ -130,9 +130,8 @@ d'historique. Posées hors de l'arrière-plan d'ambiance, sur le fond uni, elles
 un halo. Rien n'y est encore animé.
 
 **La section Parcours** (`src/app/pages/principale/parcours/`) se pose dans l'élément
-`section#parcours` de la page principale, dont l'`aria-labelledby` vise l'id `titre-parcours` :
-l'en-tête de section ne donnant pas d'id à son titre, la section projette dans son `h2` le texte
-qui porte cet id. Elle ne tire
+`section#parcours` de la page principale, dont l'`aria-labelledby` vise l'id `titre-parcours`, que
+l'en-tête de section pose sur son `h2` lui-même (`titreId`). Elle ne tire
 ses textes que de `parcours.json` : l'introduction (C-10) en chapô de l'en-tête numéroté 01, le
 texte d'orientation (C-09) sous l'étiquette « Orientation », puis la frise des trois étapes, dans
 l'ordre reconversion, bac+3, master que garantit `LectureParcours`, quel que soit celui du fichier.
@@ -148,10 +147,10 @@ s'ouvre sur l'en-tête de section numéroté 02, titre seul, et ne tire ses text
 les compétences humaines en pastilles posées sous le titre de leur bloc, sans carte, à gauche de la
 carte du récit de reconversion à partir de 900 px, au-dessus d'elle en deçà. `LectureCompetences`
 range catégories et compétences par rang et retire une catégorie sans compétence ; aucun niveau
-n'est affiché, ni note, ni pourcentage (A-06). L'en-tête de section rend lui-même son h2 : l'id
-`titre-competences`, que nomme l'élément section de la page, est porté par le texte entier du
-titre, en bloc : sa boîte est celle du h2, et `/#titre-competences` s'ouvre au même endroit dans
-les trois moteurs. La section lit sa propre copie de `competences.json`, à laquelle le build de test seul
+n'est affiché, ni note, ni pourcentage (A-06). L'en-tête de section pose sur son h2 lui-même
+l'id `titre-competences` (`titreId`), que nomme l'élément section de la page :
+`/#titre-competences` s'ouvre sur le h2, sous l'en-tête, au même endroit dans les trois moteurs. La
+section lit sa propre copie de `competences.json`, à laquelle le build de test seul
 ajoute `competencesDuBanc`, une catégorie sans compétence, avant la lecture : elle ne doit pas
 l'afficher. Rien n'y est encore animé.
 
@@ -232,8 +231,14 @@ page principale ou une page à part ; `taille-titre-2` pour un bloc à l'intéri
 la page principale, elle est numérotée, avec son filet ; sans lui, sur une page à part, c'est une
 étiquette accent, sans numéro ni filet, et rien n'est rendu à leur place. Le chapô, facultatif, est
 un modèle `#chapo` : absent, rien n'est rendu à sa place ; présent, il tient sur environ 68
-caractères par ligne (`--conteneur-texte`, 54ch). L'ensemble mesure 56rem de large au plus
-(`--largeur-entete-section`).
+caractères par ligne (`--conteneur-texte`, 54ch). Sous le titre et le chapô, le modèle
+`#complement` reçoit une action, comme le spécimen centré du catalogue, ou une liste, comme la
+liste clé-valeur de la section Expérience (EC-04) : absent, rien n'est rendu à sa place ; présent,
+il prend toute la largeur de l'en-tête, et une action s'y aligne comme lui, à gauche ou centrée.
+`titreId` pose l'id du titre sur le `h1`, le `h2` ou le `h3` lui-même : l'id que nomme
+l'`aria-labelledby` d'une section, et la cible d'une ancre vers le titre ; lié
+(`[titreId]="'titre-parcours'"`), car la règle i18n du lint prendrait un id écrit en clair pour un
+libellé. L'ensemble mesure 56rem de large au plus (`--largeur-entete-section`).
 
 ```html
 <app-entete-section
@@ -241,10 +246,14 @@ caractères par ligne (`--conteneur-texte`, 54ch). L'ensemble mesure 56rem de la
   etiquette="Compétences"
   i18n-etiquette="@@competences.etiquette"
   [niveau]="2"
+  [titreId]="'titre-competences'"
 >
   <ng-container i18n="@@competences.titre">Compétences techniques</ng-container>
   <ng-template #chapo>
     <ng-container i18n="@@competences.chapo">Le chapô.</ng-container>
+  </ng-template>
+  <ng-template #complement>
+    <app-liste-cle-valeur [paires]="paires" />
   </ng-template>
 </app-entete-section>
 
