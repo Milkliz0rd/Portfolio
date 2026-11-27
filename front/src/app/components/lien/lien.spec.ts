@@ -66,6 +66,14 @@ function rendre(
 const variantesPortees = (lien: HTMLElement) =>
   [...lien.classList].filter((classe) => classe.startsWith('lien--'));
 const texte = (lien: HTMLElement) => lien.textContent?.replace(/\s+/g, ' ').trim();
+/** L'icône du lien précède-t-elle son texte ? Le texte projeté est un nœud de texte, pas un élément. */
+const iconeAvantLeTexte = (lien: HTMLElement) => {
+  const texteDuLien = [...lien.childNodes].find(
+    (noeud) => noeud.nodeType === Node.TEXT_NODE && noeud.textContent?.trim(),
+  )!;
+  const suit = lien.querySelector('app-icone')!.compareDocumentPosition(texteDuLien);
+  return (suit & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+};
 const traces = (lien: HTMLElement) =>
   [...lien.querySelectorAll('app-icone svg')].map((svg) => [
     svg.querySelector('path')?.getAttribute('d'),
@@ -130,15 +138,22 @@ describe('Lien', () => {
     },
   );
 
-  it('se dit externe ou retour par le seul attribut, sans valeur : <a appLien externe>', () => {
+  it('se dit externe par le seul attribut, sans valeur : <a appLien externe>', () => {
     const fixture = TestBed.createComponent(HoteAttribut);
     fixture.detectChanges();
-    const [lien, retour] = (fixture.nativeElement as HTMLElement).querySelectorAll('a');
+    const lien = (fixture.nativeElement as HTMLElement).querySelector('a')!;
     expect(variantesPortees(lien)).toEqual(['lien--discret', 'lien--externe']);
     expect(lien.getAttribute('target')).toBe('_blank');
     expect(texte(lien)).toBe('Profil (nouvel onglet)');
+  });
+
+  it('se dit retour par le seul attribut, sans valeur : <a appLien retour>', () => {
+    const fixture = TestBed.createComponent(HoteAttribut);
+    fixture.detectChanges();
+    const retour = (fixture.nativeElement as HTMLElement).querySelectorAll('a')[1];
     expect(variantesPortees(retour)).toEqual(['lien--action', 'lien--retour']);
     expect(traces(retour)).toEqual([[FLECHE_GAUCHE, 'true']]);
+    expect(iconeAvantLeTexte(retour)).toBe(true);
   });
 
   // Choix C7 : la flèche gauche avant le texte, la seule icône du lien, quelle que soit la variante.
@@ -148,8 +163,8 @@ describe('Lien', () => {
       const [lien] = rendre(variante, undefined, true);
       expect(variantesPortees(lien)).toEqual([`lien--${variante}`, 'lien--retour']);
       expect(traces(lien)).toEqual([[FLECHE_GAUCHE, 'true']]);
-      expect(lien.firstElementChild).toBe(lien.querySelector('app-icone'));
-      expect(lien.firstElementChild?.classList).toContain('lien__icone--retour');
+      expect(iconeAvantLeTexte(lien)).toBe(true);
+      expect(lien.querySelector('app-icone')?.classList).toContain('lien__icone--retour');
       expect(lien.hasAttribute('target')).toBe(false);
       expect(texte(lien)).toBe('Voir la fiche');
     },
@@ -166,7 +181,7 @@ describe('Lien', () => {
     fixture.detectChanges();
     expect(variantesPortees(lien)).toEqual(['lien--action']);
     expect(traces(lien)).toEqual([[FLECHE, 'true']]);
-    expect(lien.lastElementChild).toBe(lien.querySelector('app-icone'));
+    expect(iconeAvantLeTexte(lien)).toBe(false);
   });
 
   it('ne garde à un retour externe que la flèche oblique et le texte masqué', () => {

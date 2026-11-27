@@ -809,6 +809,16 @@ traces des échecs dans `test-results/`, non versionnés.
   le routeur, ouvre la page principale en haut, à `/` (V-11) ; « Voir la liste des projets » mène à
   `/#projets`, « Revenir à l’accueil » en haut de la page principale ; le message et le retour à
   l'accueil se lisent sans défilement.
+- `projet.spec.ts`, la fiche d'un projet : `/projets/portfolio` ouverte directement puis rechargée,
+  sans redirection, hydratée sans être rendue de nouveau, son titre et sa description lus dans son
+  fichier, « Projets » signalé (`aria-current="page"`), et le même contenu avant le démarrage ; ses
+  captures encore en emplacement absentes, sans requête d'image vers elles ; « Voir le code
+  source », bouton primaire vers le dépôt public du profil GitHub, dans un nouvel onglet (ses
+  attributs : le banc ne sort pas du site) ; le contact en un clic par l'en-tête ; le retour, flèche
+  gauche avant le texte, qui mène d'un coup à `/#projets`, la section sous l'en-tête, par le
+  routeur et avec une étape d'historique de plus ; le projet complet du contenu de test, ses blocs
+  dans l'ordre et sa capture WebP servie à ses dimensions ; aucun défilement horizontal à 320, 900
+  et 2560 px, la capture dans la largeur de l'écran.
 - `controle-commun.spec.ts`, un test par adresse : chaque `index.html` du build, relevé à
   l'exécution (une page ajoutée est contrôlée sans rien écrire), et les trois adresses d'erreur,
   servies par deux fichiers (`404.html` et `projets/404.html`). Toute violation axe-core des
