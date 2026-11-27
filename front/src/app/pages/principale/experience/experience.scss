@@ -1,0 +1,95 @@
+// La section Expérience (EC-04), au rythme des maquettes : l'ouverture, sur l'ambiance d'une
+// section, 64 px au-dessus et 48 px au-dessous ; la suite, 64 px au-dessous, le rôle puis la
+// mention à 48 px ; 96, 64 et 96 px dès la tranche large. Les colonnes des grilles n'ont pas de
+// largeur minimale : un mot plus long que la ligne y passe à la ligne, sans déborder.
+@use 'ruptures';
+
+:host {
+  display: block;
+}
+
+.experience__ouverture {
+  padding-block: var(--espace-16) var(--espace-12);
+
+  @include ruptures.depuis(large) {
+    padding-block: var(--espace-24) var(--espace-16);
+  }
+}
+
+// Les faits de l'alternance, côte à côte dès la tranche moyenne, en colonnes de 10rem (CO-17) : la
+// liste n'a que la largeur de ses deux colonnes, sans les écarter sur tout l'en-tête (maquette, C6).
+.experience__faits {
+  max-width: calc(2 * var(--largeur-colonne-paire) + var(--espace-6));
+}
+
+.experience__suite {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espace-12);
+  padding-block-end: var(--espace-16);
+
+  @include ruptures.depuis(large) {
+    padding-block-end: var(--espace-24);
+  }
+}
+
+// Le titre du bloc au-dessus de la grille des volets, à 24 px (espace-6).
+.experience__role {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espace-6);
+}
+
+// Le titre d'un bloc à l'intérieur de la section, en h3 : taille-titre-2, comme le titre d'un bloc
+// de l'en-tête de section (CO-16).
+.experience__titre-bloc {
+  color: var(--couleur-texte);
+  font-size: var(--taille-titre-2);
+  font-weight: var(--graisse-titre);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--approche-titre);
+}
+
+// Les volets en grille : une colonne en tranche étroite, deux en moyenne et large, trois à partir
+// de la très large (charte, section 5), séparés par la gouttière de la tranche.
+.experience__volets {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gouttiere);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include ruptures.depuis(moyenne) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include ruptures.depuis(tres-large) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// Les cartes d'une rangée prennent la même hauteur.
+.experience__volet {
+  display: flex;
+  min-width: 0;
+}
+
+.experience__carte {
+  flex: 1;
+}
+
+// Les paragraphes d'un volet, sans les marges du navigateur, sur la longueur de ligne de la charte.
+.experience__paragraphe {
+  max-width: var(--conteneur-texte);
+  margin: 0;
+}
+
+.experience__paragraphe + .experience__paragraphe {
+  margin-block-start: var(--espace-3);
+}
+
+// La mention, un message d'information sur la longueur de ligne de la charte (maquette).
+.experience__mention {
+  max-width: var(--conteneur-texte);
+}
